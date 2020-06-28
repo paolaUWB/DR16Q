@@ -1,0 +1,21 @@
+To run:   
+run ./norm_Sean_v20181029.py sorted_norm.csv
+
+I am not sure a config file is a big improvement. Before we read the csv (or txt) file with the needed information and it worked fine. 
+
+Students over-commented the file, instead of creating a useful documentation. 
+
+The code needs to maintain the main products: pdf files to check the normalization process, and the normalized files (norm.dr9).
+
+The power-law fitting needs to be improved over the existing methodology. The current one is explained in section 2 of the paper RodriguezHidalgo2020.pdf, but I have detected several flaws within it:
+
+1. The code failed for too many quasar spectra. We need a most robust and flexible code that will fail in less than 5% of cases, if possible. When we work with more than 10,000 quasar spectra, that would still be 500 quasar spectra we need to normalize by hand. Less than 1% of cases would be optimal.
+
+2. The selection of points in the quasar spectra might not be flexible enough and it could be more spread. We need to work with a couple of spectra to tailor the code, at the same time that we look at the overall sample to see what would work for most cases. We might need to adapt as we run it over larger samples (maybe start with 10, then 100, then 1000 and so on). 
+
+3. The byproducts of this code where not useful as designed: I would like Final_Initial_Parameters.txt to have a good record of the results of the power-law fit. We need a good list of spectra for which the normalization was successful and doesn’t need to be redone and for those for which we could tailor the code more or have to run it manually. 
+
+More improvements and suggestions are more than welcome! 
+
+ 
+
