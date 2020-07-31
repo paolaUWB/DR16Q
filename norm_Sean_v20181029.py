@@ -18,7 +18,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 specnum = 6760
 # total number of quasars = 6760
 # Set location of spectrum files
-specdirec = '/Users/Paola/SDSSIII/DR9Q/FILES_FOR_ABDUL/'
+specdirec = 'C:/Users/nguye/Documents/CSS497/files/'
+#/Users/Paola/SDSSIII/DR9Q/FILES_FOR_ABDUL/
 pp1 = PdfPages('original_all_graph_Sean.pdf')  # Set output PDF file
 pp2 = PdfPages('normalized_all_graph_Sean.pdf')  # Set normalized output PDF file
 
@@ -27,10 +28,11 @@ pp2 = PdfPages('normalized_all_graph_Sean.pdf')  # Set normalized output PDF fil
 
 # specname_file = "confs/bad_specnames.lst" #|<------These are for "bad spectra"
 # zem_file = "confs/bad_zem.lst"            #|
-
+exfilename = "sorted_norm.csv"
 
 # USE AN ACTUAL CONFIG FILE!!!!!
-config_file = sys.argv[1]  # Set cfg file path (csv with spec_name,z,snr...)
+config_file = exfilename  
+# Set cfg file path (csv with spec_name,z,snr...)
 #config = loadtxt(config_file,
 #                 delimiter=",",
 #                 dtype={
@@ -69,12 +71,11 @@ original_graph_number = 0
 normalized_graph_number = 0
 rows_of_power_law_txt_file = len(spectra_action)
 # these are empty arrays that i will add numbers to by appending them. Some of these are not used.
-dr9 = []
-e = []
-l = []
+
 ee = []
 ll = []
 eee = []
+
 # a=25
 # b,c are initial parameters for first powerlaw, and bb,cc are intial parameteres for the second powerlaw.
 b = 1250
@@ -409,37 +410,12 @@ for qqqqq in good_categorized_spectra_action:
             plerror[mmoiz+1] = plerror[mmoiz]  # original error
             flux[mmoiz+1] = flux[mmoiz]  # original graph
 
-     # for secondloop in range (0,len (normalizing)):
-
-        """
-	if normalizing [secondloop] < plerror_normalized [secondloop]:
-		
-		plerror_normalized [secondloop]=0   #plerror [secondloop]=0
-        """
-
-    #print 'before pixel fix, normalizing [moiz] = ' + `normalizing [moiz]`
-    # BAD PIXELS
-    """
-    if len (messed_up_error [0])> 0:
-
-    	
-	for moiz in messed_up_error[0]:
-		print 'before pixel fix, normalizing [moiz] = ' + `normalizing [moiz]`
-			
-		normalizing[moiz]=normalizing[moiz+10]
-		print 'normalizing [moiz] = ' + `normalizing [moiz+10]`
-    """
-    # BAD PIXELS
 
     # APPEND IS SO TO MAKE AN ARRAY WITH INCREASING ELEMENT AS THE WHOLE CODE RUNS EACH TIME FOR EACH SPECTRA
-    #print 'look here ' + `flux[moiz]`
-
-    #print "flux =" +`average_flux33`
-    #print "error =" +`average_flux_error33`
     bf = pars[0]
     cf = pars[1]
 
-    # REQUIREMENT FOR USING THE SECOND 		#POWERLAW.
+    # REQUIREMENT FOR USING THE SECOND POWERLAW. - If second power law is not used, connect to first powerlaw function
     if (bf)*(np.power(average_wavelength33, cf)) < (average_flux33) - (3)*(average_flux_error33):
 
         ee.append(pars2[0])
@@ -456,9 +432,11 @@ for qqqqq in good_categorized_spectra_action:
     oo1 = np.where (wavelength/(z+1.) < 1250.)
     oo2 = np.where (wavelength/(z+1.) > 1400.)
     
-   
+    snr_12001600mean = []
+    snr_12001600median = []
+    snr_1700 = []
     if len(oo1[0]) > 0:
-
+        #SNR undefined? Check into this
         jiji = np.mean(1./error_normalized[np.max(oo1[0]):np.min(oo2)])
         snr_12001600mean.append(round(jiji,5))
         jeje = np.median(1./error_normalized[np.max(oo1[0]):np.min(oo2)])
@@ -467,22 +445,18 @@ for qqqqq in good_categorized_spectra_action:
         snr_1700.append(snr)
 
 
-    # FIGURE 1 (START)
-
-    #print ('now graphing')
+    # Start of Figure 1
 
     plt.figure(count_fig1)
-    #original_graph_number = original_graph_number+1
 
     # IF STATEMENT IS: IF THE DIFFERENCE BTWN D POINT (RIGHT OF SiIV EMISSION) AND THE FIRST
     # POWER LAW AT THAT POINT IS MORE THAN 3 SIGMA,    #THEN USE THE NEW POWERLAW
-    # if ((average_flux33  - (b)*(average_wavelength33)**(c)))>=3* (average_flux_error33):#NOT EXACTLY SURE Y WE R DOING THIS
-    # if (average_flux33  - 3*(average_flux_error33) > (b)*(average_wavelength33)**(c)):
 
     bf = pars[0]
     cf = pars[1]
     #print "value powerlaw at D" + `(bf)*(np.power (average_wavelength33,cf))`
     #print "average_flux" + `(average_flux33)  - (3)*(average_flux_error33)`
+    # IF STATEMENT IS THERE TO AVOID ANY RANDOM, WEIRD PIXEL PROBLEM WITH THE ERRORS. FOR EXAMPLE: TO AVOID CASES WHERE THE ERROR IS 100
 
     if (bf)*(np.power(average_wavelength33, cf)) < (average_flux33) - (3)*(average_flux_error33):
         plt.plot(wavelength, powerlaw2(wavelength, *pars2), 'r--')
@@ -492,29 +466,19 @@ for qqqqq in good_categorized_spectra_action:
              3*(average_flux_error33), 'yo')
         plt.plot(average_wavelength3, average_flux3, 'yo')
         plt.plot(average_wavelength33, average_flux33 - rms, 'go')
-
-        #plot(wavelength, powerlaw(wavelength,*pars),'r--')
         plt.title("original data vs error")
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        #normalizing = flux/ powerlaw(power_law_datax,*pars)
-        #normalize = (plot(wavelength, flux))/(plot((power_law_datax, powerlaw(power_law_datax,*pars))))
-        #text(wavelength_observe1 +510,np.max(flux)-5,"z = " +`j`)
         plt.text(wavelength_observe1-50, np.max(flux) -
-             5, "z = " + str(j) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[qqqqq]))
+             5, "z = " + str(j) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]))
         plt.text(wavelength_observe1 + 1000, np.max(flux)-10, i)
         plt.plot(average_wavelength33, average_flux33, 'yo')
-        #print dpoint
         plt.plot(wavelength, flux, 'b-')
-        #print 'this is '+`flux[moiz]`
         plt.plot(power_law_datax2, power_law_datay2, 'ro')
         plt.plot(wavelength, plerror, 'k-')
     else:
 
         plt.plot(wavelength, powerlaw(wavelength, *pars), 'r--')
-
-        #plot(wavelength, powerlaw(wavelength,*pars),'r--')
-        #print 'this is '+`flux[moiz]`
         plt.plot(average_wavelength33, average_flux33 - average_flux_error33, 'yo')
         plt.plot(average_wavelength33, average_flux33 -
              3*(average_flux_error33), 'yo')
@@ -523,35 +487,20 @@ for qqqqq in good_categorized_spectra_action:
         plt.title("original data vs error")
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        #normalizing = flux/ powerlaw(power_law_datax,*pars)
-        #normalize = (plot(wavelength, flux))/(plot((power_law_datax, powerlaw(power_law_datax,*pars))))
         plt.text(wavelength_observe1 - 50, np.max(flux) -
-             5, "z = " + str(j) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[qqqqq]))
-        #text(wavelength_observe1 +350,np.max(flux)-5,"z = " +`j`)
+             5, "z = " + str(j) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
         plt.text(wavelength_observe1 + 1000, np.max(flux)-10, i)
         plt.plot(average_wavelength33, average_flux33, 'yo')
         plt.plot(wavelength, flux, 'b-')
         plt.plot(power_law_datax, power_law_datay, 'ro')
-        #print 'this is '+`flux[moiz]`
-        # IF STATEMENT IS THERE TO AVOID ANY RANDOM, WEIRD PIXEL PROBLEM WITH THE ERRORS. FOR EXAMPLE: TO AVOID CASES WHERE THE ERROR IS 100
-
         plt.plot(wavelength, plerror, 'k-')
 
     pp1.savefig()
     plt.close(count_fig1)
-    # 'pp'+`original_hellos`.savefig()
-    """
-    if original_graph_number <=200:
-	pp_original.savefig()
-    if original_graph_number >200:
-	pp_original.close()
-	original_hellos=original_hellos+1
-	pp_original=PdfPages('original_sixth_many_graphs'+`original_hellos`+'.pdf')  
-	original_graph_number=0
-    """
+ 
 
-    # FIGURE 1 (END)
-         0.2, "z=" + str(j) + " snr=" + str(snr))
+    # End of Figure 1
+    0.2, "z=" + str(j) + " snr=" + str(snr)
 
     text(wavelength_observe1 + 1000, np.max(normalizing)-0.2, i)
     n1 = where(normalizing < 1)
@@ -560,15 +509,6 @@ for qqqqq in good_categorized_spectra_action:
     n3 = normalizing[n1]
     pp2.savefig()
     close(count_fig2)
-    """
-    if normalized_graph_number <=200:
-	pp_normalized.savefig()
-    if normalized_graph_number >200:
-	pp_normalized.close()
-	normalized_hellos=normalized_hellos+1
-	pp_normalized=PdfPages('normalized_sixth_many_graphs'+`normalized_hellos`+'.pdf')  
-	normalized_graph_number=0
-    """
 
     #print ('graphing ended')
 
@@ -577,33 +517,27 @@ for qqqqq in good_categorized_spectra_action:
     www = (np.transpose(www))
     #i=i.replace('\'', '')
     oo=i[0:20]
-    np.savetxt('/Users/Paola/QUASAR/Work_EHVO/ROUTINES/norm/' +
+    np.savetxt('C:/Users/nguye/Documents/CSS497/' +
                oo+'norm.dr9', www)  # ,fmt='%s')
 
     count_fig1 = count_fig1+1
     count_fig2 = count_fig2+1
     # show()
+
+# ABOVE IS CONCLUSION OF FOR LOOP AT LINE 100
+    
 # EVERYTHING BELOW IS NOT IN THE FOR LOOP
 
 
-k = 0
-t = []
-g = []
-# tt=[]
-ty = 0
-kk = 0
-
-
-# ll=array(ll)
-# ee=array(ee)
 tt = [ll, ee, eee]
 tt = (np.transpose(tt))
 
 
-# tt=array(tt)
+# i_all is the list of all good spectra.
 
 
-#whereto=np.where (i_all=powerlaw2_not_made)
+
+
 for i in powerlaw2_not_made:
     for j in i_all:
         if j in powerlaw2_not_made:
@@ -614,12 +548,13 @@ for l in powerlaw1_not_made:
         if lj in powerlaw1_not_made:
             i_all.remove(lj)
 
-# i_all is the list of all good spectra.
+
 pp1.close()
 pp2.close()
 # pp+pdfs.close()
 # trying to merge multiple pdf files
 """  
+Potentially needed for some PDFs? Check with Paola
 for earth in range (0,pdfs):
 	earth1=('normalized_sixth_no_original_graph' + `earth` +'.pdf')
 	merger.append(PdfFileReader(file(earth1, 'rb')))
@@ -634,19 +569,19 @@ merger.write("document-output.pdf")
 # np.savetxt("initial parameters 1.txt", t,fmt="%s")#INITIAL PARAMETERS FOR POWER LAW 1, THE fmt="%s" MAKES IT SO THAT THE FORMAT(fmt) is a string (=%s), rather than the default setting of float
 
 # specdirec='/home/khatri/SDSSIII/SPECTRA/'
-file_name1 = '/Users/Paola/QUASAR/Work_EHVO/ROUTINES/Final_Initial_Parameters.txt'
+file_name1 = 'C:/Users/nguye/Documents/CSS 497/initialparameters.txt'
 
 
 #file_name1 = '/home/khatri/Documents/Python_code/Final_Initial_Parameters.txt'
 
 # np.savetxt("Final Initial Parameters .txt",tt,fmt="%s")#INITIAL PARAMETERS FOR POWER LAW 2
 np.savetxt(file_name1, tt, fmt="%s")
-file_name2 = '/Users/Paola/QUASAR/Work_EHVO/ROUTINES/Powerlaw2_did_not_work.txt'
+file_name2 = 'C:/Users/nguye/Documents/CSS497/powerlaw2fail.txt'
 np.savetxt(file_name2, powerlaw2_not_made, fmt='%s')
 
-file_name3 = '/Users/Paola/QUASAR/Work_EHVO/ROUTINES/good_spectra.txt'
+file_name3 = 'C:/Users/nguye/Documents/CSS497/goodspectra.txt'
 np.savetxt(file_name3, i_all, fmt='%s')
-file_name4 = '/Users/Paola/QUASAR/Work_EHVO/ROUTINES/Powerlaw1_did_not_work.txt'
+file_name4 = 'C:/Users/nguye/Documents/CSS497/powerlaw1fail.txt'
 np.savetxt(file_name4, powerlaw1_not_made, fmt='%s')
 # np.savetxt("normalized_spectra.DR9",www,fmt="%s")
 # text_file.close()
