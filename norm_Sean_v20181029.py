@@ -1,5 +1,5 @@
 #=====Please Check Readme file before start========
-#+=====Working on this code=======================
+#=====Working on this code=======================
 #================================================
 
 
@@ -79,7 +79,6 @@ normalized_graph_number = 0
 rows_of_power_law_txt_file = len(spectra_action)
 
 
-## l = [] ##unused?
 ee = []
 ll = []
 eee = []
@@ -236,6 +235,8 @@ for index in good_categorized_spectra_action:
     
     ########################### END OF MIDDLE POINT ##############################
     
+    
+    
     ########################### LAST POINT###################################
     
     q3 = np.where(data[:, 0] < wavelength_new_midpoint_obs)
@@ -261,6 +262,8 @@ for index in good_categorized_spectra_action:
     ########################### END OF LAST POINT ##############################
     
 	
+  
+  
     ######################## D POINT AND THREE POINTS #######################
     # range taken in rest frame: 1415-1430
     dpoint_starting_point_restframe = 1415
@@ -495,7 +498,8 @@ for index in good_categorized_spectra_action:
     
     # End of Figure 1
     
-    # Start of Figure 2
+    
+    # Start of Figure 2 #No Needed
     """
     0.2, "z=" + str(z) + " snr=" + str(snr)
 
@@ -552,7 +556,6 @@ pp1.close()
 pp2.close()
 
 # Merges Multiple PDF files
-
 
 
 # np.savetxt("initial parameters 1.txt", t,fmt="%s")#INITIAL PARAMETERS FOR POWER LAW 1, THE fmt="%s" MAKES IT SO THAT THE FORMAT(fmt) is a string (=%s), rather than the default setting of float
