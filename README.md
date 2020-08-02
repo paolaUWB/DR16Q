@@ -12,7 +12,7 @@ Steps to contribute to this project:
   - Another way of doing this is pressing the "Push" button and it will allow you to paste the updated files into the branch.
 
 
----Code Notes----
+# ---Code Notes----
 
 1- Do not forget the change the file directory to your own directory
 	******variable:  "specdirec"*****
