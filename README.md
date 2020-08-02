@@ -15,10 +15,14 @@ Steps to contribute to this project:
 ---Code Notes----
 1- Do not forget the change the file directory to your own directory
 	******variable:  "specdirec"*****
+	
 2- There are 6760 spectrum. If you have onle 5 files, then check "starts_from, ends_at" comment/variable line (use ctrl+f)
+
 3- Please check comments very carefully.
+
 4- All your graph will be added to pdf file. Dont forget to check/change the directory.
 	******np.savetxt(foo)*******
+	
 5- Always update this readme file with changes
 
 -Thanks
