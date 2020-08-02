@@ -1,3 +1,8 @@
+#=====Please Check Readme file before start========
+#=====Working on this code=======================
+#================================================
+
+
 #============Import Files and Libraries========================
 
 #import sys #unused
@@ -53,8 +58,8 @@ for line in open(config_file, 'r'):
 ################################################################
 ##this is a range that how many spectra you want to check
 ##an/or between spectras in the file
-starts_from = 7
-ends_at = 8
+starts_from = 0
+ends_at = 5
 good_categorized_spectra_action = range(starts_from, ends_at)
 ################################################################
 
