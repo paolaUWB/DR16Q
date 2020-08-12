@@ -325,13 +325,8 @@ for index in good_categorized_spectra_list:
     cf = pars[1]
 
     # REQUIREMENT FOR USING #POWERLAW.
-    if (bf)*(np.power(median_wavelength33, cf)) < (median_flux33) - (3)*(median_flux_error33):
+    if (bf)*(np.power(median_wavelength33, cf)) > (median_flux33) - (3)*(median_flux_error33):
 
-        ee.append(pars2[0])
-        eee.append(pars2[1])
-        ll.append(i)
-
-    else:
         ee.append(pars[0])
         eee.append(pars[1])
         ll.append(i)
@@ -367,7 +362,7 @@ for index in good_categorized_spectra_list:
     
     if (bf)*(np.power(median_wavelength33, cf)) < (median_flux33) - (3)*(median_flux_error33):
         
-        plt.plot(wavelength, powerlaw(wavelength, *pars2), 'r--')
+        
         plt.plot(wavelength, powerlaw(wavelength, *pars), 'r--')
         plt.plot(median_wavelength33, median_flux33 - median_flux_error33, 'yo')
         plt.plot(median_wavelength33, median_flux33 -
@@ -378,7 +373,6 @@ for index in good_categorized_spectra_list:
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
         plt.text(wavelength_observe1-50, np.max(flux) - 5, "z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]))
-        #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, i)
         plt.plot(median_wavelength33, median_flux33, 'yo')
         plt.plot(wavelength, flux, 'b-')
         plt.plot(power_law_datax2, power_law_datay2, 'ro')
