@@ -45,9 +45,7 @@ pp2 = PdfPages('normalized_all_graph_Sean.pdf')
 
 
 number_of_spectra = 6760
-b = 1250
-c = -0.5
-counter = 0
+
 
 
 spectra_list = list()
@@ -55,14 +53,20 @@ redshift_value_list = list()
 snr_value_list = list()
 
 
+
+#========Reading the file and assignin to the specific lists============
 for line in open(config_file, 'r'):
-	d = line.split(",")
-	spectra_list.append(d[0])
-	redshift_value_list.append(np.float(d[1]))
-	snr_value_list.append(np.float(d[2]))
-    
+	each_row_in_file = line.split(",")
+	spectra_list.append(each_row_in_file[0])
+	redshift_value_list.append(np.float(each_row_in_file[1]))
+	snr_value_list.append(np.float(each_row_in_file[2]))
+#============End of Reading and Assigning=============================== 
 
 
+
+b = 1250 #powerlaw
+c = -0.5 #powerlaw
+counter = 0
 count_fig1 = 0
 count_fig2 = 2*number_of_spectra # count_fig2 will always start counting from twice the number of total spectra
 
@@ -83,9 +87,9 @@ i_all = []
 
 
 #==================POWERLAW FUNCTION==============================
-#Description: Powerlaw calculation
-#PreCondition: Takes 3 parameter as a value
-#PostCOndition: Returns a value after calculation
+# Powerlawe function takes 3 parameter. Parameter b and c are defined above.
+# The parameter x is calcuation of wavelength. The powerlaw calculates a value
+# as in formula and return a floating value. 
 def powerlaw(x, b, c):
     return b*(np.power(x, c))
 #==================END OF POWERLAW FUNCTION=========================
@@ -457,8 +461,8 @@ pp2.close()
 
 file_name1 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/Final_Initial_Parameters.txt'
 np.savetxt(file_name1, tt, fmt="%s")
-file_name3 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/good_spectra.txt'
-np.savetxt(file_name3, i_all, fmt='%s')
-file_name4 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/Powerlaw1_did_not_work.txt'
-np.savetxt(file_name4, powerlaw1_not_made, fmt='%s')
+file_name2 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/good_spectra.txt'
+np.savetxt(file_name2, i_all, fmt='%s')
+file_name3 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/Powerlaw1_did_not_work.txt'
+np.savetxt(file_name3, powerlaw1_not_made, fmt='%s')
 
