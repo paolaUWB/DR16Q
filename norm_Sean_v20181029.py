@@ -9,7 +9,8 @@
 # At the end saves
 
 # IMPORTANT:
-# 
+# # take declerad vals out
+  
 # ====================================================================
 
 
@@ -61,7 +62,6 @@ for line in open(config_file, 'r'):
 	redshift_value_list.append(np.float(each_row_in_file[1]))
 	snr_value_list.append(np.float(each_row_in_file[2]))
 #============End of Reading and Assigning=============================== 
-
 
 
 b = 1250 #powerlaw
@@ -210,7 +210,6 @@ for index in good_categorized_spectra_list:
     
 	
   
-  
     ######################## D POINT AND THREE POINTS #######################
     # range taken in rest frame: 1415-1430
     dpoint_starting_point_restframe = 1415
@@ -255,6 +254,9 @@ for index in good_categorized_spectra_list:
     power_law_datay2 = (median_flux33, median_flux1, median_flux2)
 
     ############# END OF D POINT AND THREE POINTS #################################
+    
+    
+    
 
     # BASICALLY, DEFINING MY WAVELENGTH, FLUX, AND ERROR (OR CHOOSING THEIR RANGE)
     wavelength_lower_limit = np.where(data[:, 0] > wavelength_observe1)
@@ -376,7 +378,7 @@ for index in good_categorized_spectra_list:
         plt.title(i)
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        plt.text(wavelength_observe1-50, np.max(flux) - 5, "z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]))
+        plt.text(1, 1, "z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]))
         plt.plot(median_wavelength33, median_flux33, 'yo')
         plt.plot(wavelength, flux, 'b-')
         plt.plot(power_law_datax2, power_law_datay2, 'ro')
@@ -392,7 +394,7 @@ for index in good_categorized_spectra_list:
         plt.title(i)
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        plt.text(wavelength_observe1 - 50, np.max(flux) - 5, "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
+        plt.text(1,1, "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
         #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, i)
         plt.plot(median_wavelength33, median_flux33, 'yo')
         plt.plot(wavelength, flux, 'b-')
@@ -402,21 +404,26 @@ for index in good_categorized_spectra_list:
 
     pp1.savefig()
     plt.close(count_fig1)
-
-    
     # End of Figure 1
     
     
     # Start of Figure 2
-  
     plt.figure(count_fig2)
     0.2, "z=" + str(z) + " snr=" + str(snr)
 
     plt.text(wavelength_observe1 + 1000, np.max(normalizing)-0.2, i)
     plt.title(i)
     n1 = np.where(normalizing < 1)
-    n2 = wavelength[n1] #515
-    n3 = normalizing[n1] #515
+    n2 = wavelength[n1] 
+    n3 = normalizing[n1] 
+    
+    plt.plot(wavelength, normalizing,'b-')#I CHANGED THIS JUST NOW
+    plt.plot((wavelength[0], wavelength[-1]),(1, 1),'r-')
+    #plot((wavelength[0], wavelength[-1]),(1, 1))
+    plt.plot(wavelength, plerror_normalized,'k-') #I CHANGED THIS JUST NOW
+    plt.title("normalized data vs. normalized error")
+    plt.xlabel("Normalized Wavelength [A]")
+    plt.ylabel("Flux[10^[-17]]cgs")
     pp2.savefig()
     plt.close(count_fig2)
 
@@ -447,8 +454,6 @@ tt = [ll, ee, eee]
 tt = (np.transpose(tt))
 
 # i_all is the list of all good spectra.
-
-
 
 for l in powerlaw1_not_made:
     for lj in i_all:
