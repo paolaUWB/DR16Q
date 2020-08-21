@@ -27,7 +27,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 # this is a range that how many spectra you want to check
 # and/or between spectras in the file
 starts_from = 0
-ends_at = 5
+ends_at = 9
 good_categorized_spectra_list = range(starts_from, ends_at)
 
 #For IDE run, locate the file
@@ -378,7 +378,7 @@ for index in good_categorized_spectra_list:
         plt.title(i)
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        plt.text(1, 1, "z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]))
+        plt.text(((wavelength_observe1+wavelength_observe2)/2.17),"z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]) , style = 'italic')
         plt.plot(median_wavelength33, median_flux33, 'yo')
         plt.plot(wavelength, flux, 'b-')
         plt.plot(power_law_datax2, power_law_datay2, 'ro')
@@ -394,7 +394,7 @@ for index in good_categorized_spectra_list:
         plt.title(i)
         plt.xlabel("Wavelength[A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        plt.text(1,1, "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
+        plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
         #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, i)
         plt.plot(median_wavelength33, median_flux33, 'yo')
         plt.plot(wavelength, flux, 'b-')
