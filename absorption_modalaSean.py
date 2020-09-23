@@ -23,6 +23,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy import signal
 from matplotlib.backends.backend_pdf import PdfPages
+#from tkinter import Tk     # from tkinter import Tk for Python 3.x
+from tkinter.filedialog import askopenfilename
 
 #from sympy import sympify
 #from astropy import*
@@ -78,7 +80,7 @@ fig= plt.figure()
 #############################################################
 # Read list of spectra, zem, and snr 
 # Set cfg file path (csv with spec_name,z,snr...)
-config_file = "sorted_norm.csv" 
+config_file = askopenfilename()
 
 #USE THE FOLLOWING LINE ONLY FOR WHEN COMMAND LINE ACTIVE
 #config_file = sys.argv[1] 
