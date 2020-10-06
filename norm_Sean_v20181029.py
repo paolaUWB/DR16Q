@@ -16,6 +16,7 @@
 
 
 #============Import Files and Libraries========================
+import os
 import numpy as np 
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
@@ -39,7 +40,7 @@ config_file = "sorted_norm.csv"
 
 
 #============Set location of spectrum files========================
-specdirec = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/'
+specdirec = os.getcwd() + "/files/"
 pp1 = PdfPages('original_all_graph_Sean.pdf') 
 pp2 = PdfPages('normalized_all_graph_Sean.pdf')  
 #================================================================
@@ -437,8 +438,7 @@ for index in good_categorized_spectra_list:
     #########################################################################################
     # This is where normalized files will be saved. Remember to change to your own directory!
     
-    np.savetxt('G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/' +
-               oo+'norm.dr9', www)  # ,fmt='%s')
+    np.savetxt(specdirec + oo +'norm.dr9', www)  # ,fmt='%s')
 	#########################################################################################
     count_fig1 = count_fig1+1
     count_fig2 = count_fig2+1
@@ -464,10 +464,8 @@ for l in powerlaw1_not_made:
 pp1.close()
 pp2.close()
 
-file_name1 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/Final_Initial_Parameters.txt'
-np.savetxt(file_name1, tt, fmt="%s")
-file_name2 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/good_spectra.txt'
-np.savetxt(file_name2, i_all, fmt='%s')
-file_name3 = 'G:/School/_UWB Classes/ZCapstone/Capstone/Normalized-Spectre/files/Powerlaw1_did_not_work.txt'
-np.savetxt(file_name3, powerlaw1_not_made, fmt='%s')
+
+np.savetxt(specdirec + "/Final_Initial_Parameters.txt", tt, fmt="%s")
+np.savetxt(specdirec + "/good_spectra.txt", i_all, fmt='%s')
+np.savetxt(specdirec + "/Powerlaw1_did_not_work.txt", powerlaw1_not_made, fmt='%s')
 
