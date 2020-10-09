@@ -9,7 +9,6 @@
 # At the end saves
 
 # IMPORTANT:
-# # take declerad vals out
   
 # ====================================================================
 
