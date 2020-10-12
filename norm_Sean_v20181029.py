@@ -8,8 +8,7 @@
 # Saves these figures to the pdf spectrum files. (Given location)
 # At the end saves
 
-# IMPORTANT:
-  
+
 # ====================================================================
 
 
@@ -28,16 +27,15 @@ def normilize_spectra():
     # this is a range that how many spectra you want to check
     # and/or between spectras in the file
     starts_from = 0
-    ends_at = 9
+    ends_at = 13
     good_categorized_spectra_list = range(starts_from, ends_at)
 
     #For IDE run, locate the file
-    config_file = "sorted_norm.csv" 
+    config_file = "sorted_norm_test.csv" 
 
     #For command line, activate this config_file
     #config_file = sys.argv[1] 
     #================================================================
-
 
     #============Set location of spectrum files========================
     specdirec = os.getcwd() + "/files/"
@@ -55,7 +53,6 @@ def normilize_spectra():
     spectra_list = list()
     redshift_value_list = list()
     snr_value_list = list()
-
 
 
     #========Reading the file and assignin to the specific lists============
@@ -84,10 +81,15 @@ def normilize_spectra():
     init_pars = [b, c]  
     init_pars2 = [b, c]  
 
-    powerlaw1_not_made = []
+    original_graph_number = 0
+    normalized_graph_number = 0
+    ee = []
+    ll = []
+    eee = []
 
     i_all = []
 
+    powerlaw_not_made = []
 
     #==================POWERLAW FUNCTION==============================
     # Powerlawe function takes 3 parameter. Parameter b and c are defined above.
@@ -128,6 +130,9 @@ def normilize_spectra():
         wavelength_NV_emit = 1242.8040
         # Shift Nitrogen V (NV) line into frame
         wavelength_NV_obs = (z+1)*wavelength_NV_emit
+    
+        data = np.loadtxt(specdirec + i) 
+        number_rows = len(data)
 
 
         wavelength_restframe_starting_point = 1280.206
@@ -286,55 +291,48 @@ def normilize_spectra():
 
 
         fev = 10000
-
-        print(power_law_datax)
-        utility_functions.print_to_file(power_law_datax, log_file)
-        print(power_law_datay)
-        utility_functions.print_to_file(power_law_datay, log_file)
-
         # CURVE FIT FOR FIRST POWERLAW
         try:
             pars, covar = curve_fit(powerlaw, power_law_datax,
                                     power_law_datay, p0=init_pars, maxfev=fev)
         except:
             print("Error - curve_fit failed-1st powerlaw " + i)
-            utility_functions.print_to_file("Error - curve_fit failed-1st powerlaw " + i, log_file)
-            powerlaw1_not_made.append(i)
+            powerlaw_not_made.append(i)
 
-        
+        print(power_law_datax)
+        utility_functions.print_to_file(power_law_datax, log_file)
+        print(power_law_datay)
+        utility_functions.print_to_file(power_law_datay, log_file)
 
-        m = []
         normalizing = flux/powerlaw(wavelength, *pars)
-        actual_normalizing = normalizing
         error_normalized = error/powerlaw(wavelength, *pars)
-        plerror_normalized = error_normalized
-        
+    
+            
         for n in range(1, len(normalizing)-5):
             
             if abs(normalizing[n + 1] - normalizing[n]) > 0.5:
 
-                if plerror_normalized[n+1] > 0.25:
-                    
-                    plerror_normalized[n+1] = plerror_normalized[n]
+                if error_normalized[n+1] > 0.25:
+                    error_normalized[n+1] = error_normalized[n]
                     normalizing[n+1] = normalizing[n]  # normalized graph
                     error[n+1] = error[n]  # original error
                     flux[n+1] = flux[n]  # original graph
 
-            if plerror_normalized[n] > 0.5:
-
-                plerror_normalized[n] = plerror_normalized[n-1]
+            if error_normalized[n] > 0.5:
+                error_normalized[n] = error_normalized[n-1]
                 normalizing[n] = normalizing[n-1]  # normalized graph
                 error[n] = error[n-1]  # original error
                 flux[n] = flux[n-1]  # original graph
 
+
             if abs(normalizing[n + 1] - normalizing[n]) > 5:
                 
-                plerror_normalized[n+1] = plerror_normalized[n]
+                error_normalized[n+1] = error_normalized[n]
                 normalizing[n+1] = normalizing[n]  # normalized graph
                 error[n+1] = error[n]  # original error
                 flux[n+1] = flux[n]  # original graph
 
-    
+   
         bf = pars[0]
         cf = pars[1]
 
@@ -428,7 +426,7 @@ def normilize_spectra():
         plt.plot(wavelength, normalizing,'b-')#I CHANGED THIS JUST NOW
         plt.plot((wavelength[0], wavelength[-1]),(1, 1),'r-')
         #plot((wavelength[0], wavelength[-1]),(1, 1))
-        plt.plot(wavelength, plerror_normalized,'k-') #I CHANGED THIS JUST NOW
+        plt.plot(wavelength, error_normalized,'k-') #I CHANGED THIS JUST NOW
         plt.title("normalized data vs. normalized error")
         plt.xlabel("Normalized Wavelength [A]")
         plt.ylabel("Flux[10^[-17]]cgs")
@@ -462,9 +460,9 @@ def normilize_spectra():
 
     # i_all is the list of all good spectra.
 
-    for l in powerlaw1_not_made:
+    for l in powerlaw_not_made:
         for lj in i_all:
-            if lj in powerlaw1_not_made:
+            if lj in powerlaw_not_made:
                 i_all.remove(lj)
         
             
@@ -474,7 +472,7 @@ def normilize_spectra():
 
     np.savetxt(specdirec + "/Final_Initial_Parameters.txt", tt, fmt="%s")
     np.savetxt(specdirec + "/good_spectra.txt", i_all, fmt='%s')
-    np.savetxt(specdirec + "/Powerlaw1_did_not_work.txt", powerlaw1_not_made, fmt='%s')
+    np.savetxt(specdirec + "/Powerlaw1_did_not_work.txt", powerlaw_not_made, fmt='%s')
 
 
 def main():
