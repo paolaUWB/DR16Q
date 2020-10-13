@@ -27,11 +27,11 @@ def normilize_spectra():
     # this is a range that how many spectra you want to check
     # and/or between spectras in the file
     starts_from = 0
-    ends_at = 13
+    ends_at = 9
     good_categorized_spectra_list = range(starts_from, ends_at)
 
     #For IDE run, locate the file
-    config_file = "sorted_norm_test.csv" 
+    config_file = "sorted_norm.csv" 
 
     #For command line, activate this config_file
     #config_file = sys.argv[1] 
@@ -56,11 +56,12 @@ def normilize_spectra():
 
 
     #========Reading the file and assignin to the specific lists============
-    for line in open(config_file, 'r'):
-        each_row_in_file = line.split(",")
-        spectra_list.append(each_row_in_file[0])
-        redshift_value_list.append(np.float(each_row_in_file[1]))
-        snr_value_list.append(np.float(each_row_in_file[2]))
+    with open(config_file) as f:
+        for line in f:
+            each_row_in_file = line.split(",")
+            spectra_list.append(each_row_in_file[0])
+            redshift_value_list.append(np.float(each_row_in_file[1]))
+            snr_value_list.append(np.float(each_row_in_file[2]))
     #============End of Reading and Assigning=============================== 
 
 
@@ -68,35 +69,22 @@ def normilize_spectra():
     c = -0.5 #powerlaw
     counter = 0
     count_fig1 = 0
-    count_fig2 = 2*number_of_spectra # count_fig2 will always start counting from twice the number of total spectra
+    count_fig2 = 2 * number_of_spectra # count_fig2 will always start counting from twice the number of total spectra
 
-
-    original_graph_number = 0
-    normalized_graph_number = 0
-    rows_of_power_law_txt_file = len(spectra_list)
     ee = []
-    ll = []
+    processed_spectra_file_names = []
     eee = []
 
-    init_pars = [b, c]  
-    init_pars2 = [b, c]  
-
-    original_graph_number = 0
-    normalized_graph_number = 0
-    ee = []
-    ll = []
-    eee = []
-
-    i_all = []
+    init_pars = [b, c]
 
     powerlaw_not_made = []
 
     #==================POWERLAW FUNCTION==============================
-    # Powerlawe function takes 3 parameter. Parameter b and c are defined above.
-    # The parameter x is calcuation of wavelength. The powerlaw calculates a value
+    # Powerlaw function takes 3 parameters. Parameters b and c are defined above.
+    # The parameter x is calculation of wavelength. The powerlaw calculates a value
     # as in formula and return a floating value. 
     def powerlaw(x, b, c):
-        return b*(np.power(x, c))
+        return b * (np.power(x, c))
     #==================END OF POWERLAW FUNCTION=========================
         
 
@@ -105,19 +93,18 @@ def normilize_spectra():
     ###########THIS HUGE FOR LOOP STARTS HERE AND FINISHES AROUND LINE 450s ########
 
     for index in good_categorized_spectra_list:
-        counter += 1 #increment
+        counter += 1
     
-        i = spectra_list[index] 
-        i_all.append(i) 
+        current_spectrum_file_name = spectra_list[index]
+        
         z = round(redshift_value_list[index], 5)
         snr = round(snr_value_list[index], 5)
 
-        print(str(counter) + ": " + i)
-        utility_functions.print_to_file(str(counter) + ": " + i, log_file)
+        print(str(counter) + ": " + current_spectrum_file_name)
+        utility_functions.print_to_file(str(counter) + ": " + current_spectrum_file_name, log_file)
 
         
-        data = np.loadtxt(specdirec + i) 
-        number_rows = len(data[:, :])
+        data = np.loadtxt(specdirec + current_spectrum_file_name) 
 
         # Only calculating spectrum from 1200 - 1800 rest frame wavelength
         wavelength_emit1_initial = 1200
@@ -130,10 +117,6 @@ def normilize_spectra():
         wavelength_NV_emit = 1242.8040
         # Shift Nitrogen V (NV) line into frame
         wavelength_NV_obs = (z+1)*wavelength_NV_emit
-    
-        data = np.loadtxt(specdirec + i) 
-        number_rows = len(data)
-
 
         wavelength_restframe_starting_point = 1280.206
         wavelength_restframe_ending_point = 1284.333
@@ -291,18 +274,20 @@ def normilize_spectra():
 
 
         fev = 10000
-        # CURVE FIT FOR FIRST POWERLAW
-        try:
-            pars, covar = curve_fit(powerlaw, power_law_datax,
-                                    power_law_datay, p0=init_pars, maxfev=fev)
-        except:
-            print("Error - curve_fit failed-1st powerlaw " + i)
-            powerlaw_not_made.append(i)
 
         print(power_law_datax)
         utility_functions.print_to_file(power_law_datax, log_file)
         print(power_law_datay)
         utility_functions.print_to_file(power_law_datay, log_file)
+
+        # CURVE FIT FOR FIRST POWERLAW
+        try:
+            pars, covar = curve_fit(powerlaw, power_law_datax,
+                                    power_law_datay, p0=init_pars, maxfev=fev)
+        except:
+            print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+            utility_functions.print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, log_file)
+            powerlaw_not_made.append(current_spectrum_file_name)
 
         normalizing = flux/powerlaw(wavelength, *pars)
         error_normalized = error/powerlaw(wavelength, *pars)
@@ -341,7 +326,9 @@ def normilize_spectra():
 
             ee.append(pars[0])
             eee.append(pars[1])
-            ll.append(i)
+            processed_spectra_file_names.append(current_spectrum_file_name)
+            print("processed_spectra_file_names below: ")
+            print(processed_spectra_file_names)
 
         # SNR Calculations:
 
@@ -381,7 +368,7 @@ def normilize_spectra():
                 3*(median_flux_error33), 'yo')
             plt.plot(median_wavelength3, median_flux3, 'yo')
             plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, 'go')
-            plt.title(i)
+            plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
             plt.text(((wavelength_observe1+wavelength_observe2)/2.17), np.max(flux),"z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]) , style = 'italic')
@@ -397,11 +384,11 @@ def normilize_spectra():
             plt.plot(median_wavelength33, median_flux33 -
                 3*(median_flux_error33), 'yo')
             plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, 'go')
-            plt.title(i)
+            plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
             plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
-            #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, i)
+            #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, current_spectrum_file_name)
             plt.plot(median_wavelength33, median_flux33, 'yo')
             plt.plot(wavelength, flux, 'b-')
             plt.plot(power_law_datax, power_law_datay, 'ro')
@@ -417,8 +404,8 @@ def normilize_spectra():
         plt.figure(count_fig2)
         0.2, "z=" + str(z) + " snr=" + str(snr)
 
-        plt.text(wavelength_observe1 + 1000, np.max(normalizing)-0.2, i)
-        plt.title(i)
+        plt.text(wavelength_observe1 + 1000, np.max(normalizing)-0.2, current_spectrum_file_name)
+        plt.title(current_spectrum_file_name)
         n1 = np.where(normalizing < 1)
         n2 = wavelength[n1] 
         n3 = normalizing[n1] 
@@ -438,7 +425,7 @@ def normilize_spectra():
         
         www = (wavelength, normalizing, error_normalized)
         www = (np.transpose(www))
-        oo=i[0:20]
+        oo=current_spectrum_file_name[0:20]
         
         #########################################################################################
         # This is where normalized files will be saved. Remember to change to your own directory!
@@ -455,23 +442,23 @@ def normilize_spectra():
 
     # EVERYTHING BELOW IS NOT IN THE FOR LOOP
 
-    tt = [ll, ee, eee]
-    tt = (np.transpose(tt))
+    final_initial_parameters = [processed_spectra_file_names, ee, eee]
+    final_initial_parameters = (np.transpose(final_initial_parameters))
 
-    # i_all is the list of all good spectra.
+    # processed_spectra_file_names is the list of all good spectra.
 
     for l in powerlaw_not_made:
-        for lj in i_all:
+        for lj in processed_spectra_file_names:
             if lj in powerlaw_not_made:
-                i_all.remove(lj)
+                processed_spectra_file_names.remove(lj)
         
             
     pp1.close()
     pp2.close()
 
 
-    np.savetxt(specdirec + "/Final_Initial_Parameters.txt", tt, fmt="%s")
-    np.savetxt(specdirec + "/good_spectra.txt", i_all, fmt='%s')
+    np.savetxt(specdirec + "/Final_Initial_Parameters.txt", final_initial_parameters, fmt="%s")
+    np.savetxt(specdirec + "/good_spectra.txt", processed_spectra_file_names, fmt='%s')
     np.savetxt(specdirec + "/Powerlaw1_did_not_work.txt", powerlaw_not_made, fmt='%s')
 
 
