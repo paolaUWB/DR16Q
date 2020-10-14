@@ -22,7 +22,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 import utility_functions
 #================================================================
 
-def normilize_spectra():
+def normalize_spectra():
     #===========Specifying The Range==============================
     # this is a range that how many spectra you want to check
     # and/or between spectras in the file
@@ -127,7 +127,7 @@ def normilize_spectra():
         # a good range of rest frame wavelength is = 1686 - 1773
         # their midpoint is 1729, so im gonna take 1686-1729, average them up, and find the midpoint,
         # then find midpoint of 1729-1773
-        wavelength_new_emit1 = 1282.398  # 1st point for powerlaw
+        wavelength_new_emit1 = 1282.398  # 1st point for powerlaw, Point C
         
         wavelength_new_obs1 = (z+1)*wavelength_new_emit1
         
@@ -158,8 +158,8 @@ def normilize_spectra():
         print(flux3)
         utility_functions.print_to_file(flux3, log_file)
 
-        wavelength_new_emit2 = 1677.938  
-        wavelength_new_emit3 = 1725.669  
+        wavelength_new_emit2 = 1677.938  # Point B
+        wavelength_new_emit3 = 1725.669  # Point A
         
         wavelength_new_midpoint = (wavelength_new_emit2 + wavelength_new_emit3)/2
 
@@ -205,8 +205,8 @@ def normilize_spectra():
     
         ######################## D POINT AND THREE POINTS #######################
         # range taken in rest frame: 1415-1430
-        dpoint_starting_point_restframe = 1415
-        dpoint_ending_point_restframe = 1430
+        dpoint_starting_point_restframe = 1415 # Point D
+        dpoint_ending_point_restframe = 1430 # Point D
 
 
         dpoint_starting_point = (z+1)*(dpoint_starting_point_restframe)
@@ -463,7 +463,7 @@ def normilize_spectra():
 
 
 def main():
-    normilize_spectra()
+    normalize_spectra()
 
 if __name__ == "__main__":
     main()
