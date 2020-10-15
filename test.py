@@ -3,16 +3,16 @@ import utility_functions
 import time
 import difflib
 
-normalization.normilize_spectra()
+normalization.normalize_spectra()
 
 expected_results = "correct_output.txt"
 current_results = "log.txt"
 
-with open(expected_results, 'r') as hosts0:
-    with open(current_results, 'r') as hosts1:
+with open(expected_results, 'r') as file1:
+    with open(current_results, 'r') as file2:
         diff = difflib.unified_diff(
-            hosts0.readlines(),
-            hosts1.readlines(),
+            file1.readlines(),
+            file2.readlines(),
             fromfile=expected_results,
             tofile=current_results,
         )
