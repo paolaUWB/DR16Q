@@ -362,37 +362,37 @@ def normalize_spectra():
         if (bf)*(np.power(median_wavelength33, cf)) < (median_flux33) - (3)*(median_flux_error33):
             
             
-            plt.plot(wavelength, powerlaw(wavelength, *pars), 'r--')
+            plt.plot(wavelength, powerlaw(wavelength, *pars), color = "red", linestyle = "--")
             plt.plot(median_wavelength33, median_flux33 - median_flux_error33, 'yo')
             plt.plot(median_wavelength33, median_flux33 -
                 3*(median_flux_error33), 'yo')
             plt.plot(median_wavelength3, median_flux3, 'yo')
-            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, 'go')
+            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, color = "green", marker = "o")
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
             plt.text(((wavelength_observe1+wavelength_observe2)/2.17), np.max(flux),"z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]) , style = 'italic')
             plt.plot(median_wavelength33, median_flux33, 'yo')
-            plt.plot(wavelength, flux, 'b-')
+            plt.plot(wavelength, flux, color = "blue", linestyle = "-")
             plt.plot(power_law_datax2, power_law_datay2, 'ro')
-            plt.plot(wavelength, error, 'k-')
+            plt.plot(wavelength, error, color = "black", linestyle = "-")
             
         else:
 
-            plt.plot(wavelength, powerlaw(wavelength, *pars), 'r--')
+            plt.plot(wavelength, powerlaw(wavelength, *pars), color = "red", linestyle = "--")
             plt.plot(median_wavelength33, median_flux33 - median_flux_error33, 'yo')
             plt.plot(median_wavelength33, median_flux33 -
                 3*(median_flux_error33), 'yo')
-            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, 'go')
+            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, color = "green", marker = "o")
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
             plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
             #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, current_spectrum_file_name)
             plt.plot(median_wavelength33, median_flux33, 'yo')
-            plt.plot(wavelength, flux, 'b-')
+            plt.plot(wavelength, flux, color = "blue", linestyle = "-")
             plt.plot(power_law_datax, power_law_datay, 'ro')
-            plt.plot(wavelength, error, 'k-')
+            plt.plot(wavelength, error, color = "black", linestyle = "-")
 
 
         pp1.savefig()
@@ -410,10 +410,10 @@ def normalize_spectra():
         n2 = wavelength[n1] 
         n3 = normalizing[n1] 
         
-        plt.plot(wavelength, normalizing,'b-')#I CHANGED THIS JUST NOW
-        plt.plot((wavelength[0], wavelength[-1]),(1, 1),'r-')
+        plt.plot(wavelength, normalizing, color = "blue", linestyle = "-")#I CHANGED THIS JUST NOW
+        plt.plot((wavelength[0], wavelength[-1]),(1, 1), color = "red", linestyle = "-")
         #plot((wavelength[0], wavelength[-1]),(1, 1))
-        plt.plot(wavelength, error_normalized,'k-') #I CHANGED THIS JUST NOW
+        plt.plot(wavelength, error_normalized, color = "black", linestyle = "-") #I CHANGED THIS JUST NOW
         plt.title("normalized data vs. normalized error")
         plt.xlabel("Normalized Wavelength [A]")
         plt.ylabel("Flux[10^[-17]]cgs")
