@@ -28,7 +28,7 @@ def normalize_spectra():
     # and/or between spectras in the file
     starts_from = 0
     ends_at = 9
-    good_categorized_spectra_list = range(starts_from, ends_at)
+    good_categorized_spectra_range = range(starts_from, ends_at)
 
     #For IDE run, locate the file
     config_file = "sorted_norm.csv" 
@@ -39,8 +39,8 @@ def normalize_spectra():
 
     #============Set location of spectrum files========================
     specdirec = os.getcwd() + "/files/"
-    pp1 = PdfPages('original_all_graph_Sean.pdf') 
-    pp2 = PdfPages('normalized_all_graph_Sean.pdf')  
+    original_pdf = PdfPages('original_all_graph_Sean.pdf') 
+    normalized_pdf = PdfPages('normalized_all_graph_Sean.pdf')  
     #================================================================
 
     log_file = "log.txt"
@@ -67,7 +67,6 @@ def normalize_spectra():
 
     b = 1250 #powerlaw
     c = -0.5 #powerlaw
-    counter = 0
     count_fig1 = 0
     count_fig2 = 2 * number_of_spectra # count_fig2 will always start counting from twice the number of total spectra
 
@@ -92,19 +91,18 @@ def normalize_spectra():
     ################################################################################
     ###########THIS HUGE FOR LOOP STARTS HERE AND FINISHES AROUND LINE 450s ########
 
-    for index in good_categorized_spectra_list:
-        counter += 1
+    for index in good_categorized_spectra_range:
     
         current_spectrum_file_name = spectra_list[index]
         
         z = round(redshift_value_list[index], 5)
         snr = round(snr_value_list[index], 5)
 
-        print(str(counter) + ": " + current_spectrum_file_name)
-        utility_functions.print_to_file(str(counter) + ": " + current_spectrum_file_name, log_file)
+        print(str(index + 1) + ": " + current_spectrum_file_name)
+        utility_functions.print_to_file(str(index + 1) + ": " + current_spectrum_file_name, log_file)
 
         
-        data = np.loadtxt(specdirec + current_spectrum_file_name) 
+        current_spectra_data = np.loadtxt(specdirec + current_spectrum_file_name)
 
         # Only calculating spectrum from 1200 - 1800 rest frame wavelength
         wavelength_emit1_initial = 1200
@@ -118,22 +116,20 @@ def normalize_spectra():
         # Shift Nitrogen V (NV) line into frame
         wavelength_NV_obs = (z+1)*wavelength_NV_emit
 
-        wavelength_restframe_starting_point = 1280.206
-        wavelength_restframe_ending_point = 1284.333
+        wavelength_restframe_starting_point = 1280. # 1st point for powerlaw, Point C
+        wavelength_restframe_ending_point = 1290.
         
-        wavelength_observed_starting_point = (z+1)*(wavelength_restframe_starting_point)
-        wavelength_observed_ending_point = (z+1)*(wavelength_restframe_ending_point)
+        wavelength_observed_starting_point = (z + 1) * (wavelength_restframe_starting_point)
+        wavelength_observed_ending_point = (z + 1) * (wavelength_restframe_ending_point)
 
         # a good range of rest frame wavelength is = 1686 - 1773
         # their midpoint is 1729, so im gonna take 1686-1729, average them up, and find the midpoint,
         # then find midpoint of 1729-1773
-        wavelength_new_emit1 = 1282.398  # 1st point for powerlaw, Point C
-        
-        wavelength_new_obs1 = (z+1)*wavelength_new_emit1
         
         # FIRST POINT
         # Get all points from data with wavelengths less than our starting wavelength for our first point
-        q6 = np.where(data[:, 0] < wavelength_observed_starting_point)
+        wavelength_column = current_spectra_data[:, 0]
+        q6 = np.where(wavelength_column < wavelength_observed_starting_point)
 
         p7 = 0
         try:  
@@ -141,15 +137,15 @@ def normalize_spectra():
         except:
             pass
 
-        q8 = np.where(data[:, 0] > wavelength_observed_ending_point)
+        q8 = np.where(wavelength_column > wavelength_observed_ending_point)
         
         p9 = np.min(q8)
 
-        flux3 = data[p7:p9, 1]  
+        flux3 = current_spectra_data[p7:p9, 1]  
     
         median_flux3 = np.median(flux3)
         
-        wavelength_flux3 = data[p7:p9, 0]
+        wavelength_flux3 = current_spectra_data[p7:p9, 0]
         
         median_wavelength3 = np.median(wavelength_flux3)
         
@@ -158,7 +154,7 @@ def normalize_spectra():
         print(flux3)
         utility_functions.print_to_file(flux3, log_file)
 
-        wavelength_new_emit2 = 1677.938  # Point B
+        wavelength_new_emit2 = 1690.  # Point B (use only this point later(instead of both A and B))
         wavelength_new_emit3 = 1725.669  # Point A
         
         wavelength_new_midpoint = (wavelength_new_emit2 + wavelength_new_emit3)/2
@@ -168,15 +164,15 @@ def normalize_spectra():
         wavelength_new_midpoint_obs = (z+1)*wavelength_new_midpoint  # Shift midpoint
 
         ######################### MIDDLE POINT ##################################
-        q1 = np.where(data[:, 0] < wavelength_new_obs2)  
+        q1 = np.where(wavelength_column < wavelength_new_obs2)  
         p1 = np.max(q1)
-        q2 = np.where(data[:, 0] > wavelength_new_midpoint_obs)
+        q2 = np.where(wavelength_column > wavelength_new_midpoint_obs)
         p2 = np.min(q2)
 
-        flux1 = data[p1:p2, 1]
+        flux1 = current_spectra_data[p1:p2, 1]
     
         median_flux1 = np.median(flux1)  
-        wavelength_flux1 = data[p1:p2, 0]  
+        wavelength_flux1 = current_spectra_data[p1:p2, 0]  
         
         median_wavelength1 = np.median(wavelength_flux1)
         middle_point = (median_flux1, median_wavelength1)
@@ -185,16 +181,16 @@ def normalize_spectra():
         
         ########################### LAST POINT###################################
         
-        q3 = np.where(data[:, 0] < wavelength_new_midpoint_obs)
+        q3 = np.where(wavelength_column < wavelength_new_midpoint_obs)
         p3 = np.max(q3)
 
-        q4 = np.where(data[:, 0] > wavelength_new_obs3)
+        q4 = np.where(wavelength_column > wavelength_new_obs3)
         p4 = np.min(q4)
 
-        flux2 = data[p3:p4, 1]
+        flux2 = current_spectra_data[p3:p4, 1]
 
         median_flux2 = np.median(flux2) 
-        wavelength_flux2 = data[p3:p4, 0] 
+        wavelength_flux2 = current_spectra_data[p3:p4, 0] 
 
         median_wavelength2 = np.median(wavelength_flux2)
         last_point = (median_flux2, median_wavelength2)
@@ -213,25 +209,25 @@ def normalize_spectra():
         dpoint_ending_point = (z+1)*(dpoint_ending_point_restframe)
 
     
-        qq6 = np.where(data[:, 0] < dpoint_starting_point)
+        qq6 = np.where(wavelength_column < dpoint_starting_point)
         try:
             pp7 = np.max(qq6)
         except:
             pass
 
-        qq8 = np.where(data[:, 0] > dpoint_ending_point)
+        qq8 = np.where(wavelength_column > dpoint_ending_point)
         pp9 = np.min(qq8)
 
-        flux33 = data[pp7:pp9, 1]  
+        flux33 = current_spectra_data[pp7:pp9, 1]  
     
         median_flux33 = np.median(flux33)  
-        wavelength_flux33 = data[pp7:pp9, 0]   
+        wavelength_flux33 = current_spectra_data[pp7:pp9, 0]   
         median_wavelength33 = np.median(wavelength_flux33)
     
         dpoint = (median_wavelength33, median_flux33)
 
         # AVERAGE ERROR FOR D POINT
-        error33 = data[pp7:pp9, 2]
+        error33 = current_spectra_data[pp7:pp9, 2]
         
         median_flux_error33 = np.median(error33)  
         st_dev_of_flux = np.std(flux33[:]) #Standart deviation of flux
@@ -252,22 +248,22 @@ def normalize_spectra():
         
 
         # BASICALLY, DEFINING MY WAVELENGTH, FLUX, AND ERROR (OR CHOOSING THEIR RANGE)
-        wavelength_lower_limit = np.where(data[:, 0] > wavelength_observe1)
-        wavelength_upper_limit = np.where(data[:, 0] < wavelength_observe2)
+        wavelength_lower_limit = np.where(wavelength_column > wavelength_observe1)
+        wavelength_upper_limit = np.where(wavelength_column < wavelength_observe2)
         
 
-        wavelength = data[np.min(wavelength_lower_limit[0])
+        wavelength = current_spectra_data[np.min(wavelength_lower_limit[0])
                                 : np.max(wavelength_upper_limit[0]), 0]
         actual_wavelength = wavelength
         
-        flux = data[np.min(wavelength_lower_limit[0]): np.max(
+        flux = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(
             wavelength_upper_limit[0]), 1] 
         
         
-        error = data[np.min(wavelength_lower_limit[0]): np.max(
+        error = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(
             wavelength_upper_limit[0]), 2]
         
-        messed_up_error = np.where(data[np.min(wavelength_lower_limit[0]): np.max(
+        messed_up_error = np.where(current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(
             wavelength_upper_limit[0]), 2] > 3) 
 
         wavelength_emit = wavelength/(z+1)
@@ -327,8 +323,6 @@ def normalize_spectra():
             ee.append(pars[0])
             eee.append(pars[1])
             processed_spectra_file_names.append(current_spectrum_file_name)
-            print("processed_spectra_file_names below: ")
-            print(processed_spectra_file_names)
 
         # SNR Calculations:
 
@@ -362,40 +356,40 @@ def normalize_spectra():
         if (bf)*(np.power(median_wavelength33, cf)) < (median_flux33) - (3)*(median_flux_error33):
             
             
-            plt.plot(wavelength, powerlaw(wavelength, *pars), 'r--')
+            plt.plot(wavelength, powerlaw(wavelength, *pars), color = "red", linestyle = "--")
             plt.plot(median_wavelength33, median_flux33 - median_flux_error33, 'yo')
             plt.plot(median_wavelength33, median_flux33 -
                 3*(median_flux_error33), 'yo')
             plt.plot(median_wavelength3, median_flux3, 'yo')
-            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, 'go')
+            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, color = "green", marker = "o")
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
-            plt.text(((wavelength_observe1+wavelength_observe2)/2.17), np.max(flux),"z = " + str(z) + " snr=" + str(snr)+ " snr_1326=" +str(snr_12001600mean[0]) , style = 'italic')
+            plt.text(((wavelength_observe1+wavelength_observe2)/2.17), np.max(flux), f"z= {z} snr={snr} snr_1326={snr_12001600mean[0]}" , style = 'italic')
             plt.plot(median_wavelength33, median_flux33, 'yo')
-            plt.plot(wavelength, flux, 'b-')
+            plt.plot(wavelength, flux, color = "blue", linestyle = "-")
             plt.plot(power_law_datax2, power_law_datay2, 'ro')
-            plt.plot(wavelength, error, 'k-')
+            plt.plot(wavelength, error, color = "black", linestyle = "-")
             
         else:
 
-            plt.plot(wavelength, powerlaw(wavelength, *pars), 'r--')
+            plt.plot(wavelength, powerlaw(wavelength, *pars), color = "red", linestyle = "--")
             plt.plot(median_wavelength33, median_flux33 - median_flux_error33, 'yo')
             plt.plot(median_wavelength33, median_flux33 -
                 3*(median_flux_error33), 'yo')
-            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, 'go')
+            plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, color = "green", marker = "o")
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
-            plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), "z = " + str(z) + " snr=" + str(snr)+ " snr_1325=" + str(snr_12001600mean[0]))
+            plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), f"z= {z} snr={snr} snr_1325={snr_12001600mean[0]}")
             #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, current_spectrum_file_name)
             plt.plot(median_wavelength33, median_flux33, 'yo')
-            plt.plot(wavelength, flux, 'b-')
+            plt.plot(wavelength, flux, color = "blue", linestyle = "-")
             plt.plot(power_law_datax, power_law_datay, 'ro')
-            plt.plot(wavelength, error, 'k-')
+            plt.plot(wavelength, error, color = "black", linestyle = "-")
 
 
-        pp1.savefig()
+        original_pdf.savefig()
         plt.close(count_fig1)
         # End of Figure 1
         
@@ -410,14 +404,14 @@ def normalize_spectra():
         n2 = wavelength[n1] 
         n3 = normalizing[n1] 
         
-        plt.plot(wavelength, normalizing,'b-')#I CHANGED THIS JUST NOW
-        plt.plot((wavelength[0], wavelength[-1]),(1, 1),'r-')
+        plt.plot(wavelength, normalizing, color = "blue", linestyle = "-")#I CHANGED THIS JUST NOW
+        plt.plot((wavelength[0], wavelength[-1]),(1, 1), color = "red", linestyle = "-")
         #plot((wavelength[0], wavelength[-1]),(1, 1))
-        plt.plot(wavelength, error_normalized,'k-') #I CHANGED THIS JUST NOW
+        plt.plot(wavelength, error_normalized, color = "black", linestyle = "-") #I CHANGED THIS JUST NOW
         plt.title("normalized data vs. normalized error")
         plt.xlabel("Normalized Wavelength [A]")
         plt.ylabel("Flux[10^[-17]]cgs")
-        pp2.savefig()
+        normalized_pdf.savefig()
         plt.close(count_fig2)
 
         
@@ -453,8 +447,8 @@ def normalize_spectra():
                 processed_spectra_file_names.remove(lj)
         
             
-    pp1.close()
-    pp2.close()
+    original_pdf.close()
+    normalized_pdf.close()
 
 
     np.savetxt(specdirec + "/Final_Initial_Parameters.txt", final_initial_parameters, fmt="%s")
