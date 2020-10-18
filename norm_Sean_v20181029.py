@@ -116,18 +116,15 @@ def normalize_spectra():
         # Shift Nitrogen V (NV) line into frame
         wavelength_NV_obs = (z+1)*wavelength_NV_emit
 
-        wavelength_restframe_starting_point = 1280.206
-        wavelength_restframe_ending_point = 1284.333
+        wavelength_restframe_starting_point = 1280. # 1st point for powerlaw, Point C
+        wavelength_restframe_ending_point = 1290.
         
-        wavelength_observed_starting_point = (z+1)*(wavelength_restframe_starting_point)
-        wavelength_observed_ending_point = (z+1)*(wavelength_restframe_ending_point)
+        wavelength_observed_starting_point = (z + 1) * (wavelength_restframe_starting_point)
+        wavelength_observed_ending_point = (z + 1) * (wavelength_restframe_ending_point)
 
         # a good range of rest frame wavelength is = 1686 - 1773
         # their midpoint is 1729, so im gonna take 1686-1729, average them up, and find the midpoint,
         # then find midpoint of 1729-1773
-        wavelength_new_emit1 = 1282.398  # 1st point for powerlaw, Point C
-        
-        wavelength_new_obs1 = (z+1)*wavelength_new_emit1
         
         # FIRST POINT
         # Get all points from data with wavelengths less than our starting wavelength for our first point
@@ -157,7 +154,7 @@ def normalize_spectra():
         print(flux3)
         utility_functions.print_to_file(flux3, log_file)
 
-        wavelength_new_emit2 = 1677.938  # Point B
+        wavelength_new_emit2 = 1690.  # Point B (use only this point later(instead of both A and B))
         wavelength_new_emit3 = 1725.669  # Point A
         
         wavelength_new_midpoint = (wavelength_new_emit2 + wavelength_new_emit3)/2
