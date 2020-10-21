@@ -67,8 +67,6 @@ def normalize_spectra():
 
     b = 1250 #powerlaw
     c = -0.5 #powerlaw
-    count_fig1 = 0
-    count_fig2 = 2 * number_of_spectra # count_fig2 will always start counting from twice the number of total spectra
 
     ee = []
     processed_spectra_file_names = []
@@ -325,31 +323,13 @@ def normalize_spectra():
             processed_spectra_file_names.append(current_spectrum_file_name)
 
         # SNR Calculations:
-
-        less_than_SNR = np.where (wavelength/(z+1.) < 1250.)
-        greater_than_SNR = np.where (wavelength/(z+1.) > 1400.)
-        
-        snr_12001600mean = []
-        snr_12001600median = []
-        snr_1700 = []
-        
-    
-        if len(less_than_SNR[0]) > 0:
-            
-            mean_error = np.mean(1./error_normalized[np.max(less_than_SNR[0]):np.min(greater_than_SNR)])
-            snr_12001600mean.append(round(mean_error,5))
-            
-            
-            median_error = np.median(1./error_normalized[np.max(less_than_SNR[0]):np.min(greater_than_SNR)])
-            snr_12001600median.append(round(median_error,5))
-            
-            snr_1700.append(snr)
-
+        WAVELENGTH_RANGE_FOR_SNR = (1250., 1400.)
+        wavelengths_for_snr_lower = np.where (wavelength/(z+1.) < WAVELENGTH_RANGE_FOR_SNR[0])
+        wavelengths_for_snr_upper = np.where (wavelength/(z+1.) > WAVELENGTH_RANGE_FOR_SNR[1])
+        snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
 
         # Start of Figure 1
-            
-        plt.figure(count_fig1)
-
+        plt.figure(index + 1)
 
         # IF STATEMENT IS THERE TO AVOID ANY RANDOM, WEIRD PIXEL PROBLEM WITH THE ERRORS. FOR EXAMPLE: TO AVOID CASES WHERE THE ERROR IS 100
         
@@ -365,7 +345,7 @@ def normalize_spectra():
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
-            plt.text(((wavelength_observe1+wavelength_observe2)/2.17), np.max(flux), f"z= {z} snr={snr} snr_1326={snr_12001600mean[0]}" , style = 'italic')
+            plt.text(((wavelength_observe1+wavelength_observe2)/2.17), np.max(flux), f"z= {z} snr={snr} snr_1326={snr_mean_in_ehvo}" , style = 'italic')
             plt.plot(median_wavelength33, median_flux33, 'yo')
             plt.plot(wavelength, flux, color = "blue", linestyle = "-")
             plt.plot(power_law_datax2, power_law_datay2, 'ro')
@@ -381,7 +361,7 @@ def normalize_spectra():
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
             plt.ylabel("Flux[10^[-17]]cgs")
-            plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), f"z= {z} snr={snr} snr_1325={snr_12001600mean[0]}")
+            plt.text(((wavelength_observe1+wavelength_observe2)/2.17),np.max(flux), f"z= {z} snr={snr} snr_1325={snr_mean_in_ehvo}")
             #plt.text(wavelength_observe1 + 1000, np.max(flux)-10, current_spectrum_file_name)
             plt.plot(median_wavelength33, median_flux33, 'yo')
             plt.plot(wavelength, flux, color = "blue", linestyle = "-")
@@ -390,12 +370,12 @@ def normalize_spectra():
 
 
         original_pdf.savefig()
-        plt.close(count_fig1)
+        plt.close(index + 1)
         # End of Figure 1
         
         
         # Start of Figure 2
-        plt.figure(count_fig2)
+        plt.figure(index + 1)
         0.2, "z=" + str(z) + " snr=" + str(snr)
 
         plt.text(wavelength_observe1 + 1000, np.max(normalizing)-0.2, current_spectrum_file_name)
@@ -412,7 +392,7 @@ def normalize_spectra():
         plt.xlabel("Normalized Wavelength [A]")
         plt.ylabel("Flux[10^[-17]]cgs")
         normalized_pdf.savefig()
-        plt.close(count_fig2)
+        plt.close(index + 1)
 
         
         # End of Figure 2
@@ -426,8 +406,6 @@ def normalize_spectra():
         
         np.savetxt(specdirec + oo +'norm.dr9', www)  # ,fmt='%s')
         #########################################################################################
-        count_fig1 = count_fig1+1
-        count_fig2 = count_fig2+1
 
 
     ############### THE FOR LOOP STARTED AT LINE ~95 FINISHED HERE #####################
