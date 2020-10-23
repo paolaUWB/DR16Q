@@ -108,21 +108,19 @@ def normalize_spectra():
         wavelength_observed_to = (z + 1) * WAVELENGTH_RANGE_RESTFRAME[1]
 
         # FIRST POINT (Point C)
-        wavelength_restframe_starting_point = 1280. # 1st point for powerlaw, Point C
-        wavelength_restframe_ending_point = 1290.
-        
-        wavelength_observed_starting_point = (z + 1) * (wavelength_restframe_starting_point)
-        wavelength_observed_ending_point = (z + 1) * (wavelength_restframe_ending_point)
-          
-        p7 = np.max(np.where(wavelength_column < wavelength_observed_starting_point))  
-        p9 = np.min(np.where(wavelength_column > wavelength_observed_ending_point))
-        flux3 = current_spectra_data[p7:p9, 1]  
-    
-        median_flux3 = np.median(flux3)
-        median_wavelength3 = np.median(current_spectra_data[p7:p9, 0])
+        WAVELENGTH_RESTFRAME_RANGE_POINT_C = (1280., 1290.) # 1st point for powerlaw, Point C
 
-        print(flux3)
-        utility_functions.print_to_file(flux3, log_file)
+        wavelength_observed_starting_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[0])
+        wavelength_observed_ending_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[1])
+          
+        p7 = np.max(np.where(wavelength_column < wavelength_observed_starting_point_C))  
+        p9 = np.min(np.where(wavelength_column > wavelength_observed_ending_point_C))
+    
+        median_flux_point_C = np.median(current_spectra_data[p7:p9, 1])
+        median_wavelength_point_C = np.median(current_spectra_data[p7:p9, 0])
+
+        print(current_spectra_data[p7:p9, 1])
+        utility_functions.print_to_file(current_spectra_data[p7:p9, 1], log_file)
 
         ######################### MIDDLE POINT (Between Points A and B)
         wavelength_new_emit2 = 1690.  # Point B (use only this point later(instead of both A and B))
@@ -139,10 +137,23 @@ def normalize_spectra():
     
         median_flux1 = np.median(current_spectra_data[p1:p2, 1])
         median_wavelength1 = np.median(current_spectra_data[p1:p2, 0])
+
+        # new code
+        # WAVELENGTH_RESTFRAME_RANGE_POINT_A = (1690., 1710.)
+
+        # wavelength_observed_starting_point_A = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_A[0])
+        # wavelength_observed_ending_point_A = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_A[1])
+
+        # p1 = np.max(np.where(wavelength_column < wavelength_observed_starting_point_A))  
+        # p2 = np.min(np.where(wavelength_column > wavelength_observed_ending_point_A))
+    
+        # median_flux_point_A = np.median(current_spectra_data[p1:p2, 1])
+        # median_wavelength_point_A = np.median(current_spectra_data[p1:p2, 0])
+
         ########################### END OF MIDDLE POINT ##############################
         
         
-        ########################### LAST POINT###################################
+        ########################### LAST POINT################################### is Point A
         
         p3 = np.max(np.where(wavelength_column < wavelength_new_midpoint_obs))
         p4 = np.min(np.where(wavelength_column > wavelength_new_obs3))
@@ -163,8 +174,8 @@ def normalize_spectra():
         dpoint_ending_point_restframe = 1430 # Point D
 
 
-        dpoint_starting_point = (z+1)*(dpoint_starting_point_restframe)
-        dpoint_ending_point = (z+1)*(dpoint_ending_point_restframe)
+        dpoint_starting_point = (z + 1) * (dpoint_starting_point_restframe)
+        dpoint_ending_point = (z + 1) * (dpoint_ending_point_restframe)
 
 
         pp7 = np.max(np.where(wavelength_column < dpoint_starting_point))
@@ -180,8 +191,8 @@ def normalize_spectra():
         st_dev_of_flux = np.std(flux33[:]) #Standart deviation of flux
 
         # THE THREE POINTS (THE THREE POINTS THAT THE original power law WILL USE), Points C, Point A, Point B
-        power_law_datax = (median_wavelength3, median_wavelength1, median_wavelength2)
-        power_law_datay = (median_flux3, median_flux1, median_flux2)
+        power_law_datax = (median_wavelength_point_C, median_wavelength1, median_wavelength2)
+        power_law_datay = (median_flux_point_C, median_flux1, median_flux2)
 
         # THE THREE POINTS (THE THREE POINTS THAT THE second power law WILL USE), Points D, Point A, Point B
         power_law_datax2 = (median_wavelength33, median_wavelength1, median_wavelength2)
@@ -278,7 +289,7 @@ def normalize_spectra():
             plt.plot(median_wavelength33, median_flux33 - median_flux_error33, 'yo')
             plt.plot(median_wavelength33, median_flux33 -
                 3*(median_flux_error33), 'yo')
-            plt.plot(median_wavelength3, median_flux3, 'yo')
+            plt.plot(median_wavelength_point_C, median_flux_point_C, 'yo')
             plt.plot(median_wavelength33, median_flux33 - st_dev_of_flux, color = "green", marker = "o")
             plt.title(current_spectrum_file_name)
             plt.xlabel("Wavelength[A]")
