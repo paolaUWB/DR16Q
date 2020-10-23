@@ -101,43 +101,22 @@ def normalize_spectra():
 
         
         current_spectra_data = np.loadtxt(specdirec + current_spectrum_file_name)
+        wavelength_column = current_spectra_data[:, 0]
 
-        # Only calculating spectrum from 1200 - 1800 rest frame wavelength
-        wavelength_emit1_initial = 1200
-        wavelength_emit2_initial = 1800
-        
+        WAVELENGTH_RANGE_RESTFRAME = (1200., 1800.)
+        wavelength_observe1 = (z + 1) * WAVELENGTH_RANGE_RESTFRAME[0]
+        wavelength_observe2 = (z + 1) * WAVELENGTH_RANGE_RESTFRAME[1]
 
-        wavelength_observe1 = (z+1)*wavelength_emit1_initial
-        wavelength_observe2 = (z+1)*wavelength_emit2_initial
-        
-        wavelength_NV_emit = 1242.8040
-        # Shift Nitrogen V (NV) line into frame
-        wavelength_NV_obs = (z+1)*wavelength_NV_emit
-
+        # FIRST POINT
         wavelength_restframe_starting_point = 1280. # 1st point for powerlaw, Point C
         wavelength_restframe_ending_point = 1290.
         
         wavelength_observed_starting_point = (z + 1) * (wavelength_restframe_starting_point)
         wavelength_observed_ending_point = (z + 1) * (wavelength_restframe_ending_point)
-
-        # a good range of rest frame wavelength is = 1686 - 1773
-        # their midpoint is 1729, so im gonna take 1686-1729, average them up, and find the midpoint,
-        # then find midpoint of 1729-1773
+          
+        p7 = np.max(np.where(wavelength_column < wavelength_observed_starting_point))
         
-        # FIRST POINT
-        # Get all points from data with wavelengths less than our starting wavelength for our first point
-        wavelength_column = current_spectra_data[:, 0]
-        q6 = np.where(wavelength_column < wavelength_observed_starting_point)
-
-        p7 = 0
-        try:  
-            p7 = np.max(q6)
-        except:
-            pass
-
-        q8 = np.where(wavelength_column > wavelength_observed_ending_point)
-        
-        p9 = np.min(q8)
+        p9 = np.min(np.where(wavelength_column > wavelength_observed_ending_point))
 
         flux3 = current_spectra_data[p7:p9, 1]  
     
@@ -179,11 +158,9 @@ def normalize_spectra():
         
         ########################### LAST POINT###################################
         
-        q3 = np.where(wavelength_column < wavelength_new_midpoint_obs)
-        p3 = np.max(q3)
+        p3 = np.max(np.where(wavelength_column < wavelength_new_midpoint_obs))
 
-        q4 = np.where(wavelength_column > wavelength_new_obs3)
-        p4 = np.min(q4)
+        p4 = np.min(np.where(wavelength_column > wavelength_new_obs3))
 
         flux2 = current_spectra_data[p3:p4, 1]
 
@@ -206,15 +183,9 @@ def normalize_spectra():
         dpoint_starting_point = (z+1)*(dpoint_starting_point_restframe)
         dpoint_ending_point = (z+1)*(dpoint_ending_point_restframe)
 
-    
-        qq6 = np.where(wavelength_column < dpoint_starting_point)
-        try:
-            pp7 = np.max(qq6)
-        except:
-            pass
 
-        qq8 = np.where(wavelength_column > dpoint_ending_point)
-        pp9 = np.min(qq8)
+        pp7 = np.max(np.where(wavelength_column < dpoint_starting_point))
+        pp9 = np.min(np.where(wavelength_column > dpoint_ending_point))
 
         flux33 = current_spectra_data[pp7:pp9, 1]  
     
@@ -252,7 +223,6 @@ def normalize_spectra():
 
         wavelength = current_spectra_data[np.min(wavelength_lower_limit[0])
                                 : np.max(wavelength_upper_limit[0]), 0]
-        actual_wavelength = wavelength
         
         flux = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(
             wavelength_upper_limit[0]), 1] 
