@@ -108,8 +108,6 @@ def normalize_spectra():
         wavelength_observed_to = (z + 1) * WAVELENGTH_RANGE_RESTFRAME[1]
 
         # FIRST POINT (Point C)
-        # wavelength_restframe_starting_point = 1280. # 1st point for powerlaw, Point C
-        # wavelength_restframe_ending_point = 1290.
         WAVELENGTH_RESTFRAME_RANGE_POINT_C = (1280., 1290.) # 1st point for powerlaw, Point C
 
         wavelength_observed_starting_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[0])
@@ -176,8 +174,8 @@ def normalize_spectra():
         dpoint_ending_point_restframe = 1430 # Point D
 
 
-        dpoint_starting_point = (z+1)*(dpoint_starting_point_restframe)
-        dpoint_ending_point = (z+1)*(dpoint_ending_point_restframe)
+        dpoint_starting_point = (z + 1) * (dpoint_starting_point_restframe)
+        dpoint_ending_point = (z + 1) * (dpoint_ending_point_restframe)
 
 
         pp7 = np.max(np.where(wavelength_column < dpoint_starting_point))
