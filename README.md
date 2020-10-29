@@ -18,19 +18,23 @@ Steps to contribute to this project:
 
 - Please check comments very carefully.
 
-- Follow the github steps above and open the file "norm_Sean_v20181029.py" using Spyder IDE. That is the main code for normalization.
-    
-- There are 6760 spectrum (It can be more later on this project). If you don't generate all 6760 files, find variables "starts_from" and "ends_at" and define a range.
+- Follow the github steps above and open the file "norm_Sean_v20181029.py" using Spyder IDE / Visual Studio Code. That is the main code for normalization.
 
 - We run this code under Spyder IDE, beacuse Spyder is a powerful scientific environment written in Python. It's designed by and for scientists, engineers and data analysts. It offers a unique combination of the advanced editing, analysis, debugging, and profiling functionality of a comprehensive development tool with the data exploration, interactive execution, deep inspection, and beautiful visualization capabilities of a scientific package. https://www.spyder-ide.org/
 
-- After you run this code, all your graphs will be added to pdf file. Dont forget to check/change the directory. "np.savetxt(foo)"
+- Running on Visual Studio Code: Download Anaconda Navigator and launch the VS Code via Anaconda. This will you give an conda base interpreter. This is the easiest way to run Normalization file.
+    
+- There are 6760 spectrum (It can be more later on this project). If you don't generate all 6760 files, find variables "starts_from" and "ends_at" and define a range.
+
+- After you run this code, all your graphs will be added to pdf file in your directory. Based on your range, you will see graphs in pdf files.
 
 - If the program catches any error with the powerlaw, it will save it to the file "powerlaw_did_not_work.txt". Check that file under same directory.
 
-- You can see the final initinal parameters in additional file "Final_Initial_Parameters.txt" under same directory
+- You can see the final initinal parameters in additional file "Final_Initial_Parameters.txt" under same directory.
 
 - If you clone it correctly, then just RUN the file; then check the pdf files you just created with running the program.
+
+- There is a test file in the directory. IF you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output. If changes are correct, than update the test file with new results for future tests.
 
 - Any major change should be added to README file.
 
