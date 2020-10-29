@@ -68,9 +68,9 @@ def normalize_spectra():
     b = 1250 #powerlaw
     c = -0.5 #powerlaw
 
-    ee = []
+    powerlaw_final_b_values = []
     processed_spectra_file_names = []
-    eee = []
+    powerlaw_final_c_values = []
 
     init_pars = [b, c]
 
@@ -224,8 +224,8 @@ def normalize_spectra():
         # REQUIREMENT FOR USING #POWERLAW.
         if (bf)*(np.power(median_wavelength_point_B, cf)) > (median_flux_point_B) - (3)*(median_flux_error_point_B):
 
-            ee.append(pars[0])
-            eee.append(pars[1])
+            powerlaw_final_b_values.append(bf)
+            powerlaw_final_c_values.append(cf)
             processed_spectra_file_names.append(current_spectrum_file_name)
 
         # SNR Calculations:
@@ -306,7 +306,7 @@ def normalize_spectra():
 
     # EVERYTHING BELOW IS NOT IN THE FOR LOOP
 
-    final_initial_parameters = [processed_spectra_file_names, ee, eee]
+    final_initial_parameters = [processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
     final_initial_parameters = (np.transpose(final_initial_parameters))
 
     # processed_spectra_file_names is the list of all good spectra.
