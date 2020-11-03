@@ -7,10 +7,7 @@
 # Plots the necessary values to the graph (as figures)
 # Saves these figures to the pdf spectrum files. (Given location)
 # At the end saves
-
-
 # ====================================================================
-
 
 
 #============Import Files and Libraries========================
@@ -22,10 +19,20 @@ from matplotlib.backends.backend_pdf import PdfPages
 import utility_functions
 #================================================================
 
+def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, current_spectra_data):
+    wavelength_column = current_spectra_data[:, 0]
+    wavelength_observed_from = (z + 1) * starting_point
+    wavelength_observed_to = (z + 1) * ending_point
+
+    wavelength_lower_limit = np.where(wavelength_column > wavelength_observed_from)
+    wavelength_upper_limit = np.where(wavelength_column < wavelength_observed_to)
+    
+    wavelength = current_spectra_data[np.min(wavelength_lower_limit[0]):np.max(wavelength_upper_limit[0]), 0]
+    flux = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 1]
+    error = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 2]
+    return wavelength, flux, error
+
 def normalize_spectra():
-    #===========Specifying The Range==============================
-    # this is a range that how many spectra you want to check
-    # and/or between spectras in the file
     starts_from = 0
     ends_at = 9
     good_categorized_spectra_range = range(starts_from, ends_at)
@@ -34,8 +41,7 @@ def normalize_spectra():
     config_file = "sorted_norm.csv" 
 
     #For command line, activate this config_file
-    #config_file = sys.argv[1] 
-    #================================================================
+    #config_file = sys.argv[1]
 
     #============Set location of spectrum files========================
     specdirec = os.getcwd() + "/files/"
@@ -46,14 +52,7 @@ def normalize_spectra():
     log_file = "log.txt"
     utility_functions.clear_file(log_file)
 
-    # number_of_spectra = 6760
-    number_of_spectra = utility_functions.file_length(config_file)
-
-
-    spectra_list = list()
-    redshift_value_list = list()
-    snr_value_list = list()
-
+    spectra_list, redshift_value_list, snr_value_list = [], [], []
 
     #========Reading the file and assignin to the specific lists============
     with open(config_file) as f:
@@ -68,11 +67,7 @@ def normalize_spectra():
     b = 1250 #powerlaw
     c = -0.5 #powerlaw
 
-    powerlaw_final_b_values = []
-    processed_spectra_file_names = []
-    powerlaw_final_c_values = []
-
-    init_pars = [b, c]
+    processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], []
 
     powerlaw_not_made = []
 
@@ -133,7 +128,7 @@ def normalize_spectra():
         median_flux_point_A = np.median(current_spectra_data[point_A_from:point_A_to, 1])
         median_wavelength_point_A = np.median(current_spectra_data[point_A_from:point_A_to, 0])
        
-        ######################## D POINT AND THREE POINTS ####################### Now we will call it point B
+        ######################## B POINT AND THREE POINTS #######################
         WAVELENGTH_RESTFRAME_RANGE_POINT_B = (1420., 1430.)
 
         wavelength_observed_starting_point_B = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_B[0])
@@ -147,31 +142,24 @@ def normalize_spectra():
         median_flux_point_B = np.median(flux_point_B) 
         median_wavelength_point_B = np.median(current_spectra_data[point_B_from:point_B_to, 0])
 
-        # AVERAGE ERROR FOR D POINT
+        # AVERAGE ERROR FOR B POINT
         median_flux_error_point_B = np.median(current_spectra_data[point_B_from:point_B_to, 2])  
         st_dev_of_flux = np.std(flux_point_B[:])
 
-        # THE THREE POINTS (THE THREE POINTS THAT THE original power law WILL USE), Points C, Point A, Point B
+        # THE THREE POINTS (THE THREE POINTS THAT THE original power law WILL USE), Points C, Point B, Point A
         power_law_datax = (median_wavelength_point_C, median_wavelength_point_B, median_wavelength_point_A)
         power_law_datay = (median_flux_point_C, median_flux_point_B, median_flux_point_A)
 
         # Get rid of this later
-        # THE THREE POINTS (THE THREE POINTS THAT THE second power law WILL USE), Points D, Point A, Point B
+        # THE THREE POINTS (THE THREE POINTS THAT THE second power law WILL USE), Points D, Point A, Point B (old, not relevant)
         power_law_datax2 = (median_wavelength_point_B, median_wavelength_point_A)
         power_law_datay2 = (median_flux_point_B, median_flux_point_A)
 
-        ############# END OF D POINT AND THREE POINTS #################################
+        ############# END OF B POINT AND THREE POINTS #################################
         
 
         # BASICALLY, DEFINING MY WAVELENGTH, FLUX, AND ERROR (OR CHOOSING THEIR RANGE)
-        wavelength_lower_limit = np.where(wavelength_column > wavelength_observed_from)
-        wavelength_upper_limit = np.where(wavelength_column < wavelength_observed_to)
-        
-        wavelength = current_spectra_data[np.min(wavelength_lower_limit[0]):np.max(wavelength_upper_limit[0]), 0]
-        
-        flux = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 1] 
-         
-        error = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 2]
+        wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RANGE_RESTFRAME[0], WAVELENGTH_RANGE_RESTFRAME[1], z, current_spectra_data)
 
         fev = 10000
 
@@ -182,17 +170,18 @@ def normalize_spectra():
 
         # CURVE FIT FOR FIRST POWERLAW
         try:
-            pars, covar = curve_fit(powerlaw, power_law_datax,
-                                    power_law_datay, p0=init_pars, maxfev=fev)
+            pars, covar = curve_fit(powerlaw, power_law_datax, power_law_datay, p0=[b, c], maxfev=fev)
         except:
             print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
             utility_functions.print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, log_file)
             powerlaw_not_made.append(current_spectrum_file_name)
 
-        normalizing = flux/powerlaw(wavelength, *pars)
-        error_normalized = error/powerlaw(wavelength, *pars)
-    
-            
+        
+        bf, cf = pars[0], pars[1]
+
+        normalizing = flux/powerlaw(wavelength, bf, cf)
+        error_normalized = error/powerlaw(wavelength, bf, cf)
+
         for n in range(1, len(normalizing) - 5):
             
             if abs(normalizing[n + 1] - normalizing[n]) > 0.5:
@@ -217,9 +206,21 @@ def normalize_spectra():
                 error[n + 1] = error[n]  # original error
                 flux[n + 1] = flux[n]  # original graph
 
-   
-        bf = pars[0]
-        cf = pars[1]
+
+        ############# TESTING TWO REGIONS ##########################
+        wavelength_test_1, flux_test_1, error_test_1 = wavelength_flux_error_in_range(1350., 1360., z, current_spectra_data)
+        normalized_flux_test_1 = flux_test_1/powerlaw(wavelength_test_1, bf, cf)
+        outliers_test_1 = normalized_flux_test_1[np.where(abs(normalized_flux_test_1 - 1) > 0.3)]
+        if len(outliers_test_1) > 0: print("outliers_test_1: ", outliers_test_1)
+
+        wavelength_test_2, flux_test_2, error_test_2 = wavelength_flux_error_in_range(1315., 1325., z, current_spectra_data)
+        normalized_flux_test_2 = flux_test_2/powerlaw(wavelength_test_2, bf, cf)
+        outliers_test_2 = normalized_flux_test_2[np.where(abs(normalized_flux_test_2 - 1) > 0.3)]
+        if len(outliers_test_2) > 0: print("outliers_test_2: ", outliers_test_2)
+
+        if len(outliers_test_1) + len(outliers_test_2) >= 10:
+            print("Flagging figure #", str(index + 1), ", file name: ", current_spectrum_file_name)
+        ##########################################################
 
         # REQUIREMENT FOR USING #POWERLAW.
         if (bf)*(np.power(median_wavelength_point_B, cf)) > (median_flux_point_B) - (3)*(median_flux_error_point_B):
@@ -241,7 +242,7 @@ def normalize_spectra():
         
         if (bf)*(np.power(median_wavelength_point_B, cf)) < (median_flux_point_B) - (3)*(median_flux_error_point_B):
             
-            plt.plot(wavelength, powerlaw(wavelength, *pars), color = "red", linestyle = "--")
+            plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
             plt.plot(median_wavelength_point_B, median_flux_point_B - median_flux_error_point_B, 'yo')
             plt.plot(median_wavelength_point_B, median_flux_point_B - 3 * (median_flux_error_point_B), 'yo')
             plt.plot(median_wavelength_point_C, median_flux_point_C, 'yo')
@@ -257,7 +258,7 @@ def normalize_spectra():
             
         else:
 
-            plt.plot(wavelength, powerlaw(wavelength, *pars), color = "red", linestyle = "--")
+            plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
             plt.plot(median_wavelength_point_B, median_flux_point_B - median_flux_error_point_B, 'yo')
             plt.plot(median_wavelength_point_B, median_flux_point_B - 3 * (median_flux_error_point_B), 'yo')
             plt.plot(median_wavelength_point_B, median_flux_point_B - st_dev_of_flux, color = "green", marker = "o")
@@ -269,6 +270,8 @@ def normalize_spectra():
             plt.plot(wavelength, flux, color = "blue", linestyle = "-")
             plt.plot(power_law_datax, power_law_datay, 'ro')
             plt.plot(wavelength, error, color = "black", linestyle = "-")
+            plt.plot(wavelength_test_1, flux_test_1, color = "magenta", linestyle = "-")
+            plt.plot(wavelength_test_2, flux_test_2, color = "yellow", linestyle = "-")
 
 
         original_pdf.savefig()
@@ -286,8 +289,11 @@ def normalize_spectra():
         plt.plot((wavelength[0], wavelength[-1]), (1, 1), color = "red", linestyle = "-")
         plt.plot(wavelength, error_normalized, color = "black", linestyle = "-")
         plt.title("normalized data vs. normalized error")
-        plt.xlabel("Normalized Wavelength [A]")
-        plt.ylabel("Flux[10^[-17]]cgs")
+        plt.xlabel("Wavelength [A]")
+        plt.ylabel("Normalized Flux[10^[-17]]cgs")
+        plt.plot(wavelength_test_1, normalized_flux_test_1, color = "magenta", linestyle = "-")
+        plt.plot(wavelength_test_2, normalized_flux_test_2, color = "yellow", linestyle = "-")
+        
         normalized_pdf.savefig()
         plt.close(index + 1)
 
