@@ -1,23 +1,32 @@
-#==============Normalization of the quasar spectra=================
-# THIS FILE:
-# Imports the neccessary libraries
-# Specify the range of spectra list(if needed)
-# Reads data from .csv files and assign to the three different lists
-# Uses the powerlaw and calculates the normalization of spectra with given SDSS data
-# Plots the necessary values to the graph (as figures)
-# Saves these figures to the pdf spectrum files. (Given location)
-# At the end saves
-# ====================================================================
+#==============Normalization of the quasar spectra============================
+# Please Check README file before changes anything!!!!
+# ============================================================================
 
 
-#============Import Files and Libraries========================
+#==============Import Files and Libraries=====================================
 import os
 import numpy as np 
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 import utility_functions
-#================================================================
+#=============================================================================
+
+
+#==============Constant Variables=============================================
+b = 1250 #powerlaw
+c = -0.5 #powerlaw
+fev = 10000
+#=============================================================================
+
+
+#==================POWERLAW FUNCTION==========================================
+# Powerlaw function takes 3 parameters. Parameters b and c are defined above.
+# The parameter x is calculation of wavelength. The powerlaw calculates a value
+# as in formula and return a floating value. 
+def powerlaw(x, b, c):
+    return b * (np.power(x, c))
+
 
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, current_spectra_data):
     wavelength_column = current_spectra_data[:, 0]
@@ -31,6 +40,58 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     flux = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 1]
     error = current_spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 2]
     return wavelength, flux, error
+
+def pointC_calculation(z: float, current_spectra_data, wavelength_column, log_file ):
+    WAVELENGTH_RESTFRAME_RANGE_POINT_C = (1280., 1290.) # 1st point for powerlaw, Point C
+
+    wavelength_observed_starting_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[0])
+    wavelength_observed_ending_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[1])
+      
+    point_C_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point_C))  
+    point_C_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point_C))
+
+    median_flux_point_C = np.median(current_spectra_data[point_C_from:point_C_to, 1])
+    median_wavelength_point_C = np.median(current_spectra_data[point_C_from:point_C_to, 0])
+
+    print(current_spectra_data[point_C_from:point_C_to, 1])
+    utility_functions.print_to_file(current_spectra_data[point_C_from:point_C_to, 1], log_file)
+    
+    return median_flux_point_C, median_wavelength_point_C
+    
+def pointB_calculation(z: float, current_spectra_data, wavelength_column):
+    WAVELENGTH_RESTFRAME_RANGE_POINT_B = (1420., 1430.)
+
+    wavelength_observed_starting_point_B = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_B[0])
+    wavelength_observed_ending_point_B = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_B[1])
+
+    point_B_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point_B))
+    point_B_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point_B))
+
+    flux_point_B = current_spectra_data[point_B_from:point_B_to, 1]  
+
+    median_flux_point_B = np.median(flux_point_B) 
+    median_wavelength_point_B = np.median(current_spectra_data[point_B_from:point_B_to, 0])
+
+    # AVERAGE ERROR FOR B POINT
+    median_flux_error_point_B = np.median(current_spectra_data[point_B_from:point_B_to, 2])  
+    st_dev_of_flux = np.std(flux_point_B[:])
+    
+    return median_flux_point_B, median_wavelength_point_B, median_flux_error_point_B, st_dev_of_flux
+    
+def pointA_calculation(z: float, current_spectra_data, wavelength_column):
+    WAVELENGTH_RESTFRAME_RANGE_POINT_A = (1690., 1710.)
+
+    wavelength_observed_starting_point_A = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_A[0])
+    wavelength_observed_ending_point_A = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_A[1])
+
+    point_A_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point_A))  
+    point_A_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point_A))
+
+    median_flux_point_A = np.median(current_spectra_data[point_A_from:point_A_to, 1])
+    median_wavelength_point_A = np.median(current_spectra_data[point_A_from:point_A_to, 0])
+    
+    return median_flux_point_A, median_wavelength_point_A
+    
 
 def normalize_spectra():
     starts_from = 0
@@ -63,25 +124,11 @@ def normalize_spectra():
             snr_value_list.append(np.float(each_row_in_file[2]))
     #============End of Reading and Assigning=============================== 
 
-
-    b = 1250 #powerlaw
-    c = -0.5 #powerlaw
-
     processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], []
-
     powerlaw_not_made = []
 
-    #==================POWERLAW FUNCTION==============================
-    # Powerlaw function takes 3 parameters. Parameters b and c are defined above.
-    # The parameter x is calculation of wavelength. The powerlaw calculates a value
-    # as in formula and return a floating value. 
-    def powerlaw(x, b, c):
-        return b * (np.power(x, c))
-    #==================END OF POWERLAW FUNCTION=========================
-        
-
     ################################################################################
-    ###########THIS HUGE FOR LOOP STARTS HERE AND FINISHES AROUND LINE 450s ########
+    ###########THIS HUGE FOR LOOP STARTS HERE AND FINISHES AROUND LINE ~310 ########
 
     for index in good_categorized_spectra_range:
     
@@ -102,66 +149,20 @@ def normalize_spectra():
         wavelength_observed_to = (z + 1) * WAVELENGTH_RANGE_RESTFRAME[1]
 
         ######################### POINT C (LEFTMOST POINT) ##########################
-        WAVELENGTH_RESTFRAME_RANGE_POINT_C = (1280., 1290.) # 1st point for powerlaw, Point C
-
-        wavelength_observed_starting_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[0])
-        wavelength_observed_ending_point_C = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_C[1])
-          
-        point_C_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point_C))  
-        point_C_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point_C))
-    
-        median_flux_point_C = np.median(current_spectra_data[point_C_from:point_C_to, 1])
-        median_wavelength_point_C = np.median(current_spectra_data[point_C_from:point_C_to, 0])
-
-        print(current_spectra_data[point_C_from:point_C_to, 1])
-        utility_functions.print_to_file(current_spectra_data[point_C_from:point_C_to, 1], log_file)
+        median_flux_point_C, median_wavelength_point_C = pointC_calculation(z, current_spectra_data, wavelength_column, log_file)
 
         ######################### POINT A #########################################
-        WAVELENGTH_RESTFRAME_RANGE_POINT_A = (1690., 1710.)
-
-        wavelength_observed_starting_point_A = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_A[0])
-        wavelength_observed_ending_point_A = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_A[1])
-
-        point_A_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point_A))  
-        point_A_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point_A))
-    
-        median_flux_point_A = np.median(current_spectra_data[point_A_from:point_A_to, 1])
-        median_wavelength_point_A = np.median(current_spectra_data[point_A_from:point_A_to, 0])
+        median_flux_point_A, median_wavelength_point_A = pointA_calculation(z, current_spectra_data, wavelength_column)
        
         ######################## B POINT AND THREE POINTS #######################
-        WAVELENGTH_RESTFRAME_RANGE_POINT_B = (1420., 1430.)
-
-        wavelength_observed_starting_point_B = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_B[0])
-        wavelength_observed_ending_point_B = (z + 1) * (WAVELENGTH_RESTFRAME_RANGE_POINT_B[1])
-
-        point_B_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point_B))
-        point_B_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point_B))
-
-        flux_point_B = current_spectra_data[point_B_from:point_B_to, 1]  
-    
-        median_flux_point_B = np.median(flux_point_B) 
-        median_wavelength_point_B = np.median(current_spectra_data[point_B_from:point_B_to, 0])
-
-        # AVERAGE ERROR FOR B POINT
-        median_flux_error_point_B = np.median(current_spectra_data[point_B_from:point_B_to, 2])  
-        st_dev_of_flux = np.std(flux_point_B[:])
+        median_flux_point_B, median_wavelength_point_B, median_flux_error_point_B, st_dev_of_flux = pointB_calculation(z, current_spectra_data, wavelength_column)
 
         # THE THREE POINTS (THE THREE POINTS THAT THE original power law WILL USE), Points C, Point B, Point A
         power_law_datax = (median_wavelength_point_C, median_wavelength_point_B, median_wavelength_point_A)
         power_law_datay = (median_flux_point_C, median_flux_point_B, median_flux_point_A)
 
-        # Get rid of this later
-        # THE THREE POINTS (THE THREE POINTS THAT THE second power law WILL USE), Points D, Point A, Point B (old, not relevant)
-        power_law_datax2 = (median_wavelength_point_B, median_wavelength_point_A)
-        power_law_datay2 = (median_flux_point_B, median_flux_point_A)
-
-        ############# END OF B POINT AND THREE POINTS #################################
-        
-
         # BASICALLY, DEFINING MY WAVELENGTH, FLUX, AND ERROR (OR CHOOSING THEIR RANGE)
         wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RANGE_RESTFRAME[0], WAVELENGTH_RANGE_RESTFRAME[1], z, current_spectra_data)
-
-        fev = 10000
 
         print(power_law_datax)
         utility_functions.print_to_file(power_law_datax, log_file)
@@ -253,7 +254,7 @@ def normalize_spectra():
             plt.text(((wavelength_observed_from + wavelength_observed_to)/2.17), np.max(flux), f"z= {z} snr={snr} snr_1326={snr_mean_in_ehvo}" , style = 'italic')
             plt.plot(median_wavelength_point_B, median_flux_point_B, 'yo')
             plt.plot(wavelength, flux, color = "blue", linestyle = "-")
-            plt.plot(power_law_datax2, power_law_datay2, 'ro')
+            plt.plot(power_law_datax, power_law_datay, 'ro')
             plt.plot(wavelength, error, color = "black", linestyle = "-")
             
         else:
@@ -272,7 +273,6 @@ def normalize_spectra():
             plt.plot(wavelength, error, color = "black", linestyle = "-")
             plt.plot(wavelength_test_1, flux_test_1, color = "magenta", linestyle = "-")
             plt.plot(wavelength_test_2, flux_test_2, color = "yellow", linestyle = "-")
-
 
         original_pdf.savefig()
         plt.close(index + 1)
@@ -298,16 +298,13 @@ def normalize_spectra():
         plt.close(index + 1)
 
         # End of Figure 2
-        
-        www = (wavelength, normalizing, error_normalized)
-        www = (np.transpose(www))
+
+        www = (np.transpose(wavelength, normalizing, error_normalized))
         oo=current_spectrum_file_name[0:20]
         
         np.savetxt(specdirec + oo +'norm.dr9', www)  # ,fmt='%s')
-        #########################################################################################
 
-
-    ############### THE FOR LOOP STARTED AT LINE ~95 FINISHED HERE #####################
+    ############### THE FOR LOOP STARTED AT LINE ~130 FINISHED HERE #####################
     #####################################################################################
 
     # EVERYTHING BELOW IS NOT IN THE FOR LOOP
