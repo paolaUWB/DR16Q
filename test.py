@@ -3,7 +3,8 @@ import utility_functions
 import time
 import difflib
 
-normalization.normalize_spectra()
+STARTS_FROM, ENDS_AT = 0, 9
+normalization.normalize_spectra(STARTS_FROM, ENDS_AT)
 
 expected_results = "new_correct_output.txt"
 current_results = "log.txt"
