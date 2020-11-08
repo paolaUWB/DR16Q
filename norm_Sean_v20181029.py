@@ -6,7 +6,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-import utility_functions
+from utility_functions import print_to_file, clear_file
+from collections import namedtuple
 
 
 b = 1250 # powerlaw
@@ -17,6 +18,7 @@ WAVELENGTH_RANGE_FOR_SNR = (1250., 1400.)
 WAVELENGTH_RESTFRAME_RANGE_POINT_A = (1690., 1710.)
 WAVELENGTH_RESTFRAME_RANGE_POINT_B = (1420., 1430.)
 WAVELENGTH_RESTFRAME_RANGE_POINT_C = (1280., 1290.)
+Point = namedtuple('Point', ['wavelength', 'flux', 'error'])
 
 config_file = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
@@ -62,7 +64,7 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
 def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     print(str(index + 1) + ": " + spectrum_file_name)
-    utility_functions.print_to_file(str(index + 1) + ": " + spectrum_file_name, log_file)
+    print_to_file(str(index + 1) + ": " + spectrum_file_name, log_file)
 
     current_spectra_data = np.loadtxt(specdirec + spectrum_file_name)
 
@@ -71,38 +73,38 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     # POINT C (LEFTMOST POINT)
     wavelength_point_C, flux_point_C, error_point_C = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_RANGE_POINT_C[0], WAVELENGTH_RESTFRAME_RANGE_POINT_C[1], z, current_spectra_data)
-    median_wavelength_point_C, median_flux_point_C = np.median(wavelength_point_C), np.median(flux_point_C)
+    point_C = Point(np.median(wavelength_point_C), np.median(flux_point_C), np.median(error_point_C))
 
     print(flux_point_C)
-    utility_functions.print_to_file(flux_point_C, log_file)
+    print_to_file(flux_point_C, log_file)
         
     # POINT B (MIDDLE POINT)
     wavelength_point_B, flux_point_B, error_point_B = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_RANGE_POINT_B[0], WAVELENGTH_RESTFRAME_RANGE_POINT_B[1], z, current_spectra_data)
-    median_wavelength_point_B, median_flux_point_B, median_error_point_B = np.median(wavelength_point_B), np.median(flux_point_B), np.median(error_point_B)
+    point_B = Point(np.median(wavelength_point_B), np.median(flux_point_B), np.median(error_point_B))
     st_dev_of_flux = np.std(flux_point_B)
         
     # POINT A (RIGHTMOST POINT)
     wavelength_point_A, flux_point_A, error_point_A = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_RANGE_POINT_A[0], WAVELENGTH_RESTFRAME_RANGE_POINT_A[1], z, current_spectra_data)
-    median_wavelength_point_A, median_flux_point_A = np.median(wavelength_point_A), np.median(flux_point_A)
+    point_A = Point(np.median(wavelength_point_A), np.median(flux_point_A), np.median(error_point_A))
 
     # THE THREE POINTS THAT THE POWER LAW WILL USE (Points C, B, and A)
-    power_law_datax = (median_wavelength_point_C, median_wavelength_point_B, median_wavelength_point_A)
-    power_law_datay = (median_flux_point_C, median_flux_point_B, median_flux_point_A)
+    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
+    power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
 
     # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
     wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RANGE_RESTFRAME[0], WAVELENGTH_RANGE_RESTFRAME[1], z, current_spectra_data)
 
-    print(power_law_datax)
-    utility_functions.print_to_file(power_law_datax, log_file)
-    print(power_law_datay)
-    utility_functions.print_to_file(power_law_datay, log_file)
+    print(power_law_data_x)
+    print_to_file(power_law_data_x, log_file)
+    print(power_law_data_y)
+    print_to_file(power_law_data_y, log_file)
 
     # CURVE FIT FOR FIRST POWERLAW
     try:
-        pars, covar = curve_fit(powerlaw, power_law_datax, power_law_datay, p0=[b, c], maxfev=10000)
+        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
     except:
         print("Error - curve_fit failed-1st powerlaw " + spectrum_file_name)
-        utility_functions.print_to_file("Error - curve_fit failed-1st powerlaw " + spectrum_file_name, log_file)
+        print_to_file("Error - curve_fit failed-1st powerlaw " + spectrum_file_name, log_file)
 
     bf, cf = pars[0], pars[1]
 
@@ -133,19 +135,19 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
     failed_test_1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if failed_test_1:
         print("failed_test_1: ", failed_test_1)
-        utility_functions.print_to_file("failed_test_1: " + str(failed_test_1), log_file)
+        print_to_file("failed_test_1: " + str(failed_test_1), log_file)
 
     wavelength_test_2, flux_test_2, error_test_2 = wavelength_flux_error_in_range(1315., 1325., z, current_spectra_data)
     normalized_flux_test_2 = flux_test_2/powerlaw(wavelength_test_2, bf, cf)
     failed_test_2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
     if failed_test_2:
         print("failed_test_2: ", failed_test_2)
-        utility_functions.print_to_file("failed_test_2: " + str(failed_test_2), log_file)
+        print_to_file("failed_test_2: " + str(failed_test_2), log_file)
 
     if failed_test_1 and failed_test_2:
         error_message = "Flagging figure #" + str(index + 1) + ", file name: " + spectrum_file_name
         print(error_message)
-        utility_functions.print_to_file(error_message, log_file)
+        print_to_file(error_message, log_file)
     ##########################################################
 
     # SNR Calculations:
@@ -158,16 +160,16 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     # PLOT FIGURE
     plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
-    plt.plot(median_wavelength_point_B, median_flux_point_B - median_error_point_B, 'yo')
-    plt.plot(median_wavelength_point_B, median_flux_point_B - 3 * (median_error_point_B), 'yo')
-    plt.plot(median_wavelength_point_B, median_flux_point_B - st_dev_of_flux, color = "green", marker = "o")
+    plt.plot(point_B.wavelength, point_B.flux - point_B.error, 'yo')
+    plt.plot(point_B.wavelength, point_B.flux - 3 * (point_B.error), 'yo')
+    plt.plot(point_B.wavelength, point_B.flux - st_dev_of_flux, color = "green", marker = "o")
     plt.title(spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
     plt.text(((wavelength_observed_from + wavelength_observed_to)/2.17), np.max(flux), f"z= {z} snr={snr} snr_1325={snr_mean_in_ehvo}")
-    plt.plot(median_wavelength_point_B, median_flux_point_B, 'yo')
+    plt.plot(point_B.wavelength, point_B.flux, 'yo')
     plt.plot(wavelength, flux, color = "blue", linestyle = "-")
-    plt.plot(power_law_datax, power_law_datay, 'ro')
+    plt.plot(power_law_data_x, power_law_data_y, 'ro')
     plt.plot(wavelength, error, color = "black", linestyle = "-")
     plt.plot(wavelength_test_1, flux_test_1, color = "magenta", linestyle = "-")
     plt.plot(wavelength_test_2, flux_test_2, color = "yellow", linestyle = "-")
@@ -206,7 +208,7 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
 
 def normalize_spectra(starting_index: int, ending_index: int):
-    utility_functions.clear_file(log_file)
+    clear_file(log_file)
 
     spectra_list, redshift_value_list, snr_value_list = [], [], []
 
