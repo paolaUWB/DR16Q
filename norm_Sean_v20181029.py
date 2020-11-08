@@ -159,7 +159,6 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
     plt.figure(index + 1)
 
     # PLOT FIGURE
-    plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
     plt.plot(point_B.wavelength, point_B.flux - point_B.error, 'yo')
     plt.plot(point_B.wavelength, point_B.flux - 3 * (point_B.error), 'yo')
     plt.plot(point_B.wavelength, point_B.flux - st_dev_of_flux, color = "green", marker = "o")
@@ -168,11 +167,12 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
     plt.ylabel("Flux[10^[-17]]cgs")
     plt.text(((wavelength_observed_from + wavelength_observed_to)/2.17), np.max(flux), f"z= {z} snr={snr} snr_1325={snr_mean_in_ehvo}")
     plt.plot(point_B.wavelength, point_B.flux, 'yo')
-    plt.plot(wavelength, flux, color = "blue", linestyle = "-")
+    plt.plot(wavelength, flux, color = "xkcd:ultramarine", linestyle = "-")
     plt.plot(power_law_data_x, power_law_data_y, 'ro')
     plt.plot(wavelength, error, color = "black", linestyle = "-")
-    plt.plot(wavelength_test_1, flux_test_1, color = "magenta", linestyle = "-")
-    plt.plot(wavelength_test_2, flux_test_2, color = "yellow", linestyle = "-")
+    plt.plot(wavelength_test_1, flux_test_1, color = "xkcd:green apple", linestyle = "-")
+    plt.plot(wavelength_test_2, flux_test_2, color = "xkcd:bubblegum", linestyle = "-")
+    plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
 
     original_pdf.savefig()
     plt.close(index + 1)
@@ -185,14 +185,14 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     plt.text(wavelength_observed_from + 1000, np.max(flux_normalized) - 0.2, spectrum_file_name)
     plt.title(spectrum_file_name)
-    plt.plot(wavelength, flux_normalized, color = "blue", linestyle = "-")
-    plt.plot((wavelength[0], wavelength[-1]), (1, 1), color = "red", linestyle = "-")
+    plt.plot(wavelength, flux_normalized, color = "xkcd:ultramarine", linestyle = "-")
     plt.plot(wavelength, error_normalized, color = "black", linestyle = "-")
     plt.title("normalized data vs. normalized error")
     plt.xlabel("Wavelength [A]")
     plt.ylabel("Normalized Flux[10^[-17]]cgs")
-    plt.plot(wavelength_test_1, normalized_flux_test_1, color = "magenta", linestyle = "-")
-    plt.plot(wavelength_test_2, normalized_flux_test_2, color = "yellow", linestyle = "-")
+    plt.plot(wavelength_test_1, normalized_flux_test_1, color = "xkcd:green apple", linestyle = "-")
+    plt.plot(wavelength_test_2, normalized_flux_test_2, color = "xkcd:bubblegum", linestyle = "-")
+    plt.plot((wavelength[0], wavelength[-1]), (1, 1), color = "red", linestyle = "-")
         
     normalized_pdf.savefig()
     plt.close(index + 1)
