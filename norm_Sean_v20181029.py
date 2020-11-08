@@ -1,11 +1,13 @@
 # Normalization of the quasar spectra
 # Please Check README file before changes anything!!!!
 import os
+import sys
 import numpy as np 
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 import utility_functions
+
 
 b = 1250 # powerlaw
 c = -0.5 # powerlaw
@@ -16,11 +18,7 @@ WAVELENGTH_RESTFRAME_RANGE_POINT_A = (1690., 1710.)
 WAVELENGTH_RESTFRAME_RANGE_POINT_B = (1420., 1430.)
 WAVELENGTH_RESTFRAME_RANGE_POINT_C = (1280., 1290.)
 
-#For IDE run, locate the file
-config_file = "sorted_norm.csv" 
-
-#For command line, activate this config_file
-#config_file = sys.argv[1]
+config_file = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
 # Set location of spectrum files and create pdfs
 specdirec = os.getcwd() + "/files/"
@@ -31,14 +29,14 @@ normalized_pdf = PdfPages('normalized_all_graph_Sean.pdf')
 def powerlaw(wavelength, b, c) -> float:
     return b * (np.power(wavelength, c))
 
-def wavelength_flux_error_points(starting_point: float, ending_point: float, z: float, spectra_data):
+def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data):
     wavelength_column = spectra_data[:, 0]
 
-    wavelength_observed_starting_point = (z + 1) * starting_point
-    wavelength_observed_ending_point = (z + 1) * ending_point
+    wavelength_observed_start = (z + 1) * starting_point
+    wavelength_observed_end = (z + 1) * ending_point
 
-    point_from = np.max(np.where(wavelength_column < wavelength_observed_starting_point))
-    point_to = np.min(np.where(wavelength_column > wavelength_observed_ending_point))
+    point_from = np.max(np.where(wavelength_column < wavelength_observed_start))
+    point_to = np.min(np.where(wavelength_column > wavelength_observed_end))
 
     wavelength = spectra_data[point_from:point_to, 0]
     flux = spectra_data[point_from:point_to, 1] 
@@ -61,7 +59,6 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     
     return wavelength, flux, error
 
-
 def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     print(str(index + 1) + ": " + spectrum_file_name)
@@ -73,19 +70,19 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
     wavelength_observed_to = (z + 1) * WAVELENGTH_RANGE_RESTFRAME[1]
 
     # POINT C (LEFTMOST POINT)
-    wavelength_point_C, flux_point_C, error_point_C = wavelength_flux_error_points(WAVELENGTH_RESTFRAME_RANGE_POINT_C[0], WAVELENGTH_RESTFRAME_RANGE_POINT_C[1], z, current_spectra_data)
+    wavelength_point_C, flux_point_C, error_point_C = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_RANGE_POINT_C[0], WAVELENGTH_RESTFRAME_RANGE_POINT_C[1], z, current_spectra_data)
     median_wavelength_point_C, median_flux_point_C = np.median(wavelength_point_C), np.median(flux_point_C)
 
     print(flux_point_C)
     utility_functions.print_to_file(flux_point_C, log_file)
         
     # POINT B (MIDDLE POINT)
-    wavelength_point_B, flux_point_B, error_point_B = wavelength_flux_error_points(WAVELENGTH_RESTFRAME_RANGE_POINT_B[0], WAVELENGTH_RESTFRAME_RANGE_POINT_B[1], z, current_spectra_data)
+    wavelength_point_B, flux_point_B, error_point_B = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_RANGE_POINT_B[0], WAVELENGTH_RESTFRAME_RANGE_POINT_B[1], z, current_spectra_data)
     median_wavelength_point_B, median_flux_point_B, median_error_point_B = np.median(wavelength_point_B), np.median(flux_point_B), np.median(error_point_B)
     st_dev_of_flux = np.std(flux_point_B)
         
     # POINT A (RIGHTMOST POINT)
-    wavelength_point_A, flux_point_A, error_point_A = wavelength_flux_error_points(WAVELENGTH_RESTFRAME_RANGE_POINT_A[0], WAVELENGTH_RESTFRAME_RANGE_POINT_A[1], z, current_spectra_data)
+    wavelength_point_A, flux_point_A, error_point_A = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_RANGE_POINT_A[0], WAVELENGTH_RESTFRAME_RANGE_POINT_A[1], z, current_spectra_data)
     median_wavelength_point_A, median_flux_point_A = np.median(wavelength_point_A), np.median(flux_point_A)
 
     # THE THREE POINTS THAT THE POWER LAW WILL USE (Points C, B, and A)
@@ -109,26 +106,26 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     bf, cf = pars[0], pars[1]
 
-    normalizing = flux/powerlaw(wavelength, bf, cf)
+    flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
 
-    for n in range(1, len(normalizing) - 5):          
-        if abs(normalizing[n + 1] - normalizing[n]) > 0.5:
+    for n in range(1, len(flux_normalized) - 5):          
+        if abs(flux_normalized[n + 1] - flux_normalized[n]) > 0.5:
             if error_normalized[n + 1] > 0.25:
                 error_normalized[n + 1] = error_normalized[n]
-                normalizing[n + 1] = normalizing[n]  # normalized graph
-                error[n + 1] = error[n]  # original error
-                flux[n + 1] = flux[n]  # original graph
+                flux_normalized[n + 1] = flux_normalized[n]
+                error[n + 1] = error[n]
+                flux[n + 1] = flux[n]
         if error_normalized[n] > 0.5:
             error_normalized[n] = error_normalized[n-1]
-            normalizing[n] = normalizing[n - 1]  # normalized graph
-            error[n] = error[n - 1]  # original error
-            flux[n] = flux[n - 1]  # original graph
-        if abs(normalizing[n + 1] - normalizing[n]) > 5:
+            flux_normalized[n] = flux_normalized[n - 1]
+            error[n] = error[n - 1]
+            flux[n] = flux[n - 1]
+        if abs(flux_normalized[n + 1] - flux_normalized[n]) > 5:
             error_normalized[n + 1] = error_normalized[n]
-            normalizing[n + 1] = normalizing[n]  # normalized graph
-            error[n + 1] = error[n]  # original error
-            flux[n + 1] = flux[n]  # original graph
+            flux_normalized[n + 1] = flux_normalized[n]
+            error[n + 1] = error[n]
+            flux[n + 1] = flux[n]
 
     ############# TESTING TWO REGIONS ##########################
     wavelength_test_1, flux_test_1, error_test_1 = wavelength_flux_error_in_range(1350., 1360., z, current_spectra_data)
@@ -184,9 +181,9 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
     plt.figure(index + 1)
     0.2, "z=" + str(z) + " snr=" + str(snr)
 
-    plt.text(wavelength_observed_from + 1000, np.max(normalizing) - 0.2, spectrum_file_name)
+    plt.text(wavelength_observed_from + 1000, np.max(flux_normalized) - 0.2, spectrum_file_name)
     plt.title(spectrum_file_name)
-    plt.plot(wavelength, normalizing, color = "blue", linestyle = "-")
+    plt.plot(wavelength, flux_normalized, color = "blue", linestyle = "-")
     plt.plot((wavelength[0], wavelength[-1]), (1, 1), color = "red", linestyle = "-")
     plt.plot(wavelength, error_normalized, color = "black", linestyle = "-")
     plt.title("normalized data vs. normalized error")
@@ -200,7 +197,7 @@ def process_sprectra_and_draw_figure(index: int, z, snr, spectrum_file_name):
 
     # End of Figure 2
 
-    www = (wavelength, normalizing, error_normalized)
+    www = (wavelength, flux_normalized, error_normalized)
     www = (np.transpose(www))
     oo=spectrum_file_name[0:20]
         
