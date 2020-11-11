@@ -178,6 +178,7 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
             flux[n + 1] = flux[n]
 
     ############# TESTING TWO REGIONS ##########################
+    flagged = False
     test1 = wavelength_flux_error_in_range(1350., 1360., z, current_spectra_data)
     normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
     failed_test_1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
@@ -193,6 +194,7 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
         print_to_file("failed_test_2: " + str(failed_test_2), LOG_FILE)
 
     if failed_test_1 and failed_test_2:
+        flagged = True
         error_message = "Flagging figure #" + str(index) + ", file name: " + spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
@@ -212,7 +214,7 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
     www = (wavelength, flux_normalized, error_normalized)
     www = (np.transpose(www))  
     np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] +'norm.dr9', www)  # ,fmt='%s')
-    return bf, cf
+    return bf, cf, flagged
 
 
 def normalize_spectra(starting_index: int, ending_index: int):
@@ -227,29 +229,38 @@ def normalize_spectra(starting_index: int, ending_index: int):
             snr_value_list.append(np.float(each_row_in_file[2]))
 
     indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
+    flagged_indices, flagged_spectra_indices, flagged_spectra_file_names = [], [], []
 
     for spectra_index in range(starting_index, ending_index + 1):
         z = round(redshift_value_list[spectra_index - 1], 5)
         snr = round(snr_value_list[spectra_index - 1], 5)
         current_spectrum_file_name = spectra_list[spectra_index - 1]
-        b_final, c_final = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
+        b_final, c_final, failed_test = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
        
         # add condition here?
         powerlaw_final_b_values.append(b_final)
         powerlaw_final_c_values.append(c_final)
         processed_spectra_file_names.append(current_spectrum_file_name)
-        spectra_indices.append(spectra_index)
         indices.append(spectra_index - starting_index + 1)
+        spectra_indices.append(spectra_index)
+        if failed_test:
+            flagged_spectra_file_names.append(current_spectrum_file_name)
+            flagged_indices.append(spectra_index - starting_index + 1)
+            flagged_spectra_indices.append(spectra_index)
 
 
     final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
     final_initial_parameters = (np.transpose(final_initial_parameters))
+
+    flagged_graphs = [flagged_indices, flagged_spectra_indices, flagged_spectra_file_names]
+    flagged_graphs = (np.transpose(flagged_graphs))
         
     ORIGINAL_PDF.close()
     NORMALIZED_PDF.close()
 
     np.savetxt(SPEC_DIREC + "/Final_Initial_Parameters.txt", final_initial_parameters, fmt="%s")
     np.savetxt(SPEC_DIREC + "/good_spectra.txt", processed_spectra_file_names, fmt='%s')
+    np.savetxt(SPEC_DIREC + "/flagged_graphs.txt", flagged_graphs, fmt='%s')
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
