@@ -11,7 +11,7 @@ from collections import namedtuple
 
 b = 1250 # powerlaw
 c = -0.5 # powerlaw
-STARTS_FROM, ENDS_AT = 0, 9
+STARTS_FROM, ENDS_AT = 1, 9
 Range = namedtuple('Range', ['start', 'end'])
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 WAVELENGTH_FOR_SNR = Range(1250., 1400.)
@@ -109,8 +109,8 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
 
 def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
 
-    print(str(index + 1) + ": " + spectrum_file_name)
-    print_to_file(str(index + 1) + ": " + spectrum_file_name, LOG_FILE)
+    print(str(index) + ": " + spectrum_file_name)
+    print_to_file(str(index) + ": " + spectrum_file_name, LOG_FILE)
 
     current_spectra_data = np.loadtxt(SPEC_DIREC + spectrum_file_name)
 
@@ -193,7 +193,7 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
         print_to_file("failed_test_2: " + str(failed_test_2), LOG_FILE)
 
     if failed_test_1 and failed_test_2:
-        error_message = "Flagging figure #" + str(index + 1) + ", file name: " + spectrum_file_name
+        error_message = "Flagging figure #" + str(index) + ", file name: " + spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
     ##########################################################
@@ -226,20 +226,23 @@ def normalize_spectra(starting_index: int, ending_index: int):
             redshift_value_list.append(np.float(each_row_in_file[1]))
             snr_value_list.append(np.float(each_row_in_file[2]))
 
-    processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], []
+    indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
 
-    for spectra_index in range(starting_index, ending_index):
-        z = round(redshift_value_list[spectra_index], 5)
-        snr = round(snr_value_list[spectra_index], 5)
-        current_spectrum_file_name = spectra_list[spectra_index]
+    for spectra_index in range(starting_index, ending_index + 1):
+        z = round(redshift_value_list[spectra_index - 1], 5)
+        snr = round(snr_value_list[spectra_index - 1], 5)
+        current_spectrum_file_name = spectra_list[spectra_index - 1]
         b_final, c_final = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
        
         # add condition here?
         powerlaw_final_b_values.append(b_final)
         powerlaw_final_c_values.append(c_final)
         processed_spectra_file_names.append(current_spectrum_file_name)
+        spectra_indices.append(spectra_index)
+        indices.append(spectra_index - starting_index + 1)
 
-    final_initial_parameters = [processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
+
+    final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
     final_initial_parameters = (np.transpose(final_initial_parameters))
         
     ORIGINAL_PDF.close()
