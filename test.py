@@ -3,12 +3,12 @@ import utility_functions
 import time
 import difflib
 
-STARTS_FROM, ENDS_AT = 0, 9
+STARTS_FROM, ENDS_AT = 1, 9
 LOG_FILE = "log.txt"
 normalization.clear_file(LOG_FILE)
 normalization.normalize_spectra(STARTS_FROM, ENDS_AT)
 
-expected_results = "new_correct_output.txt"
+expected_results = "correct_output.txt"
 
 with open(expected_results, 'r') as file1:
     with open(LOG_FILE, 'r') as file2:

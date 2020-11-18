@@ -24,14 +24,14 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 # Set location of spectrum files and create pdfs
 SPEC_DIREC = os.getcwd() + "/files/"
 LOG_FILE = "log.txt"
-ORIGINAL_PDF = PdfPages('original_all_graph_Sean.pdf') 
-NORMALIZED_PDF = PdfPages('normalized_all_graph_Sean.pdf')
+ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
+NORMALIZED_PDF = PdfPages('normalized_graphs.pdf')
 
 PointData = namedtuple('PointData', ['wavelength', 'flux', 'error'])
 RangesData = namedtuple('RangesData', ['wavelength', 'flux', 'error'])
-FigureData = namedtuple('FigureData', ['spectrum_file_name', 'wavelength_from', 'wavelength_to'])
+FigureData = namedtuple('FigureData', ['spectrum_file_name', 'wavelength_from', 'wavelength_to', 'z', 'snr', 'snr_mean_in_ehvo'])
 FigureDataOriginal = namedtuple('FigureDataOriginal',
-                    ['FigureData','bf', 'cf', 'power_law_data_x', 'power_law_data_y', 'st_dev_of_flux', 'z', 'snr', 'snr_mean_in_ehvo' ])
+                    ['FigureData','bf', 'cf', 'power_law_data_x', 'power_law_data_y', 'st_dev_of_flux'])
 DataNormalized = namedtuple('DataNormalized', ['flux_normalized', 'error_normalized'])
 
 def powerlaw(wavelength, b, c) -> float:
@@ -67,19 +67,15 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     
     return RangesData(wavelength, flux, error)
 
-def draw_original_figure(figure_index: int, point_B: PointData, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData):
+def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData):
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
-    subtitle_text = f"z= {data.z} snr={data.snr} snr_1325={data.snr_mean_in_ehvo}"
+    subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_1325={data.FigureData.snr_mean_in_ehvo}"
     plt.figure(figure_index + 1)
-    plt.plot(point_B.wavelength, point_B.flux - point_B.error, 'yo')
-    plt.plot(point_B.wavelength, point_B.flux - 3 * (point_B.error), 'yo')
-    plt.plot(point_B.wavelength, point_B.flux - data.st_dev_of_flux, color = "green", marker = "o")
     plt.title(data.FigureData.spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
-    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.17), np.max(original_ranges.flux), subtitle_text)
-    plt.plot(point_B.wavelength, point_B.flux, 'yo')
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.15), np.max(original_ranges.flux), subtitle_text)
     plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
     plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
     plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
@@ -93,12 +89,14 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2):
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
+    subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_1325={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index + 1) 
-    plt.text(figure_data.wavelength_from + 1000, np.max(normalized_data.flux_normalized) - 0.2, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.15), np.max(normalized_data.flux_normalized) - 0.2, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.15), np.max(normalized_data.flux_normalized), subtitle_text)
     plt.title(figure_data.spectrum_file_name)
     plt.plot(original_ranges.wavelength, normalized_data.flux_normalized, color = main_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, normalized_data.error_normalized, color = "black", linestyle = "-")
-    plt.title("normalized data vs. normalized error")
+    plt.title("Normalized Data vs. Normalized Error")
     plt.xlabel("Wavelength [A]")
     plt.ylabel("Normalized Flux[10^[-17]]cgs")
     plt.plot(test1.wavelength, normalized_flux_test_1, color = test_1_color, linestyle = "-")
@@ -205,10 +203,10 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
     wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
 
-    figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to)
-    original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y, st_dev_of_flux, z, snr, snr_mean_in_ehvo)
+    figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
+    original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y, st_dev_of_flux)
     
-    draw_original_figure(index, point_B, original_ranges, original_figure_data, test1, test2)
+    draw_original_figure(index, original_ranges, original_figure_data, test1, test2)
     draw_normalized_figure(index, original_ranges, figure_data, normalized_data, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
     www = (wavelength, flux_normalized, error_normalized)
