@@ -26,6 +26,7 @@ LOG_FILE = "log.txt"
 FINAL_INIT_PARAMS_FILENAME = "final_initial_parameters.txt"
 GOOD_SPECTRA_FILENAME = "good_spectra.txt"
 FLAGGED_GRAPHS_FILENAME = "flagged_graphs.txt"
+FLAGGED_SNR_GRAPHS_FILENAME = "flagged_snr_in_ehvo_graphs.txt"
 
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
@@ -81,12 +82,12 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
 def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData):
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
-    subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_1325={data.FigureData.snr_mean_in_ehvo}"
+    subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
     plt.figure(figure_index + 1)
     plt.title(data.FigureData.spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
-    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.15), np.max(original_ranges.flux), subtitle_text)
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), np.max(original_ranges.flux), subtitle_text)
     plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
     plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
     plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
@@ -100,10 +101,10 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2):
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
-    subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_1325={figure_data.snr_mean_in_ehvo}"
+    subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index + 1) 
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.15), np.max(normalized_data.flux_normalized) - 0.2, figure_data.spectrum_file_name)
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.15), np.max(normalized_data.flux_normalized), subtitle_text)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(normalized_data.flux_normalized)/1.07, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(normalized_data.flux_normalized), subtitle_text)
     plt.title(figure_data.spectrum_file_name)
     plt.plot(original_ranges.wavelength, normalized_data.flux_normalized, color = main_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, normalized_data.error_normalized, color = "black", linestyle = "-")
@@ -201,6 +202,10 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     ##########################################################
 
+    flagged_snr_mean_in_ehvo = False
+    if snr_mean_in_ehvo < 10.:
+        flagged_snr_mean_in_ehvo = True
+
     figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
     
@@ -210,7 +215,7 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
     np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + 'norm.dr9', norm_w_f_e)
-    return bf, cf, flagged
+    return bf, cf, flagged, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo
 
 
 def main(starting_index: int, ending_index: int):
@@ -226,12 +231,13 @@ def main(starting_index: int, ending_index: int):
 
     indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
     flagged_indices, flagged_spectra_indices, flagged_spectra_file_names = [], [], []
+    flagged_snr_indices, flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values = [], [], [], []
 
     for spectra_index in range(starting_index, ending_index + 1):
         z = round(redshift_value_list[spectra_index - 1], 5)
         snr = round(snr_value_list[spectra_index - 1], 5)
         current_spectrum_file_name = spectra_list[spectra_index - 1]
-        b_final, c_final, failed_test = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
+        b_final, c_final, failed_test, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
        
         # add condition here?
         powerlaw_final_b_values.append(b_final)
@@ -243,13 +249,22 @@ def main(starting_index: int, ending_index: int):
             flagged_spectra_file_names.append(current_spectrum_file_name)
             flagged_indices.append(spectra_index - starting_index + 1)
             flagged_spectra_indices.append(spectra_index)
-
+        
+        if flagged_snr_mean_in_ehvo:
+            flagged_snr_spectra_file_names.append(current_spectrum_file_name)
+            flagged_snr_indices.append(spectra_index - starting_index + 1)
+            flagged_snr_spectra_indices.append(spectra_index)
+            flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
 
     final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
     final_initial_parameters = (np.transpose(final_initial_parameters))
 
     flagged_graphs = [flagged_indices, flagged_spectra_indices, flagged_spectra_file_names]
     flagged_graphs = (np.transpose(flagged_graphs))
+
+    flagged_snr_in_ehvo_graphs = [flagged_snr_indices, flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
+    flagged_snr_in_ehvo_graphs = (np.transpose(flagged_snr_in_ehvo_graphs))
+    flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_graphs[:,3].argsort()] # sort by snr_mean_in_ehvo column
         
     ORIGINAL_PDF.close()
     NORMALIZED_PDF.close()
@@ -257,6 +272,7 @@ def main(starting_index: int, ending_index: int):
     np.savetxt(SPEC_DIREC + "/" + FINAL_INIT_PARAMS_FILENAME, final_initial_parameters, fmt="%s")
     np.savetxt(SPEC_DIREC + "/" + GOOD_SPECTRA_FILENAME, processed_spectra_file_names, fmt='%s')
     np.savetxt(SPEC_DIREC + "/" + FLAGGED_GRAPHS_FILENAME, flagged_graphs, fmt='%s')
+    np.savetxt(SPEC_DIREC + "/" + FLAGGED_SNR_GRAPHS_FILENAME, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)

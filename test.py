@@ -2,9 +2,8 @@ import normalization
 import utility_functions
 import time
 import difflib
-from normalization import LOG_FILE
+from normalization import LOG_FILE, STARTS_FROM, ENDS_AT
 
-STARTS_FROM, ENDS_AT = 1, 9
 normalization.clear_file(LOG_FILE)
 normalization.main(STARTS_FROM, ENDS_AT)
 
