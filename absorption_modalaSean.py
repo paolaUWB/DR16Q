@@ -6,25 +6,23 @@ from scipy import signal
 from matplotlib.backends.backend_pdf import PdfPages
 import os
 import sys
+from data_types import Range
 
-NUMBER_OF_FILES = 10
-#WE can range min and max velocity limit
-max_velocity_limit = -30000.
-min_velocity_limit = -60000.
-balnicity_index = 0
-balnicity_index_limit = 1000 
+VELOCITY_LIMIT = Range(-60000., -30000)
+
+BI = 0 #change it to BI
+BALNICITY_INDEX_LIMIT = 2000 #lower limit of absorption width
 
 # Necessary data from Verner table
-wavelength_CIV_emit1 = 1550.7700
-wavelength_CIV_emit2 = 1548.1950
-avr_CIV_doublet = 1549.0524 #weighted average
-avr_SiIV_doublet = 1396.747 # weighted average; individuals: 1402.770, 1393.755
-CII_emitted = 1335.313 # (weighted average); individuals:
-OI_emitted = 1303.4951 # weighted average; individuals pag 20 in Verner Table
-avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
-avr_OVI_doublet = 1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
-non_trough_count = 100
+WAVELENGTH_CIV_EMIT_LIMIT = Range(1548.1950, 1550.7700) #never used?
+AVERAGE_CIV_DOUBLET = 1549.0524 #weighted average
+AVERAGE_SiIV_DOUBLET = 1396.747 # weighted average; individuals: 1402.770, 1393.755
+AVERAGE_NV_DOUBLET = 1240.15 # weighted average; individuals: 1242.80, 1238.82
+AVERAGE_OVI_DOUBLET=1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
+CII_EMITTED = 1335.313 # (weighted average); individuals:
+OI_EMITTED = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 
+non_trough_count = 100
 boxcar_size = 5  
 deltav = 0 #change in velocity
 part = 0
@@ -33,6 +31,7 @@ count2 = 0   # variable initialization to get into vmin/vmax loop
 SPECDIREC, OUTPUT_SPEC = os.getcwd() + "/files/", os.getcwd() + "/files/"
 ABSORPTION_PDF = PdfPages('absorptiononly_BI1000_EHVOcasescleaning.pdf')
 OUTPUT_CLEANING = 'Absorption_cleaning.txt'
+NUM_OF_FILES = 10
 
 # Do you want to include all cases (if no, it only includes those with absorption)
 # then set plotall to 'yes'
@@ -79,7 +78,10 @@ for line in open(CONFIG_FILE, 'r'):
 file_count = 0
 for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_value_list, snr_value_list):   
     
-    if file_count == NUMBER_OF_FILES:
+    #########################################################
+    ##If you dont have all files, point out stopping variable
+    ##Change NUM_OF_FILES for different value
+    if file_count == NUM_OF_FILES:
         break
 
     file_count += 1
@@ -102,7 +104,7 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
         norm_error_used = sm_error
         
     beta_list = []    # Make beta array of velocities
-    z_absC = (wavelength/avr_CIV_doublet) - 1.
+    z_absC = (wavelength/AVERAGE_CIV_DOUBLET) - 1.
     RC = (1. + z) / (1. + z_absC)
     betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.)
     betaa = -betaC * (300000.)
@@ -116,12 +118,12 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
     # Set the limits of beta based on minvel and maxvel.....................
     if beta_list.any():
         try:
-            max_limit_value = np.max(np.where(beta_list <= max_velocity_limit)) #index value of the starting point (on the very left) -- index value of minvel
+            max_limit_value = np.max(np.where(beta_list <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of minvel
         except:
             max_limit_value = 0
             
     try:
-        min_limit_value = np.min(np.where(beta_list >= min_velocity_limit)) #index value of the ending point (on the very right) -- index value of maxvel
+        min_limit_value = np.min(np.where(beta_list >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of maxvel
     except:
         min_limit_value = np.where(beta_list == np.min(beta_list))
         
@@ -131,10 +133,10 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
 
     plt.figure(file_count)
 
-    for value in beta_list_minmax_range:        
-        #balnicity index formula = [1- (f(v)/0.9)]*C
-        C = 0 
-        brac = (1. - (normalized_flux[value] / 0.9)) #Dividing f(v) by 0.9 avoids detections of shallow absorption;
+    for index in beta_list_minmax_range:     #change it to index   
+        #BI formula = [1- (f(v)/0.9)]*C
+        C = 0 #set the zero
+        brac = (1. - (normalized_flux[index] / 0.9)) #Dividing f(v) by 0.9 avoids detections of shallow absorption;
         
         # Handle 3-point
         if brac > 0:
@@ -143,9 +145,10 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
             non_trough_count += 1
             brac = 0
 
+
         if((brac > 0) or (non_trough_count <= 3)):
             
-            deltav = beta_list[value] - beta_list[value - 1]
+            deltav = beta_list[index] - beta_list[index - 1]
             part += deltav
             brac_all.append(brac)
             deltav_all.append(deltav)
@@ -154,24 +157,30 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
             EW = round(EW, 4)
             EW_ind.append(EW)          
 
-            if part >= balnicity_index_limit:
+            if part >= BALNICITY_INDEX_LIMIT:
                 #print('I am in part > countBI')
                 C = 1                
                 balnicity_index = (brac * C) * (deltav) #Calculate BAL for this dv
                 balnicity_index = round(balnicity_index, 4)
                 BI_mid.append(balnicity_index) #Append to intermediate results
 
-                BI_ind.append(balnicity_index)
+                C = 1  #set to 1 only  square bracket is continuously positive over a velocity interval            
+                BI = (brac * C) * (deltav) #Calculate BAL for this dv
+                BI = round(BI, 4)
+                BI_mid.append(BI) #Append to intermediate results
+                BI_ind.append(BI)
 
                 if non_trough_count == 0:
-                    plt.plot((beta_list[value + 1], beta_list[value]), (1.5,1.5), 'k-')
+                    
+                    plt.plot((beta_list[index + 1],beta_list[index]),(1.5,1.5),'k-')
                     #axvspan(beta[jjjs+1],beta[jjjs], alpha=0.05, color='red')
-                
+
+#vmin territory calculation and plotting                
                 if (count2 == 0) and (non_trough_count == 0):  
                     print('I am in vmin territory')
 
-                    vmins_index = np.min(np.where(beta_list >= (beta_list[value] + balnicity_index_limit)))  # vmins occurs current beta plus countBI
-                    vvvmins = beta_list[vmins_index]
+                    vmins_index = np.min(np.where(beta_list >= (beta_list[index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
+                    vvvmins = beta_list[vmins_index] #disposible array, one line
                     vvvmins = round (vvvmins,4)
                     vmins.append(vvvmins)
                     #print(vmins)
@@ -179,34 +188,36 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
                     plt.plot((beta_list[vmins_index], beta_list[vmins_index]), (-1,10),'r-')
 
                     # If the absorption is SiIV, this finds and plots where C, CII and OI would be
-                    z_absSiIV = (wavelength[value]/avr_SiIV_doublet) - 1#
+                    z_absSiIV = (wavelength[index]/AVERAGE_SiIV_DOUBLET) - 1#
                     
-                    obs_wavelength_C = (z_absSiIV + 1) * (avr_CIV_doublet)#
-                    obs_wavelength_C_index = np.min(np.where(wavelength > obs_wavelength_C))
-                    obs_wavelength_C_vel = beta_list[obs_wavelength_C_index] + balnicity_index_limit
+                    observed_wavelength_C = (z_absSiIV + 1) * (AVERAGE_CIV_DOUBLET)#
+                    obs_wavelength_C_index = np.min (np.where (wavelength > observed_wavelength_C))
+                    obs_wavelength_C_vel = beta_list[obs_wavelength_C_index] + BALNICITY_INDEX_LIMIT
                     plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel), (-1,10),'k-')
 
-                    obs_wavelength_CII = (z_absSiIV+1) * (CII_emitted)#
+                    obs_wavelength_CII = (z_absSiIV+1) * (CII_EMITTED)#
                     obs_wavelength_CII_index = np.min (np.where (wavelength>obs_wavelength_CII))                  
-                    obs_wavelength_CII_vel = beta_list[obs_wavelength_CII_index] + balnicity_index_limit
+                    obs_wavelength_CII_vel = beta_list[obs_wavelength_CII_index] + BALNICITY_INDEX_LIMIT
                     plt.plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel), (-1,10),'b-')
 
-                    obs_wavelength_OI = (z_absSiIV+1) * (OI_emitted)#
+                    obs_wavelength_OI = (z_absSiIV+1) * (OI_EMITTED)#
                     obs_wavelength_OI_index = np.min (np.where (wavelength>obs_wavelength_OI))                  
-                    obs_wavelength_OI_vel = beta_list[obs_wavelength_OI_index] + balnicity_index_limit
+                    obs_wavelength_OI_vel = beta_list[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
                     plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel), (-1,10), 'y-')
 
                     count2 = 1
-       
-                brac1 = (1. - (normalized_flux[value-1] / 0.9))
-                brac2 = (1. - (normalized_flux[value-2] / 0.9))
-                brac3 = (1. - (normalized_flux[value-3] / 0.9))
-                brac4 = (1. - (normalized_flux[value-4] / 0.9))
-                                
-                if (((brac > 0 and brac1 < 0 and brac2 < 0 and brac3 < 0 and brac4 < 0 and count2 == 1)) or (value == min_limit_value)):  
+
+                    
+                nextbrac = (1. - (normalized_flux[index-1] / 0.9))
+                nextnextbrac = (1. - (normalized_flux[index-2] / 0.9))
+                nextnextnextbrac = (1. - (normalized_flux[index-3] / 0.9))
+                nextnextnextnextbrac = (1. - (normalized_flux[index-4] / 0.9))
+
+ #vmax territory calculation and plotting                               
+                if (((brac > 0 and nextbrac < 0 and nextnextbrac < 0 and nextnextnextbrac < 0 and nextnextnextnextbrac < 0 and count2 == 1)) or (index == min_limit_value)):  
                 
-                    print("I am vmax territory!")
-                    vvmaxs = beta_list[value]  
+                    print("I am in vmax territory!")
+                    vvmaxs = beta_list[index]  
                     vmaxs_index = np.min(np.where (beta_list >= vvmaxs))
                     vvmaxs = round(vvmaxs,4)
                     vmaxs.append(vvmaxs)
@@ -215,19 +226,19 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
                     plt.axvspan(beta_list[vmins_index], beta_list[vmaxs_index], alpha = 0.2, color = 'red')
                     print('vmins=', beta_list[vmins_index])
                     print('vmaxs=', beta_list[vmaxs_index])
-                    z_absSiIV_final = (wavelength[vmaxs_index]/avr_SiIV_doublet) - 1.
+                    z_absSiIV_final = (wavelength[vmaxs_index]/AVERAGE_SiIV_DOUBLET)-1.
                     
-                    obs_wavelength_Cfinal = (z_absSiIV_final+1.) * (avr_CIV_doublet)
+                    obs_wavelength_Cfinal = (z_absSiIV_final+1.) * (AVERAGE_CIV_DOUBLET)
                     obs_wavelength_Cfinal_index = np.min(np.where(wavelength>obs_wavelength_Cfinal))
                     obs_wavelength_C_final_vel = beta_list[obs_wavelength_Cfinal_index]
                     plt.axvspan(obs_wavelength_C_vel,obs_wavelength_C_final_vel, alpha = 0.2, color = 'grey')
 
-                    obs_wavelength_CIIfinal = (z_absSiIV_final + 1.) * (CII_emitted)
+                    obs_wavelength_CIIfinal = (z_absSiIV_final + 1.) * (CII_EMITTED)
                     obs_wavelength_CIIfinal_index = np.min (np.where (wavelength>obs_wavelength_CIIfinal))
                     obs_wavelength_CII_final_vel = beta_list[obs_wavelength_CIIfinal_index]
                     plt.axvspan(obs_wavelength_CII_vel,obs_wavelength_CII_final_vel, alpha = 0.2, color = 'blue')
 
-                    obs_wavelength_OIfinal = (z_absSiIV_final + 1.) * (OI_emitted)
+                    obs_wavelength_OIfinal = (z_absSiIV_final + 1.) * (OI_EMITTED)
                     obs_wavelength_OIfinal_index = np.min (np.where (wavelength>obs_wavelength_OIfinal))
                     obs_wavelength_OI_final_vel = beta_list[obs_wavelength_OIfinal_index]
                     plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
@@ -251,7 +262,7 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
             count2 = 0 # this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
             EW_ind = []
         
-        if value == min_limit_value:
+        if index == min_limit_value:
             BI_total = round(sum(BI_mid),2)         
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
@@ -259,7 +270,7 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
    
     if (len(vmaxs) != 0) or (plotall == 'yes'):
         text = [f"{file_count};{spectrum_file_name}",
-                f"BI ({max_velocity_limit} > v > {min_velocity_limit}): {BI_total}",
+                f"BI ({VELOCITY_LIMIT.end} > v > {VELOCITY_LIMIT.start}): {BI_total}",
                 f"vmins: {vmins}",
                 f"vmaxs: {vmaxs}",
                 f"BI_individual: {BI_individual}",
