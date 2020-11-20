@@ -10,6 +10,8 @@ from utility_functions import print_to_file, clear_file
 from data_types import Range, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 
 b = 1250 # powerlaw
+print,'a'
+
 c = -0.5 # powerlaw
 STARTS_FROM, ENDS_AT = 1, 9
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
