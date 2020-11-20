@@ -29,7 +29,6 @@ deltav = 0 #change in velocity
 part = 0
 count2 = 0   # variable initialization to get into vmin/vmax loop
 
-
 SPECDIREC, OUTPUT_SPEC = os.getcwd() + "/files/", os.getcwd() + "/files/"
 ABSORPTION_PDF = PdfPages('absorptiononly_BI1000_EHVOcasescleaning.pdf')
 OUTPUT_CLEANING = 'Absorption_cleaning.txt'
@@ -37,38 +36,34 @@ NUM_OF_FILES = 10
 
 # Do you want to include all cases (if no, it only includes those with absorption)
 # then set plotall to 'yes'
-plotall='yes'
+plotall = 'yes'
 
 # Do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error,
 # then set sm to 'yes'
-sm='yes'
+sm = 'yes'
 
-
-brac_all=[]
-deltav_all=[]
+brac_all = []
+deltav_all = []
 vmins, vmaxs = [], []
 vmins_all, vmaxs_all = [], []
 final_depth_individual, final_depth_all_individual = [], []
 
-
-#BI is balnicity index
-#EW is Equivalent widths
+#BI = balnicity index
+#EW = Equivalent widths
 BI_all , BI_total = [], []
-BI_ind_sum=[] #adds them up name is good could be total
-BI_individual=[] #
-BI_all_individual=[] #
-BI_ind=[]
-BI_mid=[]  
-EW_individual=[]
-EW_ind=[]
-EW_all_individual=[]
-vlast=[]
-
+BI_ind_sum = []
+BI_individual = []
+BI_all_individual = []
+BI_ind = []
+BI_mid = []  
+EW_individual = []
+EW_ind = []
+EW_all_individual = []
+vlast = []
 
 def smooth(norm_flux, box_size):       
-    y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
+    y_smooth = signal.savgol_filter(norm_flux, box_size, 2)  #linear
     return y_smooth
-
 
 fig= plt.figure()
 
@@ -81,47 +76,45 @@ for line in open(CONFIG_FILE, 'r'):
 	redshift_value_list.append(np.float(each_row_in_file[1]))
 	snr_value_list.append(np.float(each_row_in_file[2]))
 
-
 file_count = 0
-for spectrum_file_name, redshift_value, snr_value in zip (spectra_list, redshift_value_list, snr_value_list):   
+for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_value_list, snr_value_list):   
     
     #########################################################
     ##If you dont have all files, point out stopping variable
     ##Change NUM_OF_FILES for different value
     if file_count == NUM_OF_FILES:
         break
-    #########################################################
+
     file_count += 1
     print(file_count, ":", spectrum_file_name)
       
-    z = round (redshift_value,5)
-    snr = round(snr_value,5)
+    z = round (redshift_value, 5)
+    snr = round(snr_value, 5)
 
     #read the norm file
     normalized_dr9 = np.loadtxt(SPECDIREC + spectrum_file_name[0:20] + "norm.dr9") 
-    wavelength = normalized_dr9[:,0] 
-    normalized_flux = normalized_dr9[:,1] 
-    error_normalized = normalized_dr9[:,2]
+    wavelength = normalized_dr9[:, 0] 
+    normalized_flux = normalized_dr9[:, 1] 
+    error_normalized = normalized_dr9[:, 2]
     
-    sm_flux=smooth(normalized_flux, boxcar_size) #Smooth the spectrum (3 point boxcar)
-    sm_error=smooth(error_normalized,boxcar_size)/np.sqrt(boxcar_size)
-       
-    if sm =='yes':
+    sm_flux = smooth(normalized_flux, boxcar_size) #Smooth the spectrum (3 point boxcar)
+    sm_error = smooth(error_normalized, boxcar_size) / np.sqrt(boxcar_size)
+    
+    if sm == 'yes':
         normalized_flux = sm_flux
         norm_error_used = sm_error
         
-        
     beta_list = []    # Make beta array of velocities
-    z_absC = (wavelength/AVERAGE_CIV_DOUBLET)-1.
-    RC=(1.+z)/(1.+z_absC)
-    betaC=((RC**2.)-1.)/((RC**2.)+1.)
-    betaa = -betaC*(300000.)
+    z_absC = (wavelength/AVERAGE_CIV_DOUBLET) - 1.
+    RC = (1. + z) / (1. + z_absC)
+    betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.)
+    betaa = -betaC * (300000.)
     
     for values in betaa:
         betas = round(values,4)
         beta_list.append(betas)
         
-    beta_list= np.array(beta_list)
+    beta_list = np.array(beta_list)
 
     # Set the limits of beta based on minvel and maxvel.....................
     if beta_list.any():
@@ -135,7 +128,7 @@ for spectrum_file_name, redshift_value, snr_value in zip (spectra_list, redshift
     except:
         min_limit_value = np.where(beta_list == np.min(beta_list))
         
-        
+
     beta_list_minmax_range = np.arange(min_limit_value, max_limit_value)
     beta_list_minmax_range = np.array(beta_list_minmax_range[::-1])  # From right to left [reversed list]
 
@@ -162,10 +155,15 @@ for spectrum_file_name, redshift_value, snr_value in zip (spectra_list, redshift
             deltav_all.append(deltav)
             
             EW = brac * deltav
-            EW_ind.append(round(EW,4))
-            #print(EW_ind)          
-        
+            EW = round(EW, 4)
+            EW_ind.append(EW)          
+
             if part >= BALNICITY_INDEX_LIMIT:
+                #print('I am in part > countBI')
+                C = 1                
+                balnicity_index = (brac * C) * (deltav) #Calculate BAL for this dv
+                balnicity_index = round(balnicity_index, 4)
+                BI_mid.append(balnicity_index) #Append to intermediate results
 
                 C = 1  #set to 1 only  square bracket is continuously positive over a velocity interval            
                 BI = (brac * C) * (deltav) #Calculate BAL for this dv
@@ -188,7 +186,7 @@ for spectrum_file_name, redshift_value, snr_value in zip (spectra_list, redshift
                     vmins.append(vvvmins)
                     #print(vmins)
                     
-                    plt.plot ((beta_list[vmins_index], beta_list[vmins_index]) , (-1,10),'r-')
+                    plt.plot((beta_list[vmins_index], beta_list[vmins_index]), (-1,10),'r-')
 
                     # If the absorption is SiIV, this finds and plots where C, CII and OI would be
                     z_absSiIV = (wavelength[index]/AVERAGE_SiIV_DOUBLET)-1#
@@ -250,20 +248,20 @@ for spectrum_file_name, redshift_value, snr_value in zip (spectra_list, redshift
                     BI_individual.append(BI_ind_sum)# this array contains one single BI value of each absortopn feature in a single spectrum
                     BI_ind = []
                     
-                    EW_ind_sum = round(sum(EW_ind),2)
+                    EW_ind_sum = round(sum(EW_ind), 2)
                     EW_individual.append(EW_ind_sum)
                     EW_ind = []
                                     
-                    final_depth=round((1.-np.min(normalized_flux[vmaxs_index:vmins_index])),2)
+                    final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
                     final_depth_individual.append(final_depth)
-                    print('depth',final_depth_individual)
+                    print('depth', final_depth_individual)
                     
-                    count2=0                     
+                    count2 = 0                     
                                         
         else: #if the brac value is not more than zero (so if we don't have absorption feature)
-            part=0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
-            count2=0# this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
-            EW_ind=[]
+            part = 0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
+            count2 = 0 # this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
+            EW_ind = []
         
         if index == min_limit_value:
             BI_total= round(sum(BI_mid),2)         
@@ -271,34 +269,37 @@ for spectrum_file_name, redshift_value, snr_value in zip (spectra_list, redshift
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
    
-    if (len(vmaxs) != 0) or (plotall == 'yes'): 
-        yes=(str(file_count)+';' + str(spectrum_file_name) + '\n' + 'BI (' + str(VELOCITY_LIMIT.end) + ' > v > ' + str(VELOCITY_LIMIT.start) +'): ' + str(BI_total) + '\n' 
-             +  'vmins: ' + str(vmins) + '\n' + 'vmaxs: '+str(vmaxs) + '\n' + 'BI_individual: '+ str(BI_individual) + '\n' + 'EW_individual: '+ str(EW_individual) + '\n' 
-             + 'Depth: '+ str(final_depth_individual) +'\n'+'\n')
-        vlast.append(yes)
+    if (len(vmaxs) != 0) or (plotall == 'yes'):
+        text = [f"{file_count};{spectrum_file_name}",
+                f"BI ({VELOCITY_LIMIT.end} > v > {VELOCITY_LIMIT.start}): {BI_total}",
+                f"vmins: {vmins}",
+                f"vmaxs: {vmaxs}",
+                f"BI_individual: {BI_individual}",
+                f"EW_individual: {EW_individual}",
+                f"Depth: {final_depth_individual}"]
+        vlast.extend(['\n'.join(text), '\n'])
 
     final_depth_all_individual.append(final_depth_individual)
  
     if (len(vmaxs) != 0) or (plotall == 'yes'):
            
-        plt.xlim(np.min(beta_list),0)# this is just seting how wide the graph should be (so we are setting the domain)
-        plt.title('Normalized flux vs velocity')
+        plt.xlim(np.min(beta_list), 0) # this is just seting how wide the graph should be (so we are setting the domain)
+        plt.title('Normalized Flux vs Velocity')
         plt.xlabel('Velocity (km/s)')
-        plt.ylabel('Normalized flux')
-        plt.plot((np.min(beta_list),np.max(beta_list)),(1,1))
-        plt.plot((np.min(beta_list),np.max(beta_list)),(0.9,0.9),'r--')
+        plt.ylabel('Normalized Flux')
+        plt.plot((np.min(beta_list), np.max(beta_list)), (1,1))
+        plt.plot((np.min(beta_list), np.max(beta_list)), (0.9,0.9), 'r--')
         plt.plot(beta_list, normalized_flux, 'k-')
 #       plot(beta, sm_flux, 'r-')
 #       plot(beta, norm_flux, 'k-')
         plt.plot (beta_list, norm_error_used,'k--')
         #plot (beta, norm_error,'k--')
         #plot (beta, sm_error,'k--')
-        plt.ylim(0,3)
-        plt.xlim(-70000,0)
-        plt.text(-60000, 2, str(spectrum_file_name)+',     z='+str(z)+' snr='+ str(snr), rotation=0, fontsize=9)
+        plt.ylim(0, 3)
+        plt.xlim(-70000, 0)
+        plt.text(-60000, 2, str(spectrum_file_name)+',     z='+str(z)+' snr='+ str(snr), rotation = 0, fontsize = 9)
     
-    
-    
+
 # FUTURE PLOTTING!    
 #    if (len(vmins)) ne 0:
 #        axvspan(beta[jjjs],beta[jjjs-1], alpha=0.05, color='red')
@@ -323,15 +324,14 @@ BI_all= np.array(BI_all)
 vmins = np.array(vmins)
 vmaxs = np.array(vmaxs)
 ABSORPTION_PDF.close()
-vmaxs_final=[]
-vmins_final=[]
+vmaxs_final = []
+vmins_final = []
 
-for loop in range (0, len (vmaxs_all)):
-    vmaxs_final.append (str(vmaxs_all[loop])+ ',' )
+for loop in range(0, len(vmaxs_all)):
+    vmaxs_final.append(str(vmaxs_all[loop]) + ',')
 
-for loop2 in range (0, len(vmins_all)):
-    vmins_final.append (str(vmins_all[loop2])+ ',' )
-                    
+for loop2 in range(0, len(vmins_all)):
+    vmins_final.append(str(vmins_all[loop2]) + ',')
 
 vmaxs_final = np.array(vmaxs_final)
 vmins_final = np.array(vmins_final)    
