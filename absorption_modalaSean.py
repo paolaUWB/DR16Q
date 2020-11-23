@@ -146,7 +146,7 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
             brac = 0
 
 
-        if((brac > 0) or (non_trough_count <= 3)):
+        if brac > 0 or non_trough_count <= 3:
             
             deltav = beta_list[index] - beta_list[index - 1]
             part += deltav
@@ -158,17 +158,11 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
             EW_ind.append(EW)          
 
             if part >= BALNICITY_INDEX_LIMIT:
-                #print('I am in part > countBI')
-                C = 1                
-                balnicity_index = (brac * C) * (deltav) #Calculate BAL for this dv
-                balnicity_index = round(balnicity_index, 4)
-                BI_mid.append(balnicity_index) #Append to intermediate results
 
                 C = 1  #set to 1 only  square bracket is continuously positive over a velocity interval            
                 BI = (brac * C) * (deltav) #Calculate BAL for this dv
-                BI = round(BI, 4)
-                BI_mid.append(BI) #Append to intermediate results
-                BI_ind.append(BI)
+                BI_mid.append(round(BI, 4)) #Append to intermediate results
+                BI_ind.append(round(BI, 4))
 
                 if non_trough_count == 0:
                     
@@ -176,14 +170,11 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
                     #axvspan(beta[jjjs+1],beta[jjjs], alpha=0.05, color='red')
 
 #vmin territory calculation and plotting                
-                if (count2 == 0) and (non_trough_count == 0):  
+                if count2 == 0 and non_trough_count == 0:  
                     print('I am in vmin territory')
 
                     vmins_index = np.min(np.where(beta_list >= (beta_list[index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
-                    vvvmins = beta_list[vmins_index] #disposible array, one line
-                    vvvmins = round (vvvmins,4)
-                    vmins.append(vvvmins)
-                    #print(vmins)
+                    vmins.append(round (beta_list[vmins_index], 4))
                     
                     plt.plot((beta_list[vmins_index], beta_list[vmins_index]), (-1,10),'r-')
 
@@ -217,12 +208,10 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
                 if (((brac > 0 and nextbrac < 0 and nextnextbrac < 0 and nextnextnextbrac < 0 and nextnextnextnextbrac < 0 and count2 == 1)) or (index == min_limit_value)):  
                 
                     print("I am in vmax territory!")
-                    vvmaxs = beta_list[index]  
-                    vmaxs_index = np.min(np.where (beta_list >= vvmaxs))
-                    vvmaxs = round(vvmaxs,4)
-                    vmaxs.append(vvmaxs)
-                    #print(vvmaxs)
-                    
+
+                    vmaxs_index = np.min(np.where (beta_list >= beta_list[index]))
+                    vmaxs.append(round (beta_list[index], 4))
+                                       
                     plt.axvspan(beta_list[vmins_index], beta_list[vmaxs_index], alpha = 0.2, color = 'red')
                     print('vmins=', beta_list[vmins_index])
                     print('vmaxs=', beta_list[vmaxs_index])
@@ -304,7 +293,6 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
 #        axvspan(beta[jjjs],beta[jjjs-1], alpha=0.05, color='red')
     
         ABSORPTION_PDF.savefig()
-
         s = spectrum_file_name.split('-')
         plateid = s[1]
         mjd = s[2]
@@ -323,8 +311,7 @@ BI_all= np.array(BI_all)
 vmins = np.array(vmins)
 vmaxs = np.array(vmaxs)
 ABSORPTION_PDF.close()
-vmaxs_final = []
-vmins_final = []
+vmins_final, vmaxs_final = [], []
 
 for loop in range(0, len(vmaxs_all)):
     vmaxs_final.append(str(vmaxs_all[loop]) + ',')
