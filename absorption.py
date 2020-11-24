@@ -1,4 +1,3 @@
-#absorption_code.py
 #Calculates absorption(BALnicity) for a list of spectra
 import numpy as np 
 from matplotlib import pyplot as plt
