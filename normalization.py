@@ -7,16 +7,7 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file
-from data_types import Range, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
-
-b = 1250 # powerlaw
-c = -0.5 # powerlaw
-STARTS_FROM, ENDS_AT = 1, 9
-WAVELENGTH_RESTFRAME = Range(1200., 1800.)
-WAVELENGTH_FOR_SNR = Range(1250., 1400.)
-WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
-WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1420., 1430.)
-WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
+from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
@@ -27,15 +18,31 @@ FINAL_INIT_PARAMS_FILENAME = "final_initial_parameters.txt"
 GOOD_SPECTRA_FILENAME = "good_spectra.txt"
 FLAGGED_GRAPHS_FILENAME = "flagged_graphs.txt"
 FLAGGED_SNR_GRAPHS_FILENAME = "flagged_snr_in_ehvo_graphs.txt"
+NORM_FILE_EXTENSION = "norm.dr9"
 
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
+
+STARTS_FROM, ENDS_AT = 1, 9
+
+WAVELENGTH_RESTFRAME = Range(1200., 1800.)
+WAVELENGTH_FOR_SNR = Range(1250., 1400.)
+WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
+WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1420., 1430.)
+WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
+WAVELENGTH_RESTFRAME_TEST_1 = Range(1350., 1360.)
+WAVELENGTH_RESTFRAME_TEST_2 = Range(1315., 1325.)
+
+column_index = ColumnIndexes(0, 1, 2)
+
+b = 1250 # powerlaw
+c = -0.5 # powerlaw
 
 def powerlaw(wavelength, b, c) -> float:
     return b * (np.power(wavelength, c))
 
 def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
-    wavelength_column = spectra_data[:, 0]
+    wavelength_column = spectra_data[:, column_index.wavelength]
 
     wavelength_observed_start = (z + 1) * starting_point
     wavelength_observed_end = (z + 1) * ending_point
@@ -43,9 +50,9 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     point_from = np.max(np.where(wavelength_column < wavelength_observed_start))
     point_to = np.min(np.where(wavelength_column > wavelength_observed_end))
 
-    wavelength = spectra_data[point_from:point_to, 0]
-    flux = spectra_data[point_from:point_to, 1] 
-    error = spectra_data[point_from:point_to, 2] 
+    wavelength = spectra_data[point_from:point_to, column_index.wavelength]
+    flux = spectra_data[point_from:point_to, column_index.flux] 
+    error = spectra_data[point_from:point_to, column_index.error] 
   
     return RangesData(wavelength, flux, error)
 
@@ -57,7 +64,10 @@ def define_three_anchor_points(z: float, spectra_data):
     print_to_file(left_point_ranges.flux, LOG_FILE)
 
     middle_point_ranges = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.end, z, spectra_data)
-    middle_point = PointData(np.median(middle_point_ranges.wavelength), np.median(middle_point_ranges.flux), np.median(middle_point_ranges.error))
+    middle_point = PointData(
+        np.median(middle_point_ranges.wavelength),
+        np.median(middle_point_ranges.flux),
+        np.median(middle_point_ranges.error))
 
     right_point_ranges = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start, WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end, z, spectra_data)
     right_point = PointData(np.median(right_point_ranges.wavelength), np.median(right_point_ranges.flux), np.median(right_point_ranges.error))
@@ -65,7 +75,7 @@ def define_three_anchor_points(z: float, spectra_data):
     return (left_point, middle_point, right_point)
 
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
-    wavelength_column = spectra_data[:, 0]
+    wavelength_column = spectra_data[:, column_index.wavelength]
 
     wavelength_observed_from = (z + 1) * starting_point
     wavelength_observed_to = (z + 1) * ending_point
@@ -73,9 +83,9 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     wavelength_lower_limit = np.where(wavelength_column > wavelength_observed_from)
     wavelength_upper_limit = np.where(wavelength_column < wavelength_observed_to)
     
-    wavelength = spectra_data[np.min(wavelength_lower_limit[0]):np.max(wavelength_upper_limit[0]), 0]
-    flux = spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 1]
-    error = spectra_data[np.min(wavelength_lower_limit[0]): np.max(wavelength_upper_limit[0]), 2]
+    wavelength = spectra_data[np.min(wavelength_lower_limit[column_index.wavelength]):np.max(wavelength_upper_limit[column_index.wavelength]), column_index.wavelength]
+    flux = spectra_data[np.min(wavelength_lower_limit[column_index.wavelength]): np.max(wavelength_upper_limit[column_index.wavelength]), column_index.flux]
+    error = spectra_data[np.min(wavelength_lower_limit[column_index.wavelength]): np.max(wavelength_upper_limit[column_index.wavelength]), column_index.error]
     
     return RangesData(wavelength, flux, error)
 
@@ -175,14 +185,14 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
 
     ############# TESTING TWO REGIONS ##########################
     flagged = False
-    test1 = wavelength_flux_error_in_range(1350., 1360., z, current_spectra_data)
+    test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
     normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
     failed_test_1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if failed_test_1:
         print("failed_test_1: ", failed_test_1)
         print_to_file("failed_test_1: " + str(failed_test_1), LOG_FILE)
 
-    test2 = wavelength_flux_error_in_range(1315., 1325., z, current_spectra_data)
+    test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
     failed_test_2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
     if failed_test_2:
@@ -214,7 +224,7 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
-    np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + 'norm.dr9', norm_w_f_e)
+    np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
     return bf, cf, flagged, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo
 
 

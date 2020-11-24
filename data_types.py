@@ -2,6 +2,8 @@ from collections import namedtuple
 
 Range = namedtuple('Range', ['start', 'end'])
 
+ColumnIndexes = namedtuple('ColumnIndexes', ['wavelength', 'flux', 'error'])
+
 PointData = namedtuple('PointData', ['wavelength', 'flux', 'error'])
 
 RangesData = namedtuple('RangesData', ['wavelength', 'flux', 'error'])

@@ -29,6 +29,7 @@ part = 0
 count2 = 0   # variable initialization to get into vmin/vmax loop
 
 SPECDIREC, OUTPUT_SPEC = os.getcwd() + "/files/", os.getcwd() + "/files/"
+NORM_FILE_EXTENSION = "norm.dr9"
 ABSORPTION_PDF = PdfPages('absorptiononly_BI1000_EHVOcasescleaning.pdf')
 OUTPUT_CLEANING = 'Absorption_cleaning.txt'
 NUM_OF_FILES = 10
@@ -91,7 +92,7 @@ for spectrum_file_name, redshift_value, snr_value in zip(spectra_list, redshift_
     snr = round(snr_value, 5)
 
     #read the norm file
-    normalized_dr9 = np.loadtxt(SPECDIREC + spectrum_file_name[0:20] + "norm.dr9") 
+    normalized_dr9 = np.loadtxt(SPECDIREC + spectrum_file_name[0:20] + NORM_FILE_EXTENSION) 
     wavelength = normalized_dr9[:, 0] 
     normalized_flux = normalized_dr9[:, 1] 
     error_normalized = normalized_dr9[:, 2]
