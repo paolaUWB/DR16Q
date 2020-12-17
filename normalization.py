@@ -6,7 +6,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file
+from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
@@ -14,10 +14,13 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 SPEC_DIREC = os.getcwd() + "/files/" # Set location of input and output spectrum files
 
 LOG_FILE = "log.txt"
-FINAL_INIT_PARAMS_FILENAME = "final_initial_parameters.txt"
-GOOD_SPECTRA_FILENAME = "good_spectra.txt"
-FLAGGED_GRAPHS_FILENAME = "flagged_graphs.txt"
-FLAGGED_SNR_GRAPHS_FILENAME = "flagged_snr_in_ehvo_graphs.txt"
+FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt"
+PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
+FLAGGED_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
+FLAGGED_SNR_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
+GOODNESS_OF_FIT_FILE = SPEC_DIREC + "/" + "chi_sq_values_all.csv"
+BAD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "bad_normalization.csv"
+GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
 NORM_FILE_EXTENSION = "norm.dr9"
 
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
@@ -30,8 +33,8 @@ WAVELENGTH_FOR_SNR = Range(1250., 1400.)
 WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
 WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1420., 1430.)
 WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
-WAVELENGTH_RESTFRAME_TEST_1 = Range(1350., 1360.)
-WAVELENGTH_RESTFRAME_TEST_2 = Range(1315., 1325.)
+WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
+WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 column_index = ColumnIndexes(0, 1, 2)
 
@@ -57,21 +60,39 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     return RangesData(wavelength, flux, error)
 
 def define_three_anchor_points(z: float, spectra_data):
-    left_point_ranges = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start, WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.end, z, spectra_data)
-    left_point = PointData(np.median(left_point_ranges.wavelength), np.median(left_point_ranges.flux), np.median(left_point_ranges.error))
+    left_point_ranges = wavelength_flux_error_for_points(
+        WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start,
+        WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.end,
+        z,
+        spectra_data)
+    left_point = PointData(
+        np.median(left_point_ranges.wavelength),
+        np.median(left_point_ranges.flux),
+        np.median(left_point_ranges.error))
 
     print(left_point_ranges.flux)
     print_to_file(left_point_ranges.flux, LOG_FILE)
 
-    middle_point_ranges = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.end, z, spectra_data)
+    middle_point_ranges = wavelength_flux_error_for_points(
+        WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start,
+        WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.end,
+        z,
+        spectra_data)
     middle_point = PointData(
         np.median(middle_point_ranges.wavelength),
         np.median(middle_point_ranges.flux),
         np.median(middle_point_ranges.error))
 
-    right_point_ranges = wavelength_flux_error_for_points(WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start, WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end, z, spectra_data)
-    right_point = PointData(np.median(right_point_ranges.wavelength), np.median(right_point_ranges.flux), np.median(right_point_ranges.error))
-    
+    right_point_ranges = wavelength_flux_error_for_points(
+        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
+        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
+        z,
+        spectra_data)
+    right_point = PointData(
+        np.median(right_point_ranges.wavelength),
+        np.median(right_point_ranges.flux),
+        np.median(right_point_ranges.error))
+
     return (left_point, middle_point, right_point)
 
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
@@ -93,7 +114,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
-    plt.figure(figure_index + 1)
+    plt.figure(figure_index)
     plt.title(data.FigureData.spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
@@ -105,14 +126,14 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
     ORIGINAL_PDF.savefig()
-    plt.close(figure_index + 1)
+    plt.close(figure_index)
 
 def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, normalized_data: DataNormalized,
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2):
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
-    plt.figure(figure_index + 1) 
+    plt.figure(figure_index) 
     plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(normalized_data.flux_normalized)/1.07, figure_data.spectrum_file_name)
     plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(normalized_data.flux_normalized), subtitle_text)
     plt.title(figure_data.spectrum_file_name)
@@ -125,7 +146,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.plot(test2.wavelength, normalized_flux_test_2, color = test_2_color, linestyle = "-")
     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
     NORMALIZED_PDF.savefig()
-    plt.close(figure_index + 1)
+    plt.close(figure_index)
 
 def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
 
@@ -187,23 +208,37 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
     flagged = False
     test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
     normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
-    failed_test_1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
-    if failed_test_1:
-        print("failed_test_1: ", failed_test_1)
-        print_to_file("failed_test_1: " + str(failed_test_1), LOG_FILE)
+    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
+    if flagged_by_test1:
+        print("flagged_by_test1: ", flagged_by_test1)
+        print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
 
     test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
-    failed_test_2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
-    if failed_test_2:
-        print("failed_test_2: ", failed_test_2)
-        print_to_file("failed_test_2: " + str(failed_test_2), LOG_FILE)
+    flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
+    if flagged_by_test2:
+        print("flagged_by_test2: ", flagged_by_test2)
+        print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
 
-    if failed_test_1 and failed_test_2:
+    if flagged_by_test1 and flagged_by_test2:
         flagged = True
         error_message = "Flagging figure #" + str(index) + ", file name: " + spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
+
+    residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
+    residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
+    residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
+    wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
+    chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
+      
+    fields=[index - STARTS_FROM + 1, index, chi_sq]
+    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+    if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
+        append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    else:
+        append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+        
     ##########################################################
 
     ############# SNR Calculations ##########################
@@ -279,11 +314,20 @@ def main(starting_index: int, ending_index: int):
     ORIGINAL_PDF.close()
     NORMALIZED_PDF.close()
 
-    np.savetxt(SPEC_DIREC + "/" + FINAL_INIT_PARAMS_FILENAME, final_initial_parameters, fmt="%s")
-    np.savetxt(SPEC_DIREC + "/" + GOOD_SPECTRA_FILENAME, processed_spectra_file_names, fmt='%s')
-    np.savetxt(SPEC_DIREC + "/" + FLAGGED_GRAPHS_FILENAME, flagged_graphs, fmt='%s')
-    np.savetxt(SPEC_DIREC + "/" + FLAGGED_SNR_GRAPHS_FILENAME, flagged_snr_in_ehvo_graphs, fmt='%s')
+    np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
+    np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
+    np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
+    np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
+    clear_file(GOODNESS_OF_FIT_FILE)
+    clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
+    clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
+    
+    fields=["index", "spectra index", "chi_sq"]
+    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+    append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+
     main(STARTS_FROM, ENDS_AT)
