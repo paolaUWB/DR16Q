@@ -1,3 +1,5 @@
+import csv
+
 def print_to_file(text: str, file_name: str):
     print(text, file = open(file_name, 'a'))
 
@@ -12,3 +14,8 @@ def clear_file(file_name: str):
 
 def open_file(file_name: str):
     return open(file_name, 'r')
+
+def append_row_to_csv(file_name: str, fields: list):
+    with open(file_name, 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow(fields)
