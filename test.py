@@ -5,7 +5,7 @@ import difflib
 
 normalization.normalize_spectra()
 
-expected_results = "correct_output.txt"
+expected_results = "new_correct_output.txt"
 current_results = "log.txt"
 
 with open(expected_results, 'r') as file1:
