@@ -16,6 +16,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
+import wavelength_flux_error_for_points
 
 # Space for variables, X that might need to changed -------------------------------------------------
 
@@ -64,22 +65,6 @@ c = -0.5 # initial parameter of powerlaw
 
 def powerlaw(wavelength, b, c) -> float:
     return b * (np.power(wavelength, c))
-
-### Write this "function" separately so it can be called from any code
-def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData: # XXX What does -> do?
-    wavelength_column = spectra_data[:, column_index.wavelength]
-
-    wavelength_observed_start = (z + 1) * starting_point
-    wavelength_observed_end = (z + 1) * ending_point
-
-    point_from = np.max(np.where(wavelength_column < wavelength_observed_start))
-    point_to = np.min(np.where(wavelength_column > wavelength_observed_end))
-
-    wavelength = spectra_data[point_from:point_to, column_index.wavelength]
-    flux = spectra_data[point_from:point_to, column_index.flux] 
-    error = spectra_data[point_from:point_to, column_index.error] 
-  
-    return RangesData(wavelength, flux, error)
 
 ### VAMOS POR AQUI
 
