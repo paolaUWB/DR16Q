@@ -16,7 +16,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
-import wavelength_flux_error_for_points
+from wavelength_flux_error_for_points import wavelength_flux_error_for_points
 
 # Space for variables, X that might need to changed -------------------------------------------------
 
