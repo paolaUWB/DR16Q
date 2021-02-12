@@ -8,6 +8,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
+import wavelength_flux_error_for_points
 
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
@@ -44,21 +45,6 @@ c = -0.5 # powerlaw
 
 def powerlaw(wavelength, b, c) -> float:
     return b * (np.power(wavelength, c))
-
-def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
-    wavelength_column = spectra_data[:, column_index.wavelength]
-
-    wavelength_observed_start = (z + 1) * starting_point
-    wavelength_observed_end = (z + 1) * ending_point
-
-    point_from = np.max(np.where(wavelength_column < wavelength_observed_start))
-    point_to = np.min(np.where(wavelength_column > wavelength_observed_end))
-
-    wavelength = spectra_data[point_from:point_to, column_index.wavelength]
-    flux = spectra_data[point_from:point_to, column_index.flux] 
-    error = spectra_data[point_from:point_to, column_index.error] 
-  
-    return RangesData(wavelength, flux, error)
 
 def define_three_anchor_points(z: float, spectra_data):
     left_point_ranges = wavelength_flux_error_for_points(
