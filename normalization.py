@@ -1,5 +1,13 @@
-# Normalization of the quasar spectra
-# Please Check README file before changes anything!!!!
+####################################################
+#   Normalization of the quasar spectra
+#
+# This code normalizes the DRQ spectra with a new algorithm.
+
+# Authors: Paola Rodriguez Hidalgo, Mikel Charles, Wendy Garcia Naranjo, Daria K, Can Tosun, David Nguyen, Sean Haas, Abdul Khatri
+#
+####################################################
+
+# Basic imports to be able to run the code:
 import os
 import sys
 import numpy as np 
@@ -10,26 +18,22 @@ from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 import wavelength_flux_error_for_points
 
+# Space for variables, X that might need to changed -------------------------------------------------
+
+NORM_FILE_EXTENSION = "norm.dr9" #XXX we might want this as norm. and the option dr9, dr16 in a different location
+
+# Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
-SPEC_DIREC = os.getcwd() + "/files/" # Set location of input and output spectrum files
+# How many columns the file with the quasar names has? # XXX Or is it the .dr9? 
+column_index = ColumnIndexes(0, 1, 2)
 
-LOG_FILE = "log.txt"
-FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt"
-PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
-FLAGGED_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
-FLAGGED_SNR_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
-GOODNESS_OF_FIT_FILE = SPEC_DIREC + "/" + "chi_sq_values_all.csv"
-BAD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "bad_normalization.csv"
-GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
-NORM_FILE_EXTENSION = "norm.dr9"
+# Sets the directory to find the data files (dr9, dr16)
+SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output
 
-ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
-NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
+STARTS_FROM, ENDS_AT = 1, 9 # Range of spectra you are working with from the quasar names file. XXX be able to write from 1 to 10 and end in 10.
 
-#
-STARTS_FROM, ENDS_AT = 1, 9
-
+# Ranges of wavelengths in the spectra for different tasks
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 WAVELENGTH_FOR_SNR = Range(1250., 1400.)
 WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
@@ -38,13 +42,31 @@ WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
 WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
-column_index = ColumnIndexes(0, 1, 2)
 
-b = 1250 # powerlaw
-c = -0.5 # powerlaw
+# ------------------------------------------
+
+#List of output files
+LOG_FILE = "log.txt"
+FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt" #XXX why the extra /
+PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
+FLAGGED_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
+FLAGGED_SNR_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
+GOODNESS_OF_FIT_FILE = SPEC_DIREC + "/" + "chi_sq_values_all.csv"
+BAD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "bad_normalization.csv"
+GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
+
+ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
+NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
+
+
+
+b = 1250 # initial parameter of powerlaw
+c = -0.5 # initial parameter of powerlaw
 
 def powerlaw(wavelength, b, c) -> float:
     return b * (np.power(wavelength, c))
+
+### VAMOS POR AQUI
 
 def define_three_anchor_points(z: float, spectra_data):
     left_point_ranges = wavelength_flux_error_for_points(
