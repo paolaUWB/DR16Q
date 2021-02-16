@@ -25,13 +25,13 @@ NORM_FILE_EXTENSION = "norm.dr9" #XXX we might want this as norm. and the option
 # Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
-# How many columns the file with the quasar names has? # XXX Or is it the .dr9? 
+# How many columns the file with the quasar names has? # XXX Or is it the .dr9? PRH
 column_index = ColumnIndexes(0, 1, 2)
 
 # Sets the directory to find the data files (dr9, dr16)
-SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output
+SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 1, 9 # Range of spectra you are working with from the quasar names file. XXX be able to write from 1 to 10 and end in 10.
+STARTS_FROM, ENDS_AT = 1, 9 # Range of spectra you are working with from the quasar names file. XXX be able to write from 1 to 10 and end in 10. US LATER
 
 # Ranges of wavelengths in the spectra for different tasks
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -47,7 +47,7 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 #List of output files
 LOG_FILE = "log.txt"
-FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt" #XXX why the extra /
+FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt" #XXX why the extra / MMC WFGN
 PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
 FLAGGED_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
 FLAGGED_SNR_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
@@ -59,14 +59,12 @@ ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 
 
-
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
 
 def powerlaw(wavelength, b, c) -> float:
     return b * (np.power(wavelength, c))
 
-### VAMOS POR AQUI
 
 def define_three_anchor_points(z: float, spectra_data):
     left_point_ranges = wavelength_flux_error_for_points(
@@ -271,8 +269,8 @@ def process_spectra_and_draw_figures(index: int, z, snr, spectrum_file_name):
     np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
     return bf, cf, flagged, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo
 
-
-def main(starting_index: int, ending_index: int):
+main(STARTS_FROM, ENDS_AT)
+main(starting_index: int, ending_index: int):
     spectra_list, redshift_value_list, snr_value_list = [], [], []
 
     # Reading the file and assigning to the specific lists
@@ -339,4 +337,4 @@ if __name__ == "__main__":
     append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
-    main(STARTS_FROM, ENDS_AT)
+   
