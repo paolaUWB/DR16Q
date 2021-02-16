@@ -11,7 +11,7 @@ from data_types import ColumnIndexes, RangesData
 column_index = ColumnIndexes(0, 1, 2)
 
 ### Write this "function" separately so it can be called from any code
-def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData: # XXX What does -> do?
+def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData: 
     wavelength_column = spectra_data[:, column_index.wavelength]
 
     wavelength_observed_start = (z + 1) * starting_point
