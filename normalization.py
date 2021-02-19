@@ -142,7 +142,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     z = round(redshift_value_list[spectra_index - 1], 5)
     snr = round(snr_value_list[spectra_index - 1], 5)
     current_spectrum_file_name = spectra_list[spectra_index - 1]
-    
+    # b_final, c_final, failed_test, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
+    #### ^^^^^^^^ need failed_test in order for code to run ^^^^^^^^^^^^^
+
     ###spectra_index, z, snr, current_spectrum_file_name
     ###index: int, z, snr, spectrum_file_name
 
@@ -178,30 +180,39 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     bf, cf = pars[0], pars[1]
 
+    # flux_normalized & error_normalized are used to draw the figure
     flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
     
     ### VAMOS POR AQUI!
     
-    for n in range(1, len(flux_normalized) - 5):          
+    for n in range(1, len(flux_normalized) - 5):  
+        # if the change in flux is greater than 0.5 and the error of [n+1] is greater than 0.25   
+        # reverts all of the [n+1] back to the n values     
         if abs(flux_normalized[n + 1] - flux_normalized[n]) > 0.5:
             if error_normalized[n + 1] > 0.25:
                 error_normalized[n + 1] = error_normalized[n]
                 flux_normalized[n + 1] = flux_normalized[n]
                 error[n + 1] = error[n]
                 flux[n + 1] = flux[n]
+        # if the error is larger than 0.5 then it reverts n back to the [n-1]
         if error_normalized[n] > 0.5:
-            error_normalized[n] = error_normalized[n-1]
+            error_normalized[n] = error_normalized[n - 1]
             flux_normalized[n] = flux_normalized[n - 1]
             error[n] = error[n - 1]
             flux[n] = flux[n - 1]
+        # if the change in flux is greater than 5 then [n+1] reverts back to n  
         if abs(flux_normalized[n + 1] - flux_normalized[n]) > 5:
             error_normalized[n + 1] = error_normalized[n]
             flux_normalized[n + 1] = flux_normalized[n]
             error[n + 1] = error[n]
             flux[n + 1] = flux[n]
+# if error is too high will go down a value ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# does this check the outlier examples??????????????????????
 
-    ############# TESTING TWO REGIONS ##########################
+    ############# TESTING TWO REGIONS #########################
+    ### checking how good the normalization is
+    ## green and pink in original_graphs
     flagged = False
     test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
     normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
@@ -223,14 +234,19 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print(error_message)
         print_to_file(error_message, LOG_FILE)
 
+##### residuals: the quantity remaining after other values have been subtracted from it
+## flux observed, wavelength is the expected value
+# how off the flux is from the values of the power law at that location
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
     residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
     residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
     wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
+    ### chi squared is comparing flux and wavelength
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
       
     fields=[index - STARTS_FROM + 1, index, chi_sq]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+    # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
     if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
         append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     else:
@@ -245,6 +261,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ##########################################################
 
     flagged_snr_mean_in_ehvo = False
+    ## getting rid of low snr values, we want the high ones
     if snr_mean_in_ehvo < 10.:
         flagged_snr_mean_in_ehvo = True
 
@@ -268,7 +285,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     processed_spectra_file_names.append(current_spectrum_file_name)
     indices.append(spectra_index - starting_index + 1)
     spectra_indices.append(spectra_index)
-    if failed_test:
+    if failed_test: # not defined in our new code
         flagged_spectra_file_names.append(current_spectrum_file_name)
         flagged_indices.append(spectra_index - starting_index + 1)
         flagged_spectra_indices.append(spectra_index)
@@ -280,7 +297,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
         
      #XXX OLD END OF MAIN to here
-            
+
+    #### what is the rest of this doing????????????
     final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
     final_initial_parameters = (np.transpose(final_initial_parameters))
 
