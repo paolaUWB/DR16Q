@@ -33,6 +33,8 @@ SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum 
 
 STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. XXX be able to write from 1 to 10 and end in 10. US LATER
 
+SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
+
 # Ranges of wavelengths in the spectra for different tasks
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 WAVELENGTH_FOR_SNR = Range(1250., 1400.)
@@ -41,7 +43,6 @@ WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1420., 1430.)
 WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
 WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
-
 
 # ------------------------------------------
 
@@ -58,6 +59,19 @@ GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 
+
+############# SNR Calculations ##########################
+### then calculates the snr with this and "flag" cases with SNR lower a value will be excluded later. 
+
+wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
+wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
+snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
+##########################################################
+
+flagged_snr_mean_in_ehvo = False
+## getting rid of low snr values, we want the high ones
+if snr_mean_in_ehvo < SNR_CUTOFF:  
+    flagged_snr_mean_in_ehvo = True
 
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
@@ -85,6 +99,36 @@ def define_three_anchor_points(z: float, spectra_data):
         spectra_data)
     
     return (left_point, middle_point, right_point)
+
+    # flux_normalized & error_normalized are used to draw the figure
+    flux_normalized = flux/powerlaw(wavelength, bf, cf)
+    error_normalized = error/powerlaw(wavelength, bf, cf)
+
+    ### Masking points with large errors: 
+    
+###    for n in range(1, len(flux_normalized) - 5):  ### !!! Is this too big? 
+        # if the change in flux is greater than 0.5 and the error of [n+1] is greater than 0.25   
+        # reverts all of the [n+1] back to the n values     
+###       if abs(flux_normalized[n + 1] - flux_normalized[n]) > 0.5:
+###            if error_normalized[n + 1] > 0.25:
+###                error_normalized[n + 1] = error_normalized[n]
+###                flux_normalized[n + 1] = flux_normalized[n]
+###                error[n + 1] = error[n]
+###                flux[n + 1] = flux[n]
+        # if the error is larger than 0.5 then it reverts n back to the [n-1]
+###        if error_normalized[n] > 0.5:
+###            error_normalized[n] = error_normalized[n - 1]
+###            flux_normalized[n] = flux_normalized[n - 1]
+###            error[n] = error[n - 1]
+###            flux[n] = flux[n - 1]
+        # if the change in flux is greater than 5 then [n+1] reverts back to n  
+###        if abs(flux_normalized[n + 1] - flux_normalized[n]) > 5:
+###            error_normalized[n + 1] = error_normalized[n]
+###            flux_normalized[n + 1] = flux_normalized[n]
+###            error[n + 1] = error[n]
+###            flux[n + 1] = flux[n]
+
+### --> Create a masking array for flux and error prior to plotting. 
 
 def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData):
     main_color = "xkcd:ultramarine"
@@ -127,7 +171,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
 spectra_list, redshift_value_list, snr_value_list = [], [], []
 
 # Reading the file and assigning to the specific lists
-with open(CONFIG_FILE) as f:   # XXX FOR MMC WFGN What exactly does the "with" do
+with open(CONFIG_FILE) as f:  
     for line in f:
         each_row_in_file = line.split(",")
         spectra_list.append(each_row_in_file[0])
@@ -142,8 +186,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     z = round(redshift_value_list[spectra_index - 1], 5)
     snr = round(snr_value_list[spectra_index - 1], 5)
     current_spectrum_file_name = spectra_list[spectra_index - 1]
-    # b_final, c_final, failed_test, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
-    #### ^^^^^^^^ need failed_test in order for code to run ^^^^^^^^^^^^^
+    b_final, c_final, failed_test, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
 
     ###spectra_index, z, snr, current_spectrum_file_name
     ###index: int, z, snr, spectrum_file_name
@@ -180,35 +223,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     bf, cf = pars[0], pars[1]
 
-    # flux_normalized & error_normalized are used to draw the figure
-    flux_normalized = flux/powerlaw(wavelength, bf, cf)
-    error_normalized = error/powerlaw(wavelength, bf, cf)
-    
-    ### Masking points with large errors: 
-    
-###    for n in range(1, len(flux_normalized) - 5):  ### !!! Is this too big? 
-        # if the change in flux is greater than 0.5 and the error of [n+1] is greater than 0.25   
-        # reverts all of the [n+1] back to the n values     
-###       if abs(flux_normalized[n + 1] - flux_normalized[n]) > 0.5:
-###            if error_normalized[n + 1] > 0.25:
-###                error_normalized[n + 1] = error_normalized[n]
-###                flux_normalized[n + 1] = flux_normalized[n]
-###                error[n + 1] = error[n]
-###                flux[n + 1] = flux[n]
-        # if the error is larger than 0.5 then it reverts n back to the [n-1]
-###        if error_normalized[n] > 0.5:
-###            error_normalized[n] = error_normalized[n - 1]
-###            flux_normalized[n] = flux_normalized[n - 1]
-###            error[n] = error[n - 1]
-###            flux[n] = flux[n - 1]
-        # if the change in flux is greater than 5 then [n+1] reverts back to n  
-###        if abs(flux_normalized[n + 1] - flux_normalized[n]) > 5:
-###            error_normalized[n + 1] = error_normalized[n]
-###            flux_normalized[n + 1] = flux_normalized[n]
-###            error[n + 1] = error[n]
-###            flux[n + 1] = flux[n]
-
-### --> Create a masking array for flux and error prior to plotting. 
 
     ############# TESTING TWO REGIONS #########################
     ### checking how good the normalization is
@@ -254,20 +268,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         
     ##########################################################
 
-    ############# SNR Calculations ##########################   ### MOVE THIS EARLIER 
-    ### then calculates the snr with this and "flag" cases with SNR lower a value will be excluded later. 
-    # Make the 10. a variable that we can change later. 
-    
-    wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
-    wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
-    snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
-    ##########################################################
-
-    flagged_snr_mean_in_ehvo = False
-    ## getting rid of low snr values, we want the high ones
-    if snr_mean_in_ehvo < 10.:  ### SNR_CUTOFF
-        flagged_snr_mean_in_ehvo = True
-
     figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
     
@@ -301,7 +301,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         
      #XXX OLD END OF MAIN to here
 
-    #### what is the rest of this doing????????????
     final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
     final_initial_parameters = (np.transpose(final_initial_parameters))
 
