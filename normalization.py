@@ -16,7 +16,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
-from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 
 # Space for variables, X that might need to changed -------------------------------------------------
 
@@ -58,20 +58,6 @@ GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
 
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
-
-
-############# SNR Calculations ##########################
-### then calculates the snr with this and "flag" cases with SNR lower a value will be excluded later. 
-
-wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
-wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
-snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
-##########################################################
-
-flagged_snr_mean_in_ehvo = False
-## getting rid of low snr values, we want the high ones
-if snr_mean_in_ehvo < SNR_CUTOFF:  
-    flagged_snr_mean_in_ehvo = True
 
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
@@ -209,115 +195,125 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
     original_ranges = RangesData(wavelength, flux, error)
 
-    print(power_law_data_x)
-    print_to_file(power_law_data_x, LOG_FILE)
-    print(power_law_data_y)
-    print_to_file(power_law_data_y, LOG_FILE)
+    ## flagging spectra with low snr values, we want the high ones
+    flagged_snr_mean_in_ehvo = False
+    snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
+    if snr_mean_in_ehvo < SNR_CUTOFF:  
+        flagged_snr_mean_in_ehvo = True
 
-    # CURVE FIT FOR FIRST POWERLAW
-    try:
-        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
-    except:
-        print("Error - curve_fit failed-1st powerlaw " + spectrum_file_name)
-        print_to_file("Error - curve_fit failed-1st powerlaw " + spectrum_file_name, LOG_FILE)
+    if flagged_snr_mean_in_ehvo == False:
+        # CURVE FIT FOR FIRST POWERLAW
+        try:
+            pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
+        except:
+            print("Error - curve_fit failed-1st powerlaw " + spectrum_file_name)
+            print_to_file("Error - curve_fit failed-1st powerlaw " + spectrum_file_name, LOG_FILE)
 
-    bf, cf = pars[0], pars[1]
+        bf, cf = pars[0], pars[1]
 
 
-    ############# TESTING TWO REGIONS #########################
-    ### checking how good the normalization is
-    ## green and pink in original_graphs
-    flagged = False
-    test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
-    normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
-    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values 
-    if flagged_by_test1:
-        print("flagged_by_test1: ", flagged_by_test1)
-        print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
+        ############# TESTING TWO REGIONS #########################
+        ### checking how good the normalization is
+        ## green and pink in original_graphs
+        flagged = False
+        # Green Region
+        test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
+        normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
+        
+        #Pink Region
+        test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
+        normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
+        
+        flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values 
+        if flagged_by_test1:
+            print("flagged_by_test1: ", flagged_by_test1)
+            print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
 
-    test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
-    normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
-    flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
-    if flagged_by_test2:
-        print("flagged_by_test2: ", flagged_by_test2)
-        print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
+        
+        flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
+        if flagged_by_test2:
+            print("flagged_by_test2: ", flagged_by_test2)
+            print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
 
-    if flagged_by_test1 and flagged_by_test2:
-        flagged = True
-        error_message = "Flagging figure #" + str(index) + ", file name: " + spectrum_file_name
-        print(error_message)
-        print_to_file(error_message, LOG_FILE)
+        if flagged_by_test1 and flagged_by_test2:
+            flagged = True
+            error_message = "Flagging figure #" + str(index) + ", file name: " + spectrum_file_name
+            print(error_message)
+            print_to_file(error_message, LOG_FILE)
 
-##### residuals: the quantity remaining after other values have been subtracted from it
-## flux observed, wavelength is the expected value
-# how off the flux is from the values of the power law at that location
-    residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
-    residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
-    residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
-    wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
-    ### chi squared is comparing flux and wavelength
-    chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
-      
-    fields=[index - STARTS_FROM + 1, index, chi_sq]
-    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
-    # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
-    if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
-        append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    ##### residuals: the quantity remaining after other values have been subtracted from it
+    ## flux observed, wavelength is the expected value
+    # how off the flux is from the values of the power law at that location
+        residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
+        residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
+        residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
+        wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
+        ### chi squared is comparing flux and wavelength
+        chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
+        
+        fields=[index - STARTS_FROM + 1, index, chi_sq]
+        append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+        # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
+        if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
+            append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+        else:
+            append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+            
+        ##########################################################
+
+        figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
+        original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+        
+        draw_original_figure(index, original_ranges, original_figure_data, test1, test2)
+        draw_normalized_figure(index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
+
+        norm_w_f_e = (wavelength, flux_normalized, error_normalized)
+        norm_w_f_e = (np.transpose(norm_w_f_e))  
+        np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
+        
+    ## OLD END OF PROCESS... 
+
+    #XXX OLD END OF MAIN from here
+        
+    # add condition here?
+        powerlaw_final_b_values.append(b_final)
+        powerlaw_final_c_values.append(c_final)
+        processed_spectra_file_names.append(current_spectrum_file_name)
+        indices.append(spectra_index - starting_index + 1)
+        spectra_indices.append(spectra_index)
+        if failed_test: # not defined in our new code
+            flagged_spectra_file_names.append(current_spectrum_file_name)
+            flagged_indices.append(spectra_index - starting_index + 1)
+            flagged_spectra_indices.append(spectra_index)
+
+        if flagged_snr_mean_in_ehvo:
+            flagged_snr_spectra_file_names.append(current_spectrum_file_name)
+            flagged_snr_indices.append(spectra_index - starting_index + 1)
+            flagged_snr_spectra_indices.append(spectra_index)
+            flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
+            
+        #XXX OLD END OF MAIN to here
+
+        final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
+        final_initial_parameters = (np.transpose(final_initial_parameters))
+
+        flagged_graphs = [flagged_indices, flagged_spectra_indices, flagged_spectra_file_names]
+        flagged_graphs = (np.transpose(flagged_graphs))
+
+        flagged_snr_in_ehvo_graphs = [flagged_snr_indices, flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
+        flagged_snr_in_ehvo_graphs = (np.transpose(flagged_snr_in_ehvo_graphs))
+        flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_graphs[:,3].argsort()] # sort by snr_mean_in_ehvo column
+            
+        ORIGINAL_PDF.close()
+        NORMALIZED_PDF.close()
+
+        np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
+        np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
+        np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
+        np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
+
     else:
-        append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
-        
-    ##########################################################
-
-    figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
-    original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
-    
-    draw_original_figure(index, original_ranges, original_figure_data, test1, test2)
-    draw_normalized_figure(index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
-
-    norm_w_f_e = (wavelength, flux_normalized, error_normalized)
-    norm_w_f_e = (np.transpose(norm_w_f_e))  
-    np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
-    
-   ## OLD END OF PROCESS... 
-
- #XXX OLD END OF MAIN from here
-    
- # add condition here?
-    powerlaw_final_b_values.append(b_final)
-    powerlaw_final_c_values.append(c_final)
-    processed_spectra_file_names.append(current_spectrum_file_name)
-    indices.append(spectra_index - starting_index + 1)
-    spectra_indices.append(spectra_index)
-    if failed_test: # not defined in our new code
-        flagged_spectra_file_names.append(current_spectrum_file_name)
-        flagged_indices.append(spectra_index - starting_index + 1)
-        flagged_spectra_indices.append(spectra_index)
-
-    if flagged_snr_mean_in_ehvo:
-        flagged_snr_spectra_file_names.append(current_spectrum_file_name)
-        flagged_snr_indices.append(spectra_index - starting_index + 1)
-        flagged_snr_spectra_indices.append(spectra_index)
-        flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
-        
-     #XXX OLD END OF MAIN to here
-
-    final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
-    final_initial_parameters = (np.transpose(final_initial_parameters))
-
-    flagged_graphs = [flagged_indices, flagged_spectra_indices, flagged_spectra_file_names]
-    flagged_graphs = (np.transpose(flagged_graphs))
-
-    flagged_snr_in_ehvo_graphs = [flagged_snr_indices, flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
-    flagged_snr_in_ehvo_graphs = (np.transpose(flagged_snr_in_ehvo_graphs))
-    flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_graphs[:,3].argsort()] # sort by snr_mean_in_ehvo column
-        
-    ORIGINAL_PDF.close()
-    NORMALIZED_PDF.close()
-
-    np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
-    np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
-    np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
-    np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
+        print(current_spectrum_file_name) ## later will print this to a file
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
