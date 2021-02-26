@@ -59,6 +59,8 @@ GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 
+
+
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
 
