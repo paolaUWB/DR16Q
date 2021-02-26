@@ -26,7 +26,7 @@ NORM_FILE_EXTENSION = "norm.dr9"
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 
-#
+#making new branch wfgn
 STARTS_FROM, ENDS_AT = 1, 9
 
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
