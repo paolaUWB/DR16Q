@@ -165,11 +165,6 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.close(figure_index)
 
 
-#############################################################################################
-################################# DO NOT EDIT BELOW HERE ####################################
-#############################################################################################
-
-
 spectra_list, redshift_value_list, snr_value_list = [], [], []
 
 # Reading the file and assigning to the specific lists
@@ -189,8 +184,46 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     snr = round(snr_value_list[spectra_index - 1], 5)
     current_spectrum_file_name = spectra_list[spectra_index - 1]
     
+    print(str(spectra_index) + ": " + current_spectrum_file_name)
+    print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
+
+    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+
+    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
+    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+
+    point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
+
+    # THE THREE POINTS THAT THE POWER LAW WILL USE (Points C, B, and A)
+    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
+    power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
+
+    # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
+    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
+    original_ranges = RangesData(wavelength, flux, error)
+
+    try:
+        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
+    except:
+        print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+        print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
+
+    #bf, cf are storing the variance for power_law_data_x and power_law_data_y respectively
+    bf, cf = pars[0], pars[1]
+
+    # flux_normalized & error_normalized are used to draw the figure
+    flux_normalized = flux/powerlaw(wavelength, bf, cf)
+    error_normalized = error/powerlaw(wavelength, bf, cf)
+
+    ## flagging spectra with low snr values, we want the high ones
+    flagged_snr_mean_in_ehvo = False
+    snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
+    if snr_mean_in_ehvo < SNR_CUTOFF:  
+        flagged_snr_mean_in_ehvo = True
+
+
     ## process_spectra_and_draw_figures was removed, but all of these variables are used later on
-    flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
+    #flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
 
     # add condition here?
     powerlaw_final_b_values.append(bf)
@@ -211,43 +244,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
 ###spectra_index, z, snr, current_spectrum_file_name
 ###index: int, z, snr, spectrum_file_name
-
-print(str(spectra_index) + ": " + current_spectrum_file_name)
-print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
-
-current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
-
-wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
-wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
-point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
-
-# THE THREE POINTS THAT THE POWER LAW WILL USE (Points C, B, and A)
-power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
-power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
-
-# DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
-wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-original_ranges = RangesData(wavelength, flux, error)
-
-try:
-    pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
-except:
-    print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
-    print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
-
-#bf, cf are storing the variance for power_law_data_x and power_law_data_y respectively
-bf, cf = pars[0], pars[1]
-
-# flux_normalized & error_normalized are used to draw the figure
-flux_normalized = flux/powerlaw(wavelength, bf, cf)
-error_normalized = error/powerlaw(wavelength, bf, cf)
-
-## flagging spectra with low snr values, we want the high ones
-flagged_snr_mean_in_ehvo = False
-snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
-if snr_mean_in_ehvo < SNR_CUTOFF:  
-    flagged_snr_mean_in_ehvo = True
 
 #if flagged_snr_mean_in_ehvo == False: #### DO WE NEED THIS?
     # CURVE FIT FOR FIRST POWERLAW
