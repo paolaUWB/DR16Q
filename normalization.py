@@ -7,6 +7,9 @@
 #
 ####################################################
 
+#############################################################################################
+########################################## IMPORTS ##########################################
+
 # Basic imports to be able to run the code:
 import os
 import sys
@@ -17,6 +20,10 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+
+
+#############################################################################################
+######################################### VARIABLES ######################################### 
 
 # Space for variables, X that might need to changed -------------------------------------------------
 
@@ -44,7 +51,9 @@ WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
 WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
-# ------------------------------------------
+
+#############################################################################################
+######################################## OUTPUT FILES #######################################
 
 #List of output files
 LOG_FILE = "log.txt"
@@ -59,6 +68,9 @@ GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 
+
+#############################################################################################
+##################################### DEFINITIONS ###########################################
 
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
@@ -153,6 +165,11 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.close(figure_index)
 
 
+#############################################################################################
+################################# DO NOT EDIT BELOW HERE ####################################
+#############################################################################################
+
+
 spectra_list, redshift_value_list, snr_value_list = [], [], []
 
 # Reading the file and assigning to the specific lists
@@ -171,23 +188,24 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     z = round(redshift_value_list[spectra_index - 1], 5)
     snr = round(snr_value_list[spectra_index - 1], 5)
     current_spectrum_file_name = spectra_list[spectra_index - 1]
-    ## process_spectra_and_draw_figures was removed, but some of these variables are used later on
+    
+    ## process_spectra_and_draw_figures was removed, but all of these variables are used later on
     b_final, c_final, failed_test, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
 
     # add condition here?
     powerlaw_final_b_values.append(b_final)
     powerlaw_final_c_values.append(c_final)
     processed_spectra_file_names.append(current_spectrum_file_name)
-    indices.append(spectra_index - starting_index + 1)
+    indices.append(spectra_index - STARTS_FROM + 1)
     spectra_indices.append(spectra_index)
     if failed_test: # not defined in our new code
         flagged_spectra_file_names.append(current_spectrum_file_name)
-        flagged_indices.append(spectra_index - starting_index + 1)
+        flagged_indices.append(spectra_index - STARTS_FROM + 1)
         flagged_spectra_indices.append(spectra_index)
 
     if flagged_snr_mean_in_ehvo:
         flagged_snr_spectra_file_names.append(current_spectrum_file_name)
-        flagged_snr_indices.append(spectra_index - starting_index + 1)
+        flagged_snr_indices.append(spectra_index - STARTS_FROM + 1)
         flagged_snr_spectra_indices.append(spectra_index)
         flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
 
@@ -212,6 +230,15 @@ power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
 wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
 original_ranges = RangesData(wavelength, flux, error)
 
+try:
+    pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
+except:
+    print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+    print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
+
+#bf, cf are storing the variance for power_law_data_x and power_law_data_y respectively
+bf, cf = pars[0], pars[1]
+
 # flux_normalized & error_normalized are used to draw the figure
 flux_normalized = flux/powerlaw(wavelength, bf, cf)
 error_normalized = error/powerlaw(wavelength, bf, cf)
@@ -222,15 +249,8 @@ snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normal
 if snr_mean_in_ehvo < SNR_CUTOFF:  
     flagged_snr_mean_in_ehvo = True
 
-if flagged_snr_mean_in_ehvo == False:
+#if flagged_snr_mean_in_ehvo == False: #### DO WE NEED THIS?
     # CURVE FIT FOR FIRST POWERLAW
-    try:
-        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
-    except:
-        print("Error - curve_fit failed-1st powerlaw " + spectrum_file_name)
-        print_to_file("Error - curve_fit failed-1st powerlaw " + spectrum_file_name, LOG_FILE)
-
-    bf, cf = pars[0], pars[1]
 
 
     ############# TESTING TWO REGIONS #########################
@@ -258,7 +278,7 @@ if flagged_snr_mean_in_ehvo == False:
 
     if flagged_by_test1 and flagged_by_test2:
         flagged = True
-        error_message = "Flagging figure #" + str(spectra_index) + ", file name: " + spectrum_file_name
+        error_message = "Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
 
@@ -281,9 +301,24 @@ if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
 else:
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
     
-##########################################################
+#############################################################################################
+# Already done throughout the code -- just double check the work/implementation
+# Goodness of Fit --> R-squared value
+# popt, pcov = curve_fit(f, xdata, ydata)  ## Gives parameters
 
-figure_data = FigureData(spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
+## Gives residual sum of squares
+# residuals = ydata - f(xdata, *popt) 
+# residuals = flux - powerlaw(wavelength, *popt)
+ 
+# ss_res - numpy.sum(residuals**2)
+
+# ss_tot = numpy.sum((ydata - numpy.mean(ydata))**2)  ## total sum of squares
+# ss_tot = numpy.sum((flux - numpy.mean(flux))**2)
+
+# r_squared = 1 - (ss_res / ss_tot)
+#############################################################################################
+
+figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
 original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
 
 draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2)
@@ -291,7 +326,7 @@ draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normali
 
 norm_w_f_e = (wavelength, flux_normalized, error_normalized)
 norm_w_f_e = (np.transpose(norm_w_f_e))  
-np.savetxt(SPEC_DIREC + spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
+np.savetxt(SPEC_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
 
 ## OLD END OF PROCESS... 
 
