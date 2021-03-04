@@ -24,7 +24,7 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     flux = spectra_data[point_from:point_to, column_index.flux] 
     error = spectra_data[point_from:point_to, column_index.error] 
     
-   point = PointData(
+    point = PointData(
         np.average(point_ranges.wavelength),
         np.median(point_ranges.flux),
         np.median(point_ranges.error))
@@ -47,3 +47,10 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     error = spectra_data[np.min(wavelength_lower_limit[column_index.wavelength]): np.max(wavelength_upper_limit[column_index.wavelength]), column_index.error]
     
     return RangesData(wavelength, flux, error)
+
+### then calculates the snr with this and "flag" cases with SNR lower a value will be excluded later. 
+def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normalized):
+    wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
+    wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
+    snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
+    return snr_mean_in_ehvo 
