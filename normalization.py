@@ -190,15 +190,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     current_spectrum_file_name = spectra_list[spectra_index - 1]
     
     ## process_spectra_and_draw_figures was removed, but all of these variables are used later on
-    b_final, c_final, failed_test, flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
+    flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
 
     # add condition here?
-    powerlaw_final_b_values.append(b_final)
-    powerlaw_final_c_values.append(c_final)
+    powerlaw_final_b_values.append(bf)
+    powerlaw_final_c_values.append(cf)
     processed_spectra_file_names.append(current_spectrum_file_name)
     indices.append(spectra_index - STARTS_FROM + 1)
     spectra_indices.append(spectra_index)
-    if failed_test: # not defined in our new code
+    if flagged: 
         flagged_spectra_file_names.append(current_spectrum_file_name)
         flagged_indices.append(spectra_index - STARTS_FROM + 1)
         flagged_spectra_indices.append(spectra_index)
