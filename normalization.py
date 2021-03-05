@@ -141,6 +141,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
+    plt.ylim(-5, 50)
     ORIGINAL_PDF.savefig()
     plt.close(figure_index)
 
@@ -166,6 +167,18 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
 
 
 spectra_list, redshift_value_list, snr_value_list = [], [], []
+
+if __name__ == "__main__":
+    clear_file(LOG_FILE)
+    clear_file(GOODNESS_OF_FIT_FILE)
+    clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
+    clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
+    print("Hi!")
+    
+    fields=["index", "spectra index", "chi_sq"]
+    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+    append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
 # Reading the file and assigning to the specific lists
 with open(CONFIG_FILE) as f:  
@@ -225,27 +238,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## process_spectra_and_draw_figures was removed, but all of these variables are used later on
     #flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
 
-    # add condition here?
-    powerlaw_final_b_values.append(bf)
-    powerlaw_final_c_values.append(cf)
-    processed_spectra_file_names.append(current_spectrum_file_name)
-    indices.append(spectra_index - STARTS_FROM + 1)
-    spectra_indices.append(spectra_index)
-    if flagged: 
-        flagged_spectra_file_names.append(current_spectrum_file_name)
-        flagged_indices.append(spectra_index - STARTS_FROM + 1)
-        flagged_spectra_indices.append(spectra_index)
 
-    if flagged_snr_mean_in_ehvo:
-        flagged_snr_spectra_file_names.append(current_spectrum_file_name)
-        flagged_snr_indices.append(spectra_index - STARTS_FROM + 1)
-        flagged_snr_spectra_indices.append(spectra_index)
-        flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
 
 ###spectra_index, z, snr, current_spectrum_file_name
 ###index: int, z, snr, spectrum_file_name
 
-#if flagged_snr_mean_in_ehvo == False: #### DO WE NEED THIS?
+    #if flagged_snr_mean_in_ehvo == False: #### DO WE NEED THIS?
     # CURVE FIT FOR FIRST POWERLAW
 
 
@@ -279,58 +277,70 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print_to_file(error_message, LOG_FILE)
 
 
-##### residuals: the quantity remaining after other values have been subtracted from it
-## flux observed, wavelength is the expected value
-# how off the flux is from the values of the power law at that location
-residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
-residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
-residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
-wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
-### chi squared is comparing flux and wavelength
-chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
+    ##### residuals: the quantity remaining after other values have been subtracted from it
+    ## flux observed, wavelength is the expected value
+    # how off the flux is from the values of the power law at that location
+    residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
+    residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
+    residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
+    wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
+    ### chi squared is comparing flux and wavelength
+    chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
 
-fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
-append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
-# if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
-if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
-    append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
-else:
-    append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+    fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
+    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+    # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
+    if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
+        append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    else:
+        append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
     
-#############################################################################################
-# Already done throughout the code -- just double check the work/implementation
-# Goodness of Fit --> R-squared value
-# popt, pcov = curve_fit(f, xdata, ydata)  ## Gives parameters
+    #############################################################################################
+    # Already done throughout the code -- just double check the work/implementation
+    # Goodness of Fit --> R-squared value
+    # popt, pcov = curve_fit(f, xdata, ydata)  ## Gives parameters
 
-## Gives residual sum of squares
-# residuals = ydata - f(xdata, *popt) 
-# residuals = flux - powerlaw(wavelength, *popt)
- 
-# ss_res - numpy.sum(residuals**2)
-
-# ss_tot = numpy.sum((ydata - numpy.mean(ydata))**2)  ## total sum of squares
-# ss_tot = numpy.sum((flux - numpy.mean(flux))**2)
-
-# r_squared = 1 - (ss_res / ss_tot)
-#############################################################################################
-
-figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
-original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
-
-draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2)
-draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
-
-norm_w_f_e = (wavelength, flux_normalized, error_normalized)
-norm_w_f_e = (np.transpose(norm_w_f_e))  
-np.savetxt(SPEC_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
-
-## OLD END OF PROCESS... 
-
-#XXX OLD END OF MAIN from here
-
-
+    ## Gives residual sum of squares
+    # residuals = ydata - f(xdata, *popt) 
+    # residuals = flux - powerlaw(wavelength, *popt)
     
-#XXX OLD END OF MAIN to here
+    # ss_res - numpy.sum(residuals**2)
+
+    # ss_tot = numpy.sum((ydata - numpy.mean(ydata))**2)  ## total sum of squares
+    # ss_tot = numpy.sum((flux - numpy.mean(flux))**2)
+
+    # r_squared = 1 - (ss_res / ss_tot)
+    #############################################################################################
+
+    figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
+    original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+
+    draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2)
+    draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
+
+    norm_w_f_e = (wavelength, flux_normalized, error_normalized)
+    norm_w_f_e = (np.transpose(norm_w_f_e))  
+    np.savetxt(SPEC_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
+
+    ## OLD END OF PROCESS... 
+
+
+    # add condition here?
+    powerlaw_final_b_values.append(bf)
+    powerlaw_final_c_values.append(cf)
+    processed_spectra_file_names.append(current_spectrum_file_name)
+    indices.append(spectra_index - STARTS_FROM + 1)
+    spectra_indices.append(spectra_index)
+    if flagged: 
+        flagged_spectra_file_names.append(current_spectrum_file_name)
+        flagged_indices.append(spectra_index - STARTS_FROM + 1)
+        flagged_spectra_indices.append(spectra_index)
+
+    if flagged_snr_mean_in_ehvo:
+        flagged_snr_spectra_file_names.append(current_spectrum_file_name)
+        flagged_snr_indices.append(spectra_index - STARTS_FROM + 1)
+        flagged_snr_spectra_indices.append(spectra_index)
+        flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
 
 final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
 final_initial_parameters = (np.transpose(final_initial_parameters))
@@ -355,15 +365,6 @@ np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
 #    print(current_spectrum_file_name) ## later will print this to a file
 
 
-if __name__ == "__main__":
-    clear_file(LOG_FILE)
-    clear_file(GOODNESS_OF_FIT_FILE)
-    clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
-    clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
-    
-    fields=["index", "spectra index", "chi_sq"]
-    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
-    append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
-    append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+
 
    

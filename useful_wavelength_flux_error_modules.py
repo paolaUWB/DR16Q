@@ -25,12 +25,12 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     error = spectra_data[point_from:point_to, column_index.error] 
     
     point = PointData(
-        np.average(point_ranges.wavelength),
-        np.median(point_ranges.flux),
-        np.median(point_ranges.error))
+        np.average(wavelength),
+        np.median(flux),
+        np.median(error))
 
    
-    return PointData(wavelength, flux, error)
+    return point
 
 ###  Function: returns a range of of wavelength, flux and error defined by starting and ending points
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
