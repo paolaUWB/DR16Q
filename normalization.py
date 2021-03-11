@@ -16,11 +16,12 @@ import sys
 import numpy as np 
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
-from scipy.signal import find_peaks ######## TESTING 
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+import time 
+start_time = time.time()
 
 
 #############################################################################################
@@ -127,7 +128,7 @@ def define_three_anchor_points(z: float, spectra_data):
 
 ### --> Create a masking array for flux and error prior to plotting. 
 
-def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData):
+def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
@@ -142,7 +143,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
-    #plt.ylim(-top = max_peak)
+    plt.ylim(-2, max_peak + 3)
     ORIGINAL_PDF.savefig()
     plt.close(figure_index)
 
@@ -176,7 +177,7 @@ if __name__ == "__main__":
     clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
     print("Hi!")
     
-    fields=["index", "spectra index", "chi_sq"]
+    fields=["index", "spectra index", "chi_sq"] #index and spectra index - will they ever be different? causing a repeat of indexing
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
     append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
@@ -308,18 +309,35 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # r_squared = 1 - (ss_res / ss_tot)
     #############################################################################################
+    ### Finding the highest peak between the left and right anchor points to scale graphs
+    #initializing variables
     max_peak = 0
-    all_wavelengths = [i[0] for i in current_spectra_data]
-    all_flux = [i[1] for i in current_spectra_data]
+    flux_in_range = []
+    #arrays of ALL wavelengths and flux of each spectra
+    all_wavelengths = np.array([i[0] for i in current_spectra_data])
+    all_flux = np.array([i[1] for i in current_spectra_data])
+
+    #loops through all wavelengths and creates an array of indices for wavelengths between the left and right anchor points
     for i in all_wavelengths:
-        for j in range(int(left_point_from),int(right_point_to)):
-            max_peak = np.max(all_flux) 
-        print(max_peak)
+        res = np.array([idx for idx, val in enumerate(all_wavelengths) if left_point_from < val < right_point_to]) #indeces of wavelengths in range of left and right point
+        #flux_in_range = np.zeros(np.size(res), dtype='d')
+
+        #loops through all indeces of wavelengths and creates an array of flux values corresponding to the wavelengths in the indices
+        for j in res:
+            #flux_in_range[j] = all_flux
+            flux_in_range.append(all_flux[j])
+
+    #finds the max flux within the wavelength range
+    max_peak = np.max(flux_in_range)
+    #print(max_peak)
+        
+        #left_point_from = 4057.6 [554]
+        #right_point_to = 5420.7 [1811]
 
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
 
-    draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2)
+    draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
     draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
@@ -370,5 +388,5 @@ np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 
 
-
+print("--- %s seconds" %(time.time()-start_time))
    
