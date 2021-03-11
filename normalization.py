@@ -142,7 +142,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
-    plt.ylim(-5, 50)
+    #plt.ylim(-top = max_peak)
     ORIGINAL_PDF.savefig()
     plt.close(figure_index)
 
@@ -205,6 +205,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+
+    left_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start
+    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
 
     point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
 
@@ -305,6 +308,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # r_squared = 1 - (ss_res / ss_tot)
     #############################################################################################
+    max_peak = 0
+    all_wavelengths = [i[0] for i in current_spectra_data]
+    all_flux = [i[1] for i in current_spectra_data]
+    for i in all_wavelengths:
+        for j in range(int(left_point_from),int(right_point_to)):
+            max_peak = np.max(all_flux) 
+        print(max_peak)
 
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
