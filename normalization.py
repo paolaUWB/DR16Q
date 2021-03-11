@@ -16,6 +16,7 @@ import sys
 import numpy as np 
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
+from scipy.signal import find_peaks ######## TESTING 
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
@@ -235,18 +236,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         flagged_snr_mean_in_ehvo = True
 
 
-    ## process_spectra_and_draw_figures was removed, but all of these variables are used later on
-    #flagged_snr_mean_in_ehvo, snr_mean_in_ehvo = process_spectra_and_draw_figures(spectra_index, z, snr, current_spectrum_file_name)
-
-
-
-###spectra_index, z, snr, current_spectrum_file_name
-###index: int, z, snr, spectrum_file_name
-
-    #if flagged_snr_mean_in_ehvo == False: #### DO WE NEED THIS?
-    # CURVE FIT FOR FIRST POWERLAW
-
-
     ############# TESTING TWO REGIONS #########################
     ### checking how good the normalization is
     ## green and pink in original_graphs
@@ -284,11 +273,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
     residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
     wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
+    
     ### chi squared is comparing flux and wavelength
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
+    r_squared = 1 - chi_sq
+    print("R Squared = ", r_squared)
 
     fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+
     # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
     if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
         append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
@@ -296,12 +289,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
     
     #############################################################################################
-    # Already done throughout the code -- just double check the work/implementation
     # Goodness of Fit --> R-squared value
     # popt, pcov = curve_fit(f, xdata, ydata)  ## Gives parameters
+    # pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y)
 
     ## Gives residual sum of squares
     # residuals = ydata - f(xdata, *popt) 
+    # residuals_test1 = test1.flux - powerlaw(test1.wavelength,bf,cf)
     # residuals = flux - powerlaw(wavelength, *popt)
     
     # ss_res - numpy.sum(residuals**2)
