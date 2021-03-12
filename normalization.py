@@ -319,7 +319,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     #loops through all wavelengths and creates an array of indices for wavelengths between the left and right anchor points
     for i in all_wavelengths:
-        res = np.array([idx for idx, val in enumerate(all_wavelengths) if left_point_from < val < right_point_to]) #indeces of wavelengths in range of left and right point
+        res = np.array([idx for idx, val in enumerate(all_wavelengths) if left_point_from < val < right_point_to]) #indices of wavelengths in range of left and right point
         #flux_in_range = np.zeros(np.size(res), dtype='d')
 
         #loops through all indeces of wavelengths and creates an array of flux values corresponding to the wavelengths in the indices
