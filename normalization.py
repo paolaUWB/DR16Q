@@ -77,7 +77,7 @@ NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
 
-def powerlaw(wavelength, b, c) -> float:
+def powerlaw(wavelength, b, c):
     return b * (np.power(wavelength, c))
 
 def define_three_anchor_points(z: float, spectra_data):
