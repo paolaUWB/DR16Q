@@ -208,6 +208,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
 
     left_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start
+    middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
     right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
 
     point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
@@ -310,7 +311,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # r_squared = 1 - (ss_res / ss_tot)
     #############################################################################################
-    ### Finding the highest peak between the left and right anchor points to scale graphs
+    ### Finding the highest peak between the middle and right anchor points to scale graphs
     #initializing variables
     max_peak = 0
     flux_in_range = []
@@ -318,9 +319,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     all_wavelengths = np.array([i[0] for i in current_spectra_data])
     all_flux = np.array([i[1] for i in current_spectra_data])
 
-    #loops through all wavelengths and creates an array of indices for wavelengths between the left and right anchor points
+    #loops through all wavelengths and creates an array of indices for wavelengths between the middle and right anchor points
     for i in all_wavelengths:
-        res = np.array([idx for idx, val in enumerate(all_wavelengths) if left_point_from < val < right_point_to]) #indices of wavelengths in range of left and right point
+        res = np.array([idx for idx, val in enumerate(all_wavelengths) if middle_point_from < val < right_point_to]) #indices of wavelengths in range of middle and right point
         #flux_in_range = np.zeros(np.size(res), dtype='d')
 
         #loops through all indeces of wavelengths and creates an array of flux values corresponding to the wavelengths in the indices
