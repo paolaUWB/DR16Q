@@ -232,7 +232,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # flux_normalized & error_normalized are used to draw the figure
     flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
-    print("####################", error_normalized)
 
     ## flagging spectra with low snr values, we want the high ones
     flagged_snr_mean_in_ehvo = False
