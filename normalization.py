@@ -77,10 +77,41 @@ NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
 
+
 def powerlaw(wavelength, b, c):
+    """ Calculates the power law. 
+
+    Positional Input Parameter:
+        wavelength: array
+            Comes from RangesData().    
+        b: int
+            Initial parameter of powerlaw. 
+        c: float
+            Initial parameter of powerlaw.
+
+    Keyword Input Parameters:
+        None.
+
+    Returns:
+        Power law value in the form of an array.
+    """
     return b * (np.power(wavelength, c))
 
 def define_three_anchor_points(z: float, spectra_data):
+    """ Defines the three anchor points used in the normalization graph.
+
+    Positional Input Parameter:
+        z: float
+            Values from the data base of the redshift, DR9Q (for now..)
+        spectra_data: list
+            Current spectra data from files, DR9Q (for now...)
+               
+    Keyword Input Parameters:
+        None.
+
+    Returns:
+        left_point, middle_point, right_point for wavelength_flux_error_for_points.
+    """
     left_point = wavelength_flux_error_for_points(
         WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start,
         WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.end,
@@ -129,6 +160,26 @@ def define_three_anchor_points(z: float, spectra_data):
 ### --> Create a masking array for flux and error prior to plotting. 
 
 def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
+    """ Draws the original spectra graph.
+
+    Positional Input Parameter:
+        figure_index: int
+            Makes a separate graph for each spectra. 
+        original_ranges: RangesData
+            Ranges of values for the original data.
+        data: FigureDataOriginal
+            Data from DR9Q (for now...).
+        test1: RangesData
+            Green highlighted area on graph. 
+        test2: RangesData
+            Pink highlighted area on graph.
+        max_peak:
+            Max peak value of data per spectra.
+
+    Returns:
+        Creates a graph of the spectra and saves to the original_graphs.pdf
+    """
+
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
@@ -149,6 +200,31 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
 
 def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized, #1 param more since I removed the tuple
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2):
+    """ Draws the normalized spectra graph.
+
+    Positional Input Parameter:
+        figure_index: int
+            Makes a separate graph for each spectra. 
+        original_ranges: RangesData
+            Ranges of values for the original data.
+        figure_data: FigureData
+            Data from DR9Q (for now...).
+        flux_normalized: array
+            
+        error_normalized: array
+            
+        test1: RangesData
+            Green highlighted area on graph. 
+        test2: RangesData
+            Pink highlighted area on graph.
+        normalized_flux_test_1:
+
+        normalized_flux_test_2:
+
+    Returns:
+        Creates a graph of the spectra and saves to the original_graphs.pdf
+    """
+
     main_color = "xkcd:ultramarine"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
@@ -167,8 +243,8 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     NORMALIZED_PDF.savefig()
     plt.close(figure_index)
 
-
 spectra_list, redshift_value_list, snr_value_list = [], [], []
+
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
@@ -237,6 +313,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## flagging spectra with low snr values, we want the high ones
     flagged_snr_mean_in_ehvo = False
     snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
+
+    
+
     if snr_mean_in_ehvo < SNR_CUTOFF:  
         flagged_snr_mean_in_ehvo = True
 
@@ -252,7 +331,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     #Pink Region
     test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
-    
+
+    print("**********************************", type(normalized_flux_test_1))
+
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values 
     if flagged_by_test1:
         print("flagged_by_test1: ", flagged_by_test1)
