@@ -1,16 +1,15 @@
-####################################################
+#####################################################################################################################################
 #   Normalization of the quasar spectra
 #
 # This code normalizes the DRQ spectra with a new algorithm.
 
 # Authors: Paola Rodriguez Hidalgo, Mikel Charles, Wendy Garcia Naranjo, Daria K, Can Tosun, David Nguyen, Sean Haas, Abdul Khatri
 #
-####################################################
+######################################################################################################################################
 
 #############################################################################################
 ########################################## IMPORTS ##########################################
 
-# Basic imports to be able to run the code:
 import os
 import sys
 import numpy as np 
@@ -20,16 +19,17 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from file_reader import read_file#, redshift_value_list, snr_value_list, spectra_list
 import time 
 start_time = time.time()
-
 
 #############################################################################################
 ######################################### VARIABLES ######################################### 
 
-# Space for variables, X that might need to changed -------------------------------------------------
+#Current Data Release Number (i.e. dr9, dr16, etc.)
+DR_EXTENSION = "9"
 
-NORM_FILE_EXTENSION = "norm.dr9" #XXX we might want this as norm. and the option dr9, dr16 in a different location
+NORM_FILE_EXTENSION = "norm.dr" + DR_EXTENSION
 
 # Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
@@ -57,7 +57,6 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
 
-#List of output files
 LOG_FILE = "log.txt"
 FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt" #XXX why the extra / MMC WFGN
 PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
@@ -72,7 +71,7 @@ NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
 
 
 #############################################################################################
-##################################### DEFINITIONS ###########################################
+######################################### FUNCTIONS #########################################
 
 b = 1250 # initial parameter of powerlaw
 c = -0.5 # initial parameter of powerlaw
@@ -243,8 +242,6 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     NORMALIZED_PDF.savefig()
     plt.close(figure_index)
 
-spectra_list, redshift_value_list, snr_value_list = [], [], []
-
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
@@ -258,13 +255,16 @@ if __name__ == "__main__":
     append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
+redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)#, spectra_list, redshift_value_list, snr_value_list)
+
+##spectra_list, redshift_value_list, snr_value_list = [], [], []
 # Reading the file and assigning to the specific lists
-with open(CONFIG_FILE) as f:  
-    for line in f:
-        each_row_in_file = line.split(",")
-        spectra_list.append(each_row_in_file[0])
-        redshift_value_list.append(np.float(each_row_in_file[1]))
-        snr_value_list.append(np.float(each_row_in_file[2]))
+#with open(CONFIG_FILE) as f:  
+#    for line in f:
+#        each_row_in_file = line.split(",")
+#        spectra_list.append(each_row_in_file[0])
+#        redshift_value_list.append(np.float(each_row_in_file[1]))
+#        snr_value_list.append(np.float(each_row_in_file[2]))
 
 indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
 flagged_indices, flagged_spectra_indices, flagged_spectra_file_names = [], [], []
@@ -314,13 +314,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flagged_snr_mean_in_ehvo = False
     snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
 
-    
-
     if snr_mean_in_ehvo < SNR_CUTOFF:  
         flagged_snr_mean_in_ehvo = True
 
 
-    ############# TESTING TWO REGIONS #########################
+    #############################################################################################
+    #################################### TESTING TWO REGIONS ####################################
     ### checking how good the normalization is
     ## green and pink in original_graphs
     flagged = False
@@ -332,7 +331,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 
-    print("**********************************", type(normalized_flux_test_1))
 
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values 
     if flagged_by_test1:
@@ -374,23 +372,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     else:
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
     
-    #############################################################################################
-    # Goodness of Fit --> R-squared value
-    # popt, pcov = curve_fit(f, xdata, ydata)  ## Gives parameters
-    # pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y)
 
-    ## Gives residual sum of squares
-    # residuals = ydata - f(xdata, *popt) 
-    # residuals_test1 = test1.flux - powerlaw(test1.wavelength,bf,cf)
-    # residuals = flux - powerlaw(wavelength, *popt)
-    
-    # ss_res - numpy.sum(residuals**2)
-
-    # ss_tot = numpy.sum((ydata - numpy.mean(ydata))**2)  ## total sum of squares
-    # ss_tot = numpy.sum((flux - numpy.mean(flux))**2)
-
-    # r_squared = 1 - (ss_res / ss_tot)
-    #############################################################################################
     ### Finding the highest peak between the middle and right anchor points to scale graphs
     #initializing variables
     max_peak = 0
@@ -411,10 +393,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     #finds the max flux within the wavelength range
     max_peak = np.max(flux_in_range)
-    #print(max_peak)
-        
-        #left_point_from = 4057.6 [554]
-        #right_point_to = 5420.7 [1811]
+
 
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
