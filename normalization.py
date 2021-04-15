@@ -242,6 +242,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     NORMALIZED_PDF.savefig()
     plt.close(figure_index)
 
+################################
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
