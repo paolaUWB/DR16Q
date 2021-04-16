@@ -26,10 +26,7 @@ start_time = time.time()
 #############################################################################################
 ######################################### VARIABLES ######################################### 
 
-#Current Data Release Number (i.e. dr9, dr16, etc.)
-DR_EXTENSION = "9"
-
-NORM_FILE_EXTENSION = "norm.dr" + DR_EXTENSION
+NORM_FILE_EXTENSION = "norm.dr9"
 
 # Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
@@ -40,7 +37,7 @@ column_index = ColumnIndexes(0, 1, 2)
 # Sets the directory to find the data files (dr9, dr16)
 SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. XXX be able to write from 1 to 10 and end in 10. US LATER
+STARTS_FROM, ENDS_AT = 899, 1527 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
