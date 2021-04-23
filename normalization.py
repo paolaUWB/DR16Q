@@ -239,7 +239,8 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     NORMALIZED_PDF.savefig()
     plt.close(figure_index)
 
-################################
+#############################################################################################
+######################################### MAIN CODE #########################################
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
@@ -253,16 +254,7 @@ if __name__ == "__main__":
     append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
-redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)#, spectra_list, redshift_value_list, snr_value_list)
-
-##spectra_list, redshift_value_list, snr_value_list = [], [], []
-# Reading the file and assigning to the specific lists
-#with open(CONFIG_FILE) as f:  
-#    for line in f:
-#        each_row_in_file = line.split(",")
-#        spectra_list.append(each_row_in_file[0])
-#        redshift_value_list.append(np.float(each_row_in_file[1]))
-#        snr_value_list.append(np.float(each_row_in_file[2]))
+redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)
 
 indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
 flagged_indices, flagged_spectra_indices, flagged_spectra_file_names = [], [], []
@@ -318,8 +310,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     #############################################################################################
     #################################### TESTING TWO REGIONS ####################################
-    ### checking how good the normalization is
-    ## green and pink in original_graphs
+    ### Checking the fit of the curve for the normalization 
+    ## Green and Pink regions in original_graphs.pdf
     flagged = False
     # Green Region
     test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
@@ -371,26 +363,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
     
 
-    ### Finding the highest peak between the middle and right anchor points to scale graphs
-    #initializing variables
-    max_peak = 0
-    flux_in_range = []
-    #arrays of ALL wavelengths and flux of each spectra
-    all_wavelengths = np.array([i[0] for i in current_spectra_data])
-    all_flux = np.array([i[1] for i in current_spectra_data])
+    ### Finding the highest peak between the middle and right anchor points to scale graphs (in y-direction)
+    wavelength_data = current_spectra_data[:,0]
+    flux_data = current_spectra_data[:,1]
 
-    #loops through all wavelengths and creates an array of indices for wavelengths between the middle and right anchor points
-    for i in all_wavelengths:
-        res = np.array([idx for idx, val in enumerate(all_wavelengths) if middle_point_from < val < right_point_to]) #indices of wavelengths in range of middle and right point
-        #flux_in_range = np.zeros(np.size(res), dtype='d')
+    min_wavelength = np.min(np.where(wavelength_data > middle_point_from))
+    max_wavelength = np.max(np.where(wavelength_data < right_point_to))
 
-        #loops through all indeces of wavelengths and creates an array of flux values corresponding to the wavelengths in the indices
-        for j in res:
-            #flux_in_range[j] = all_flux
-            flux_in_range.append(all_flux[j])
-
-    #finds the max flux within the wavelength range
-    max_peak = np.max(flux_in_range)
+    max_peak = np.max(flux_data[min_wavelength + 1 : max_wavelength + 1])
 
 
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
