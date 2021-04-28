@@ -5,12 +5,15 @@
 
 Welcome to sphinx_DR16Q's documentation!
 ========================================
+This is wen testing out sphinx.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
+   mikel
+   paola
+   audrey
 
 Indices and tables
 ==================
