@@ -1,75 +1,1039 @@
-1: spec-3586-55181-0958.dr9
-[10.47571   8.740497  9.666564 11.44847  10.04181   9.01502   7.869709
-  8.854001  8.855597  9.143601 10.87774   9.844144  6.890114  8.793626
-  8.360769  7.542257  9.714358  8.63871   6.538824 10.85072  11.02693
-  8.626207  9.130762  8.071218  8.261957  8.507984  7.697542  8.702859
- 11.30754   9.728931 10.66256   9.904879  9.537363  9.467868  8.989595]
-(4072.865, 4516.479, 5388.2775)
-(9.01502, 7.189985, 6.1183555)
-2: spec-3587-55182-0100.dr9
-[12.1958  11.59876 12.29322 14.04095 13.36728 11.67361 11.93743 13.27202
- 10.86217 11.89074 12.91865 12.37651 11.90292 12.47127 11.28935 11.85905
- 12.36603 12.04609 11.96705 12.80573 12.4697  12.37031 11.38743 11.11805
- 12.20507 12.30345 12.36794 12.5314  12.75738 11.9798  11.32938 13.01379
- 11.50752 12.20671 12.78534]
-(4072.865, 4516.479, 5388.2775)
-(12.20671, 9.319012, 5.7704345)
-3: spec-3587-55182-0132.dr9
-[6.942208 7.031063 6.725445 6.4023   7.637783 6.797405 7.158792 6.774362
- 6.392786 7.502538 6.691806 6.079427 6.706494 7.122571 6.955506 6.925763
- 7.008945 7.134659 7.0009   6.817621 6.57447  6.518582 7.28161  6.484188
- 6.479718 6.76207  6.864627 6.806323 6.263947 7.500929 7.15072  6.869896
- 6.738174 5.802304]
-(5699.6735, 6320.4794999999995, 7539.629)
-(6.811972, 5.1836365, 4.4832725)
-4: spec-3587-55182-0282.dr9
-[2.509202 3.840596 3.953387 3.29216  3.42986  4.027395 3.868224 4.767644
- 4.877713 3.936288 3.244803 3.751731 4.653713 3.94344  4.506616 3.70071
- 2.710735 3.120999 4.082273 4.611076 3.590882 3.37855  3.603312 3.634288
- 3.891572 3.350543 3.114236 3.435143 4.042719 4.23043  3.663332 3.793538
- 3.802784 3.193351 3.062294]
-(4118.13, 4566.674, 5448.1625)
-(3.751731, 3.595143, 3.4603585)
-5: spec-3587-55182-0346.dr9
-[6.663891 4.30541  5.238342 6.184585 7.096171 7.143984 5.52026  6.479951
- 6.05531  5.049861 5.847162 6.817509 5.556967 6.35515  5.037594 6.411405
- 6.551827 5.680811 7.482943 6.011443 6.017148 5.869981 5.784332 6.046999
- 5.947815 5.401111 5.012025 5.513571 6.137224 6.030917 5.86844  7.432623
- 5.927964 6.73607 ]
-(3859.6684999999998, 4280.062, 5105.638)
-(6.014295499999999, 6.1099605, 5.3206335)
+899: spec-3810-55531-0104.dr9
+900: spec-3810-55531-0245.dr9
+flagged_by_test2: True
+901: spec-3810-55531-0842.dr9
 flagged_by_test1: True
-6: spec-3587-55182-0570.dr9
-[21.48274 22.58868 21.0654  21.74119 21.37957 20.51186 21.81045 19.56475
- 21.3718  21.40826 20.95513 20.8887  19.88136 20.2057  22.04257 21.448
- 20.23942 20.43963 21.19394 20.69399 21.04545 20.89607 20.12915 19.54874
- 19.64585 19.74413 19.44426 20.38414 21.45434 21.44677 20.53619 19.97934
- 21.73063 20.768  ]
-(4150.018, 4602.0365, 5489.717500000001)
-(20.892385, 16.855015, 11.399495)
+902: spec-3810-55531-0848.dr9
+903: spec-3811-55538-0830.dr9
+904: spec-3811-55538-0938.dr9
+905: spec-3811-55538-0972.dr9
 flagged_by_test2: True
-7: spec-3587-55182-0734.dr9
-[3.944225 1.699357 2.641721 3.286696 3.317929 4.092101 2.986007 4.711464
- 4.741566 4.464422 4.521939 4.060642 3.555921 2.559395 3.392104 4.370245
- 4.05338  3.37589  4.336989 4.59715  4.178363 3.726513 3.794508 4.302007
- 4.43175  4.458181 4.476915 4.872652 4.55921  3.367752 4.103623 4.523732
- 4.355337 4.538642 4.74555 ]
-(5446.28, 6039.485, 7205.2665)
-(4.178363, 3.59766, 2.868169)
+906: spec-3811-55538-0990.dr9
+907: spec-3812-55513-0330.dr9
+908: spec-3812-55513-0496.dr9
+flagged_by_test1: True
 flagged_by_test2: True
-8: spec-3588-55184-0486.dr9
-[3.433144 3.612001 3.914588 4.063537 3.840235 4.310726 3.782557 3.591641
- 3.81652  3.45588  3.883962 3.797621 3.630698 3.579232 3.816932 4.101495
- 3.452494 3.700898 3.375332 3.289588 3.633996 3.635238 3.737901 3.557567
- 3.301769 3.608572 4.029584 3.594011 2.95771  3.706973 3.313511 3.274028
- 3.883729 3.592666 2.995891]
-(4948.801, 5488.4535, 6547.1145)
-(3.630698, 3.084764, 2.4637135)
-9: spec-3588-55184-0491.dr9
-[7.5273   7.741663 8.082543 7.920908 7.647721 7.866289 8.054665 7.943635
- 7.089036 6.447313 7.073802 8.131905 7.209661 7.041581 8.307518 8.108152
- 6.574454 8.342924 7.792183 7.258213 8.015673 8.221089 7.605276 8.710205
- 7.171092 7.692791 7.879499 7.737757 8.160024 7.589673 7.216114 7.918054
- 7.140373 6.276028 7.015203]
-(4261.869, 4726.068, 5638.3235)
-(7.737757, 6.848751, 4.9586255)
+Flagging figure #908, file name: spec-3812-55513-0496.dr9
+909: spec-3812-55513-0558.dr9
+910: spec-3812-55513-0580.dr9
+flagged_by_test1: True
+911: spec-3812-55513-0606.dr9
+flagged_by_test2: True
+912: spec-3812-55513-0822.dr9
+flagged_by_test2: True
+913: spec-3813-55532-0114.dr9
+flagged_by_test1: True
+914: spec-3813-55532-0172.dr9
+915: spec-3813-55532-0510.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #915, file name: spec-3813-55532-0510.dr9
+916: spec-3813-55532-0622.dr9
+flagged_by_test2: True
+917: spec-3813-55532-0646.dr9
+flagged_by_test2: True
+918: spec-3813-55532-0791.dr9
+flagged_by_test1: True
+919: spec-3813-55532-0800.dr9
+920: spec-3813-55532-0824.dr9
+921: spec-3813-55532-0878.dr9
+922: spec-3813-55532-0998.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #922, file name: spec-3813-55532-0998.dr9
+923: spec-3814-55535-0014.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #923, file name: spec-3814-55535-0014.dr9
+924: spec-3814-55535-0306.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #924, file name: spec-3814-55535-0306.dr9
+925: spec-3815-55537-0030.dr9
+926: spec-3815-55537-0072.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #926, file name: spec-3815-55537-0072.dr9
+927: spec-3815-55537-0086.dr9
+928: spec-3815-55537-0098.dr9
+929: spec-3815-55537-0237.dr9
+flagged_by_test2: True
+930: spec-3815-55537-0266.dr9
+931: spec-3815-55537-0368.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #931, file name: spec-3815-55537-0368.dr9
+932: spec-3815-55537-0706.dr9
+933: spec-3815-55537-0878.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #933, file name: spec-3815-55537-0878.dr9
+934: spec-3815-55537-0910.dr9
+935: spec-3816-55272-0090.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #935, file name: spec-3816-55272-0090.dr9
+936: spec-3816-55272-0549.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #936, file name: spec-3816-55272-0549.dr9
+937: spec-3816-55272-0600.dr9
+938: spec-3816-55272-0614.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #938, file name: spec-3816-55272-0614.dr9
+939: spec-3816-55272-0618.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #939, file name: spec-3816-55272-0618.dr9
+940: spec-3816-55272-0672.dr9
+941: spec-3816-55272-0688.dr9
+942: spec-3816-55272-0738.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #942, file name: spec-3816-55272-0738.dr9
+943: spec-3816-55272-0836.dr9
+944: spec-3816-55272-0878.dr9
+flagged_by_test2: True
+945: spec-3817-55277-0020.dr9
+946: spec-3817-55277-0218.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #946, file name: spec-3817-55277-0218.dr9
+947: spec-3817-55277-0368.dr9
+flagged_by_test2: True
+948: spec-3817-55277-0474.dr9
+949: spec-3817-55277-0578.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #949, file name: spec-3817-55277-0578.dr9
+950: spec-3817-55277-0647.dr9
+951: spec-3817-55277-0648.dr9
+952: spec-3817-55277-0792.dr9
+flagged_by_test1: True
+953: spec-3817-55277-0862.dr9
+954: spec-3817-55277-0934.dr9
+955: spec-3817-55277-0990.dr9
+flagged_by_test2: True
+956: spec-3818-55532-0142.dr9
+957: spec-3818-55532-0528.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #957, file name: spec-3818-55532-0528.dr9
+958: spec-3818-55532-0676.dr9
+959: spec-3818-55532-0762.dr9
+960: spec-3818-55532-0810.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #960, file name: spec-3818-55532-0810.dr9
+961: spec-3818-55532-0856.dr9
+962: spec-3818-55532-0980.dr9
+flagged_by_test2: True
+963: spec-3819-55540-0028.dr9
+flagged_by_test2: True
+964: spec-3819-55540-0046.dr9
+965: spec-3819-55540-0166.dr9
+966: spec-3819-55540-0672.dr9
+967: spec-3819-55540-0702.dr9
+968: spec-3819-55540-0806.dr9
+969: spec-3819-55540-0900.dr9
+flagged_by_test1: True
+970: spec-3820-55542-0116.dr9
+971: spec-3820-55542-0328.dr9
+972: spec-3820-55542-0548.dr9
+973: spec-3820-55542-0660.dr9
+974: spec-3821-55535-0436.dr9
+flagged_by_test2: True
+975: spec-3821-55535-0554.dr9
+976: spec-3821-55535-0628.dr9
+flagged_by_test1: True
+977: spec-3821-55535-0766.dr9
+flagged_by_test2: True
+978: spec-3821-55535-0820.dr9
+979: spec-3821-55535-0821.dr9
+flagged_by_test2: True
+980: spec-3821-55535-0914.dr9
+981: spec-3821-55535-0996.dr9
+flagged_by_test2: True
+982: spec-3822-55544-0044.dr9
+983: spec-3822-55544-0476.dr9
+flagged_by_test2: True
+984: spec-3822-55544-0600.dr9
+985: spec-3822-55544-0750.dr9
+flagged_by_test2: True
+986: spec-3822-55544-0816.dr9
+flagged_by_test1: True
+987: spec-3822-55544-0908.dr9
+988: spec-3823-55534-0044.dr9
+989: spec-3823-55534-0564.dr9
+990: spec-3823-55534-0732.dr9
+flagged_by_test2: True
+991: spec-3823-55534-0754.dr9
+992: spec-3823-55534-0822.dr9
+flagged_by_test2: True
+993: spec-3823-55534-0914.dr9
+flagged_by_test1: True
+994: spec-3825-55533-0650.dr9
+995: spec-3825-55533-0692.dr9
+flagged_by_test1: True
+996: spec-3825-55533-0784.dr9
+997: spec-3825-55533-0890.dr9
+998: spec-3825-55533-0974.dr9
+999: spec-3826-55563-0112.dr9
+1000: spec-3826-55563-0148.dr9
+1001: spec-3826-55563-0190.dr9
+1002: spec-3826-55563-0634.dr9
+1003: spec-3826-55563-0772.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1003, file name: spec-3826-55563-0772.dr9
+1004: spec-3826-55563-0860.dr9
+flagged_by_test2: True
+1005: spec-3826-55563-0869.dr9
+flagged_by_test1: True
+1006: spec-3826-55563-0872.dr9
+1007: spec-3826-55563-0891.dr9
+flagged_by_test2: True
+1008: spec-3826-55563-0900.dr9
+1009: spec-3827-55565-0090.dr9
+1010: spec-3827-55565-0262.dr9
+flagged_by_test1: True
+1011: spec-3827-55565-0274.dr9
+1012: spec-3827-55565-0436.dr9
+1013: spec-3827-55565-0508.dr9
+1014: spec-3827-55565-0618.dr9
+flagged_by_test2: True
+1015: spec-3827-55565-0952.dr9
+1016: spec-3828-55539-0016.dr9
+1017: spec-3828-55539-0072.dr9
+1018: spec-3828-55539-0112.dr9
+flagged_by_test2: True
+1019: spec-3828-55539-0118.dr9
+1020: spec-3828-55539-0148.dr9
+1021: spec-3828-55539-0522.dr9
+flagged_by_test1: True
+1022: spec-3828-55539-0554.dr9
+flagged_by_test2: True
+1023: spec-3828-55539-0558.dr9
+1024: spec-3828-55539-0578.dr9
+1025: spec-3828-55539-0602.dr9
+1026: spec-3828-55539-0774.dr9
+flagged_by_test1: True
+1027: spec-3828-55539-0810.dr9
+1028: spec-3828-55539-0838.dr9
+1029: spec-3828-55539-0876.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1029, file name: spec-3828-55539-0876.dr9
+1030: spec-3828-55539-0898.dr9
+1031: spec-3828-55539-0958.dr9
+1032: spec-3829-55300-0076.dr9
+flagged_by_test1: True
+1033: spec-3829-55300-0258.dr9
+1034: spec-3829-55300-0546.dr9
+1035: spec-3829-55300-0721.dr9
+flagged_by_test2: True
+1036: spec-3829-55300-0736.dr9
+1037: spec-3829-55300-0770.dr9
+1038: spec-3829-55300-0802.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1038, file name: spec-3829-55300-0802.dr9
+1039: spec-3829-55300-0860.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1039, file name: spec-3829-55300-0860.dr9
+1040: spec-3829-55300-0938.dr9
+1041: spec-3830-55574-0356.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1041, file name: spec-3830-55574-0356.dr9
+1042: spec-3831-55543-0009.dr9
+1043: spec-3831-55543-0052.dr9
+1044: spec-3831-55543-0184.dr9
+1045: spec-3831-55543-0572.dr9
+1046: spec-3831-55543-0578.dr9
+flagged_by_test2: True
+1047: spec-3831-55543-0582.dr9
+1048: spec-3831-55543-0602.dr9
+flagged_by_test1: True
+1049: spec-3831-55543-0642.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1049, file name: spec-3831-55543-0642.dr9
+1050: spec-3831-55543-0894.dr9
+flagged_by_test2: True
+1051: spec-3832-55289-0144.dr9
+flagged_by_test1: True
+1052: spec-3832-55289-0286.dr9
+1053: spec-3832-55289-0287.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1053, file name: spec-3832-55289-0287.dr9
+1054: spec-3832-55289-0376.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1054, file name: spec-3832-55289-0376.dr9
+1055: spec-3832-55289-0409.dr9
+flagged_by_test2: True
+1056: spec-3832-55289-0479.dr9
+flagged_by_test2: True
+1057: spec-3832-55289-0538.dr9
+1058: spec-3832-55289-0560.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1058, file name: spec-3832-55289-0560.dr9
+1059: spec-3832-55289-0618.dr9
+flagged_by_test2: True
+1060: spec-3832-55289-0630.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1060, file name: spec-3832-55289-0630.dr9
+1061: spec-3832-55289-0678.dr9
+1062: spec-3832-55289-0692.dr9
+1063: spec-3832-55289-0768.dr9
+1064: spec-3832-55289-0778.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1064, file name: spec-3832-55289-0778.dr9
+1065: spec-3832-55289-0814.dr9
+flagged_by_test1: True
+1066: spec-3833-55290-0038.dr9
+1067: spec-3833-55290-0066.dr9
+1068: spec-3833-55290-0128.dr9
+1069: spec-3833-55290-0218.dr9
+1070: spec-3833-55290-0220.dr9
+1071: spec-3833-55290-0232.dr9
+1072: spec-3833-55290-0390.dr9
+flagged_by_test2: True
+1073: spec-3833-55290-0456.dr9
+flagged_by_test2: True
+1074: spec-3833-55290-0548.dr9
+1075: spec-3833-55290-0620.dr9
+1076: spec-3833-55290-0740.dr9
+1077: spec-3833-55290-0806.dr9
+flagged_by_test2: True
+1078: spec-3833-55290-0826.dr9
+1079: spec-3833-55290-0858.dr9
+flagged_by_test2: True
+1080: spec-3833-55290-0977.dr9
+1081: spec-3834-55569-0894.dr9
+1082: spec-3835-55570-0108.dr9
+1083: spec-3835-55570-0216.dr9
+1084: spec-3835-55570-0364.dr9
+flagged_by_test1: True
+1085: spec-3835-55570-0398.dr9
+1086: spec-3835-55570-0894.dr9
+1087: spec-3835-55570-0906.dr9
+1088: spec-3836-55302-0042.dr9
+flagged_by_test2: True
+1089: spec-3836-55302-0240.dr9
+flagged_by_test2: True
+1090: spec-3836-55302-0502.dr9
+1091: spec-3836-55302-0603.dr9
+flagged_by_test2: True
+1092: spec-3836-55302-0628.dr9
+flagged_by_test1: True
+1093: spec-3836-55302-0635.dr9
+1094: spec-3836-55302-0657.dr9
+1095: spec-3836-55302-0670.dr9
+flagged_by_test2: True
+1096: spec-3836-55302-0692.dr9
+flagged_by_test2: True
+1097: spec-3836-55302-0764.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1097, file name: spec-3836-55302-0764.dr9
+1098: spec-3836-55302-0768.dr9
+1099: spec-3836-55302-0810.dr9
+1100: spec-3836-55302-0902.dr9
+1101: spec-3837-55572-0085.dr9
+1102: spec-3837-55572-0152.dr9
+1103: spec-3837-55572-0250.dr9
+1104: spec-3837-55572-0290.dr9
+1105: spec-3837-55572-0672.dr9
+1106: spec-3837-55572-0822.dr9
+1107: spec-3837-55572-0951.dr9
+1108: spec-3838-55588-0362.dr9
+flagged_by_test2: True
+1109: spec-3838-55588-0364.dr9
+1110: spec-3838-55588-0652.dr9
+1111: spec-3838-55588-0688.dr9
+flagged_by_test1: True
+1112: spec-3838-55588-0740.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1112, file name: spec-3838-55588-0740.dr9
+1113: spec-3838-55588-0854.dr9
+flagged_by_test2: True
+1114: spec-3838-55588-0858.dr9
+1115: spec-3839-55575-0164.dr9
+1116: spec-3839-55575-0530.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1116, file name: spec-3839-55575-0530.dr9
+1117: spec-3839-55575-0876.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1117, file name: spec-3839-55575-0876.dr9
+1118: spec-3839-55575-0894.dr9
+flagged_by_test2: True
+1119: spec-3840-55574-0139.dr9
+1120: spec-3840-55574-0148.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1120, file name: spec-3840-55574-0148.dr9
+1121: spec-3840-55574-0207.dr9
+1122: spec-3840-55574-0585.dr9
+1123: spec-3840-55574-0733.dr9
+1124: spec-3840-55574-0738.dr9
+flagged_by_test1: True
+1125: spec-3840-55574-0846.dr9
+flagged_by_test1: True
+1126: spec-3840-55574-0932.dr9
+1127: spec-3841-55572-0274.dr9
+1128: spec-3841-55572-0596.dr9
+flagged_by_test2: True
+1129: spec-3842-55565-0513.dr9
+1130: spec-3842-55565-0550.dr9
+1131: spec-3842-55565-0582.dr9
+flagged_by_test1: True
+1132: spec-3842-55565-0762.dr9
+1133: spec-3842-55565-0770.dr9
+1134: spec-3842-55565-0904.dr9
+1135: spec-3842-55565-0976.dr9
+1136: spec-3843-55278-0778.dr9
+flagged_by_test2: True
+1137: spec-3843-55278-0804.dr9
+flagged_by_test1: True
+1138: spec-3844-55321-0194.dr9
+1139: spec-3844-55321-0348.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1139, file name: spec-3844-55321-0348.dr9
+1140: spec-3844-55321-0515.dr9
+1141: spec-3844-55321-0587.dr9
+1142: spec-3844-55321-0920.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1142, file name: spec-3844-55321-0920.dr9
+1143: spec-3844-55321-0990.dr9
+flagged_by_test2: True
+1144: spec-3845-55323-0078.dr9
+flagged_by_test1: True
+1145: spec-3845-55323-0604.dr9
+flagged_by_test2: True
+1146: spec-3845-55323-0628.dr9
+1147: spec-3845-55323-0730.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1147, file name: spec-3845-55323-0730.dr9
+1148: spec-3846-55327-0061.dr9
+1149: spec-3846-55327-0082.dr9
+1150: spec-3846-55327-0163.dr9
+1151: spec-3846-55327-0422.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1151, file name: spec-3846-55327-0422.dr9
+1152: spec-3846-55327-0564.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1152, file name: spec-3846-55327-0564.dr9
+1153: spec-3846-55327-0750.dr9
+1154: spec-3846-55327-0812.dr9
+1155: spec-3846-55327-0816.dr9
+1156: spec-3846-55327-0865.dr9
+1157: spec-3846-55327-0948.dr9
+flagged_by_test2: True
+1158: spec-3847-55588-0014.dr9
+1159: spec-3847-55588-0018.dr9
+1160: spec-3847-55588-0079.dr9
+1161: spec-3847-55588-0092.dr9
+1162: spec-3847-55588-0130.dr9
+flagged_by_test2: True
+1163: spec-3847-55588-0140.dr9
+1164: spec-3847-55588-0164.dr9
+1165: spec-3847-55588-0174.dr9
+1166: spec-3847-55588-0250.dr9
+1167: spec-3847-55588-0298.dr9
+1168: spec-3847-55588-0376.dr9
+flagged_by_test1: True
+1169: spec-3847-55588-0621.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1169, file name: spec-3847-55588-0621.dr9
+1170: spec-3847-55588-0656.dr9
+flagged_by_test2: True
+1171: spec-3847-55588-0715.dr9
+flagged_by_test1: True
+1172: spec-3847-55588-0804.dr9
+1173: spec-3847-55588-0908.dr9
+1174: spec-3847-55588-0940.dr9
+1175: spec-3848-55647-0530.dr9
+1176: spec-3848-55647-0658.dr9
+1177: spec-3848-55647-0710.dr9
+1178: spec-3848-55647-0772.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1178, file name: spec-3848-55647-0772.dr9
+1179: spec-3848-55647-0778.dr9
+1180: spec-3848-55647-0802.dr9
+1181: spec-3848-55647-0876.dr9
+1182: spec-3848-55647-0896.dr9
+1183: spec-3848-55647-0908.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1183, file name: spec-3848-55647-0908.dr9
+1184: spec-3849-55274-0005.dr9
+flagged_by_test1: True
+1185: spec-3849-55274-0265.dr9
+1186: spec-3849-55274-0512.dr9
+1187: spec-3849-55274-0518.dr9
+1188: spec-3849-55274-0608.dr9
+1189: spec-3849-55274-0614.dr9
+1190: spec-3849-55274-0732.dr9
+flagged_by_test2: True
+1191: spec-3849-55274-0758.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1191, file name: spec-3849-55274-0758.dr9
+1192: spec-3849-55274-0764.dr9
+1193: spec-3849-55274-0846.dr9
+1194: spec-3849-55274-0966.dr9
+1195: spec-3850-55575-0134.dr9
+flagged_by_test1: True
+1196: spec-3850-55575-0224.dr9
+flagged_by_test2: True
+1197: spec-3850-55575-0440.dr9
+flagged_by_test1: True
+1198: spec-3850-55575-0580.dr9
+flagged_by_test2: True
+1199: spec-3850-55575-0688.dr9
+1200: spec-3850-55575-0698.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1200, file name: spec-3850-55575-0698.dr9
+1201: spec-3850-55575-0852.dr9
+flagged_by_test2: True
+1202: spec-3850-55575-0876.dr9
+flagged_by_test2: True
+1203: spec-3850-55575-0909.dr9
+flagged_by_test1: True
+1204: spec-3851-55302-0050.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1204, file name: spec-3851-55302-0050.dr9
+1205: spec-3851-55302-0124.dr9
+1206: spec-3851-55302-0140.dr9
+1207: spec-3851-55302-0150.dr9
+1208: spec-3851-55302-0302.dr9
+1209: spec-3851-55302-0340.dr9
+1210: spec-3851-55302-0368.dr9
+flagged_by_test1: True
+1211: spec-3851-55302-0404.dr9
+1212: spec-3851-55302-0432.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1212, file name: spec-3851-55302-0432.dr9
+1213: spec-3851-55302-0444.dr9
+1214: spec-3851-55302-0556.dr9
+1215: spec-3851-55302-0562.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1215, file name: spec-3851-55302-0562.dr9
+1216: spec-3851-55302-0600.dr9
+flagged_by_test2: True
+1217: spec-3851-55302-0646.dr9
+1218: spec-3851-55302-0686.dr9
+flagged_by_test2: True
+1219: spec-3851-55302-0910.dr9
+1220: spec-3852-55243-0040.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1220, file name: spec-3852-55243-0040.dr9
+1221: spec-3852-55243-0062.dr9
+flagged_by_test1: True
+1222: spec-3852-55243-0094.dr9
+1223: spec-3852-55243-0244.dr9
+1224: spec-3852-55243-0248.dr9
+1225: spec-3852-55243-0284.dr9
+flagged_by_test1: True
+1226: spec-3852-55243-0352.dr9
+1227: spec-3852-55243-0396.dr9
+1228: spec-3852-55243-0402.dr9
+flagged_by_test2: True
+1229: spec-3852-55243-0468.dr9
+1230: spec-3852-55243-0522.dr9
+1231: spec-3852-55243-0588.dr9
+flagged_by_test2: True
+1232: spec-3852-55243-0652.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1232, file name: spec-3852-55243-0652.dr9
+1233: spec-3852-55243-0690.dr9
+1234: spec-3852-55243-0716.dr9
+1235: spec-3852-55243-0780.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1235, file name: spec-3852-55243-0780.dr9
+1236: spec-3853-55268-0020.dr9
+1237: spec-3853-55268-0178.dr9
+flagged_by_test2: True
+1238: spec-3853-55268-0220.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1238, file name: spec-3853-55268-0220.dr9
+1239: spec-3853-55268-0336.dr9
+1240: spec-3853-55268-0386.dr9
+1241: spec-3853-55268-0388.dr9
+1242: spec-3853-55268-0410.dr9
+flagged_by_test2: True
+1243: spec-3853-55268-0439.dr9
+1244: spec-3853-55268-0501.dr9
+1245: spec-3853-55268-0718.dr9
+1246: spec-3853-55268-0736.dr9
+flagged_by_test2: True
+1247: spec-3853-55268-0776.dr9
+1248: spec-3853-55268-0802.dr9
+1249: spec-3854-55247-0146.dr9
+1250: spec-3854-55247-0284.dr9
+1251: spec-3854-55247-0394.dr9
+flagged_by_test1: True
+1252: spec-3854-55247-0550.dr9
+flagged_by_test1: True
+1253: spec-3854-55247-0585.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1253, file name: spec-3854-55247-0585.dr9
+1254: spec-3854-55247-0588.dr9
+flagged_by_test2: True
+1255: spec-3854-55247-0624.dr9
+1256: spec-3854-55247-0726.dr9
+1257: spec-3854-55247-0766.dr9
+1258: spec-3854-55247-0849.dr9
+1259: spec-3854-55247-0944.dr9
+1260: spec-3854-55247-0966.dr9
+1261: spec-3855-55268-0044.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1261, file name: spec-3855-55268-0044.dr9
+1262: spec-3855-55268-0048.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1262, file name: spec-3855-55268-0048.dr9
+1263: spec-3855-55268-0120.dr9
+flagged_by_test2: True
+1264: spec-3855-55268-0214.dr9
+1265: spec-3855-55268-0254.dr9
+flagged_by_test2: True
+1266: spec-3855-55268-0278.dr9
+1267: spec-3855-55268-0312.dr9
+1268: spec-3855-55268-0332.dr9
+1269: spec-3855-55268-0342.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1269, file name: spec-3855-55268-0342.dr9
+1270: spec-3855-55268-0350.dr9
+flagged_by_test1: True
+1271: spec-3855-55268-0496.dr9
+flagged_by_test2: True
+1272: spec-3855-55268-0522.dr9
+1273: spec-3855-55268-0572.dr9
+flagged_by_test1: True
+1274: spec-3855-55268-0582.dr9
+flagged_by_test2: True
+1275: spec-3855-55268-0953.dr9
+flagged_by_test2: True
+1276: spec-3855-55268-0970.dr9
+1277: spec-3856-55269-0021.dr9
+1278: spec-3856-55269-0265.dr9
+flagged_by_test1: True
+1279: spec-3856-55269-0298.dr9
+1280: spec-3856-55269-0344.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1280, file name: spec-3856-55269-0344.dr9
+1281: spec-3856-55269-0346.dr9
+1282: spec-3856-55269-0360.dr9
+flagged_by_test2: True
+1283: spec-3856-55269-0362.dr9
+flagged_by_test2: True
+1284: spec-3856-55269-0388.dr9
+1285: spec-3856-55269-0658.dr9
+1286: spec-3856-55269-0660.dr9
+1287: spec-3856-55269-0682.dr9
+1288: spec-3856-55269-0738.dr9
+flagged_by_test1: True
+1289: spec-3857-55272-0280.dr9
+1290: spec-3857-55272-0320.dr9
+1291: spec-3857-55272-0457.dr9
+1292: spec-3857-55272-0464.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1292, file name: spec-3857-55272-0464.dr9
+1293: spec-3857-55272-0570.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1293, file name: spec-3857-55272-0570.dr9
+1294: spec-3857-55272-0708.dr9
+1295: spec-3857-55272-0986.dr9
+1296: spec-3858-55273-0078.dr9
+flagged_by_test2: True
+1297: spec-3858-55273-0354.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1297, file name: spec-3858-55273-0354.dr9
+1298: spec-3858-55273-0546.dr9
+1299: spec-3858-55273-0550.dr9
+1300: spec-3858-55273-0574.dr9
+flagged_by_test2: True
+1301: spec-3858-55273-0612.dr9
+flagged_by_test2: True
+1302: spec-3858-55273-0644.dr9
+1303: spec-3858-55273-0690.dr9
+1304: spec-3858-55273-0976.dr9
+flagged_by_test1: True
+1305: spec-3858-55273-1000.dr9
+1306: spec-3859-55246-0052.dr9
+1307: spec-3859-55246-0062.dr9
+1308: spec-3859-55246-0172.dr9
+flagged_by_test2: True
+1309: spec-3859-55246-0184.dr9
+1310: spec-3859-55246-0198.dr9
+1311: spec-3859-55246-0636.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1311, file name: spec-3859-55246-0636.dr9
+1312: spec-3859-55246-0680.dr9
+flagged_by_test2: True
+1313: spec-3859-55246-0732.dr9
+1314: spec-3859-55246-0772.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1314, file name: spec-3859-55246-0772.dr9
+1315: spec-3859-55246-0838.dr9
+1316: spec-3859-55246-0866.dr9
+flagged_by_test1: True
+1317: spec-3859-55246-0896.dr9
+1318: spec-3859-55246-0910.dr9
+flagged_by_test2: True
+1319: spec-3860-55269-0090.dr9
+1320: spec-3860-55269-0112.dr9
+1321: spec-3860-55269-0132.dr9
+1322: spec-3860-55269-0170.dr9
+1323: spec-3860-55269-0244.dr9
+1324: spec-3860-55269-0368.dr9
+1325: spec-3860-55269-0380.dr9
+flagged_by_test2: True
+1326: spec-3860-55269-0688.dr9
+flagged_by_test1: True
+1327: spec-3860-55269-0816.dr9
+1328: spec-3860-55269-0826.dr9
+flagged_by_test2: True
+1329: spec-3860-55269-0938.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1329, file name: spec-3860-55269-0938.dr9
+1330: spec-3860-55269-0999.dr9
+1331: spec-3861-55274-0086.dr9
+flagged_by_test1: True
+1332: spec-3861-55274-0154.dr9
+1333: spec-3861-55274-0262.dr9
+1334: spec-3861-55274-0288.dr9
+1335: spec-3861-55274-0340.dr9
+1336: spec-3861-55274-0350.dr9
+flagged_by_test2: True
+1337: spec-3861-55274-0464.dr9
+1338: spec-3861-55274-0472.dr9
+flagged_by_test2: True
+1339: spec-3861-55274-0510.dr9
+1340: spec-3861-55274-0542.dr9
+1341: spec-3861-55274-0582.dr9
+flagged_by_test2: True
+1342: spec-3861-55274-0588.dr9
+1343: spec-3861-55274-0852.dr9
+flagged_by_test1: True
+1344: spec-3861-55274-0964.dr9
+1345: spec-3862-55276-0142.dr9
+1346: spec-3862-55276-0214.dr9
+flagged_by_test1: True
+1347: spec-3862-55276-0430.dr9
+1348: spec-3862-55276-0594.dr9
+flagged_by_test2: True
+1349: spec-3862-55276-0768.dr9
+1350: spec-3862-55276-0806.dr9
+1351: spec-3862-55276-0974.dr9
+flagged_by_test2: True
+1352: spec-3863-55280-0024.dr9
+1353: spec-3863-55280-0196.dr9
+1354: spec-3863-55280-0264.dr9
+1355: spec-3863-55280-0298.dr9
+flagged_by_test2: True
+1356: spec-3863-55280-0414.dr9
+1357: spec-3863-55280-0638.dr9
+1358: spec-3863-55280-0762.dr9
+flagged_by_test2: True
+1359: spec-3864-55649-0066.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1359, file name: spec-3864-55649-0066.dr9
+1360: spec-3864-55649-0150.dr9
+1361: spec-3864-55649-0159.dr9
+1362: spec-3864-55649-0170.dr9
+1363: spec-3864-55649-0182.dr9
+flagged_by_test1: True
+1364: spec-3864-55649-0196.dr9
+1365: spec-3864-55649-0246.dr9
+1366: spec-3864-55649-0576.dr9
+1367: spec-3864-55649-0600.dr9
+1368: spec-3864-55649-0644.dr9
+flagged_by_test2: True
+1369: spec-3864-55649-0752.dr9
+flagged_by_test2: True
+1370: spec-3864-55649-0850.dr9
+1371: spec-3865-55272-0056.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1371, file name: spec-3865-55272-0056.dr9
+1372: spec-3865-55272-0072.dr9
+1373: spec-3865-55272-0116.dr9
+1374: spec-3865-55272-0124.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1374, file name: spec-3865-55272-0124.dr9
+1375: spec-3865-55272-0178.dr9
+1376: spec-3865-55272-0198.dr9
+flagged_by_test1: True
+1377: spec-3865-55272-0278.dr9
+1378: spec-3865-55272-0282.dr9
+1379: spec-3865-55272-0344.dr9
+flagged_by_test2: True
+1380: spec-3865-55272-0356.dr9
+1381: spec-3865-55272-0392.dr9
+1382: spec-3865-55272-0424.dr9
+1383: spec-3865-55272-0454.dr9
+1384: spec-3865-55272-0460.dr9
+1385: spec-3865-55272-0536.dr9
+1386: spec-3865-55272-0538.dr9
+1387: spec-3865-55272-0540.dr9
+flagged_by_test2: True
+1388: spec-3865-55272-0565.dr9
+1389: spec-3865-55272-0656.dr9
+1390: spec-3865-55272-0712.dr9
+1391: spec-3865-55272-0824.dr9
+1392: spec-3865-55272-0832.dr9
+1393: spec-3865-55272-0870.dr9
+1394: spec-3865-55272-0912.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1394, file name: spec-3865-55272-0912.dr9
+1395: spec-3866-55623-0026.dr9
+1396: spec-3866-55623-0134.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1396, file name: spec-3866-55623-0134.dr9
+1397: spec-3866-55623-0196.dr9
+1398: spec-3866-55623-0410.dr9
+1399: spec-3866-55623-0416.dr9
+flagged_by_test1: True
+1400: spec-3866-55623-0424.dr9
+1401: spec-3866-55623-0502.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1401, file name: spec-3866-55623-0502.dr9
+1402: spec-3866-55623-0594.dr9
+1403: spec-3866-55623-0761.dr9
+flagged_by_test2: True
+1404: spec-3866-55623-0767.dr9
+flagged_by_test2: True
+1405: spec-3866-55623-0770.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1405, file name: spec-3866-55623-0770.dr9
+1406: spec-3866-55623-0820.dr9
+1407: spec-3866-55623-0862.dr9
+1408: spec-3866-55623-0909.dr9
+1409: spec-3867-55652-0084.dr9
+flagged_by_test2: True
+1410: spec-3867-55652-0322.dr9
+flagged_by_test2: True
+1411: spec-3867-55652-0704.dr9
+1412: spec-3867-55652-0792.dr9
+flagged_by_test2: True
+1413: spec-3868-55360-0474.dr9
+1414: spec-3868-55360-0568.dr9
+1415: spec-3868-55360-0650.dr9
+flagged_by_test1: True
+1416: spec-3868-55360-0854.dr9
+flagged_by_test1: True
+1417: spec-3868-55360-0900.dr9
+flagged_by_test1: True
+1418: spec-3868-55360-0944.dr9
+1419: spec-3868-55360-0952.dr9
+1420: spec-3868-55360-0982.dr9
+flagged_by_test1: True
+1421: spec-3869-55273-0022.dr9
+flagged_by_test1: True
+1422: spec-3869-55273-0178.dr9
+flagged_by_test2: True
+1423: spec-3869-55273-0196.dr9
+1424: spec-3869-55273-0360.dr9
+flagged_by_test2: True
+1425: spec-3869-55273-0712.dr9
+1426: spec-3869-55273-0756.dr9
+1427: spec-3869-55273-0830.dr9
+flagged_by_test2: True
+1428: spec-3869-55273-0880.dr9
+1429: spec-3869-55273-0964.dr9
+1430: spec-3870-55273-0022.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1430, file name: spec-3870-55273-0022.dr9
+1431: spec-3870-55273-0028.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1431, file name: spec-3870-55273-0028.dr9
+1432: spec-3870-55273-0062.dr9
+1433: spec-3870-55273-0146.dr9
+1434: spec-3870-55273-0194.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1434, file name: spec-3870-55273-0194.dr9
+1435: spec-3870-55273-0461.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1435, file name: spec-3870-55273-0461.dr9
+1436: spec-3870-55273-0467.dr9
+1437: spec-3870-55273-0534.dr9
+1438: spec-3870-55273-0588.dr9
+1439: spec-3870-55273-0594.dr9
+flagged_by_test1: True
+1440: spec-3870-55273-0596.dr9
+1441: spec-3870-55273-0686.dr9
+flagged_by_test1: True
+1442: spec-3870-55273-0820.dr9
+flagged_by_test2: True
+1443: spec-3870-55273-0848.dr9
+1444: spec-3870-55273-0850.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1444, file name: spec-3870-55273-0850.dr9
+1445: spec-3870-55273-0882.dr9
+flagged_by_test1: True
+1446: spec-3870-55273-0932.dr9
+1447: spec-3871-55307-0118.dr9
+1448: spec-3871-55307-0234.dr9
+1449: spec-3871-55307-0436.dr9
+1450: spec-3871-55307-0790.dr9
+1451: spec-3871-55307-0802.dr9
+1452: spec-3871-55307-0940.dr9
+1453: spec-3871-55307-0988.dr9
+1454: spec-3872-55382-0006.dr9
+1455: spec-3872-55382-0020.dr9
+1456: spec-3872-55382-0114.dr9
+flagged_by_test2: True
+1457: spec-3872-55382-0226.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1457, file name: spec-3872-55382-0226.dr9
+1458: spec-3872-55382-0306.dr9
+1459: spec-3872-55382-0381.dr9
+1460: spec-3872-55382-0396.dr9
+1461: spec-3872-55382-0500.dr9
+1462: spec-3872-55382-0550.dr9
+1463: spec-3872-55382-0651.dr9
+1464: spec-3872-55382-0710.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1464, file name: spec-3872-55382-0710.dr9
+1465: spec-3872-55382-0822.dr9
+1466: spec-3872-55382-0836.dr9
+1467: spec-3872-55382-0848.dr9
+flagged_by_test2: True
+1468: spec-3872-55382-0850.dr9
+flagged_by_test2: True
+1469: spec-3872-55382-0892.dr9
+1470: spec-3872-55382-0968.dr9
+flagged_by_test2: True
+1471: spec-3873-55277-0300.dr9
+1472: spec-3873-55277-0486.dr9
+flagged_by_test1: True
+1473: spec-3873-55277-0744.dr9
+1474: spec-3873-55277-0866.dr9
+flagged_by_test2: True
+1475: spec-3874-55280-0020.dr9
+1476: spec-3874-55280-0240.dr9
+1477: spec-3874-55280-0328.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1477, file name: spec-3874-55280-0328.dr9
+1478: spec-3874-55280-0400.dr9
+flagged_by_test2: True
+1479: spec-3874-55280-0418.dr9
+flagged_by_test2: True
+1480: spec-3874-55280-0532.dr9
+1481: spec-3874-55280-0733.dr9
+1482: spec-3874-55280-0770.dr9
+flagged_by_test2: True
+1483: spec-3874-55280-0818.dr9
+1484: spec-3874-55280-0958.dr9
+1485: spec-3874-55280-0970.dr9
+1486: spec-3875-55364-0346.dr9
+1487: spec-3875-55364-0378.dr9
+1488: spec-3875-55364-0499.dr9
+1489: spec-3875-55364-0506.dr9
+1490: spec-3875-55364-0686.dr9
+1491: spec-3875-55364-0750.dr9
+1492: spec-3875-55364-0810.dr9
+1493: spec-3875-55364-0816.dr9
+1494: spec-3875-55364-0868.dr9
+flagged_by_test2: True
+1495: spec-3875-55364-0872.dr9
+flagged_by_test1: True
+1496: spec-3875-55364-0900.dr9
+1497: spec-3876-55245-0052.dr9
+1498: spec-3876-55245-0098.dr9
+1499: spec-3876-55245-0146.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1499, file name: spec-3876-55245-0146.dr9
+1500: spec-3876-55245-0234.dr9
+1501: spec-3876-55245-0382.dr9
+1502: spec-3876-55245-0466.dr9
+1503: spec-3876-55245-0688.dr9
+1504: spec-3876-55245-0874.dr9
+1505: spec-3876-55245-0908.dr9
+1506: spec-3877-55365-0206.dr9
+1507: spec-3877-55365-0322.dr9
+1508: spec-3877-55365-0352.dr9
+1509: spec-3877-55365-0510.dr9
+flagged_by_test1: True
+1510: spec-3877-55365-0679.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1510, file name: spec-3877-55365-0679.dr9
+1511: spec-3877-55365-0818.dr9
+1512: spec-3877-55365-0900.dr9
+1513: spec-3877-55365-0924.dr9
+flagged_by_test2: True
+1514: spec-3878-55361-0098.dr9
+1515: spec-3878-55361-0174.dr9
+1516: spec-3878-55361-0226.dr9
+1517: spec-3878-55361-0276.dr9
+1518: spec-3878-55361-0342.dr9
+1519: spec-3878-55361-0524.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1519, file name: spec-3878-55361-0524.dr9
+1520: spec-3878-55361-0740.dr9
+1521: spec-3878-55361-0758.dr9
+1522: spec-3878-55361-0950.dr9
+1523: spec-3879-55244-0020.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #1523, file name: spec-3879-55244-0020.dr9
+1524: spec-3879-55244-0068.dr9
+1525: spec-3879-55244-0092.dr9
+flagged_by_test2: True
+1526: spec-3879-55244-0102.dr9
+1527: spec-3879-55244-0114.dr9
