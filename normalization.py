@@ -351,6 +351,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ### chi squared is comparing flux and wavelength
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
     r_squared = 1 - chi_sq
+    print("Chi Squared = ", chi_sq)
     print("R Squared = ", r_squared)
 
     fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
