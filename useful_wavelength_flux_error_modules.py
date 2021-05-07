@@ -7,6 +7,7 @@ Created on Tue Feb  9 17:10:41 2021
 """
 import numpy as np 
 from data_types import ColumnIndexes, RangesData, PointData
+from scipy import signal
 
 column_index = ColumnIndexes(0, 1, 2)
 
@@ -120,3 +121,8 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     return snr_mean_in_ehvo 
+
+
+#def smooth(norm_flux, box_size):
+#    y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
+#    return y_smooth
