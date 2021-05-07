@@ -38,9 +38,13 @@ column_index = ColumnIndexes(0, 1, 2)
 # Sets the directory to find the data files (dr9, dr16)
 SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 899, 1527 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
+
+#SMOOTH = 'yes' # Do you want to smooth? yes/no
+
+BOXCAR_SIZE = 7 # Must be odd
 
 # Ranges of wavelengths in the spectra for different tasks
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -286,7 +290,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
     wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-    original_ranges = RangesData(wavelength, flux, error)
+    #original_ranges = RangesData(wavelength, flux, error)
 
     try:
         pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
@@ -300,6 +304,29 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # flux_normalized & error_normalized are used to draw the figure
     flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
+
+    def smooth(norm_flux, box_size):
+        y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
+        return y_smooth
+
+    #if SMOOTH == 'yes':
+
+    ### Smoothing original figures
+    sm_flux = smooth(flux, BOXCAR_SIZE)
+    sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
+    non_sm_flux = flux
+    non_sm_error = error
+    flux = sm_flux
+    error = sm_error
+    ### Smoothing normalized figures 
+    sm_flux_norm = smooth(flux_normalized, BOXCAR_SIZE)
+    sm_error_norm = smooth(error_normalized, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
+    non_sm_flux_norm = flux_normalized #to save original normalized flux in case we need it
+    non_sm_error_norm = error_normalized 
+    flux_normalized = sm_flux_norm #keeps variables consistent
+    error_normalized = sm_error_norm
+
+    original_ranges = RangesData(wavelength, flux, error)
 
     ## flagging spectra with low snr values, we want the high ones
     flagged_snr_mean_in_ehvo = False
@@ -323,13 +350,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 
 
-    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values 
+    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.03  ## We tested several values 0.05 for non smooth
     if flagged_by_test1:
         print("flagged_by_test1: ", flagged_by_test1)
         print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
 
     
-    flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
+    flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.03 #0.05 for non smooth
     if flagged_by_test2:
         print("flagged_by_test2: ", flagged_by_test2)
         print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
