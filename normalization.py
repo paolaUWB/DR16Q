@@ -17,9 +17,10 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
-from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized
+from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized, FlaggedSNRData
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file#, redshift_value_list, snr_value_list, spectra_list
+from file_reader import read_file
+from scipy import signal
 import time 
 start_time = time.time()
 
@@ -37,7 +38,7 @@ column_index = ColumnIndexes(0, 1, 2)
 # Sets the directory to find the data files (dr9, dr16)
 SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 899, 1527 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
@@ -373,12 +374,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     max_peak = np.max(flux_data[min_wavelength + 1 : max_wavelength + 1])
 
-
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
-    original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+    #original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
 
-    draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-    draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
+    if flagged_snr_mean_in_ehvo == True:
+        flaggedSNRdata = FlaggedSNRData(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+    else: 
+        original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+        draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
+        draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
