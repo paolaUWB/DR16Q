@@ -12,8 +12,6 @@ FigureData = namedtuple('FigureData', ['spectrum_file_name', 'wavelength_from', 
 
 FigureDataOriginal = namedtuple('FigureDataOriginal', ['FigureData','bf', 'cf', 'power_law_data_x', 'power_law_data_y'])
 
-GoodData = namedtuple('GoodData', ['FigureData','bf', 'cf', 'power_law_data_x', 'power_law_data_y'])
-
 FlaggedSNRData = namedtuple('FlaggedSNRData', ['FigureData','bf', 'cf', 'power_law_data_x', 'power_law_data_y'])
 
 DataNormalized = namedtuple('DataNormalized', ['flux_normalized', 'error_normalized'])
