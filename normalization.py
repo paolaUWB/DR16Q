@@ -247,7 +247,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.close(figure_index)
 
 def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
-    """ Draws the original spectra graph.
+    """ Draws the spectra graphs for spectra flagged by test1 and test2.
 
     Positional Input Parameter:
         figure_index: int
@@ -264,7 +264,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
             Max peak value of data per spectra.
 
     Returns:
-        Creates a graph of the spectra and saves to the original_graphs.pdf
+        Creates a graph of the spectra and saves to the flagged_graphs.pdf
     """
 
     main_color = "xkcd:ultramarine"
