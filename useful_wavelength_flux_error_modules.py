@@ -123,6 +123,6 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     return snr_mean_in_ehvo 
 
 
-#def smooth(norm_flux, box_size):
-#    y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
-#    return y_smooth
+def smooth(norm_flux, box_size):
+    y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
+    return y_smooth
