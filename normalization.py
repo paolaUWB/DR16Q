@@ -32,19 +32,19 @@ NORM_FILE_EXTENSION = "norm.dr9"
 # Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 
-# How many columns the file with the quasar names has? # XXX Or is it the .dr9? PRH
+# How many columns the file with the quasar names has? # XXX Or is it the .dr9? PRH (sorted )
 column_index = ColumnIndexes(0, 1, 2)
 
 # Sets the directory to find the data files (dr9, dr16)
 SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 899, 1027 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 899, 1527 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
 sm = 'no' # Do you want to smooth? yes/no
 
-BOXCAR_SIZE = 11 # Must be odd
+BOXCAR_SIZE = 71 # Must be odd
 
 # Ranges of wavelengths in the spectra for different tasks
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -61,7 +61,7 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 LOG_FILE = "log.txt"
 FLAGGED_GRAPHS = SPEC_DIREC + "/" + "flagged_graphs.txt"
-FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt" #XXX why the extra / MMC WFGN
+FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt"
 PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
 FLAGGED_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
 FLAGGED_SNR_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
@@ -71,7 +71,7 @@ GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
 
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
-FLAGGED_PDF = PdfPages('flagged_graphs.pdf') # create pdf
+FLAGGED_PDF = PdfPages('flagged_spectra.pdf') # create pdf
 
 
 #############################################################################################
@@ -134,7 +134,6 @@ def define_three_anchor_points(z: float, spectra_data):
         spectra_data)
     
     return (left_point, middle_point, right_point)
-
 
 ### Masking points with large errors: 
 
@@ -264,7 +263,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
             Max peak value of data per spectra.
 
     Returns:
-        Creates a graph of the spectra and saves to the flagged_graphs.pdf
+        Creates a graph of the spectra and saves to the flagged_spectra.pdf
     """
 
     main_color = "xkcd:ultramarine"
@@ -284,6 +283,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
     plt.ylim(-2, max_peak + 3)
     FLAGGED_PDF.savefig()
     plt.close(figure_index)
+
 #############################################################################################
 ######################################### MAIN CODE #########################################
 
@@ -292,6 +292,8 @@ if __name__ == "__main__":
     clear_file(GOODNESS_OF_FIT_FILE)
     clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
     clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
+    clear_file(FLAGGED_GRAPHS)
+    clear_file(FLAGGED_SNR_GRAPHS_FILE)
     print("Hi!")
     
     fields=["index", "spectra index", "chi_sq"] #index and spectra index - will they ever be different? causing a repeat of indexing
@@ -315,6 +317,24 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
+    # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
+    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
+    #original_ranges = RangesData(wavelength, flux, error)
+
+    def smooth(norm_flux, box_size):
+        y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
+        return y_smooth
+        
+    ### Smoothing original figures
+    sm_flux = smooth(flux, BOXCAR_SIZE)
+    sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
+
+    if sm == 'yes':
+        non_sm_flux = flux
+        non_sm_error = error
+        flux = sm_flux
+        error = sm_error
+
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
 
@@ -328,10 +348,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
     power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
 
-    # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
-    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-    #original_ranges = RangesData(wavelength, flux, error)
-
     try:
         pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
     except:
@@ -344,19 +360,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # flux_normalized & error_normalized are used to draw the figure
     flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
-
-    def smooth(norm_flux, box_size):
-        y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
-        return y_smooth
-    
-    ### Smoothing original figures
-    sm_flux = smooth(flux, BOXCAR_SIZE)
-    sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
-    if sm == 'yes':
-        non_sm_flux = flux
-        non_sm_error = error
-        flux = sm_flux
-        error = sm_error
 
     ### Smoothing normalized figures 
     sm_flux_norm = smooth(flux_normalized, BOXCAR_SIZE)
@@ -390,13 +393,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 
 
-    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.03  ## We tested several values 0.05 for non smooth
+    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values
     if flagged_by_test1:
         print("flagged_by_test1: ", flagged_by_test1)
         print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
 
     
-    flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.03 #0.05 for non smooth
+    flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
     if flagged_by_test2:
         print("flagged_by_test2: ", flagged_by_test2)
         print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
@@ -426,6 +429,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
 
     # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
+    ########### IS THIS DOING ANYTHING???? ###################
     if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
         append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     else:
