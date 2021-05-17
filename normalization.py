@@ -14,7 +14,7 @@ import os
 import sys
 import numpy as np 
 from matplotlib import pyplot as plt
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit, leastsq
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, ColumnIndexes, PointData, RangesData, FigureData, FigureDataOriginal, DataNormalized, FlaggedSNRData
@@ -27,7 +27,7 @@ start_time = time.time()
 #############################################################################################
 ######################################### VARIABLES ######################################### 
 
-NORM_FILE_EXTENSION = "norm.dr9"
+NORM_FILE_EXTENSION = "norm.dr16"
 
 # Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
@@ -36,9 +36,10 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 column_index = ColumnIndexes(0, 1, 2)
 
 # Sets the directory to find the data files (dr9, dr16)
-SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
+SPEC_DIREC = os.getcwd() + "DATA_DR16"
+#SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 899, 1527 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 1, 2 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
@@ -99,6 +100,9 @@ def powerlaw(wavelength, b, c):
         Power law value in the form of an array.
     """
     return b * (np.power(wavelength, c))
+
+def func(params, xdata, ydata):
+    return (ydata - np.dot(xdata, params))
 
 def define_three_anchor_points(z: float, spectra_data):
     """ Defines the three anchor points used in the normalization graph.
@@ -322,7 +326,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     #original_ranges = RangesData(wavelength, flux, error)
 
     def smooth(norm_flux, box_size):
-        y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
+        y_smooth = signal.savgol_filter(norm_flux,box_size,2)
         return y_smooth
         
     ### Smoothing original figures
