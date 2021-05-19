@@ -11,12 +11,19 @@ from scipy import signal
 
 column_index = ColumnIndexes(0, 1, 2)
 
+######################################### shpinx ######################################### 
+"""
+useful_wavelength_flux_error_modules.py
+=======================================
+Useful functions. 
+"""
+#############################################################################################
 
 def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
     """Returns one point of wavelength, flux and error based on a range of values in a good defined range.
 
-    Uses the red shift to find the observed wavelenghts, and between those two wavelengths records all of 
-    the wavelengths, all of the flux, and all the error. Using the observed wavelengths finds the average 
+    Uses the red shift to find the observed wavelenghts, and between those two wavelengths records: all of 
+    the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average 
     wavelength, median flux and median error for the right, left and middle point.
 
     Parameters:
@@ -64,7 +71,7 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     return point
 
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
-    """Function: returns a range of a wavelength, flux and error defined by starting and ending points
+    """Function: returns a range of a wavelength, flux and error defined by starting and ending points.
 
     Parameters:
     -----------

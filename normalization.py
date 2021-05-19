@@ -24,7 +24,14 @@ from scipy import signal
 import time 
 start_time = time.time()
 
+######################################### shpinx ######################################### 
+"""
+normalization.py
+================
+Normalization module for this project
+"""
 #############################################################################################
+
 ######################################### VARIABLES ######################################### 
 
 DR = 'dr9' ## Which data release #############################
@@ -258,7 +265,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.close(figure_index)
 
 def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
-    """ Draws the spectra graphs for spectra flagged by test1 and test2.
+    """ Draws the spectra graphs for spectra flagged by `test1` and `test2`.
 
     Parameters:
     -----------
