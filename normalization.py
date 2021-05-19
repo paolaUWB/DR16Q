@@ -27,7 +27,9 @@ start_time = time.time()
 #############################################################################################
 ######################################### VARIABLES ######################################### 
 
-NORM_FILE_EXTENSION = "norm.dr16"
+DR = 'dr9' ## Which data release #############################
+
+NORM_FILE_EXTENSION = "norm." + DR
 
 # Reads the file with the quasar names
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
@@ -36,10 +38,10 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
 column_index = ColumnIndexes(0, 1, 2)
 
 # Sets the directory to find the data files (dr9, dr16)
-SPEC_DIREC = os.getcwd() + "DATA_DR16"
+SPEC_DIREC = os.getcwd() + "/DATA/" ############################
 #SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 
-STARTS_FROM, ENDS_AT = 1, 2 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
@@ -100,9 +102,6 @@ def powerlaw(wavelength, b, c):
         Power law value in the form of an array.
     """
     return b * (np.power(wavelength, c))
-
-def func(params, xdata, ydata):
-    return (ydata - np.dot(xdata, params))
 
 def define_three_anchor_points(z: float, spectra_data):
     """ Defines the three anchor points used in the normalization graph.
