@@ -15,9 +15,8 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     """Returns one point of wavelength, flux and error based on a range of values in a good defined range.
 
     Uses the red shift to find the observed wavelenghts, and between those two wavelengths records all of the 
-    wavelengths, all of the flux, and all the error.
-    Using the observed wavelengths finds the average wavelength, median flux and median error for the right, left
-    and middle point.
+    wavelengths, all of the flux, and all the error. Using the observed wavelengths finds the average wavelength, 
+    median flux and median error for the right, left and middle point.
 
     Positional Input Parameter:
         starting_point : float
@@ -80,8 +79,8 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
 
     Returns:
         RangesData(wavelength, flux, error). List of tuples of arrays.
-        RangesData creates a list of tuples, within each tuple it stores arrays for the ranges of wavelength,
-        flux, and error values.
+        RangesData creates a list of tuples, within each tuple it stores arrays for the ranges of 
+        wavelength, flux, and error values.
     """
     wavelength_column = spectra_data[:, column_index.wavelength]
 
@@ -106,7 +105,8 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
         z: float
             Values from the data base of the redshift, DR16Q (for now..)
         WAVELENGTH_FOR_SNR: range
-            A range defined in the beginning of the normalization code. Can be changed by user.
+            A range defined in the beginning of the normalization code. Can 
+            be changed by user.
         error_normalized: array
             The error from RangesData() divided by the power law. 
 
