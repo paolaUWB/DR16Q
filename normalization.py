@@ -87,18 +87,18 @@ c = -0.5 # initial parameter of powerlaw
 def powerlaw(wavelength, b, c):
     """ Calculates the power law. 
 
-    Positional Input Parameter:
-        wavelength: array
-            Comes from RangesData().    
-        b: int
-            Initial parameter of powerlaw. 
-        c: float
-            Initial parameter of powerlaw.
-
-    Keyword Input Parameters:
-        None.
+    Parameters:
+    -----------
+    wavelength: array
+        Comes from RangesData().    
+    b: int
+        Initial parameter of powerlaw. 
+    c: float
+        Initial parameter of powerlaw.
 
     Returns:
+    --------
+    array
         Power law value in the form of an array.
     """
     return b * (np.power(wavelength, c))
@@ -106,16 +106,16 @@ def powerlaw(wavelength, b, c):
 def define_three_anchor_points(z: float, spectra_data):
     """ Defines the three anchor points used in the normalization graph.
 
-    Positional Input Parameter:
-        z: float
-            Values from the data base of the redshift, DR9Q (for now..)
-        spectra_data: list
-            Current spectra data from files, DR9Q (for now...)
+    Parameters:
+    -----------
+    z: float
+        Values from the data base of the redshift, DR9Q (for now..).
+    spectra_data: list
+        Current spectra data from files, DR9Q (for now...).
                
-    Keyword Input Parameters:
-        None.
-
     Returns:
+    --------
+    tuple
         left_point, middle_point, right_point for wavelength_flux_error_for_points.
     """
     left_point = wavelength_flux_error_for_points(
@@ -167,22 +167,28 @@ def define_three_anchor_points(z: float, spectra_data):
 def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
     """ Draws the original spectra graph.
 
-    Positional Input Parameter:
-        figure_index: int
-            Makes a separate graph for each spectra. 
-        original_ranges: RangesData
-            Ranges of values for the original data.
-        data: FigureDataOriginal
-            Data from DR9Q (for now...).
-        test1: RangesData
-            Green highlighted area on graph. 
-        test2: RangesData
-            Pink highlighted area on graph.
-        max_peak:
-            Max peak value of data per spectra.
+    Parameters:
+    -----------
+    figure_index: int
+        Makes a separate graph for each spectra. 
+    original_ranges: RangesData
+        Ranges of values for the original data.
+    data: FigureDataOriginal
+        Data from DR9Q (for now...).
+    test1: RangesData
+        Green highlighted area on graph. 
+    test2: RangesData
+        Pink highlighted area on graph.
+    max_peak: any
+        Max peak value of data per spectra.
 
     Returns:
-        Creates a graph of the spectra and saves to the original_graphs.pdf
+    --------
+    None.
+
+    Note:
+    -----
+    Returns nothing, but draws the original spectra of the graph.
     """
 
     main_color = "xkcd:ultramarine"
@@ -207,27 +213,30 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2):
     """ Draws the normalized spectra graph.
 
-    Positional Input Parameter:
-        figure_index: int
-            Makes a separate graph for each spectra. 
-        original_ranges: RangesData
-            Ranges of values for the original data.
-        figure_data: FigureData
-            Data from DR9Q (for now...).
-        flux_normalized: array
-            
-        error_normalized: array
-            
-        test1: RangesData
-            Green highlighted area on graph. 
-        test2: RangesData
-            Pink highlighted area on graph.
-        normalized_flux_test_1:
-
-        normalized_flux_test_2:
+    Parameters:
+    -----------
+    figure_index: int
+        Makes a separate graph for each spectra. 
+    original_ranges: RangesData
+        Ranges of values for the original data.
+    figure_data: FigureData
+        Data from DR9Q (for now...).
+    flux_normalized: array
+    error_normalized: array
+    test1: RangesData
+        Green highlighted area on graph. 
+    test2: RangesData
+        Pink highlighted area on graph.
+    normalized_flux_test_1: any
+    normalized_flux_test_2: any
 
     Returns:
-        Creates a graph of the spectra and saves to the original_graphs.pdf
+    --------
+    None.
+    
+    Notes:
+    ------
+    Creates a graph of the spectra and saves to the original_graphs.pdf
     """
 
     main_color = "xkcd:ultramarine"
@@ -251,22 +260,28 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
 def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
     """ Draws the spectra graphs for spectra flagged by test1 and test2.
 
-    Positional Input Parameter:
-        figure_index: int
-            Makes a separate graph for each spectra. 
-        original_ranges: RangesData
-            Ranges of values for the original data.
-        data: FigureDataOriginal
-            Data from DR9Q (for now...).
-        test1: RangesData
-            Green highlighted area on graph. 
-        test2: RangesData
-            Pink highlighted area on graph.
-        max_peak:
-            Max peak value of data per spectra.
+    Parameters:
+    -----------
+    figure_index: int
+        Makes a separate graph for each spectra. 
+    original_ranges: RangesData
+        Ranges of values for the original data.
+    data: FigureDataOriginal
+        Data from DR9Q (for now...).
+    test1: RangesData
+        Green highlighted area on graph. 
+    test2: RangesData
+        Pink highlighted area on graph.
+    max_peak: any
+        Max peak value of data per spectra.
 
     Returns:
-        Creates a graph of the spectra and saves to the flagged_spectra.pdf
+    --------
+    None.
+
+    Note:
+    -----
+    Creates a graph of the spectra and saves to the flagged_spectra.pdf
     """
 
     main_color = "xkcd:ultramarine"
