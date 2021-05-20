@@ -6,7 +6,7 @@
 Welcome to Quasars's documentation!
 ===================================
 
-.. automodule:: normalization
+.. autoclass:: normalization
     
 .. toctree::
    :maxdepth: 2
