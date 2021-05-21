@@ -24,7 +24,7 @@ from scipy import signal
 import time 
 start_time = time.time()
 
-######################################### shpinx ######################################### 
+########################################## SPHINX ###########################################
 """
 normalization
 =============
@@ -34,19 +34,19 @@ Normalization module for this project
 
 ######################################### VARIABLES ######################################### 
 
-DR = 'dr9' ## Which data release #############################
+DR = '9' ## Which data release 
 
-NORM_FILE_EXTENSION = "norm." + DR
-
-# Reads the file with the quasar names
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
-
-# How many columns the file with the quasar names has? # XXX Or is it the .dr9? PRH (sorted )
-column_index = ColumnIndexes(0, 1, 2)
+NORM_FILE_EXTENSION = "norm.dr" + DR
 
 # Sets the directory to find the data files (dr9, dr16)
-SPEC_DIREC = os.getcwd() + "/DATA/" ############################
+if DR == '9':
+    # Reads the file with the quasar names
+    CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
+    SPEC_DIREC = os.getcwd() + "/DATA/" 
 #SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
+if DR == '16':
+    CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR16_sorted_norm.csv"
+    SPEC_DIREC = os.getcwd() + "/DR16Q_SNR10/"
 
 STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. 
 

@@ -9,8 +9,6 @@ import numpy as np
 from data_types import ColumnIndexes, RangesData, PointData
 from scipy import signal
 
-column_index = ColumnIndexes(0, 1, 2)
-
 ######################################### shpinx ######################################### 
 """
 useful_wavelength_flux_error_modules
@@ -19,10 +17,13 @@ Useful functions.
 """
 #############################################################################################
 
+# Column index for wavelength, flux, error in spectra (dr) files
+column_index = ColumnIndexes(0, 1, 2)
+
 def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
     """Returns one point of wavelength, flux and error based on a range of values in a good defined range.
 
-    Uses the red shift to find the observed wavelenghts, and between those two wavelengths records: all of 
+    Uses the red shift to find the observed wavelengths, and between those two wavelengths records: all of 
     the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average 
     wavelength, median flux and median error for the right, left and middle point.
 
@@ -133,7 +134,7 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     return snr_mean_in_ehvo 
 
-
+## CANT GET THIS TO CALL IN THE NORMALIZATION CODE ??? 
 def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
     return y_smooth
