@@ -281,7 +281,7 @@ for i,j,k in zip (spectra_list, redshifts_list, snr_list):
                     vmins.append(vvvmins)
 #                    print(vmins)
                     
-                    plot ((beta[vmins_index], beta[vmins_index]) , (-1,10),'r-')
+                    plot ((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
 
                     # If the absorption is SiIV, this finds and plots where C, CII and OI would be
                     z_absSiIV = (wavelength[jjjs]/avr_SiIV_doublet)-1#

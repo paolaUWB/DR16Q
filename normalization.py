@@ -34,7 +34,7 @@ Normalization module for this project
 
 ######################################### VARIABLES ######################################### 
 
-DR = '9' ## Which data release 
+DR = '16' ## Which data release 
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
@@ -48,7 +48,7 @@ if DR == '16':
     CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR16_sorted_norm.csv"
     SPEC_DIREC = os.getcwd() + "/DR16Q_SNR10/"
 
-STARTS_FROM, ENDS_AT = 1, 10 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 2829, 2830 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 

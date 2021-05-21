@@ -49,7 +49,7 @@ final_depth_individual, final_depth_all_individual = [], []
 
 #BI = balnicity index
 #EW = Equivalent widths
-BI_all , BI_total = [], []
+BI_all, BI_total = [], []
 BI_ind_sum = []
 BI_individual = []
 BI_all_individual = []
