@@ -1,5 +1,3 @@
-2829: spec-9331-57711-0942-dered.dr16
+1469: spec-3810-56015-0245-dered.dr16
 flagged_by_test1: True
-flagged_by_test2: True
-Flagging figure #2829, file name: spec-9331-57711-0942-dered.dr16
-2830: spec-6269-56246-0290-dered.dr16
+1470: spec-3810-56015-0462-dered.dr16
