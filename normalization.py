@@ -45,10 +45,10 @@ if DR == '9':
     SPEC_DIREC = os.getcwd() + "/DATA/" 
 #SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 if DR == '16':
-    CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR16_sorted_norm.csv"
+    CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR16_data.csv"
     SPEC_DIREC = os.getcwd() + "/DR16Q_SNR10/"
 
-STARTS_FROM, ENDS_AT = 2829, 2830 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 1469, 1470 # Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
@@ -68,16 +68,17 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 LOG_FILE = "log.txt"
-FLAGGED_GRAPHS = SPEC_DIREC + "/" + "flagged_graphs.txt"
-FINAL_INIT_PARAMS_FILE = SPEC_DIREC + "/" + "final_initial_parameters.txt"
-PROCESSED_SPECTRA_FILE = SPEC_DIREC + "/" + "processed_spectra_filenames.txt"
-FLAGGED_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
-FLAGGED_SNR_GRAPHS_FILE = SPEC_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
-GOODNESS_OF_FIT_FILE = SPEC_DIREC + "/" + "chi_sq_values_all.csv"
-BAD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "bad_normalization.csv"
-GOOD_NORMALIZATION_FLAGGED_FILE = SPEC_DIREC + "/" + "good_normalization.csv"
+FLAGGED_GRAPHS = OUT_DIREC + "/" + "flagged_graphs.txt"
+FINAL_INIT_PARAMS_FILE = OUT_DIREC + "/" + "final_initial_parameters.txt"
+PROCESSED_SPECTRA_FILE = OUT_DIREC + "/" + "processed_spectra_filenames.txt"
+FLAGGED_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
+FLAGGED_SNR_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
+GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values_all.csv"
+BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
+GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
 
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
@@ -340,7 +341,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index) + ": " + current_spectrum_file_name)
     print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
 
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name) #### SPEC_DIREC?
 
     # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
     wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
@@ -484,7 +485,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
-    np.savetxt(SPEC_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
+    np.savetxt(OUT_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e) #### SPEC_DIREC?
 
     ## OLD END OF PROCESS... 
 
@@ -520,7 +521,7 @@ ORIGINAL_PDF.close()
 NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 
-np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
+#np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
 np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
 np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
 np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
