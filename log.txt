@@ -1,3 +1,19 @@
-1469: spec-3810-56015-0245-dered.dr16
+899: spec-3810-55531-0104.dr9
+900: spec-3810-55531-0245.dr9
+flagged_by_test2: True
+901: spec-3810-55531-0842.dr9
 flagged_by_test1: True
-1470: spec-3810-56015-0462-dered.dr16
+902: spec-3810-55531-0848.dr9
+903: spec-3811-55538-0830.dr9
+904: spec-3811-55538-0938.dr9
+905: spec-3811-55538-0972.dr9
+flagged_by_test2: True
+906: spec-3811-55538-0990.dr9
+907: spec-3812-55513-0330.dr9
+908: spec-3812-55513-0496.dr9
+flagged_by_test1: True
+flagged_by_test2: True
+Flagging figure #908, file name: spec-3812-55513-0496.dr9
+909: spec-3812-55513-0558.dr9
+910: spec-3812-55513-0580.dr9
+flagged_by_test1: True
