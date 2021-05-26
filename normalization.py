@@ -34,21 +34,24 @@ Normalization module for this project
 
 ######################################### VARIABLES ######################################### 
 
-DR = '16' ## Which data release 
+DR = '9' ## Which data release 
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
-# Sets the directory to find the data files (dr9, dr16)
+# Sets the directory to find the data files (dr9, dr16) 
+##### rename files and combine these
 if DR == '9':
     # Reads the file with the quasar names
     CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
-    SPEC_DIREC = os.getcwd() + "/DATA/" 
+    SPEC_DIREC = os.getcwd() + "/DATA/DR9Q_SNR10/" 
+    NORM_DIREC = os.getcwd() + "/DATA/NORM_DR9Q/"
 #SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
 if DR == '16':
     CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR16_data.csv"
-    SPEC_DIREC = os.getcwd() + "/DR16Q_SNR10/"
+    SPEC_DIREC = os.getcwd() + "/DATA/DR16Q_SNR10/"
+    NORM_DIREC = os.getcwd() + "/DATA/NORM_DR16Q/"
 
-STARTS_FROM, ENDS_AT = 1469, 1470 # Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 899, 910 # [899-1527 for dr9] Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
@@ -485,7 +488,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
-    np.savetxt(OUT_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e) #### SPEC_DIREC?
+    np.savetxt(NORM_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e) #### SPEC_DIREC?
 
     ## OLD END OF PROCESS... 
 
