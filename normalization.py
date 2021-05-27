@@ -17,7 +17,7 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
-from data_types import Range, RangesData, FigureData, FigureDataOriginal, DataNormalized, FlaggedSNRData
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData#, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 from file_reader import read_file
 from scipy import signal
@@ -34,24 +34,17 @@ Normalization module for this project
 
 ######################################### VARIABLES ######################################### 
 
-DR = '9' ## Which data release 
+DR = '9' ## Input which data release you are working with [NUMBER ONLY - currently have data for DR9 & DR16]
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
-# Sets the directory to find the data files (dr9, dr16) 
-##### rename files and combine these
-if DR == '9':
-    # Reads the file with the quasar names
-    CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "sorted_norm.csv"
-    SPEC_DIREC = os.getcwd() + "/DATA/DR9Q_SNR10/" 
-    NORM_DIREC = os.getcwd() + "/DATA/NORM_DR9Q/"
-#SPEC_DIREC = os.getcwd() + "/DATA/" # Set location of input and output spectrum files XXX Set a different one for input & output US LATER
-if DR == '16':
-    CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR16_data.csv"
-    SPEC_DIREC = os.getcwd() + "/DATA/DR16Q_SNR10/"
-    NORM_DIREC = os.getcwd() + "/DATA/NORM_DR16Q/"
+# Sets the directory to find the data files (dr9, dr16)
+# Reads the files with the quasar names
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv"
+SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
+NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 899, 910 # [899-1527 for dr9] Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 899, 1527 # [899-1527 for dr9] [1469-1470 for dr16] Range of spectra you are working with from the quasar names file. 
 
 SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
 
@@ -71,6 +64,7 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
+## Creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 LOG_FILE = "log.txt"
@@ -83,9 +77,10 @@ GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values_all.csv"
 BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
 GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
 
-ORIGINAL_PDF = PdfPages('original_graphs.pdf') # create pdf
-NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') # create pdf
-FLAGGED_PDF = PdfPages('flagged_spectra.pdf') # create pdf
+## Creates pdf 
+ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
+NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
+FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
 
 
 #############################################################################################
@@ -451,8 +446,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ### chi squared is comparing flux and wavelength
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
     r_squared = 1 - chi_sq
-    print("Chi Squared = ", chi_sq)
-    print("R Squared = ", r_squared)
+    #print("Chi Squared = ", chi_sq)
+    #print("R Squared = ", r_squared)
 
     fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
@@ -524,7 +519,7 @@ ORIGINAL_PDF.close()
 NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 
-#np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
+np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
 np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
 np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
 np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
