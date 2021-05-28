@@ -17,7 +17,7 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
-from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData#, DataNormalized
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData  ###, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 from file_reader import read_file
 from scipy import signal
@@ -34,25 +34,28 @@ Normalization module for this project
 
 ######################################### VARIABLES ######################################### 
 
-DR = '9' ## Input which data release you are working with [NUMBER ONLY - currently have data for DR9 & DR16]
+DR = '9' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
-# Sets the directory to find the data files (dr9, dr16)
-# Reads the files with the quasar names
+## READS FILES WITH QUASAR NAMES
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv"
+
+## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
+
+## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 899, 1527 # [899-1527 for dr9] [1469-1470 for dr16] Range of spectra you are working with from the quasar names file. 
+STARTS_FROM, ENDS_AT = 899, 1027 ## [899-1527 for dr9] [1469-1470 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
-SNR_CUTOFF = 10. # Cutoff for SNR values to be flagged; flags values smaller than this
+SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
-sm = 'no' # Do you want to smooth? yes/no
+sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-BOXCAR_SIZE = 71 # Must be odd
+BOXCAR_SIZE = 11 ## MUST BE ODD
 
-# Ranges of wavelengths in the spectra for different tasks
+## RANGES OF WAVELENGTHS IN THE SPECTRA
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 WAVELENGTH_FOR_SNR = Range(1250., 1400.)
 WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
@@ -64,7 +67,8 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
-## Creates directory for output files
+
+## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 LOG_FILE = "log.txt"
@@ -76,8 +80,9 @@ FLAGGED_SNR_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
 GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values_all.csv"
 BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
 GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
+POWERLAW_TEST2 = OUT_DIREC + "/" + "powerlaw_test2.txt"
 
-## Creates pdf 
+## CREATES PDF FOR GRAPHS
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
 FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
@@ -318,9 +323,10 @@ if __name__ == "__main__":
     clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
     clear_file(FLAGGED_GRAPHS)
     clear_file(FLAGGED_SNR_GRAPHS_FILE)
+    clear_file(POWERLAW_TEST2)
     print("Hi!")
     
-    fields=["index", "spectra index", "chi_sq"] #index and spectra index - will they ever be different? causing a repeat of indexing
+    fields=["index", "spectra index", "chi_sq"]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
     append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
@@ -339,17 +345,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index) + ": " + current_spectrum_file_name)
     print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
 
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name) #### SPEC_DIREC?
+    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-    # DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
+    ## DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
     wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-    #original_ranges = RangesData(wavelength, flux, error)
 
     def smooth(norm_flux, box_size):
         y_smooth = signal.savgol_filter(norm_flux,box_size,2)
         return y_smooth
         
-    ### Smoothing original figures
+    ## SMOOTHING ORIGINAL FIGURES
     sm_flux = smooth(flux, BOXCAR_SIZE)
     sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
 
@@ -368,7 +373,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
 
-    # THE THREE POINTS THAT THE POWER LAW WILL USE (Points C, B, and A)
+    ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
     power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
     power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
 
@@ -378,25 +383,22 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
         print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
 
-    #bf, cf are storing the variance for power_law_data_x and power_law_data_y respectively
     bf, cf = pars[0], pars[1]
 
-    # flux_normalized & error_normalized are used to draw the figure
     flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
 
-    ### Smoothing normalized figures 
+    ## SMOOTHING NORMALIZED FIGURES 
     sm_flux_norm = smooth(flux_normalized, BOXCAR_SIZE)
     sm_error_norm = smooth(error_normalized, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
     if sm == 'yes':
-        non_sm_flux_norm = flux_normalized #to save original normalized flux in case we need it
+        non_sm_flux_norm = flux_normalized
         non_sm_error_norm = error_normalized 
-        flux_normalized = sm_flux_norm #keeps variables consistent
+        flux_normalized = sm_flux_norm
         error_normalized = sm_error_norm
 
     original_ranges = RangesData(wavelength, flux, error)
 
-    ## flagging spectra with low snr values, we want the high ones
     flagged_snr_mean_in_ehvo = False
     snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
 
@@ -405,19 +407,20 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     #############################################################################################
     #################################### TESTING TWO REGIONS ####################################
-    ### Checking the fit of the curve for the normalization 
-    ## Green and Pink regions in original_graphs.pdf
+
+    ## CHECKING FIT OF CURVE FOR NORMALIZATION 
     flagged = False
-    # Green Region
+
+    ## GREEN REGION
     test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
     normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
     
-    #Pink Region
+    ## PINK REGION
     test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 
 
-    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05  ## We tested several values
+    flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if flagged_by_test1:
         print("flagged_by_test1: ", flagged_by_test1)
         print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
@@ -434,33 +437,28 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print(error_message)
         print_to_file(error_message, LOG_FILE)
         print_to_file(error_message, FLAGGED_GRAPHS)
+        point_A_powerlaw = powerlaw(point_A[0], bf, cf)
+        point_B_powerlaw = powerlaw(point_B[0], bf, cf)
+        point_C_powerlaw = powerlaw(point_C[0], bf, cf)
+        point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(point_A[1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(point_B[1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(point_C[1]) + ", POINT C PL:" + str(point_C_powerlaw)
+        print_to_file(point_powerlaw, POWERLAW_TEST2)
 
-    ##### residuals: the quantity remaining after other values have been subtracted from it
-    ## flux observed, wavelength is the expected value
-    # how off the flux is from the values of the power law at that location
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
     residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
     residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
     wavelength_tests_1_and_2 = np.concatenate([test1.wavelength, test2.wavelength])
     
-    ### chi squared is comparing flux and wavelength
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
-    r_squared = 1 - chi_sq
-    #print("Chi Squared = ", chi_sq)
-    #print("R Squared = ", r_squared)
 
     fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
 
-    # if chi squared is greater than 8 and meets both flagged tests it is added to bad normalization file
-    ########### IS THIS DOING ANYTHING???? ###################
     if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
         append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     else:
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
-    
 
-    ### Finding the highest peak between the middle and right anchor points to scale graphs (in y-direction)
+    ## SCALIMNG GRAPHS
     wavelength_data = current_spectra_data[:,0]
     flux_data = current_spectra_data[:,1]
 
@@ -471,7 +469,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     
-    # Removes low SNR from graphs
     if flagged_snr_mean_in_ehvo:
         flaggedSNRdata = FlaggedSNRData(figure_data, bf, cf, power_law_data_x, power_law_data_y)
     else:
@@ -483,7 +480,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
-    np.savetxt(NORM_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e) #### SPEC_DIREC?
+    np.savetxt(NORM_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
 
     ## OLD END OF PROCESS... 
 
@@ -527,8 +524,6 @@ np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
 ## what are we wanting printed to the file?
 #else:
 #    print(current_spectrum_file_name) ## later will print this to a file
-
-
 
 print("--- %s seconds" %(time.time()-start_time))
    
