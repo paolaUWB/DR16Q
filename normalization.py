@@ -47,7 +47,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 899, 1027 ## [899-1527 for dr9] [1469-1470 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 899, 1527 ## [899-1527 for dr9] [1469-1470 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -487,13 +487,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         point_B_powerlaw = powerlaw(point_B[0], bf, cf)
         point_C_powerlaw = powerlaw(point_C[0], bf, cf)
         point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(point_A[1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(point_B[1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(point_C[1]) + ", POINT C PL:" + str(point_C_powerlaw)
-        #if np.abs(point_A_powerlaw - point_A[1]) <= 1:
-        #    draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-        #if np.abs(point_B_powerlaw - point_B[1]) <= 1:
-        #    draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-        #if np.abs(point_C_powerlaw - point_C[1]) <= 1:
-        #    draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-
         print_to_file(point_powerlaw, POWERLAW_TEST2)
 
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
@@ -530,6 +523,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
         if flagged:
             draw_flagged_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
+            val = 0.5
+            flagged_A = abs(point_A_powerlaw - point_A[1]) <= val
+            flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
+            flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
+            if flagged_A or flagged_B or flagged_C:
+                draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
