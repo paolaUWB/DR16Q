@@ -86,6 +86,7 @@ POWERLAW_TEST2 = OUT_DIREC + "/" + "powerlaw_test2.txt"
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
 FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
+POWERLAW_TEST_PDF = PdfPages('powerlaw_test_graphs.pdf')
 
 
 #############################################################################################
@@ -313,6 +314,51 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
     FLAGGED_PDF.savefig()
     plt.close(figure_index)
 
+def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak):
+    """ Draws the spectra graphs for spectra flagged by `test1` and `test2` that have a fit line that goes through the anchor points.
+
+    Parameters:
+    -----------
+    figure_index: int
+        Makes a separate graph for each spectra. 
+    original_ranges: RangesData
+        Ranges of values for the original data.
+    data: FigureDataOriginal
+        Data from DR9Q (for now...).
+    test1: RangesData
+        Green highlighted area on graph. 
+    test2: RangesData
+        Pink highlighted area on graph.
+    max_peak: any
+        Max peak value of data per spectra.
+
+    Returns:
+    --------
+    None.
+
+    Note:
+    -----
+    Creates a graph of the spectra and saves to the powerlaw_test_graphs.pdf
+    """
+
+    main_color = "xkcd:ultramarine"
+    test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
+    subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
+    plt.figure(figure_index)
+    plt.title(data.FigureData.spectrum_file_name)
+    plt.xlabel("Wavelength[A]")
+    plt.ylabel("Flux[10^[-17]]cgs")
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), np.max(original_ranges.flux), subtitle_text)
+    plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
+    plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
+    plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
+    plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
+    plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
+    plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
+    plt.ylim(-2, max_peak + 3)
+    POWERLAW_TEST_PDF.savefig()
+    plt.close(figure_index)
+
 #############################################################################################
 ######################################### MAIN CODE #########################################
 
@@ -441,6 +487,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         point_B_powerlaw = powerlaw(point_B[0], bf, cf)
         point_C_powerlaw = powerlaw(point_C[0], bf, cf)
         point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(point_A[1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(point_B[1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(point_C[1]) + ", POINT C PL:" + str(point_C_powerlaw)
+        #if np.abs(point_A_powerlaw - point_A[1]) <= 1:
+        #    draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
+        #if np.abs(point_B_powerlaw - point_B[1]) <= 1:
+        #    draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
+        #if np.abs(point_C_powerlaw - point_C[1]) <= 1:
+        #    draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
+
         print_to_file(point_powerlaw, POWERLAW_TEST2)
 
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
@@ -515,6 +568,7 @@ flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_grap
 ORIGINAL_PDF.close()
 NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
+POWERLAW_TEST_PDF.close()
 
 np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
 np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
