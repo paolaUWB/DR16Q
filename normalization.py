@@ -34,7 +34,7 @@ Normalization module for this project
 
 ######################################### VARIABLES ######################################### 
 
-DR = '9' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
+DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
@@ -47,7 +47,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 899, 1527 ## [899-1527 for dr9] [1469-1470 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [1469-1470 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
