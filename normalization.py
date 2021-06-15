@@ -47,7 +47,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [1469-1470 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [XXXXX for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -372,7 +372,7 @@ if __name__ == "__main__":
     clear_file(POWERLAW_TEST2)
     print("Hi!")
     
-    fields=["index", "spectra index", "chi_sq"]
+    fields=["spectra index", "chi_sq"]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
     append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
@@ -496,7 +496,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
 
-    fields=[spectra_index - STARTS_FROM + 1, spectra_index, chi_sq]
+    fields=[spectra_index, chi_sq]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
 
     if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
