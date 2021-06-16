@@ -47,7 +47,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [XXXXX for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [XXXXX for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -217,7 +217,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
-    plt.ylim(-2, max_peak + 3)
+    plt.ylim(-2, max_peak + 2)
     ORIGINAL_PDF.savefig()
     plt.close(figure_index)
 
@@ -266,6 +266,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.plot(test1.wavelength, normalized_flux_test_1, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, normalized_flux_test_2, color = test_2_color, linestyle = "-")
     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
+    plt.ylim(-2, np.max(flux_normalized) + 1.5)
     NORMALIZED_PDF.savefig()
     plt.close(figure_index)
 
@@ -310,7 +311,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
-    plt.ylim(-2, max_peak + 3)
+    plt.ylim(-2, max_peak + 2)
     FLAGGED_PDF.savefig()
     plt.close(figure_index)
 
@@ -355,7 +356,7 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
-    plt.ylim(-2, max_peak + 3)
+    plt.ylim(-2, max_peak + 2)
     POWERLAW_TEST_PDF.savefig()
     plt.close(figure_index)
 
@@ -468,18 +469,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if flagged_by_test1:
-        print("flagged_by_test1: ", flagged_by_test1)
+        print("     flagged_by_test1: ", flagged_by_test1)
         print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
 
-    
     flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
     if flagged_by_test2:
-        print("flagged_by_test2: ", flagged_by_test2)
+        print("     flagged_by_test2: ", flagged_by_test2)
         print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
+
 
     if flagged_by_test1 and flagged_by_test2:
         flagged = True
-        error_message = "Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
+        error_message = "       Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
         print_to_file(error_message, FLAGGED_GRAPHS)
@@ -504,9 +505,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     else:
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
-    ## SCALIMNG GRAPHS
+    ## SCALING GRAPHS
     wavelength_data = current_spectra_data[:,0]
     flux_data = current_spectra_data[:,1]
+    #norm_flux_data = flux_normalized, error_normalized
 
     min_wavelength = np.min(np.where(wavelength_data > middle_point_from))
     max_wavelength = np.max(np.where(wavelength_data < right_point_to))
@@ -520,15 +522,17 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     else:
         original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
         draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-        draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
         if flagged:
             draw_flagged_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
             val = 0.5
             flagged_A = abs(point_A_powerlaw - point_A[1]) <= val
             flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
             flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
-            if flagged_A or flagged_B or flagged_C:
+            if flagged_A and flagged_B and flagged_C: # and powerlaw_test_1_low and powerlaw_test_2_low:
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
+        else:
+            draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
+
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
@@ -554,15 +558,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         flagged_snr_spectra_indices.append(spectra_index)
         flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
 
-final_initial_parameters = [indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
+final_initial_parameters = [spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
 final_initial_parameters = (np.transpose(final_initial_parameters))
 
-flagged_graphs = [flagged_indices, flagged_spectra_indices, flagged_spectra_file_names]
+flagged_graphs = [flagged_spectra_indices, flagged_spectra_file_names]
 flagged_graphs = (np.transpose(flagged_graphs))
 
-flagged_snr_in_ehvo_graphs = [flagged_snr_indices, flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
+flagged_snr_in_ehvo_graphs = [flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
 flagged_snr_in_ehvo_graphs = (np.transpose(flagged_snr_in_ehvo_graphs))
-flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_graphs[:,3].argsort()] # sort by snr_mean_in_ehvo column
+flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_graphs[:,2].argsort()] # sort by snr_mean_in_ehvo column
     
 ORIGINAL_PDF.close()
 NORMALIZED_PDF.close()

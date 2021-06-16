@@ -1,4 +1,17 @@
-Flagging figure #3, file name: spec-10000-57716-0241-dered.dr16
-Flagging figure #4, file name: spec-10000-57716-0534-dered.dr16
-Flagging figure #5, file name: spec-10227-58224-0090-dered.dr16
-Flagging figure #8, file name: spec-10227-58224-0894-dered.dr16
+       Flagging figure #3, file name: spec-10000-57716-0241-dered.dr16
+       Flagging figure #4, file name: spec-10000-57716-0534-dered.dr16
+       Flagging figure #5, file name: spec-10227-58224-0090-dered.dr16
+       Flagging figure #8, file name: spec-10227-58224-0894-dered.dr16
+       Flagging figure #19, file name: spec-10231-58171-0022-dered.dr16
+       Flagging figure #28, file name: spec-10233-58130-0297-dered.dr16
+       Flagging figure #35, file name: spec-10236-58154-0388-dered.dr16
+       Flagging figure #40, file name: spec-10237-58154-0515-dered.dr16
+       Flagging figure #42, file name: spec-10237-58154-0787-dered.dr16
+       Flagging figure #47, file name: spec-10239-58142-0474-dered.dr16
+       Flagging figure #52, file name: spec-10241-58157-0336-dered.dr16
+       Flagging figure #61, file name: spec-10245-58161-0274-dered.dr16
+       Flagging figure #67, file name: spec-10247-58162-0676-dered.dr16
+       Flagging figure #70, file name: spec-10248-58220-0735-dered.dr16
+       Flagging figure #75, file name: spec-10249-58229-0530-dered.dr16
+       Flagging figure #82, file name: spec-10251-58173-0049-dered.dr16
+       Flagging figure #100, file name: spec-10254-58514-0972-dered.dr16
