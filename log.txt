@@ -4,15 +4,15 @@ flagged_by_test2: True
 3: spec-10000-57716-0241-dered.dr16
 flagged_by_test1: True
 flagged_by_test2: True
-Flagging figure #3, file name: spec-10000-57716-0241-dered.dr16
+       Flagging figure #3, file name: spec-10000-57716-0241-dered.dr16
 4: spec-10000-57716-0534-dered.dr16
 flagged_by_test1: True
 flagged_by_test2: True
-Flagging figure #4, file name: spec-10000-57716-0534-dered.dr16
+       Flagging figure #4, file name: spec-10000-57716-0534-dered.dr16
 5: spec-10227-58224-0090-dered.dr16
 flagged_by_test1: True
 flagged_by_test2: True
-Flagging figure #5, file name: spec-10227-58224-0090-dered.dr16
+       Flagging figure #5, file name: spec-10227-58224-0090-dered.dr16
 6: spec-10227-58224-0324-dered.dr16
 flagged_by_test2: True
 7: spec-10227-58224-0685-dered.dr16
@@ -20,6 +20,159 @@ flagged_by_test1: True
 8: spec-10227-58224-0894-dered.dr16
 flagged_by_test1: True
 flagged_by_test2: True
-Flagging figure #8, file name: spec-10227-58224-0894-dered.dr16
+       Flagging figure #8, file name: spec-10227-58224-0894-dered.dr16
 9: spec-10227-58224-0940-dered.dr16
 10: spec-10228-58223-0026-dered.dr16
+11: spec-10228-58223-0180-dered.dr16
+flagged_by_test2: True
+12: spec-10228-58223-0203-dered.dr16
+13: spec-10228-58223-0616-dered.dr16
+14: spec-10228-58223-0926-dered.dr16
+15: spec-10228-58223-0930-dered.dr16
+flagged_by_test1: True
+16: spec-10229-58441-0595-dered.dr16
+flagged_by_test2: True
+17: spec-10230-58224-0178-dered.dr16
+flagged_by_test2: True
+18: spec-10231-58171-0001-dered.dr16
+19: spec-10231-58171-0022-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #19, file name: spec-10231-58171-0022-dered.dr16
+20: spec-10231-58171-0506-dered.dr16
+21: spec-10231-58171-0759-dered.dr16
+22: spec-10231-58171-0958-dered.dr16
+23: spec-10232-58223-0222-dered.dr16
+flagged_by_test1: True
+24: spec-10232-58223-0466-dered.dr16
+25: spec-10232-58223-0778-dered.dr16
+26: spec-10232-58223-0928-dered.dr16
+flagged_by_test2: True
+27: spec-10233-58130-0148-dered.dr16
+flagged_by_test1: True
+28: spec-10233-58130-0297-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #28, file name: spec-10233-58130-0297-dered.dr16
+29: spec-10234-58153-0191-dered.dr16
+flagged_by_test1: True
+30: spec-10234-58153-0370-dered.dr16
+31: spec-10234-58153-0783-dered.dr16
+flagged_by_test2: True
+32: spec-10234-58153-0994-dered.dr16
+33: spec-10236-58154-0115-dered.dr16
+34: spec-10236-58154-0350-dered.dr16
+35: spec-10236-58154-0388-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #35, file name: spec-10236-58154-0388-dered.dr16
+36: spec-10236-58154-0530-dered.dr16
+37: spec-10236-58154-0580-dered.dr16
+38: spec-10236-58154-0647-dered.dr16
+39: spec-10236-58154-0692-dered.dr16
+40: spec-10237-58154-0515-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #40, file name: spec-10237-58154-0515-dered.dr16
+41: spec-10237-58154-0541-dered.dr16
+42: spec-10237-58154-0787-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #42, file name: spec-10237-58154-0787-dered.dr16
+43: spec-10238-58155-0040-dered.dr16
+44: spec-10238-58155-0192-dered.dr16
+flagged_by_test1: True
+45: spec-10239-58142-0028-dered.dr16
+flagged_by_test1: True
+46: spec-10239-58142-0356-dered.dr16
+flagged_by_test2: True
+47: spec-10239-58142-0474-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #47, file name: spec-10239-58142-0474-dered.dr16
+48: spec-10240-58158-0835-dered.dr16
+49: spec-10240-58158-0918-dered.dr16
+flagged_by_test2: True
+50: spec-10241-58157-0228-dered.dr16
+51: spec-10241-58157-0284-dered.dr16
+52: spec-10241-58157-0336-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #52, file name: spec-10241-58157-0336-dered.dr16
+53: spec-10242-58161-0406-dered.dr16
+54: spec-10242-58161-0650-dered.dr16
+flagged_by_test2: True
+55: spec-10243-58159-0069-dered.dr16
+flagged_by_test1: True
+56: spec-10243-58159-0132-dered.dr16
+flagged_by_test1: True
+57: spec-10243-58159-0655-dered.dr16
+58: spec-10243-58159-0757-dered.dr16
+flagged_by_test2: True
+59: spec-10244-58225-0714-dered.dr16
+60: spec-10244-58225-0814-dered.dr16
+61: spec-10245-58161-0274-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #61, file name: spec-10245-58161-0274-dered.dr16
+62: spec-10246-58171-0402-dered.dr16
+63: spec-10246-58171-0583-dered.dr16
+64: spec-10246-58171-0738-dered.dr16
+65: spec-10246-58171-0773-dered.dr16
+66: spec-10247-58162-0075-dered.dr16
+67: spec-10247-58162-0676-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #67, file name: spec-10247-58162-0676-dered.dr16
+68: spec-10248-58220-0140-dered.dr16
+69: spec-10248-58220-0247-dered.dr16
+70: spec-10248-58220-0735-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #70, file name: spec-10248-58220-0735-dered.dr16
+71: spec-10248-58220-0876-dered.dr16
+72: spec-10249-58229-0050-dered.dr16
+flagged_by_test1: True
+73: spec-10249-58229-0106-dered.dr16
+74: spec-10249-58229-0197-dered.dr16
+75: spec-10249-58229-0530-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #75, file name: spec-10249-58229-0530-dered.dr16
+76: spec-10249-58229-0802-dered.dr16
+flagged_by_test2: True
+77: spec-10250-58472-0372-dered.dr16
+78: spec-10250-58472-0387-dered.dr16
+79: spec-10250-58472-0457-dered.dr16
+80: spec-10250-58472-0550-dered.dr16
+flagged_by_test1: True
+81: spec-10250-58472-0748-dered.dr16
+82: spec-10251-58173-0049-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #82, file name: spec-10251-58173-0049-dered.dr16
+83: spec-10251-58173-0564-dered.dr16
+84: spec-10251-58173-0854-dered.dr16
+85: spec-10251-58173-0954-dered.dr16
+86: spec-10252-58485-0200-dered.dr16
+87: spec-10252-58485-0698-dered.dr16
+88: spec-10253-58487-0254-dered.dr16
+flagged_by_test2: True
+89: spec-10253-58487-0272-dered.dr16
+90: spec-10253-58487-0432-dered.dr16
+91: spec-10254-58514-0006-dered.dr16
+92: spec-10254-58514-0025-dered.dr16
+93: spec-10254-58514-0159-dered.dr16
+flagged_by_test1: True
+94: spec-10254-58514-0432-dered.dr16
+95: spec-10254-58514-0690-dered.dr16
+96: spec-10254-58514-0729-dered.dr16
+flagged_by_test2: True
+97: spec-10254-58514-0835-dered.dr16
+98: spec-10254-58514-0861-dered.dr16
+flagged_by_test1: True
+99: spec-10254-58514-0966-dered.dr16
+100: spec-10254-58514-0972-dered.dr16
+flagged_by_test1: True
+flagged_by_test2: True
+       Flagging figure #100, file name: spec-10254-58514-0972-dered.dr16
