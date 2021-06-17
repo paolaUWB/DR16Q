@@ -47,7 +47,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [XXXXX for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 7001, 8000 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -467,27 +467,34 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 
     ## AVERAGE VALUE OF POWERLAW IN TEST REGIONS
-    powerlaw_test1 = np.average(powerlaw(test1.wavelength, bf, cf))
-    powerlaw_test2 = np.average(powerlaw(test2.wavelength, bf, cf))
-
-    print("POWERLAW TEST 1: ", powerlaw_test1)
-    print("POWERLAW TEST 2: ", powerlaw_test2)
+    powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
+    powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
 
     ## AVERAGE FLUX VALUE IN TEST REGIONS
     avg_flux_test1 = np.average(test1.flux) + 0.05
     avg_flux_test2 = np.average(test2.flux) + 0.05
 
-    print("FLUX TEST 1: ", avg_flux_test1)
-    print("FLUX TEST 2: ", avg_flux_test2)
+    ## MAX FLUX OF TEST REGIONS
+    max_test1 = np.max(test1.flux)
+    max_test2 = np.max(test2.flux)
 
     flagged_fit_1 = False
     flagged_fit_2 = False
+    
+    flagged_t1 = False
+    flagged_t2 = False
 
-    if powerlaw_test1 > avg_flux_test1:
+    if np.average(powerlaw_test1) < avg_flux_test1:
         flagged_fit_1 = True
 
-    if powerlaw_test2 > avg_flux_test2: 
+    if np.average(powerlaw_test2) < avg_flux_test2: 
         flagged_fit_2 = True
+
+    if np.min(powerlaw_test1) > max_test1:
+        flagged_t1 = True
+
+    if np.min(powerlaw_test2) > max_test2:
+        flagged_t2 = True
 
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if flagged_by_test1:
@@ -550,7 +557,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             flagged_A = abs(point_A_powerlaw - point_A[1]) <= val
             flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
             flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
-            if flagged_A and flagged_B and flagged_C and flagged_fit_1 and flagged_fit_2: # and powerlaw_test_1_low and powerlaw_test_2_low:
+            if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)): # and powerlaw_test_1_low and powerlaw_test_2_low:
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
