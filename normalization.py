@@ -47,7 +47,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 7001, 8000 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 300, 600 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -81,6 +81,7 @@ GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values_all.csv"
 BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
 GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
 POWERLAW_TEST2 = OUT_DIREC + "/" + "powerlaw_test2.txt"
+FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
 
 ## CREATES PDF FOR GRAPHS
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
@@ -371,6 +372,7 @@ if __name__ == "__main__":
     clear_file(FLAGGED_GRAPHS)
     clear_file(FLAGGED_SNR_GRAPHS_FILE)
     clear_file(POWERLAW_TEST2)
+    clear_file(FLAGGED_ABSORPTION)
     print("Hi!")
     
     fields=["spectra index", "chi_sq"]
@@ -495,6 +497,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     if np.min(powerlaw_test2) > max_test2:
         flagged_t2 = True
+
+    if not flagged_snr_mean_in_ehvo and (flagged_t1 or flagged_t2):
+        print_to_file(current_spectrum_file_name, FLAGGED_ABSORPTION)
 
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if flagged_by_test1:
