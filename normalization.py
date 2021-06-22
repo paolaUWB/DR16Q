@@ -48,13 +48,16 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
 BOXCAR_SIZE = 11 ## MUST BE ODD
+
+#############################################################################################
+####################################### DO NOT CHANGE #######################################
 
 ## RANGES OF WAVELENGTHS IN THE SPECTRA
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -65,6 +68,7 @@ WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
 WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
+#############################################################################################
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
@@ -72,17 +76,12 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
-LOG_FILE = "log.txt"
-#FLAGGED_GRAPHS = OUT_DIREC + "/" + "flagged_graphs.txt"
-#INIT_PARAMS_FILE = OUT_DIREC + "/" + "initial_parameters.txt"
-PROCESSED_SPECTRA_FILE = OUT_DIREC + "/" + "processed_spectra_file_names.txt"
+LOG_FILE = OUT_DIREC + "/" + "log.txt"
 FLAGGED_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_bad_fit.csv"
 FLAGGED_SNR_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
-GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values.csv"
-#BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
-GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
-POWERLAW_TEST2 = OUT_DIREC + "/" + "powerlaw_test2.txt"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
+GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
+GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values.csv"
 
 ## CREATES PDF FOR GRAPHS
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
@@ -367,19 +366,15 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
-    clear_file(GOODNESS_OF_FIT_FILE)
-    #clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
     clear_file(FLAGGED_GRAPHS_FILE)
-    clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
-    #clear_file(FLAGGED_GRAPHS)
     clear_file(FLAGGED_SNR_GRAPHS_FILE)
-    clear_file(POWERLAW_TEST2)
     clear_file(FLAGGED_ABSORPTION)
-    print("Hi!")
-    
-    fields=["spectra index", "chi_sq"]
-    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
-    #append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
+    clear_file(GOODNESS_OF_FIT_FILE)
+
+    field = ["spectra index", "spectra file name", "chi_sq"]
+    fields=["spectra index", "spectra file name", "bf", "cf"]
+    append_row_to_csv(GOODNESS_OF_FIT_FILE, field)
     append_row_to_csv(FLAGGED_GRAPHS_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
@@ -407,10 +402,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         return y_smooth
         
     ## SMOOTHING ORIGINAL FIGURES
-    sm_flux = smooth(flux, BOXCAR_SIZE)
-    sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
-
     if sm == 'yes':
+        sm_flux = smooth(flux, BOXCAR_SIZE)
+        sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)   
         non_sm_flux = flux
         non_sm_error = error
         flux = sm_flux
@@ -441,9 +435,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     error_normalized = error/powerlaw(wavelength, bf, cf)
 
     ## SMOOTHING NORMALIZED FIGURES 
-    sm_flux_norm = smooth(flux_normalized, BOXCAR_SIZE)
-    sm_error_norm = smooth(error_normalized, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
     if sm == 'yes':
+        sm_flux_norm = smooth(flux_normalized, BOXCAR_SIZE)
+        sm_error_norm = smooth(error_normalized, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)
         non_sm_flux_norm = flux_normalized
         non_sm_error_norm = error_normalized 
         flux_normalized = sm_flux_norm
@@ -507,12 +501,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if flagged_by_test1:
         print("     flagged_by_test1: ", flagged_by_test1)
-        print_to_file("flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
+        print_to_file("     flagged_by_test1: " + str(flagged_by_test1), LOG_FILE)
 
     flagged_by_test2 = abs(np.median(normalized_flux_test_2) - 1) >= 0.05
     if flagged_by_test2:
         print("     flagged_by_test2: ", flagged_by_test2)
-        print_to_file("flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
+        print_to_file("     flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
 
 
     if flagged_by_test1 and flagged_by_test2:
@@ -520,12 +514,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         error_message = "       Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
-        #print_to_file(error_message, FLAGGED_GRAPHS)
         point_A_powerlaw = powerlaw(point_A[0], bf, cf)
         point_B_powerlaw = powerlaw(point_B[0], bf, cf)
         point_C_powerlaw = powerlaw(point_C[0], bf, cf)
         point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(point_A[1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(point_B[1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(point_C[1]) + ", POINT C PL:" + str(point_C_powerlaw)
-        print_to_file(point_powerlaw, POWERLAW_TEST2)
 
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
     residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
@@ -534,20 +526,20 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
 
-    fields=[spectra_index, chi_sq]
-    append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
+    field = [spectra_index, current_spectrum_file_name, chi_sq]
+    fields=[spectra_index, current_spectrum_file_name, bf, cf]
+    
+    if not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(GOODNESS_OF_FIT_FILE, field)
 
-    #if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
-    if flagged_by_test1 and flagged_by_test2:
-        #append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    if (flagged_by_test1 and flagged_by_test2) and not flagged_snr_mean_in_ehvo:
         append_row_to_csv(FLAGGED_GRAPHS_FILE, fields)
-    else:
+    elif not flagged_snr_mean_in_ehvo:
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
     ## SCALING GRAPHS
     wavelength_data = current_spectra_data[:,0]
     flux_data = current_spectra_data[:,1]
-    #norm_flux_data = flux_normalized, error_normalized
 
     min_wavelength = np.min(np.where(wavelength_data > middle_point_from))
     max_wavelength = np.max(np.where(wavelength_data < right_point_to))
@@ -605,16 +597,12 @@ flagged_graphs = (np.transpose(flagged_graphs))
 
 flagged_snr_in_ehvo_graphs = [flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
 flagged_snr_in_ehvo_graphs = (np.transpose(flagged_snr_in_ehvo_graphs))
-flagged_snr_in_ehvo_graphs = flagged_snr_in_ehvo_graphs[flagged_snr_in_ehvo_graphs[:,2].argsort()] # sort by snr_mean_in_ehvo column
     
 ORIGINAL_PDF.close()
 NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 POWERLAW_TEST_PDF.close()
 
-#np.savetxt(INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
-np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
-#np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
 np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 ## what are we wanting printed to the file?
