@@ -14,6 +14,7 @@ import os
 import sys
 import numpy as np 
 from matplotlib import pyplot as plt
+from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
@@ -47,7 +48,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 300, 600 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -72,13 +73,13 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 LOG_FILE = "log.txt"
-FLAGGED_GRAPHS = OUT_DIREC + "/" + "flagged_graphs.txt"
-FINAL_INIT_PARAMS_FILE = OUT_DIREC + "/" + "final_initial_parameters.txt"
-PROCESSED_SPECTRA_FILE = OUT_DIREC + "/" + "processed_spectra_filenames.txt"
-FLAGGED_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_for_absorption_or_bad_normalization.txt"
+#FLAGGED_GRAPHS = OUT_DIREC + "/" + "flagged_graphs.txt"
+#INIT_PARAMS_FILE = OUT_DIREC + "/" + "initial_parameters.txt"
+PROCESSED_SPECTRA_FILE = OUT_DIREC + "/" + "processed_spectra_file_names.txt"
+FLAGGED_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_bad_fit.csv"
 FLAGGED_SNR_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
-GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values_all.csv"
-BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
+GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values.csv"
+#BAD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "bad_normalization.csv"
 GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
 POWERLAW_TEST2 = OUT_DIREC + "/" + "powerlaw_test2.txt"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
@@ -367,9 +368,10 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
 if __name__ == "__main__":
     clear_file(LOG_FILE)
     clear_file(GOODNESS_OF_FIT_FILE)
-    clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
+    #clear_file(BAD_NORMALIZATION_FLAGGED_FILE)
+    clear_file(FLAGGED_GRAPHS_FILE)
     clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
-    clear_file(FLAGGED_GRAPHS)
+    #clear_file(FLAGGED_GRAPHS)
     clear_file(FLAGGED_SNR_GRAPHS_FILE)
     clear_file(POWERLAW_TEST2)
     clear_file(FLAGGED_ABSORPTION)
@@ -377,7 +379,8 @@ if __name__ == "__main__":
     
     fields=["spectra index", "chi_sq"]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
-    append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    #append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    append_row_to_csv(FLAGGED_GRAPHS_FILE, fields)
     append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
 redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)
@@ -517,7 +520,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         error_message = "       Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
-        print_to_file(error_message, FLAGGED_GRAPHS)
+        #print_to_file(error_message, FLAGGED_GRAPHS)
         point_A_powerlaw = powerlaw(point_A[0], bf, cf)
         point_B_powerlaw = powerlaw(point_B[0], bf, cf)
         point_C_powerlaw = powerlaw(point_C[0], bf, cf)
@@ -534,8 +537,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     fields=[spectra_index, chi_sq]
     append_row_to_csv(GOODNESS_OF_FIT_FILE, fields)
 
-    if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
-        append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+    #if chi_sq > 8 and flagged_by_test1 and flagged_by_test2:
+    if flagged_by_test1 and flagged_by_test2:
+        #append_row_to_csv(BAD_NORMALIZATION_FLAGGED_FILE, fields)
+        append_row_to_csv(FLAGGED_GRAPHS_FILE, fields)
     else:
         append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
 
@@ -607,9 +612,9 @@ NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 POWERLAW_TEST_PDF.close()
 
-np.savetxt(FINAL_INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
+#np.savetxt(INIT_PARAMS_FILE, final_initial_parameters, fmt="%s")
 np.savetxt(PROCESSED_SPECTRA_FILE, processed_spectra_file_names, fmt='%s')
-np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
+#np.savetxt(FLAGGED_GRAPHS_FILE, flagged_graphs, fmt='%s')
 np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 ## what are we wanting printed to the file?
