@@ -24,12 +24,10 @@ Steps to contribute to this project:
 ### Normalization File
 
 -Follow the GitHub steps above and open the file "normalization.py" using Spyder IDE or Visual Studio Code.
-    
--There are 6760 spectra (It can be more later on this project). If you don't generate all 6760 files, find variables "STARTS_FROM" and "ENDS_AT" and define a range.
-
--The "data_types" and "utility_functions" files must be in your directory for import
 
 -The file currently named "DRX_sorted_norm.csv" contains all the necessary information (data) to read [X being the current data release; i.e. 9].
+
+-The "data_types" and "utility_functions" files must be in your directory for import
 
 -At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by Astrophysicist. Any change of these constants SHOULD be discussed with the client.
 
@@ -49,26 +47,18 @@ Steps to contribute to this project:
 -There is a test file in the directory. If you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output. If changes are correct then update the test file with new results for future tests.
 
 OUTPUT FILES:
--bad_normalization.csv
-    -spectra index, chi_sq
-    -contains spectra that has been flagged as a bad fit by the green and pink test regions
-    -these spectra do not move on to be normalized
 
 -chi_sq_values.csv
-    -spectra index, chi_sq
+    -spectra index, spectra file name, chi_sq
     -contains the chi squared values for all spectra run in the range defined
 
--final_initial_parameters.txt
-    -spectra index, spectra file name, bf, cf
-    -contains the initial parameters for each spectra that are used for the powerlaw curve fitting
-
 -flagged_absorption.csv
-    -spectra file name
-    -contains the spectra that have been flagged as having possible absorption in the green and pink test regions
+    -spectra index, spectra file name, bf, cf
+    -contains the spectra that have been flagged as having possible absorption in the green and pink test regions along with the initial parameters that are used for the powerlaw curve fitting (bf, cf)
 
 -flagged_bad_fit.csv
-    -spectra index, chi_sq
-    -contains spectra that have been flagged as a bad fit by the green and pink test regions
+    -spectra index, spectra file name, bf, cf
+    -contains spectra that have been flagged as a bad fit by the green and pink test regions along with the initial parameters that are used for the powerlaw curve fitting (bf, cf)
 
 -flagged_snr_in_ehvo_graphs.txt
     -spectra index, spectra file name, SNR
@@ -77,13 +67,11 @@ OUTPUT FILES:
     ** sorted by SNR **
 
 -good_normalization.csv
-    -spectra index, chi_sq
-    -contains spectra that have a good fit and will be normalized
+    -spectra index, spectra file name, bf, cf
+    -contains spectra that have a good fit and will be normalized along with the initial parameters that are used for the powerlaw curve fitting (bf, cf)
 
--powerlaw_test2.txt ** DELETE? **
-
--processed_spectra_file_names.txt
-    -contains the spectra file names for all spectra in the defined range
+-log.txt
+    -keeps a log of the output
 
 
 ### Absorption File
@@ -97,3 +85,9 @@ OUTPUT FILES:
 -Based on "BALNICITY_INDEX_LIMIT", the file will import different results. You can see the results in the same directory under the "Absortion_cleaning" document. Also the same "BALNICITY_INDEX_LIMIT" constant will generate different graph output because it is defining the narrowness of the output.
 
 - At the top of the file, the constant variables are defined by Astrophysicist. Any change of these constants SHOULD discuss with the client.
+
+
+### .gitignore
+
+-Any files that you would like to be ignored when pushing should be recorded in this file.
+** ADD MORE DETAILS **
