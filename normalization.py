@@ -48,7 +48,10 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
-STARTS_FROM, ENDS_AT = 1001, 2000 ## [899-1527 for dr9] [1-21823? for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+## CREATES DIRECTORY FOR OUTPUT FILES
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
+
+STARTS_FROM, ENDS_AT = 1, 1000 ## [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -73,15 +76,12 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
 
-## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
-
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
-FLAGGED_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_bad_fit.csv"
-FLAGGED_SNR_GRAPHS_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
+FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
+FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
-GOOD_NORMALIZATION_FLAGGED_FILE = OUT_DIREC + "/" + "good_normalization.csv"
-GOODNESS_OF_FIT_FILE = OUT_DIREC + "/" + "chi_sq_values.csv"
+GOOD_NORMALIZATION = OUT_DIREC + "/" + "good_normalization.csv"
+GOODNESS_OF_FIT = OUT_DIREC + "/" + "chi_sq_values.csv"
 
 ## CREATES PDF FOR GRAPHS
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
@@ -93,9 +93,27 @@ POWERLAW_TEST_PDF = PdfPages('powerlaw_test_graphs.pdf')
 #############################################################################################
 ######################################### FUNCTIONS #########################################
 
-b = 1250 # initial parameter of powerlaw
-c = -0.5 # initial parameter of powerlaw
+b = 1250 # INITIAL PARAMETER OF POWERLAW
+c = -0.5 # INITIAL PARAMETER OF POWERLAW
 
+def smooth(norm_flux, box_size):
+    """ Function that smoothes the spectra.
+
+    Parameters:
+    -----------
+    norm_flux: any
+        Normalized flux
+    box_size: any
+        Boxcar size - how smoothed you want the spectra (higher # = more smooth). This value must be odd.
+    
+    Returns:
+    --------
+    y_smooth: any
+        Returns the smoothed spectra - as the boxcar size increases, the plot will resemble a smooth line showing the trends of the spectra without extra "noise"
+
+    """
+    y_smooth = signal.savgol_filter(norm_flux,box_size,2)
+    return y_smooth
 
 def powerlaw(wavelength, b, c):
     """ Calculates the power law. 
@@ -366,17 +384,17 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
-    clear_file(FLAGGED_GRAPHS_FILE)
-    clear_file(FLAGGED_SNR_GRAPHS_FILE)
+    clear_file(FLAGGED_BAD_FIT)
+    clear_file(FLAGGED_SNR)
     clear_file(FLAGGED_ABSORPTION)
-    clear_file(GOOD_NORMALIZATION_FLAGGED_FILE)
-    clear_file(GOODNESS_OF_FIT_FILE)
+    clear_file(GOOD_NORMALIZATION)
+    clear_file(GOODNESS_OF_FIT)
 
     field = ["spectra index", "spectra file name", "chi_sq"]
     fields=["spectra index", "spectra file name", "bf", "cf"]
-    append_row_to_csv(GOODNESS_OF_FIT_FILE, field)
-    append_row_to_csv(FLAGGED_GRAPHS_FILE, fields)
-    append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+    append_row_to_csv(GOODNESS_OF_FIT, field)
+    append_row_to_csv(FLAGGED_BAD_FIT, fields)
+    append_row_to_csv(GOOD_NORMALIZATION, fields)
 
 redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)
 
@@ -396,19 +414,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     ## DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
     wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-
-    def smooth(norm_flux, box_size):
-        y_smooth = signal.savgol_filter(norm_flux,box_size,2)
-        return y_smooth
-        
-    ## SMOOTHING ORIGINAL FIGURES
-    if sm == 'yes':
-        sm_flux = smooth(flux, BOXCAR_SIZE)
-        sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)   
-        non_sm_flux = flux
-        non_sm_error = error
-        flux = sm_flux
-        error = sm_error
 
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
@@ -434,6 +439,22 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flux_normalized = flux/powerlaw(wavelength, bf, cf)
     error_normalized = error/powerlaw(wavelength, bf, cf)
 
+    ## FLAGGING LOW SNR
+    flagged_snr_mean_in_ehvo = False
+    snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
+
+    if snr_mean_in_ehvo < SNR_CUTOFF:  
+        flagged_snr_mean_in_ehvo = True
+
+    ## SMOOTHING ORIGINAL FIGURES
+    if sm == 'yes':
+        sm_flux = smooth(flux, BOXCAR_SIZE)
+        sm_error = smooth(error, BOXCAR_SIZE) / np.sqrt(BOXCAR_SIZE)   
+        non_sm_flux = flux
+        non_sm_error = error
+        flux = sm_flux
+        error = sm_error
+
     ## SMOOTHING NORMALIZED FIGURES 
     if sm == 'yes':
         sm_flux_norm = smooth(flux_normalized, BOXCAR_SIZE)
@@ -444,12 +465,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         error_normalized = sm_error_norm
 
     original_ranges = RangesData(wavelength, flux, error)
-
-    flagged_snr_mean_in_ehvo = False
-    snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
-
-    if snr_mean_in_ehvo < SNR_CUTOFF:  
-        flagged_snr_mean_in_ehvo = True
 
     #############################################################################################
     #################################### TESTING TWO REGIONS ####################################
@@ -464,39 +479,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## PINK REGION
     test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
-
-    ## AVERAGE VALUE OF POWERLAW IN TEST REGIONS
-    powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
-    powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
-
-    ## AVERAGE FLUX VALUE IN TEST REGIONS
-    avg_flux_test1 = np.average(test1.flux) + 0.05
-    avg_flux_test2 = np.average(test2.flux) + 0.05
-
-    ## MAX FLUX OF TEST REGIONS
-    max_test1 = np.max(test1.flux)
-    max_test2 = np.max(test2.flux)
-
-    flagged_fit_1 = False
-    flagged_fit_2 = False
-    
-    flagged_t1 = False
-    flagged_t2 = False
-
-    if np.average(powerlaw_test1) < avg_flux_test1:
-        flagged_fit_1 = True
-
-    if np.average(powerlaw_test2) < avg_flux_test2: 
-        flagged_fit_2 = True
-
-    if np.min(powerlaw_test1) > max_test1:
-        flagged_t1 = True
-
-    if np.min(powerlaw_test2) > max_test2:
-        flagged_t2 = True
-
-    if not flagged_snr_mean_in_ehvo and (flagged_t1 or flagged_t2):
-        append_row_to_csv(FLAGGED_ABSORPTION, fields)
 
     flagged_by_test1 = abs(np.median(normalized_flux_test_1) - 1) >= 0.05
     if flagged_by_test1:
@@ -519,6 +501,41 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         point_C_powerlaw = powerlaw(point_C[0], bf, cf)
         point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(point_A[1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(point_B[1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(point_C[1]) + ", POINT C PL:" + str(point_C_powerlaw)
 
+        ## AVERAGE VALUE OF POWERLAW IN TEST REGIONS
+    powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
+    powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
+
+    ## AVERAGE FLUX VALUE IN TEST REGIONS
+    avg_flux_test1 = np.average(test1.flux) + 0.05
+    avg_flux_test2 = np.average(test2.flux) + 0.05
+
+    ## MAX FLUX OF TEST REGIONS
+    max_test1 = np.max(test1.flux)
+    max_test2 = np.max(test2.flux)
+
+    flagged_fit_1 = False
+    flagged_fit_2 = False
+    
+    flagged_t1 = False
+    flagged_t2 = False
+
+    ## SECONDARY TESTS FOR FLAGGED CASES
+    if np.average(powerlaw_test1) < avg_flux_test1:
+        flagged_fit_1 = True
+
+    if np.average(powerlaw_test2) < avg_flux_test2: 
+        flagged_fit_2 = True
+
+    if np.min(powerlaw_test1) > max_test1:
+        flagged_t1 = True
+
+    if np.min(powerlaw_test2) > max_test2:
+        flagged_t2 = True
+
+    if not flagged_snr_mean_in_ehvo and (flagged_t1 or flagged_t2):
+        append_row_to_csv(FLAGGED_ABSORPTION, fields)
+
+    ## CHI SQUARED
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
     residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
     residuals_test1_and_2 = np.concatenate([residuals_test1,residuals_test2])
@@ -530,12 +547,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     fields=[spectra_index, current_spectrum_file_name, bf, cf]
     
     if not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(GOODNESS_OF_FIT_FILE, field)
+        append_row_to_csv(GOODNESS_OF_FIT, field)
+
 
     if (flagged_by_test1 and flagged_by_test2) and not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(FLAGGED_GRAPHS_FILE, fields)
+        append_row_to_csv(FLAGGED_BAD_FIT, fields)
     elif not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+        append_row_to_csv(GOOD_NORMALIZATION, fields)
 
     ## SCALING GRAPHS
     wavelength_data = current_spectra_data[:,0]
@@ -548,6 +566,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
     
+    ## DRAWING FIGURES
     if flagged_snr_mean_in_ehvo:
         flaggedSNRdata = FlaggedSNRData(figure_data, bf, cf, power_law_data_x, power_law_data_y)
     else:
@@ -561,7 +580,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
             if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)): 
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-                append_row_to_csv(GOOD_NORMALIZATION_FLAGGED_FILE, fields)
+                append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
@@ -590,12 +609,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         flagged_snr_spectra_indices.append(spectra_index)
         flagged_snr_in_ehvo_values.append(snr_mean_in_ehvo)
 
-final_initial_parameters = [spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values]
-final_initial_parameters = (np.transpose(final_initial_parameters))
-
-flagged_graphs = [flagged_spectra_indices, flagged_spectra_file_names]
-flagged_graphs = (np.transpose(flagged_graphs))
-
 flagged_snr_in_ehvo_graphs = [flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values]
 flagged_snr_in_ehvo_graphs = (np.transpose(flagged_snr_in_ehvo_graphs))
     
@@ -604,7 +617,7 @@ NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 POWERLAW_TEST_PDF.close()
 
-np.savetxt(FLAGGED_SNR_GRAPHS_FILE, flagged_snr_in_ehvo_graphs, fmt='%s')
+np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 ## what are we wanting printed to the file?
 #else:
