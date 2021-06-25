@@ -154,7 +154,7 @@ vlast=[]
 
 	# It uses a loop: for jjjs in jjj:
 
-    # Calculate depth of each individual absorption trough.  -- a module too?     
+    # Calculate depth of each individual absorption trough.  -- a module too?     ***** YES module***
     tmp = norm_flux_used[vmaxs_index:vmins_index]
     tmp_index = np.where(norm_flux_used[vmaxs_index:vmins_index] == np.min(norm_flux_used[vmaxs_index:vmins_index]))
                    
