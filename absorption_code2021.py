@@ -45,11 +45,10 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 #####################################################################################################
 
-sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
-
 # Set config_file
 
 # Set boxcar_size
+boxcar_size = 5  
 
 # Set a variable to plot all cases or only those with absorption -- Do you want to include all cases (if no, it only includes those with absorption). It is called plotall in the old code, but I am not 100% sure of what it excludes. 
 
@@ -59,7 +58,7 @@ maxvel = -30000.
 minvel = -60000.
 
 # Do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
-sm='yes'
+smooth ='yes'
 n=5  # Smooth boxcar size
 
 # Necessary data from Verner table
