@@ -1,6 +1,6 @@
 #############################################################
 #   absorption_code2021.py
-#   	- Creates figure to visually inspect the absorption. 
+#   - Creates figure to visually inspect the absorption. 
 #	- Calculates absorption parameters (BALnicity Index BI, vmin and vmax) for a list of spectra
 #
 #   Usage:
@@ -29,19 +29,18 @@
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
-ABSORB_FILE_EXTENSION = "absorb.dr" + DR
-
-## READS FILES WITH QUASAR NAMES
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv"
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
-
-## SETS THE DIRECTORY TO STORE ABSORPTION FILES
-ABSORB_DIREC = os.getcwd() + "/DATA/ABSORB_DR" + DR + "Q/"
+## possibly different directory (figure out with mikel 1.0 if it's 1 or 2 files) ^^^
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
+## also differennt name to distinguish absorb/normal ^^^^
+
+#creat output pdf file
+
+#output of text file
 
 #####################################################################################################
 
@@ -61,7 +60,7 @@ minvel = -60000.
 smooth ='yes'
 n=5  # Smooth boxcar size
 
-# Necessary data from Verner table
+# Necessary data from Verner table (DO NOT CHANGE)
 wavelength_CIV_emit1=1550.7700
 wavelength_CIV_emit2=1548.1950
 avr_CIV_doublet = 1549.0524 #weighted average
@@ -98,24 +97,20 @@ def smooth(norm_flux, box_size):
 
 # Clear files
 
-# Read list of spectra, zem, and snr 
+# Read list of spectra, zem, and snr !!!!!!!!!!!!!!!!!!!! talk to mikel_c
 
 # Define variables. Check which of them are necessary later; Define them in one line for simplicity as lines ~388 
 # in normalization code. You might want to rename some of them to anything that makes more sense.  
 
-brac_all=[]
-deltav_all=[]
+## implement from 402 normalization code ##############################
+brac_all, deltav_all=[]
 
 absspeccount=0
 count=0
 BI=0
-vmins=[]
-vmaxs=[]
-vmins_all=[]
-vmaxs_all=[]
+vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
 
-final_depth_individual=[]
-final_depth_all_individual=[]
+final_depth_individual, final_depth_all_individual =[]
 
 BI_all=[]
 BI_total=[]   # Total BI per spectrum
@@ -124,10 +119,11 @@ BI_individual=[]
 BI_all_individual=[]
 BI_ind=[]
 
-EW_individual=[]
+EW_individual=[] #EW = equivalent width
 EW_ind=[]
 EW_all_individual=[]
 vlast=[]
+## implement from 402 normalization code ############################## ^^^^^^^^^
 
 # Loops over each spectra
     
