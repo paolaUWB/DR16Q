@@ -549,12 +549,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     if not flagged_snr_mean_in_ehvo:
         append_row_to_csv(GOODNESS_OF_FIT, field)
 
-
-    if (flagged_by_test1 and flagged_by_test2) and not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(FLAGGED_BAD_FIT, fields)
-    elif not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(GOOD_NORMALIZATION, fields)
-
     ## SCALING GRAPHS
     wavelength_data = current_spectra_data[:,0]
     flux_data = current_spectra_data[:,1]
@@ -579,11 +573,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
             flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
             if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)): 
+                flagged = False
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
+    if flagged and not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(FLAGGED_BAD_FIT, fields)
+    elif not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(GOOD_NORMALIZATION, fields)
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
