@@ -41,13 +41,10 @@ DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.
 config_file = sys.argv[1] #Set cfg file path (csv with spec_name,z,snr...)
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
-## possibly different directory (figure out with mikel 1.0 if it's 1 or 2 files) ^^^
+SPEC_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION"
-
-## also differennt name to distinguish absorb/normal ^^^^
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
