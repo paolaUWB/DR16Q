@@ -15,17 +15,25 @@
 #       Spectra base path (path to where spectra are stored on disk)
 #       
 
-#############################################################
+#############################################################################################
+########################################## IMPORTS ##########################################
 
-# IMPORTS:
-
-
-#__________________________________________________________
-# VARIABLES:
-
-# Set directories: location of normalized files, where to place outputs, etc. 
+import os
+import sys
+import numpy as np 
+from matplotlib import pyplot as plt
+from numpy.lib.function_base import append
+from scipy.optimize import curve_fit
+from matplotlib.backends.backend_pdf import PdfPages
+from utility_functions import print_to_file, clear_file, append_row_to_csv
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData  ###, DataNormalized
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from file_reader import read_file
+from scipy import signal
 
 #####################################################################################################
+
+# Set directories: location of normalized files, where to place outputs, etc. 
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
@@ -38,9 +46,28 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 ## also differennt name to distinguish absorb/normal ^^^^
 
+#############################################################################################
+######################################## OUTPUT FILES #######################################
+
 #creat output pdf file
 
 #output of text file
+
+LOG_FILE = OUT_DIREC + "/" + "log.txt"
+FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
+FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
+FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
+GOOD_NORMALIZATION = OUT_DIREC + "/" + "good_normalization.csv"
+GOODNESS_OF_FIT = OUT_DIREC + "/" + "chi_sq_values.csv"
+
+## CREATES PDF FOR GRAPHS
+ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
+NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
+FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
+POWERLAW_TEST_PDF = PdfPages('powerlaw_test_graphs.pdf')
+
+
+#############################################################################################
 
 #####################################################################################################
 
@@ -60,7 +87,9 @@ minvel = -60000.
 smooth ='yes'
 n=5  # Smooth boxcar size
 
-# Necessary data from Verner table (DO NOT CHANGE)
+#############################################################################################
+####################################### DO NOT CHANGE #######################################
+
 wavelength_CIV_emit1=1550.7700
 wavelength_CIV_emit2=1548.1950
 avr_CIV_doublet = 1549.0524 #weighted average
@@ -70,6 +99,20 @@ OI_emitted = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
 avr_OVI_doublet=1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
 
+#############################################################################################
+####################################### VARIABLES ###########################################
+
+brac_all, deltav_all=[]
+absspeccount=0
+count=0
+BI=0
+vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
+final_depth_individual, final_depth_all_individual =[]
+BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind=[]
+EW_individual, EW_ind, EW_all_individual, vlast =[] #EW = equivalent width
+
+
+#############################################################################################
 
 #__________________________________________________________
 
@@ -81,51 +124,66 @@ avr_OVI_doublet=1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
 
 #_______________________________________________________
 
-# FUNCTIONS: 
 
-# Note: we might want to take some of the functions from normalization.py and import them there. 
 
-# Not sure we need anything additional besides smoothing. 
+#############################################################################################
+######################################### FUNCTIONS #########################################
 
-def smooth(norm_flux, box_size):       
+def smooth(norm_flux, box_size):   
+    """Function: 
+
+    Parameters:
+    -----------
+    norm_flux : 
+
+    box_size: 
+        Always be sure to use an odd number.
+
+    Returns:
+    --------
+    y_smooth
+
+    Examples:
+    ---------
+
+    """    
     y_smooth=signal.savgol_filter(norm_flux,box_size,2)  #linear
     return y_smooth
 
-#_______________________________________________________
-
+#############################################################################################
+######################################### MAIN CODE #########################################
 # MAIN CODE:
 
 # Clear files
 
 # Read list of spectra, zem, and snr !!!!!!!!!!!!!!!!!!!! talk to mikel_c
 
-# Define variables. Check which of them are necessary later; Define them in one line for simplicity as lines ~388 
-# in normalization code. You might want to rename some of them to anything that makes more sense.  
+#############################################################################################
 
-## implement from 402 normalization code ##############################
-brac_all, deltav_all=[]
-
-absspeccount=0
-count=0
-BI=0
-vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
-
-final_depth_individual, final_depth_all_individual =[]
-
-BI_all=[]
-BI_total=[]   # Total BI per spectrum
-BI_ind_sum=[] # Each 
-BI_individual=[]
-BI_all_individual=[]
-BI_ind=[]
-
-EW_individual=[] #EW = equivalent width
-EW_ind=[]
-EW_all_individual=[]
-vlast=[]
-## implement from 402 normalization code ############################## ^^^^^^^^^
 
 # Loops over each spectra
+
+# Loops over the spectra
+for i,j,k in zip (spectra_list, redshifts_list, snr_list):   
+    
+    count=count+1
+    print(count)
+    print(i)
+    
+    normalized_dr9 = loadtxt(spec_path + i) #Load in normalized spectrum
+    wavelength = normalized_dr9[:,0] 
+    norm_flux = normalized_dr9[:,1] 
+    norm_error = normalized_dr9[:,2] 
+    
+    sm_flux=smooth(norm_flux,n) #Smooth the spectrum (3 point boxcar)
+    sm_error=smooth(norm_error,n)/sqrt(n)
+    
+    norm_flux_used = norm_flux
+    norm_error_used = norm_error
+    
+    if sm =='yes':
+        norm_flux_used = sm_flux
+        norm_error_used = sm_error
     
     # Read the wavelength, norm_flux and norm_error, rounding the numbers.   
   
