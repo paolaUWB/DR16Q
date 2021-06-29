@@ -31,12 +31,11 @@ from useful_wavelength_flux_error_modules import wavelength_flux_error_for_point
 from file_reader import read_file
 from scipy import signal
 
-#####################################################################################################
+##############################################################################################
 
 # Set directories: location of normalized files, where to place outputs, etc. 
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
-
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
@@ -52,18 +51,21 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 #output of text file
 
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
-FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
-FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
+FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_testabsorption.csv"
 
 ## CREATES PDF FOR GRAPHS
-ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
-NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
-FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
+ORIGINAL_PDF = PdfPages('testoriginal_graphs.pdf') 
+NORMALIZED_PDF = PdfPages('testnormalized_graphs.pdf') 
+FLAGGED_PDF = PdfPages('testflagged_spectra.pdf') 
+
+# Set name of output pdf with plots  (f.e., absorption_BI2000_test.pdf)
+
+# Set name of output txt file with absorption values: (f.e., absorption_measurements.txt)
 
 
 #############################################################################################
 
-#####################################################################################################
+#############################################################################################
 
 # Set config_file
 
@@ -79,7 +81,6 @@ minvel = -60000.
 
 # Do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
 smooth ='yes'
-n=5  # Smooth boxcar size
 
 #############################################################################################
 ####################################### DO NOT CHANGE #######################################
@@ -104,20 +105,6 @@ vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
 final_depth_individual, final_depth_all_individual =[]
 BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind=[]
 EW_individual, EW_ind, EW_all_individual, vlast =[] #EW = equivalent width
-
-
-#############################################################################################
-
-#__________________________________________________________
-
-# OUTPUTS:
-
-# Set name of output pdf with plots  (f.e., absorption_BI2000_test.pdf)
-
-# Set name of output txt file with absorption values: (f.e., absorption_measurements.txt)
-
-#_______________________________________________________
-
 
 
 #############################################################################################
