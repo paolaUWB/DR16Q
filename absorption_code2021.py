@@ -38,7 +38,7 @@ from scipy import signal
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
+SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
 ## possibly different directory (figure out with mikel 1.0 if it's 1 or 2 files) ^^^
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
@@ -141,17 +141,14 @@ def smooth(norm_flux, box_size):
 
 #############################################################################################
 
-
-# Loops over each spectra
-
 # Loops over the spectra
-for i,j,k in zip (spectra_list, redshifts_list, snr_list):   
+for i,j,k in zip(spectra_list, redshifts_list, snr_list):   
     
     count=count+1
     print(count)
     print(i)
     
-    normalized_dr9 = loadtxt(spec_path + i) #Load in normalized spectrum
+    normalized_dr9 = loadtxt(SPEC_DIREC + i) #Load in normalized spectrum
     wavelength = normalized_dr9[:,0] 
     norm_flux = normalized_dr9[:,1] 
     norm_error = normalized_dr9[:,2] 
@@ -161,10 +158,6 @@ for i,j,k in zip (spectra_list, redshifts_list, snr_list):
     
     norm_flux_used = norm_flux
     norm_error_used = norm_error
-    
-    if sm =='yes':
-        norm_flux_used = sm_flux
-        norm_error_used = sm_error
     
     # Read the wavelength, norm_flux and norm_error, rounding the numbers.   
   
@@ -301,4 +294,3 @@ for loop2 in range (0, len(vmins_all)):
 vmaxs_final = array(vmaxs_final)
 vmins_final = array(vmins_final)    
 savetxt(ffile,vlast,fmt='%s')
-
