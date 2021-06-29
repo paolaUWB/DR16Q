@@ -37,7 +37,6 @@ from scipy import signal
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
-
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
 ## possibly different directory (figure out with mikel 1.0 if it's 1 or 2 files) ^^^
@@ -45,6 +44,8 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 ## also differennt name to distinguish absorb/normal ^^^^
+
+# test for michael
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
@@ -54,17 +55,16 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 #output of text file
 
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
-FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
-FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
-GOOD_NORMALIZATION = OUT_DIREC + "/" + "good_normalization.csv"
-GOODNESS_OF_FIT = OUT_DIREC + "/" + "chi_sq_values.csv"
 
 ## CREATES PDF FOR GRAPHS
-ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
-NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
-FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
-POWERLAW_TEST_PDF = PdfPages('powerlaw_test_graphs.pdf')
+
+# OUTPUTS:
+
+# Set name of output pdf with plots  (f.e., absorption_BI2000_test.pdf)
+
+# Set name of output txt file with absorption values: (f.e., absorption_measurements.txt)
+
 
 
 #############################################################################################
@@ -110,21 +110,6 @@ vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
 final_depth_individual, final_depth_all_individual =[]
 BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind=[]
 EW_individual, EW_ind, EW_all_individual, vlast =[] #EW = equivalent width
-
-
-#############################################################################################
-
-#__________________________________________________________
-
-# OUTPUTS:
-
-# Set name of output pdf with plots  (f.e., absorption_BI2000_test.pdf)
-
-# Set name of output txt file with absorption values: (f.e., absorption_measurements.txt)
-
-#_______________________________________________________
-
-
 
 #############################################################################################
 ######################################### FUNCTIONS #########################################
