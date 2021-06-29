@@ -37,6 +37,9 @@ from scipy import signal
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
+# Read list of spectra, zem, and snr 
+config_file = sys.argv[1] #Set cfg file path (csv with spec_name,z,snr...)
+
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
 ## possibly different directory (figure out with mikel 1.0 if it's 1 or 2 files) ^^^
@@ -105,6 +108,10 @@ vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
 final_depth_individual, final_depth_all_individual =[]
 BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind=[]
 EW_individual, EW_ind, EW_all_individual, vlast =[] #EW = equivalent width
+
+spectra_list = list()
+redshifts_list =  list() 
+snr_list =  list() 
 
 
 #############################################################################################
