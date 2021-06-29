@@ -108,8 +108,8 @@ deltav_all=[]
 
 absspeccount=0
 count=0
-BI=0
-vmins=[]
+BI=0 #BI is the BALnicity index; it will be a single value per spectra
+vmins=[] 
 vmaxs=[]
 vmins_all=[]
 vmaxs_all=[]
