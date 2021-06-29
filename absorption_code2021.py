@@ -49,22 +49,16 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
 
-#creat output pdf file
-
 #output of text file
 
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
 FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
-FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
-GOOD_NORMALIZATION = OUT_DIREC + "/" + "good_normalization.csv"
-GOODNESS_OF_FIT = OUT_DIREC + "/" + "chi_sq_values.csv"
 
 ## CREATES PDF FOR GRAPHS
 ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
 FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
-POWERLAW_TEST_PDF = PdfPages('powerlaw_test_graphs.pdf')
 
 
 #############################################################################################
