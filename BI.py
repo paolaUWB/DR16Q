@@ -2,7 +2,7 @@
 vmins=[]
 vmaxs=[]
 BI_mid=[]    
-BI_individual=[] #BALnicity index will be in terms of km/s
+BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
 EW_individual=[] #EW is equivalent width
 index_depth_final=[]
 flux_depth=[]
