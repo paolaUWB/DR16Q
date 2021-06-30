@@ -2,8 +2,8 @@
     vmins=[]
     vmaxs=[]
     BI_mid=[]    
-    BI_individual=[]
-    EW_individual=[]
+    BI_individual=[] #BALnicity index will be in terms of km/s
+    EW_individual=[] #EW is equivalent width
     index_depth_final=[]
     flux_depth=[]
     
@@ -18,22 +18,22 @@
             
     # Set the limits of beta array based on minvel and maxvel.....................
     
-    fst = 0
+    first = 0
 
     if beta.any():
         try:
-            fst = np.max(where(beta <= maxvel)) #index value of the starting point (on the very left) 
+            first = np.max(where(beta <= maxvel)) #index value of the starting point (on the very left) 
 	#-- index value of minvel
         except:
-            #fst = np.max(where(beta == maxvel))
-            fst = 0
+            #first = np.max(where(beta == maxvel))
+            first = 0
             
     try:
-        lst = np.min(where(beta >= minvel)) #index value of the ending point (on the very right) -- index value of maxvel
+        last = np.min(where(beta >= minvel)) #index value of the ending point (on the very right) -- index value of maxvel
     except:
-        lst = where(beta == np.min(beta))
+        last = where(beta == np.min(beta))
     
-    jjj = arange(lst, fst)
+    jjj = arange(last, first)
     jjj = array(jjj)
     jjj = jjj[::-1]   # From right to left
 
@@ -119,7 +119,7 @@
                 nextnextnextbrac = (1. - (norm_flux_used[jjjs-3] / 0.9))
                 nextnextnextnextbrac = (1. - (norm_flux_used[jjjs-4] / 0.9))
                 
-                if (((brac>0 and nextbrac<0 and nextnextbrac<0 and nextnextnextbrac<0 and nextnextnextnextbrac<0 and count2==1)) or (jjjs == lst)):  
+                if (((brac>0 and nextbrac<0 and nextnextbrac<0 and nextnextnextbrac<0 and nextnextnextnextbrac<0 and count2==1)) or (jjjs == last)):  
                 
                     print("I am vmax territory!")
                     vvmaxs = beta[jjjs]  
@@ -167,7 +167,7 @@
             count2=0# this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
             EW_ind=[]
         
-        if jjjs == lst:
+        if jjjs == last:
             BI_total= round(sum(BI_mid),2)         
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
