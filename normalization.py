@@ -49,9 +49,9 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 1000 ## [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -390,8 +390,8 @@ if __name__ == "__main__":
     clear_file(GOOD_NORMALIZATION)
     clear_file(GOODNESS_OF_FIT)
 
-    field = ["spectra index", "spectra file name", "chi_sq"]
-    fields=["spectra index", "spectra file name", "bf", "cf"]
+    field = ["SPECTRA INDEX", "SPECTRA FILE NAME", "CHI SQUARED"]
+    fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
     append_row_to_csv(GOODNESS_OF_FIT, field)
     append_row_to_csv(FLAGGED_BAD_FIT, fields)
     append_row_to_csv(GOOD_NORMALIZATION, fields)
@@ -544,16 +544,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
 
     field = [spectra_index, current_spectrum_file_name, chi_sq]
-    fields=[spectra_index, current_spectrum_file_name, bf, cf]
+    fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
     
     if not flagged_snr_mean_in_ehvo:
         append_row_to_csv(GOODNESS_OF_FIT, field)
-
-
-    if (flagged_by_test1 and flagged_by_test2) and not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(FLAGGED_BAD_FIT, fields)
-    elif not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(GOOD_NORMALIZATION, fields)
 
     ## SCALING GRAPHS
     wavelength_data = current_spectra_data[:,0]
@@ -579,11 +573,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
             flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
             if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)): 
+                flagged = False
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
+    if flagged and not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(FLAGGED_BAD_FIT, fields)
+    elif not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(GOOD_NORMALIZATION, fields)
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized)
     norm_w_f_e = (np.transpose(norm_w_f_e))  
