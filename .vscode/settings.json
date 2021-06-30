@@ -1,5 +1,5 @@
 {
     "restructuredtext.confPath": "${workspaceFolder}/source",
     "git.ignoreLimitWarning": true,
-    "python.pythonPath": "C:\\Users\\Michael\\anaconda3\\python.exe"
+    "python.pythonPath": "C:\\Python39\\python.exe"
 }
