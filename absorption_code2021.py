@@ -135,21 +135,12 @@ def smooth(norm_flux, box_size):
 ######################################### MAIN CODE #########################################
 # MAIN CODE:
 
-# Clear files
+# Clear files (fix later)
 
 if __name__ == "__main__":
     clear_file(LOG_FILE)
-    clear_file(FLAGGED_BAD_FIT)
-    clear_file(FLAGGED_SNR)
     clear_file(FLAGGED_ABSORPTION)
-    clear_file(GOOD_NORMALIZATION)
-    clear_file(GOODNESS_OF_FIT)
 
-    field = ["spectra index", "spectra file name", "chi_sq"]
-    fields=["spectra index", "spectra file name", "bf", "cf"]
-    append_row_to_csv(GOODNESS_OF_FIT, field)
-    append_row_to_csv(FLAGGED_BAD_FIT, fields)
-    append_row_to_csv(GOOD_NORMALIZATION, fields)
 
 # Read list of spectra, zem, and snr !!!!!!!!!!!!!!!!!!!! talk to mikel_c
 
@@ -157,44 +148,17 @@ spectra_list = list()
 redshifts_list =  list() 
 snr_list =  list() 
 
+redshift_value_list, snr_value_list, spectra_list = read_file(SPEC_DIREC)
+
+sample_data_array = np.loadtxt(SPEC_DIREC, delimiter=",")
 
 #############################################################################################
 
 # Loops over the spectra
 
-
-
-redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)
-
-indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
-flagged_indices, flagged_spectra_indices, flagged_spectra_file_names = [], [], []
-flagged_snr_indices, flagged_snr_spectra_indices, flagged_snr_spectra_file_names, flagged_snr_in_ehvo_values = [], [], [], []
-
-for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-    z = round(redshift_value_list[spectra_index - 1], 5)
-    snr = round(snr_value_list[spectra_index - 1], 5)
-    current_spectrum_file_name = spectra_list[spectra_index - 1]
-    
-    print(str(spectra_index) + ": " + current_spectrum_file_name)
-    print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
-
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
-
-    ## DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
-    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-
-    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
-    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
-    left_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start
-    middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
-    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
-
-
-
 for i,j,k in zip(spectra_list, redshifts_list, snr_list):   
     
-    normalized_dr16 = np.loadtxt(SPEC_DIREC + i) #Load in normalized spectrum
+    normalized_dr16 = read_file(SPEC_DIREC + i) #Load in normalized spectrum
     wavelength = normalized_dr16[:,0] 
     norm_flux = normalized_dr16[:,1] 
     norm_error = normalized_dr16[:,2] 
@@ -202,8 +166,6 @@ for i,j,k in zip(spectra_list, redshifts_list, snr_list):
     sm_flux=smooth(norm_flux,n) #Smooth the spectrum (3 point boxcar)
     sm_error=smooth(norm_error,n)/sqrt(n)
     
-    norm_flux_used = norm_flux
-    norm_error_used = norm_error
     
     # Read the wavelength, norm_flux and norm_error, rounding the numbers.   
   
@@ -228,6 +190,8 @@ for i,j,k in zip(spectra_list, redshifts_list, snr_list):
 
 	# It uses a loop: for jjjs in jjj:
 
+    
+    
     # Calculate depth of each individual absorption trough.  -- a module too?     ***** YES module***
     tmp = norm_flux_used[vmaxs_index:vmins_index]
     tmp_index = np.where(norm_flux_used[vmaxs_index:vmins_index] == np.min(norm_flux_used[vmaxs_index:vmins_index]))
