@@ -19,7 +19,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData  ###, DataNormalized
-from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from useful_wavelength_flux_error_modules import wavelength_flux_error, wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr
 from file_reader import read_file
 from scipy import signal
 import time 
@@ -51,7 +51,7 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 10 ## [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 21823, 21851 ## [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -160,10 +160,17 @@ def define_three_anchor_points(z: float, spectra_data):
         WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.end,
         z,
         spectra_data)
-   
-    right_point = wavelength_flux_error_for_points(
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
+    
+    #try: 
+    #    right_point = wavelength_flux_error_for_points(
+    #        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
+    #        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
+    #        z,
+    #        spectra_data)
+    #except:
+    right_point = wavelength_flux_error_for_points_high_redshift(
+        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
+        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
         z,
         spectra_data)
     
@@ -420,9 +427,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     left_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start
     middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
-    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
+    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end ## Might need to adjust this for spectra where right point does not exist
+    
+    WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 10., np.max(current_spectra_data[:, 0]))
 
     point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
+    print("C: ", point_C)
+    print("B: ", point_B)
+    print("A: ", point_A)
 
     ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
     power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
