@@ -1,13 +1,8 @@
   # Initialize all variables for each spectrum (again, clean so it is not so many lines)
-vmins=[]
-vmaxs=[]
-BI_mid=[]    
+vmins, vmaxs=[]
+BI_mid, BI_individual, EW_individual=[] #EW is equivalent width
 BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
-EW_individual=[] #EW is equivalent width
-index_depth_final=[]
-flux_depth=[]
-
-final_depth_individual = []
+index_depth_final, flux_depth, final_depth_individual = []
 non_trough_count = 100
 
 deltav = 0 #change in velocity
@@ -45,35 +40,36 @@ figure(count)
 
     # Initialize variables in each loop
     C = 0 
-    # brac = (1. - (sm_flux[jjjs] / 0.9))  # [1 - f(v)/0.9] = brac > 0 when there is an absorption feature 
-    brac = (1. - (norm_flux_used[jjjs] / 0.9))
-    bracBAL= (1. - (norm_flux_used[jjjs] / 0.9))
-    # print('brac'+str(brac))
+    #trough_cutoff has taken the place of brac
+    # trough_cutoff = (1. - (sm_flux[jjjs] / 0.9))  # [1 - f(v)/0.9] = trough_cutoff > 0 when there is an absorption feature 
+    trough_cutoff = (1. - (norm_flux_used[jjjs] / 0.9))
+    bracBAL= (1. - (norm_flux_used[jjjs] / 0.9))    1
+    # print('trough_cutoff'+str(trough_cutoff))
 
     # Handle 3-point spike
-    if brac > 0:
+    if trough_cutoff > 0:
         non_trough_count = 0
     else:
         non_trough_count += 1
-        brac = 0
+        trough_cutoff = 0
 
-    if((brac > 0) or (non_trough_count <= 3)):
+    if((trough_cutoff > 0) or (non_trough_count <= 3)):
         
         deltav = beta[jjjs] - beta[jjjs - 1]
         part = part + deltav
-        brac_all.append(brac)
+        brac_all.append(trough_cutoff)
         deltav_all.append(deltav)
         
-        EW = brac * deltav
+        EW = trough_cutoff * deltav
         EW = round(EW, 4)
         EW_ind.append(EW)          
-    #           print('EW',EW)
+        #print('EW',EW)
 
         if part >= countBI:
 
             #print('I am in part > countBI')
             C = 1                
-            BI = (brac * C) * (deltav) #Calculate BAL for this dv
+            BI = (trough_cutoff * C) * (deltav) #Calculate BAL for this dv
             BI = round(BI, 4)
             BI_mid.append(BI) #Append to intermediate results
 
@@ -119,7 +115,7 @@ figure(count)
             nextnextnextbrac = (1. - (norm_flux_used[jjjs-3] / 0.9))
             nextnextnextnextbrac = (1. - (norm_flux_used[jjjs-4] / 0.9))
             
-            if (((brac>0 and nextbrac<0 and nextnextbrac<0 and nextnextnextbrac<0 and nextnextnextnextbrac<0 and count2==1)) or (jjjs == last)):  
+            if (((trough_cutoff>0 and nextbrac<0 and nextnextbrac<0 and nextnextnextbrac<0 and nextnextnextnextbrac<0 and count2==1)) or (jjjs == last)):  
             
                 print("I am vmax territory!")
                 vvmaxs = beta[jjjs]  
@@ -162,7 +158,7 @@ figure(count)
                 
                 count2=0                     
                                     
-    else: #if the brac value is not more than zero (so if we don't have absorption feature)
+    else: #if the trough_cutoff value is not more than zero (so if we don't have absorption feature)
         part=0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
         count2=0# this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
         EW_ind=[]
