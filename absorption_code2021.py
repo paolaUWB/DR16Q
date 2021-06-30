@@ -1,67 +1,90 @@
-#############################################################
-#   absorption_code2021.py
-#   	- Creates figure to visually inspect the absorption. 
-#	- Calculates absorption parameters (BALnicity Index BI, vmin and vmax) for a list of spectra
-#
-#   Usage:
-#      python absorption_code.py spectra_data_list.csv (the default is ...)
-#
-#   Input file:
-#        This program takes a CSV file with the format...
-#
-#        spectrum_name,z,snr
-#
-#   Input parameters:
-#       Spectra base path (path to where spectra are stored on disk)
-#       
+"""
+======================
+absorption_code2021.py
+======================
 
-#############################################################
+@author Paola Rodriguez Hidalgo, Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassi, 
+Michael Parker, (not sure who else contributed before us but be add as needed)
 
-# IMPORTS:
+Creates figure to visually inspect the absorption. Calculates absorption parameters 
+(BALnicity Index BI, vmin and vmax) for a list of spectra.
 
+Notes
+-----
+Usage:
+    python absorption_code.py spectra_data_list.csv (the default is ...).
 
-#__________________________________________________________
-# VARIABLES:
+Input file:
+    This program takes a CSV file with the format `spectrum_name`, `z`, `snr`.
 
-# Set directories: location of normalized files, where to place outputs, etc. 
+Parameters
+----------
+    Spectra base path (path to where spectra are stored on disk).
+"""
 
-#####################################################################################################
+#############################################################################################
+########################################## IMPORTS ##########################################
 
-DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
+import os
+import sys
+import numpy as np 
+from matplotlib import pyplot as plt
+from numpy.lib.function_base import append
+from scipy.optimize import curve_fit
+from matplotlib.backends.backend_pdf import PdfPages
+from utility_functions import print_to_file, clear_file, append_row_to_csv
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData 
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from file_reader import read_file
+from scipy import signal
 
-ABSORB_FILE_EXTENSION = "absorb.dr" + DR
+# imports currently copied from normalization.py
+# add and delete imports as needed and as we go through the code.
 
-## READS FILES WITH QUASAR NAMES
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv"
+#############################################################################################
+############################## CHANGEABLE VARIABLES #########################################
 
-## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
+# INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
+DR = '16'
 
-## SETS THE DIRECTORY TO STORE ABSORPTION FILES
-ABSORB_DIREC = os.getcwd() + "/DATA/ABSORB_DR" + DR + "Q/"
+# read list of spectra, zem, and snr 
+# ^^ set config_file ^^
+config_file = sys.argv[1] #Set cfg file path (csv with spec_name,z,snr) waiting to hear ...
+                          # ... what column they will be in good_normalization.csv from mikel
+# IDEA: use file_reader.py to create own csv files with just spec_name,z,snr, as opposed ...
+#       ... to certain columns from good_normalization.csv
 
-## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
+# SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
+SPEC_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
 
-#####################################################################################################
+# CREATES DIRECTORY FOR OUTPUT FILES
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
-# Set config_file
+smooth ='yes' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
+boxcar_size = 5  # boxcar_size must always be an odd integer.
 
-# Set boxcar_size
-boxcar_size = 5  
-
-# Set a variable to plot all cases or only those with absorption -- Do you want to include all cases (if no, it only includes those with absorption). It is called plotall in the old code, but I am not 100% sure of what it excludes. 
+# Set a variable to plot all cases or only those with absorption -- Do you want to include all ...
+# ... cases (if no, it only includes those with absorption). It is called plotall in the old ...
+# ... code, but I am not 100% sure of what it excludes. 
 
 countBI = 2000 # = lower limit of absorption width to be flagged 
-  
 maxvel = -30000.
 minvel = -60000.
 
-# Do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
-smooth ='yes'
-n=5  # Smooth boxcar size
+#############################################################################################
+######################################## OUTPUT FILES #######################################
 
-# Necessary data from Verner table
+# set name of output txt file with absorption values
+LOG_FILE = OUT_DIREC + "/" + "log.txt"
+ABSORPTION_VALUES = OUT_DIREC + "/" + "absorption_measurements.txt"
+
+# set name of output pdf with plots 
+ABSORPTION_OUTPUT_PLOT = PdfPages('absorption_BI2000_test.pdf') 
+
+#############################################################################################
+####################################### DO NOT CHANGE #######################################
+
+# verner table data
 wavelength_CIV_emit1=1550.7700
 wavelength_CIV_emit2=1548.1950
 avr_CIV_doublet = 1549.0524 #weighted average
@@ -71,65 +94,71 @@ OI_emitted = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
 avr_OVI_doublet=1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
 
+#############################################################################################
+######################################### FUNCTION(S) #########################################
 
-#__________________________________________________________
+def smooth(norm_flux, box_size):   
+    """Function: 
 
-# OUTPUTS:
+    Parameters:
+    -----------
+    norm_flux : 
 
-# Set name of output pdf with plots  (f.e., absorption_BI2000_test.pdf)
+    box_size: int
+        This is the number of points that are smoothed into one. Always be sure to use an odd 
+        number, because we need the same amount of points on each side of the data point to be
+        smoothed.
 
-# Set name of output txt file with absorption values: (f.e., absorption_measurements.txt)
+    Returns:
+    --------
+    y_smooth
 
-#_______________________________________________________
+    Examples:
+    ---------
 
-# FUNCTIONS: 
-
-# Note: we might want to take some of the functions from normalization.py and import them there. 
-
-# Not sure we need anything additional besides smoothing. 
-
-def smooth(norm_flux, box_size):       
-    y_smooth=signal.savgol_filter(norm_flux,box_size,2)  #linear
+    """    
+    y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
     return y_smooth
 
-#_______________________________________________________
+#############################################################################################
+####################################### VARIABLES ###########################################
 
-# MAIN CODE:
-
-# Clear files
-
-# Read list of spectra, zem, and snr 
-
-# Define variables. Check which of them are necessary later; Define them in one line for simplicity as lines ~388 
-# in normalization code. You might want to rename some of them to anything that makes more sense.  
-
-brac_all=[]
-deltav_all=[]
-
+brac_all, deltav_all=[]
 absspeccount=0
 count=0
 BI=0
-vmins=[]
-vmaxs=[]
-vmins_all=[]
-vmaxs_all=[]
+vmins, vmaxs, vmins_all, vmaxs_all =[] # v = velocity
+final_depth_individual, final_depth_all_individual =[]
+BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind=[]
+EW_individual, EW_ind, EW_all_individual, vlast =[] #EW = equivalent width
 
-final_depth_individual=[]
-final_depth_all_individual=[]
+#############################################################################################
+######################################### MAIN CODE #########################################
 
-BI_all=[]
-BI_total=[]   # Total BI per spectrum
-BI_ind_sum=[] # Each 
-BI_individual=[]
-BI_all_individual=[]
-BI_ind=[]
-
-EW_individual=[]
-EW_ind=[]
-EW_all_individual=[]
-vlast=[]
+# Clear files
 
 # Loops over each spectra
+# use and modify below from absorption_indmeasurements_May2019.py to do this.
+for i,j,k in zip (spectra_list, redshifts_list, snr_list):   
+    
+    count=count+1
+    print(count)
+    print(i)
+    
+    normalized_dr9 = loadtxt(spec_path + i) #Load in normalized spectrum
+    wavelength = normalized_dr9[:,0] 
+    norm_flux = normalized_dr9[:,1] 
+    norm_error = normalized_dr9[:,2] 
+    
+    sm_flux=smooth(norm_flux,n) #Smooth the spectrum (3 point boxcar)
+    sm_error=smooth(norm_error,n)/sqrt(n)
+    
+    norm_flux_used = norm_flux
+    norm_error_used = norm_error
+    
+    if sm =='yes':
+        norm_flux_used = sm_flux
+        norm_error_used = sm_error
     
     # Read the wavelength, norm_flux and norm_error, rounding the numbers.   
   
