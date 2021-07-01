@@ -1,10 +1,7 @@
 #####################################################################################################################################
-#   Normalization of the quasar spectra
-#
-# This code normalizes the DRQ spectra with a new algorithm.
+#   Normalization of the quasar spectra - individual measurements
 
 # Authors: Paola Rodriguez Hidalgo, Mikel Charles, Wendy Garcia Naranjo, Daria K, Can Tosun, David Nguyen, Sean Haas, Abdul Khatri
-#
 ######################################################################################################################################
 
 #############################################################################################
