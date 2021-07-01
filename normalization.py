@@ -161,18 +161,19 @@ def define_three_anchor_points(z: float, spectra_data):
         z,
         spectra_data)
     
-    #try: 
-    #    right_point = wavelength_flux_error_for_points(
-    #        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
-    #        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
-    #        z,
-    #        spectra_data)
-    #except:
-    right_point = wavelength_flux_error_for_points_high_redshift(
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
-        z,
-        spectra_data)
+    try: 
+        right_point = wavelength_flux_error_for_points(
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
+            z,
+            spectra_data)
+    except:
+        right_point = wavelength_flux_error_for_points_high_redshift(
+            wavelength,
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
+            z,
+            spectra_data)
     
     return (left_point, middle_point, right_point)
 
@@ -429,7 +430,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
     right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end ## Might need to adjust this for spectra where right point does not exist
     
-    WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 10., np.max(current_spectra_data[:, 0]))
+    WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(((np.max(current_spectra_data[:, 0])) / (z + 1)) - 20., (np.max(current_spectra_data[:, 0]) / (z + 1)))
+    print(np.max(current_spectra_data[:,0]))
 
     point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
     print("C: ", point_C)
