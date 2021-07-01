@@ -15,7 +15,7 @@ count2=0   # variable initialization to get into vmin/vmax loop
 
 first = 0
 
-if beta.any():
+if beta.any(): #.any checks the truth value of any element, not what the actual element is
     try:
         first = np.max(where(beta <= maxvel)) #index value of the starting point (on the very left) 
 #-- index value of minvel
@@ -28,22 +28,22 @@ try:
 except:
     last = where(beta == np.min(beta))
 
-jjj = arange(last, first)
-jjj = array(jjj)
-jjj = jjj[::-1]   # From right to left
+jjj = np.arange(last, first) #makes an array; inclusive on 'last', exclusive on 'first'
+
+jjj = jjj[::-1]   #Reverses ordering from left to right; [a b c]->[c b a]
 
 figure(count)
 
 # Loop through the beta array in those limits:
 
-    for jjjs in jjj:
+    for entry in jjj:
 
     # Initialize variables in each loop
     C = 0 
     #trough_cutoff has taken the place of brac
-    # trough_cutoff = (1. - (sm_flux[jjjs] / 0.9))  # [1 - f(v)/0.9] = trough_cutoff > 0 when there is an absorption feature 
-    trough_cutoff = (1. - (norm_flux_used[jjjs] / 0.9))
-    bracBAL= (1. - (norm_flux_used[jjjs] / 0.9))    1
+    # trough_cutoff = (1. - (sm_flux[entry] / 0.9))  # [1 - f(v)/0.9] = trough_cutoff > 0 when there is an absorption feature 
+    trough_cutoff = (1. - (norm_flux_used[entry] / 0.9))
+    bracBAL= (1. - (norm_flux_used[entry] / 0.9))   
     # print('trough_cutoff'+str(trough_cutoff))
 
     # Handle 3-point spike
@@ -55,7 +55,7 @@ figure(count)
 
     if((trough_cutoff > 0) or (non_trough_count <= 3)):
         
-        deltav = beta[jjjs] - beta[jjjs - 1]
+        deltav = beta[entry] - beta[entry - 1]
         part = part + deltav
         brac_all.append(trough_cutoff)
         deltav_all.append(deltav)
@@ -63,7 +63,7 @@ figure(count)
         EW = trough_cutoff * deltav
         EW = round(EW, 4)
         EW_ind.append(EW)          
-        #print('EW',EW)
+    #print('EW',EW)
 
         if part >= countBI:
 
@@ -76,13 +76,13 @@ figure(count)
             BI_ind.append(BI)
 
             if non_trough_count == 0:
-                plot((beta[jjjs + 1],beta[jjjs]),(1.5,1.5),'k-')
-    #                axvspan(beta[jjjs+1],beta[jjjs], alpha=0.05, color='red')
+                plot((beta[entry + 1],beta[entry]),(1.5,1.5),'k-')
+    #                axvspan(beta[entry+1],beta[entry], alpha=0.05, color='red')
             
             if (count2==0) and (non_trough_count==0):  
                 print('I am in vmin territory')
 
-                vmins_index=np.min(where(beta >= (beta[jjjs]+countBI)))  # vmins occurs current beta plus countBI
+                vmins_index=np.min(where(beta >= (beta[entry]+countBI)))  # vmins occurs current beta plus countBI
                 vvvmins=beta[vmins_index]
                 vvvmins=round (vvvmins,4)
                 vmins.append(vvvmins)
@@ -91,7 +91,7 @@ figure(count)
     plot ((beta[vmins_index], beta[vmins_index]) , (-1,10),'r-')
 
                 # If the absorption is SiIV, this finds and plots where C, CII and OI would be
-                z_absSiIV = (wavelength[jjjs]/avr_SiIV_doublet)-1#
+                z_absSiIV = (wavelength[entry]/avr_SiIV_doublet)-1#
                 
                 obs_wavelength_C=(z_absSiIV+1)*(avr_CIV_doublet)#
                 obs_wavelength_C_index =np.min (where (wavelength>obs_wavelength_C))
@@ -110,15 +110,15 @@ figure(count)
 
                 count2=1
                 
-            nextbrac = (1. - (norm_flux_used[jjjs-1] / 0.9))
-            nextnextbrac = (1. - (norm_flux_used[jjjs-2] / 0.9))
-            nextnextnextbrac = (1. - (norm_flux_used[jjjs-3] / 0.9))
-            nextnextnextnextbrac = (1. - (norm_flux_used[jjjs-4] / 0.9))
+            nextbrac = (1. - (norm_flux_used[entry-1] / 0.9))
+            nextnextbrac = (1. - (norm_flux_used[entry-2] / 0.9))
+            nextnextnextbrac = (1. - (norm_flux_used[entry-3] / 0.9))
+            nextnextnextnextbrac = (1. - (norm_flux_used[entry-4] / 0.9))
             
-            if (((trough_cutoff>0 and nextbrac<0 and nextnextbrac<0 and nextnextnextbrac<0 and nextnextnextnextbrac<0 and count2==1)) or (jjjs == last)):  
+            if (((trough_cutoff>0 and nextbrac<0 and nextnextbrac<0 and nextnextnextbrac<0 and nextnextnextnextbrac<0 and count2==1)) or (entry == last)):  
             
                 print("I am vmax territory!")
-                vvmaxs = beta[jjjs]  
+                vvmaxs = beta[entry]  
                 vmaxs_index = np.min (where (beta>= vvmaxs))
                 vvmaxs = round(vvmaxs,4)
                 vmaxs.append(vvmaxs)
@@ -163,7 +163,7 @@ figure(count)
         count2=0# this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
         EW_ind=[]
 
-    if jjjs == last:
+    if entry == last:
         BI_total= round(sum(BI_mid),2)         
         BI_all.append(BI_total)    
         BI_all_individual.append(BI_individual)
