@@ -62,7 +62,7 @@ def wavelength_flux_error(starting_point: float, ending_point: float, z: float, 
 
     return RangesData(wavelength, flux, error)
 
-def wavelength_flux_error_for_points_high_redshift(starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
+def wavelength_flux_error_for_points_high_redshift(wavelength: float, starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
     """Returns one point of wavelength, flux and error for a range of 10 (wavelength) at the end of the spectra for high redshift cases.
 
     Uses the red shift to find the observed wavelengths, and between those two wavelengths records: all of 
@@ -93,14 +93,17 @@ def wavelength_flux_error_for_points_high_redshift(starting_point: float, ending
     (wavelength, flux, error),
     (wavelength, flux, error)]
     """
-    #wavelength_column = spectra_data[:, column_index.wavelength]
+    wavelength_column = spectra_data[:, column_index.wavelength]
 
-    #wavelength_observed_start = (z + 1) * starting_point
-    #wavelength_observed_end = (z + 1) * ending_point
+    wavelength_observed_start = (z + 1) * starting_point
+    wavelength_observed_end = (z + 1) * ending_point
 
-    wavelength = spectra_data[:, column_index.wavelength]
-    flux = spectra_data[:, column_index.flux] 
-    error = spectra_data[:, column_index.error] 
+    point_from = wavelength.index(wavelength_observed_start)
+    point_to = wavelength.index(wavelength_observed_end)
+
+    wavelength = spectra_data[point_from:point_to, column_index.wavelength]
+    flux = spectra_data[point_from:point_to, column_index.flux] 
+    error = spectra_data[point_from:point_to, column_index.error] 
     
     point = PointData(
         np.average(wavelength),
