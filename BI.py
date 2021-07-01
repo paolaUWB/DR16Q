@@ -15,21 +15,20 @@ count2=0   # variable initialization to get into vmin/vmax loop
 
 first = 0
 
-if beta.any(): #.any checks the truth value of any element, not what the actual element is
+if beta.any(): #This "any" checks the truth value of any element, not what the actual element is
     try:
-        first = np.max(where(beta <= maxvel)) #index value of the starting point (on the very left) 
+        first = np.max(np.where(beta <= maxvel)) #index value of the starting point (on the very left) 
 #-- index value of minvel
     except:
         #first = np.max(where(beta == maxvel))
         first = 0
         
 try:
-    last = np.min(where(beta >= minvel)) #index value of the ending point (on the very right) -- index value of maxvel
+    last = np.min(np.where(beta >= minvel)) #index value of the ending point (on the very right) -- index value of maxvel
 except:
-    last = where(beta == np.min(beta))
+    last = np.where(beta == np.min(beta))
 
 jjj = np.arange(last, first) #makes an array; inclusive on 'last', exclusive on 'first'
-
 jjj = jjj[::-1]   #Reverses ordering from left to right; [a b c]->[c b a]
 
 figure(count)
@@ -63,7 +62,7 @@ figure(count)
         EW = trough_cutoff * deltav
         EW = round(EW, 4)
         EW_ind.append(EW)          
-    #print('EW',EW)
+    #print('EW', EW)
 
         if part >= countBI:
 
