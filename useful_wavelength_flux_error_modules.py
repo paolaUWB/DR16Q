@@ -93,13 +93,13 @@ def wavelength_flux_error_for_points_high_redshift(wavelength: float, starting_p
     (wavelength, flux, error),
     (wavelength, flux, error)]
     """
+    
+    ###### CHECK OVER DOCUMENTATION FOR THIS ######
+    
     wavelength_column = spectra_data[:, column_index.wavelength]
 
-    wavelength_observed_start = (z + 1) * starting_point
-    wavelength_observed_end = (z + 1) * ending_point
-
-    point_from = wavelength.index(wavelength_observed_start)
-    point_to = wavelength.index(wavelength_observed_end)
+    point_from = np.max(np.where(wavelength_column <= starting_point))
+    point_to = np.min(np.where(wavelength_column >= ending_point))
 
     wavelength = spectra_data[point_from:point_to, column_index.wavelength]
     flux = spectra_data[point_from:point_to, column_index.flux] 
