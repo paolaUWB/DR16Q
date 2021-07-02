@@ -19,7 +19,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData  ###, DataNormalized
-from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from useful_wavelength_flux_error_modules import wavelength_flux_error, wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr
 from file_reader import read_file
 from scipy import signal
 import time 
@@ -39,7 +39,7 @@ DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
-## READS FILES WITH QUASAR NAMES
+## DEFINES THE CONFIG FILE
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv"
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
@@ -49,9 +49,9 @@ SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/"
 NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 1000 ## [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 21856, 21859 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -160,12 +160,20 @@ def define_three_anchor_points(z: float, spectra_data):
         WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.end,
         z,
         spectra_data)
-   
-    right_point = wavelength_flux_error_for_points(
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
-        z,
-        spectra_data)
+    
+    try: 
+        right_point = wavelength_flux_error_for_points(
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
+            z,
+            spectra_data)
+    except:
+        right_point = wavelength_flux_error_for_points_high_redshift(
+            wavelength,
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
+            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
+            z,
+            spectra_data)
     
     return (left_point, middle_point, right_point)
 
@@ -390,8 +398,8 @@ if __name__ == "__main__":
     clear_file(GOOD_NORMALIZATION)
     clear_file(GOODNESS_OF_FIT)
 
-    field = ["spectra index", "spectra file name", "chi_sq"]
-    fields=["spectra index", "spectra file name", "bf", "cf"]
+    field = ["SPECTRA INDEX", "SPECTRA FILE NAME", "CHI SQUARED"]
+    fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
     append_row_to_csv(GOODNESS_OF_FIT, field)
     append_row_to_csv(FLAGGED_BAD_FIT, fields)
     append_row_to_csv(GOOD_NORMALIZATION, fields)
@@ -413,19 +421,22 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
     ## DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
-    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
+    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data) ## WAVELENGTH ***
 
-    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
-    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start ## WAVELENGTH ***
+    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end ## WAVELENGTH ***
 
     left_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start
     middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
-    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
+    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end ## Might need to adjust this for spectra where right point does not exist
+    
+    
+    WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 20., np.max(current_spectra_data[:, 0]))
 
     point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
 
     ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
-    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
+    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength) ## WAVELENGTH ***
     power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
 
     try:
@@ -436,8 +447,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     bf, cf = pars[0], pars[1]
 
-    flux_normalized = flux/powerlaw(wavelength, bf, cf)
-    error_normalized = error/powerlaw(wavelength, bf, cf)
+    flux_normalized = flux/powerlaw(wavelength, bf, cf) ## WAVELENGTH ***
+    error_normalized = error/powerlaw(wavelength, bf, cf) ## WAVELENGTH ***
 
     ## FLAGGING LOW SNR
     flagged_snr_mean_in_ehvo = False
@@ -544,16 +555,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
 
     field = [spectra_index, current_spectrum_file_name, chi_sq]
-    fields=[spectra_index, current_spectrum_file_name, bf, cf]
+    fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
     
     if not flagged_snr_mean_in_ehvo:
         append_row_to_csv(GOODNESS_OF_FIT, field)
-
-
-    if (flagged_by_test1 and flagged_by_test2) and not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(FLAGGED_BAD_FIT, fields)
-    elif not flagged_snr_mean_in_ehvo:
-        append_row_to_csv(GOOD_NORMALIZATION, fields)
 
     ## SCALING GRAPHS
     wavelength_data = current_spectra_data[:,0]
@@ -579,13 +584,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
             flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
             if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)): 
+                flagged = False
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2)
 
+    if flagged and not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(FLAGGED_BAD_FIT, fields)
+    elif not flagged_snr_mean_in_ehvo:
+        append_row_to_csv(GOOD_NORMALIZATION, fields)
 
-    norm_w_f_e = (wavelength, flux_normalized, error_normalized)
+    norm_w_f_e = (wavelength, flux_normalized, error_normalized) ## WAVELENGTH ***
     norm_w_f_e = (np.transpose(norm_w_f_e))  
     np.savetxt(NORM_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
 

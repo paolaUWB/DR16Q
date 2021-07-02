@@ -1,5 +1,5 @@
 Welcome to Searching for Extremely-High Velocity Outflows's documentation!
-===================================
+==========================================================================
 
 .. automodule:: useful_wavelength_flux_error_modules
 	:members:
