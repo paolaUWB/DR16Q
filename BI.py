@@ -3,7 +3,7 @@ vmins, vmaxs=[]
 BI_mid, BI_individual, EW_individual=[] #EW is equivalent width
 BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
 index_depth_final, flux_depth, final_depth_individual = []
-non_trough_count = 100
+non_trough_count = 100 #what is this?
 
 deltav = 0 #change in velocity
 part = 0
@@ -35,8 +35,7 @@ figure(count)
 
 # Loop through the beta array in those limits:
 
-    for entry in jjj:
-
+for entry in jjj:
     # Initialize variables in each loop
     C = 0 
     #trough_cutoff has taken the place of brac
@@ -45,23 +44,23 @@ figure(count)
     bracBAL= (1. - (norm_flux_used[entry] / 0.9))   
     # print('trough_cutoff'+str(trough_cutoff))
 
-    # Handle 3-point spike
-    if trough_cutoff > 0:
-        non_trough_count = 0
-    else:
-        non_trough_count += 1
-        trough_cutoff = 0
+# Handle 3-point spike
+if trough_cutoff > 0:
+    non_trough_count = 0
+else:
+    non_trough_count += 1
+    trough_cutoff = 0
 
-    if((trough_cutoff > 0) or (non_trough_count <= 3)):
-        
-        deltav = beta[entry] - beta[entry - 1]
-        part = part + deltav
-        brac_all.append(trough_cutoff)
-        deltav_all.append(deltav)
-        
-        EW = trough_cutoff * deltav
-        EW = round(EW, 4)
-        EW_ind.append(EW)          
+if((trough_cutoff > 0) or (non_trough_count <= 3)):
+    
+    deltav = beta[entry] - beta[entry - 1]
+    part = part + deltav
+    brac_all.append(trough_cutoff)
+    deltav_all.append(deltav)
+    
+    EW = trough_cutoff * deltav
+    EW = round(EW, 4)
+    EW_ind.append(EW)          
     #print('EW', EW)
 
         if part >= countBI:
