@@ -173,6 +173,3 @@
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-
-
-

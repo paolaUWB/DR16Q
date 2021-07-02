@@ -29,25 +29,28 @@ import os
 import sys
 import numpy as np 
 from matplotlib import pyplot as plt
+from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file
-from scipy import signal
+from file_reader import read_file, read_file_abs
+
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
 
-# INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
+# INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER AS A STRING i.e. '9' or '16']
 DR = '16'
 
 # DEFINING THE CONFIG FILE
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "OUTPUT_FILES/NORMALIZATION/test_good_norm.csv" 
 
 # SETS THE DIRECTORY TO FIND THE NORMALIZED DATA FILES (DR9, DR16)
+# note to wen: after downloading the repository, NO MATTER where you are in your computer it
+# this will properly lead you to the normlazied data files of the data release specified
 SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/"
 
 # CREATES DIRECTORY FOR OUTPUT FILES
@@ -73,7 +76,7 @@ STARTS_FROM, ENDS_AT = 1, 1000 # [899-1527 for dr9] [1- ~21800 for dr16] RANGE O
 ABSORPTION_VALUES = OUT_DIREC + "/" + "absorption_measurements_test.txt"
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT = PdfPages('absorption_BI' + countBI + '_test.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('absorption_BI' + countBI + '_test.pdf') 
 
 #############################################################################################
 ####################################### DO NOT CHANGE #######################################
@@ -116,11 +119,11 @@ def smooth(norm_flux, box_size):
 # Clear files
 if __name__ == "__main__":
     clear_file(ABSORPTION_VALUES)
-    clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
+    #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
-redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE) # why this order?????? ask mikel
+    fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
 
-indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
+redshift_value_list, snr_value_list, spectra_list = read_file_abs(CONFIG_FILE)
 
 # Read list of spectra, zem, and snr
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
@@ -130,6 +133,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
     print(str(spectra_index) + ": " + current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+
+    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
+
+    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
+    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+
 
 # Define variables. Check which of them are necessary later; You might want to rename some of them to anything that makes more sense. 
 brac_all, deltav_all = []
@@ -141,6 +150,8 @@ final_depth_individual, final_depth_all_individual = []
 BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind = []
 EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
 
+''' 
+****************************************** IN WORK ******************************************
 # Loops over each spectra
 
     # Read the wavelength, norm_flux and norm_error, rounding the numbers.   
@@ -278,4 +289,7 @@ for loop2 in range (0, len(vmins_all)):
 vmaxs_final = array(vmaxs_final)
 vmins_final = array(vmins_final)    
 savetxt(ffile,vlast,fmt='%s')
+****************************************** IN WORK ******************************************
+'''
 
+ABSORPTION_OUTPUT_PLOT_PDF.close()
