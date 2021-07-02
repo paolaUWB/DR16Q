@@ -426,11 +426,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-    ## DEFINING WAVELENGTH, FLUX, AND ERROR (CHOOSING THEIR RANGE)
-    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data) ## WAVELENGTH ***
-
-    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start ## WAVELENGTH ***
-    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end ## WAVELENGTH ***
+    ## DEFINING WAVELENGTH, FLUX, AND ERROR IN DEFINED RANGE
+    wavelength_in_range, flux_in_range, error_in_range = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data) ## WAVELENGTH ***
+    
+    ## DEFINING WAVELENGTH, FLUX, AND ERROR FOR WHOLE SPECTRA
+    wavelength = current_spectra_data[:, 0]
+    flux = current_spectra_data[:, 1]
+    error = current_spectra_data[:, 2]
+    
+    wavelength_observed_from = (z + 1) * np.min(wavelength)
+    wavelength_observed_to = (z + 1) * np.max(wavelength)
+    #wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start ## WAVELENGTH ***
+    #wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end ## WAVELENGTH ***
 
     left_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start
     middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
