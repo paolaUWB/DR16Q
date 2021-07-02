@@ -51,9 +51,12 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 21856, 21859 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 300 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
+
+savenewoutputfile = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
+savenewnormfile = 'yes'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
@@ -77,10 +80,10 @@ WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 ######################################## OUTPUT FILES #######################################
 
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
-FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
+FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv" ##***
 FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo_graphs.txt"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
-GOOD_NORMALIZATION = OUT_DIREC + "/" + "good_normalization.csv"
+GOOD_NORMALIZATION = OUT_DIREC + "/" + "good_normalization.csv" ##***
 GOODNESS_OF_FIT = OUT_DIREC + "/" + "chi_sq_values.csv"
 
 ## CREATES PDF FOR GRAPHS
@@ -543,7 +546,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     if np.min(powerlaw_test2) > max_test2:
         flagged_t2 = True
 
-    if not flagged_snr_mean_in_ehvo and (flagged_t1 or flagged_t2):
+    if not flagged_snr_mean_in_ehvo and (flagged_t1 or flagged_t2): ## IF ...
         append_row_to_csv(FLAGGED_ABSORPTION, fields)
 
     ## CHI SQUARED
@@ -597,7 +600,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     norm_w_f_e = (wavelength, flux_normalized, error_normalized) ## WAVELENGTH ***
     norm_w_f_e = (np.transpose(norm_w_f_e))  
-    np.savetxt(NORM_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e)
+    np.savetxt(NORM_DIREC + current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, norm_w_f_e) ## IF SAVENEWFIG == YES.....
 
     ## OLD END OF PROCESS... 
 
@@ -627,7 +630,7 @@ NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 POWERLAW_TEST_PDF.close()
 
-np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
+np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s') ## IF ....
 
 ## what are we wanting printed to the file?
 #else:
