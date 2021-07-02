@@ -34,7 +34,7 @@ from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
-from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData 
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 from file_reader import read_file, read_file_abs
 
@@ -91,6 +91,9 @@ OI_emitted = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
 avr_OVI_doublet = 1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
 
+## RANGES OF WAVELENGTHS IN THE SPECTRA
+WAVELENGTH_RESTFRAME = Range(0., 5000.)
+
 #############################################################################################
 ######################################### FUNCTION(S) #######################################   
 
@@ -113,6 +116,34 @@ def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)
     return y_smooth
 
+def draw_abs_figure(normalized_ranges: DataNormalized, wavelength = 7):
+    """ Draws the normalized spectra graph.
+
+    Parameters:
+    ----------- 
+    original_ranges: DataNormalized
+        Ranges of values for the original data.
+    figure_data: FigureData
+        Data from DR9Q (for now...).
+    flux_normalized: array
+    error_normalized: array
+
+    Returns:
+    --------
+    None.
+    
+    Notes:
+    ------
+    Creates a graph of the spectra and saves to the original_graphs.pdf
+    """
+
+    plt.plot(normalized_ranges.flux_normalized, wavelength)
+    plt.title("drinks on prh")
+    plt.xlabel("Wavelength [A]")
+    plt.ylabel("Normalized Flux[10^[-17]]cgs")
+    ABSORPTION_OUTPUT_PLOT_PDF.savefig()
+    plt.close(figure_index)
+
 #############################################################################################
 ######################################### MAIN CODE #########################################
 
@@ -121,25 +152,11 @@ if __name__ == "__main__":
     clear_file(ABSORPTION_VALUES)
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
-    fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
-
+# Read list of spectra, zem, and snr
 redshift_value_list, snr_value_list, spectra_list = read_file_abs(CONFIG_FILE)
 
-# Read list of spectra, zem, and snr
-for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-    z = round(redshift_value_list[spectra_index - 1], 5)
-    snr = round(snr_value_list[spectra_index - 1], 5)
-    current_spectrum_file_name = spectra_list[spectra_index - 1]
-    
-    print(str(spectra_index) + ": " + current_spectrum_file_name)
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
-
-    wavelength, flux, error = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME.start, WAVELENGTH_RESTFRAME.end, z, current_spectra_data)
-
-    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
-    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
-
+'''
+######################################### VARIABLES #########################################
 # Define variables. Check which of them are necessary later; You might want to rename some of them to anything that makes more sense. 
 brac_all, deltav_all = []
 absspeccount = 0
@@ -149,14 +166,29 @@ vmins, vmaxs, vmins_all, vmaxs_all = [] # v = velocity
 final_depth_individual, final_depth_all_individual = []
 BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind = []
 EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
+############################################################################################
+'''
+
+# Loops over each spectra
+for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
+    z = round(redshift_value_list[spectra_index - 1], 8)
+    snr = round(snr_value_list[spectra_index - 1], 8)
+    current_spectrum_file_name = spectra_list[spectra_index - 1]
+    
+    print(str(spectra_index) + ": " + current_spectrum_file_name)
+    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+
+
+    # Read the wavelength, norm_flux and norm_error, rounding the numbers. 
+
+    # draw simple plot 
+
+    normalized_ranges = DataNormalized(flux_normalized, error_normalized)
+    draw_abs_figure(normalized_ranges)
 
 ''' 
-****************************************** IN WORK ******************************************
-# Loops over each spectra
-
-    # Read the wavelength, norm_flux and norm_error, rounding the numbers.   
-
-    # Include if statement for smoothing and smooth spectrum if so. Similar to normalization.py.   
+****************************************** IN WORK ******************************************    
+# Include if statement for smoothing and smooth spectrum if so. Similar to normalization.py.   
 
     # Transform the wavelength array to velocity (called "beta" - we can change it) based on the CIV doublet: 
     z_absC = (wavelength/avr_CIV_doublet)-1.
@@ -170,7 +202,6 @@ EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
     beta=array(beta)
 
     # Initialize all the variables 
-        
     # Calculate BI, vmin and vmax by looping through the beta array in the velocity limits -- 
     ###################### 0 -> -
     # will call the module that does that. It in
