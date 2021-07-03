@@ -116,17 +116,14 @@ def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)
     return y_smooth
 
-def draw_abs_figure(normalized_ranges: DataNormalized, wavelength = 7):
+def draw_abs_figure(flux_normalized, wavelength_normalized = 7):
     """ Draws the normalized spectra graph.
 
     Parameters:
     ----------- 
     original_ranges: DataNormalized
         Ranges of values for the original data.
-    figure_data: FigureData
-        Data from DR9Q (for now...).
     flux_normalized: array
-    error_normalized: array
 
     Returns:
     --------
@@ -134,10 +131,10 @@ def draw_abs_figure(normalized_ranges: DataNormalized, wavelength = 7):
     
     Notes:
     ------
-    Creates a graph of the spectra and saves to the original_graphs.pdf
+    Creates a graph of the spectra and saves to the absorption2000_test.pdf.pdf
     """
 
-    plt.plot(normalized_ranges.flux_normalized, wavelength)
+    plt.plot(flux_normalized, wavelength_normalized)
     plt.title("drinks on prh")
     plt.xlabel("Wavelength [A]")
     plt.ylabel("Normalized Flux[10^[-17]]cgs")
@@ -153,7 +150,7 @@ if __name__ == "__main__":
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
 # Read list of spectra, zem, and snr
-redshift_value_list, snr_value_list, spectra_list = read_file_abs(CONFIG_FILE)
+redshift_value, calc_snr_value, norm_spectra_filename = read_file_abs(CONFIG_FILE)
 
 '''
 ######################################### VARIABLES #########################################
@@ -171,9 +168,10 @@ EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
 
 # Loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-    z = round(redshift_value_list[spectra_index - 1], 8)
-    snr = round(snr_value_list[spectra_index - 1], 8)
-    current_spectrum_file_name = spectra_list[spectra_index - 1]
+    # fix start from and ends at !!!!!!
+    z = round(redshift_value[spectra_index - 1], 8)
+    snr = round(calc_snr_value[spectra_index - 1], 8)
+    current_spectrum_file_name = norm_spectra_filename[spectra_index - 1]
     
     print(str(spectra_index) + ": " + current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
@@ -184,6 +182,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # draw simple plot 
 
     normalized_ranges = DataNormalized(flux_normalized, error_normalized)
+    # ^^^^^^^^ fix this, other way to access data
     draw_abs_figure(normalized_ranges)
 
 ''' 
