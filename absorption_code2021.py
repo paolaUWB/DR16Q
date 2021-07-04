@@ -116,7 +116,7 @@ def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)
     return y_smooth
 
-def draw_abs_figure(flux_normalized, wavelength_normalized = 7):
+def draw_abs_figure(flux_normalized, wavelength_normalized):
     """ Draws the normalized spectra graph.
 
     Parameters:
@@ -139,7 +139,7 @@ def draw_abs_figure(flux_normalized, wavelength_normalized = 7):
     plt.xlabel("Wavelength [A]")
     plt.ylabel("Normalized Flux[10^[-17]]cgs")
     ABSORPTION_OUTPUT_PLOT_PDF.savefig()
-    plt.close(figure_index)
+    plt.close()
 
 #############################################################################################
 ######################################### MAIN CODE #########################################
