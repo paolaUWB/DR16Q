@@ -38,7 +38,6 @@ from data_types import Range, RangesData, FigureData, FigureDataOriginal, Flagge
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 from file_reader import read_file, read_file_abs
 
-
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
 
