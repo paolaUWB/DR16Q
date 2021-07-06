@@ -3,11 +3,11 @@ vmins, vmaxs=[]
 BI_mid, BI_individual, EW_individual=[] #EW is equivalent width
 BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
 index_depth_final, flux_depth, final_depth_individual = []
-non_trough_count = 100 #what is this?
+non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number, (like 99 or 999)
 
 deltav = 0 #change in velocity
 part = 0
-bb = -1
+bb = -1 #???
                     
 count2=0   # variable initialization to get into vmin/vmax loop
         
@@ -38,7 +38,7 @@ figure(count)
 for entry in jjj:
     # Initialize variables in each loop
     C = 0 
-    #trough_cutoff has taken the place of brac
+    """trough_cutoff has taken the place of brac"""
     # trough_cutoff = (1. - (sm_flux[entry] / 0.9))  # [1 - f(v)/0.9] = trough_cutoff > 0 when there is an absorption feature 
     trough_cutoff = (1. - (norm_flux_used[entry] / 0.9))
     bracBAL= (1. - (norm_flux_used[entry] / 0.9))   
