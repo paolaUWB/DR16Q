@@ -17,11 +17,26 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData  ###, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error, wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file
+#from file_reader import read_file
 from scipy import signal
 import time 
 start_time = time.time()
 
+
+val = input("Enter your value: ")
+print(val)
+
+## Must type cast to int - input will automatically be string
+
+num = int(input("Enter number: "))
+print(num)
+name1 = input("Enter name: ")
+print(name1)
+
+print("type of number: ", type(num))
+print("type of name: ", type(name1))
+
+'''
 ########################################## SPHINX ###########################################
 """
 normalization
@@ -632,3 +647,4 @@ np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 print("--- %s seconds" %(time.time()-start_time))
    
+'''
