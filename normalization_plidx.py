@@ -110,7 +110,10 @@ c = -0.5 # INITIAL PARAMETER OF POWERLAW
 #TODO: test function dynamic_find_anchor_points
 def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, verbose=True):
     """
-    
+    Function based on 'define_three_anchor_points'. Defines a user-specified 
+        number of anchor points. This function makes use of the function
+        'wavelength_flux_error_for_points' to find the closest wavelength bin
+        to the user-requested anchor point values.
 
     Parameters
     ----------
