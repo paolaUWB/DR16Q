@@ -23,20 +23,6 @@ import time
 start_time = time.time()
 
 
-val = input("Enter your value: ")
-print(val)
-
-## Must type cast to int - input will automatically be string
-
-num = int(input("Enter number: "))
-print(num)
-name1 = input("Enter name: ")
-print(name1)
-
-print("type of number: ", type(num))
-print("type of name: ", type(name1))
-
-'''
 ########################################## SPHINX ###########################################
 """
 normalization
@@ -45,6 +31,31 @@ Normalization module for this project
 """
 #############################################################################################
 
+num_anchor_points = int(input("How many anchor points would you like to use?: "))
+anchor_points = [x for x in range(1, num_anchor_points + 1)]
+wavelength_guesses = []
+for i in anchor_points:
+    guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
+    wavelength_guesses.append(guess)
+print(wavelength_guesses)
+wavelength_range = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
+
+
+#val = input("Enter your value: ")
+#print(val)
+
+## Must type cast to int - input will automatically be string
+
+#num = int(input("Enter number: "))
+#print(num)
+#name1 = input("Enter name: ")
+#print(name1)
+
+#print("type of number: ", type(num))
+#print("type of name: ", type(name1))
+
+
+'''
 ######################################### VARIABLES ######################################### 
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
