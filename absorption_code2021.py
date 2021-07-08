@@ -33,11 +33,9 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, append_row_to_csv
+from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file_abs, read_file
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file, read_file_abs
-
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -46,12 +44,12 @@ from file_reader import read_file, read_file_abs
 DR = '16'
 
 # DEFINING THE CONFIG FILE
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "OUTPUT_FILES/NORMALIZATION/test_good_norm.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
 # SETS THE DIRECTORY TO FIND THE NORMALIZED DATA FILES (DR9, DR16)
 # note to wen: after downloading the repository, NO MATTER where you are in your computer it
 # this will properly lead you to the normlazied data files of the data release specified
-SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/"
+SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/" 
 
 # CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -63,7 +61,7 @@ boxcar_size = 5  # boxcar_size must always be an odd integer.
 # ... cases (if no, it only includes those with absorption). It is called plotall in the old ...
 # ... code, but I am not 100% sure of what it excludes. 
 
-countBI = 2000 # = lower limit of absorption width to be flagged 
+countBI = '2000' # = lower limit of absorption width to be flagged 
 maxvel = -60000.
 minvel = -30000. # the velocites are negative because they are moving towards us ^
 
@@ -103,6 +101,7 @@ def smooth(norm_flux, box_size):
     Parameters:
     -----------
     norm_flux : 
+        Normalized flux to be smoothed.
 
     box_size: int
         This is the number of points that are smoothed into one. Always be sure to use an odd 
@@ -121,10 +120,10 @@ def draw_abs_figure(flux_normalized, wavelength_normalized):
 
     Parameters:
     ----------- 
-    original_ranges: DataNormalized
-        Ranges of values for the original data.
     flux_normalized: array
-
+        The normalized flux to be graphed.
+    wavelength_normalized: array
+        The value of the normalized wavelength to be graphed.
     Returns:
     --------
     None.
@@ -150,7 +149,7 @@ if __name__ == "__main__":
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
 # Read list of spectra, zem, and snr
-redshift_value, calc_snr_value, norm_spectra_filename = read_file_abs(CONFIG_FILE)
+norm_spectra_filename, redshift_value, calc_snr_value = read_file_abs(CONFIG_FILE)
 
 '''
 ######################################### VARIABLES #########################################

@@ -22,15 +22,15 @@ def read_file(FILE: str):
     return(redshift_value_list, snr_value_list, spectra_list)
 
 def read_file_abs(FILE: str):
-    spectra_index, spectra_filename, norm_spectra_filename, redshift_value, calc_snr_value, sdss_snr, bf, cf = [], [], [], [], [], [], [], []
+    norm_spectra_filename, redshift_value, calc_snr_value = [], [], []
     
     with open(FILE) as f:  
         for line in f:
             each_row_in_file = line.split(",")
-            norm_spectra_filename.append(each_row_in_file[2])
-            redshift_value.append(np.float(each_row_in_file[3]))
-            calc_snr_value.append(np.float(each_row_in_file[4]))
-    return(redshift_value, calc_snr_value, norm_spectra_filename)
+            norm_spectra_filename.append(each_row_in_file[0])
+            redshift_value.append(np.float(each_row_in_file[1]))
+            calc_snr_value.append(np.float(each_row_in_file[2]))
+    return(norm_spectra_filename, redshift_value, calc_snr_value)
 
 def print_to_file(text: str, file_name: str):
     print(text, file = open(file_name, 'a'))
