@@ -24,7 +24,7 @@ def powerlaw(wavelength, b, c):
     """
     return b * (np.power(wavelength, c))
 
-def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, max_peak, FILE):
+def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
     """ Draws the original spectra graph.
 
     Parameters:
@@ -58,19 +58,20 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.title(data.FigureData.spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
-    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), np.max(original_ranges.flux), subtitle_text)
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), max_peak + 1, subtitle_text)
     plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
     plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
     plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
+    plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(-2, max_peak + 2)
     FILE.savefig()
     plt.close(figure_index)
 
 def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized, #1 param more since I removed the tuple
-                            test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, FILE):
+                            test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
     """ Draws the normalized spectra graph.
 
     Parameters:
@@ -103,8 +104,10 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index) 
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 1, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.5, subtitle_text)
+    #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
+    #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
     plt.title(figure_data.spectrum_file_name)
     plt.plot(original_ranges.wavelength, flux_normalized, color = main_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, error_normalized, color = "black", linestyle = "-")
@@ -114,6 +117,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.plot(test1.wavelength, normalized_flux_test_1, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, normalized_flux_test_2, color = test_2_color, linestyle = "-")
     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
+    plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(-2, np.max(flux_normalized) + 1.5)
     FILE.savefig()
     plt.close(figure_index)

@@ -33,10 +33,10 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, append_row_to_csv
+from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file#, read_file_abs, pandas_test
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file, read_file_abs
+import pandas as pd
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -45,12 +45,12 @@ from file_reader import read_file, read_file_abs
 DR = '16'
 
 # DEFINING THE CONFIG FILE
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "OUTPUT_FILES/NORMALIZATION/test_good_norm.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
 # SETS THE DIRECTORY TO FIND THE NORMALIZED DATA FILES (DR9, DR16)
 # note to wen: after downloading the repository, NO MATTER where you are in your computer it
 # this will properly lead you to the normlazied data files of the data release specified
-SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/"
+SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/" 
 
 # CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -62,7 +62,7 @@ boxcar_size = 5  # boxcar_size must always be an odd integer.
 # ... cases (if no, it only includes those with absorption). It is called plotall in the old ...
 # ... code, but I am not 100% sure of what it excludes. 
 
-countBI = 2000 # = lower limit of absorption width to be flagged 
+countBI = '2000' # = lower limit of absorption width to be flagged 
 maxvel = -60000.
 minvel = -30000. # the velocites are negative because they are moving towards us ^
 
@@ -102,6 +102,7 @@ def smooth(norm_flux, box_size):
     Parameters:
     -----------
     norm_flux : 
+        Normalized flux to be smoothed.
 
     box_size: int
         This is the number of points that are smoothed into one. Always be sure to use an odd 
@@ -120,10 +121,10 @@ def draw_abs_figure(flux_normalized, wavelength_normalized):
 
     Parameters:
     ----------- 
-    original_ranges: DataNormalized
-        Ranges of values for the original data.
     flux_normalized: array
-
+        The normalized flux to be graphed.
+    wavelength_normalized: array
+        The value of the normalized wavelength to be graphed.
     Returns:
     --------
     None.
@@ -149,7 +150,18 @@ if __name__ == "__main__":
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
 # Read list of spectra, zem, and snr
-redshift_value, calc_snr_value, norm_spectra_filename = read_file_abs(CONFIG_FILE)
+path = "OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
+good_norm_csv = pd.read_csv(path, 'good_normalization.csv',
+        dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
+        usecols = [2, 3, 4],
+        engine = 'python'
+    ) #[['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']]
+
+for column in good_norm_csv:
+    column_contents = good_norm_csv[column]
+    print('column name: ', column)
+    print('column contents: ', column_contents)
+    #draw_abs_figure()
 
 '''
 ######################################### VARIABLES #########################################
@@ -165,6 +177,8 @@ EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
 ############################################################################################
 '''
 
+'''
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OLD WORKING POINT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # fix start from and ends at !!!!!!
@@ -183,6 +197,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     normalized_ranges = DataNormalized(flux_normalized, error_normalized)
     # ^^^^^^^^ fix this, other way to access data
     draw_abs_figure(normalized_ranges)
+'''
 
 ''' 
 ****************************************** IN WORK ******************************************    
@@ -192,10 +207,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     z_absC = (wavelength/avr_CIV_doublet)-1.
     RC=(1.+zem)/(1.+z_absC)
     betaC=((RC**2.)-1.)/((RC**2.)+1.)
-    betaa = -betaC*(300000.)
+    betaa = -betaC*(299792.458) #betaa is in km/s and betaC is in units of c (speed of light)
     beta=[]
-    for ll in betaa:
-        betas=round (ll,4)
+    for velocity in betaa:
+        betas=round (velocity,4)
         beta.append (betas)
     beta=array(beta)
 

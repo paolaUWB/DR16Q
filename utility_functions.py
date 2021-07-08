@@ -1,6 +1,7 @@
 import csv
 import numpy as np 
 from data_types import ColumnIndexes, RangesData, PointData
+import pandas as pd
 
 ######################################### sphinx ######################################### 
 """
@@ -52,3 +53,11 @@ def append_row_to_csv(file_name: str, fields: list):
         writer = csv.writer(f)
         writer.writerow(fields)
 
+"""
+def pandas_test(path: str, file_name: str):
+    good_norm = pd.read_csv(path, file_name,
+        dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
+        usecols = ['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']
+    ) [['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']]
+    return good_norm
+"""
