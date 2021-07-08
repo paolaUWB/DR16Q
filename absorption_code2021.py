@@ -33,9 +33,10 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file_abs, read_file
+from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file#, read_file_abs, pandas_test
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+import pandas as pd
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -149,7 +150,17 @@ if __name__ == "__main__":
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
 # Read list of spectra, zem, and snr
-norm_spectra_filename, redshift_value, calc_snr_value = read_file_abs(CONFIG_FILE)
+path = "OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
+good_norm_csv = pd.read_csv(path, 'good_normalization.csv',
+        dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
+        usecols = ['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']
+    ) #[['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']]
+
+for column in good_norm_csv:
+    column_contents = good_norm_csv[column]
+    print('column name: ', column)
+    print('column contents: ', column_contents)
+    #draw_abs_figure()
 
 '''
 ######################################### VARIABLES #########################################
@@ -165,6 +176,8 @@ EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
 ############################################################################################
 '''
 
+'''
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OLD WORKING POINT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # fix start from and ends at !!!!!!
@@ -183,6 +196,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     normalized_ranges = DataNormalized(flux_normalized, error_normalized)
     # ^^^^^^^^ fix this, other way to access data
     draw_abs_figure(normalized_ranges)
+'''
 
 ''' 
 ****************************************** IN WORK ******************************************    
