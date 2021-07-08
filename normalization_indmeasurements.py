@@ -42,10 +42,9 @@ for i in number_of_anchor_points:
     user_input_wavelength.append(guess)
 print(user_input_wavelength)
 range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
-for i in number_of_anchor_points:
+for i in number_of_anchor_points: 
     range_of_wavelength = Range(user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value)
     print(range_of_wavelength)
-
 
 '''
 ######################################### VARIABLES ######################################### 
