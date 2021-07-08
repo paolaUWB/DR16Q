@@ -3,7 +3,7 @@ vmins, vmaxs=[]
 BI_mid, BI_individual, EW_individual=[] #EW is equivalent width
 BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
 index_depth_final, flux_depth, final_depth_individual = []
-non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number, (like 99 or 999)
+non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number (like 99 or 999)
 
 deltav = 0 #change in velocity
 part = 0
@@ -62,52 +62,52 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
     EW = round(EW, 4)
     EW_ind.append(EW)          
     #print('EW', EW)
+#***
+    if part >= countBI:
 
-        if part >= countBI:
+        #print('I am in part > countBI')
+        C = 1                
+        BI = (trough_cutoff * C) * (deltav) #Calculate BAL for this dv
+        BI = round(BI, 4)
+        BI_mid.append(BI) #Append to intermediate results
 
-            #print('I am in part > countBI')
-            C = 1                
-            BI = (trough_cutoff * C) * (deltav) #Calculate BAL for this dv
-            BI = round(BI, 4)
-            BI_mid.append(BI) #Append to intermediate results
+        BI_ind.append(BI)
 
-            BI_ind.append(BI)
+        if non_trough_count == 0:
+            plot((beta[entry + 1],beta[entry]),(1.5,1.5),'k-')
+#                axvspan(beta[entry+1],beta[entry], alpha=0.05, color='red')
+        
+        if (count2==0) and (non_trough_count==0):  
+            print('I am in vmin territory')
 
-            if non_trough_count == 0:
-                plot((beta[entry + 1],beta[entry]),(1.5,1.5),'k-')
-    #                axvspan(beta[entry+1],beta[entry], alpha=0.05, color='red')
+            vmins_index=np.min(where(beta >= (beta[entry]+countBI)))  # vmins occurs current beta plus countBI
+            vvvmins=beta[vmins_index]
+            vvvmins=round (vvvmins,4)
+            vmins.append(vvvmins)
+#                    print(vmins)
+
+            plot ((beta[vmins_index], beta[vmins_index]) , (-1,10),'r-')
+
+        # If the absorption is SiIV, this finds and plots where C, CII and OI would be [add proper if statement]
+            z_absSiIV = (wavelength[entry]/avr_SiIV_doublet)-1#
             
-            if (count2==0) and (non_trough_count==0):  
-                print('I am in vmin territory')
-
-                vmins_index=np.min(where(beta >= (beta[entry]+countBI)))  # vmins occurs current beta plus countBI
-                vvvmins=beta[vmins_index]
-                vvvmins=round (vvvmins,4)
-                vmins.append(vvvmins)
-    #                    print(vmins)
-
-    plot ((beta[vmins_index], beta[vmins_index]) , (-1,10),'r-')
-
-                # If the absorption is SiIV, this finds and plots where C, CII and OI would be
-                z_absSiIV = (wavelength[entry]/avr_SiIV_doublet)-1#
-                
-                obs_wavelength_C=(z_absSiIV+1)*(avr_CIV_doublet)#
-                obs_wavelength_C_index =np.min (where (wavelength>obs_wavelength_C))
-                obs_wavelength_C_vel=beta[obs_wavelength_C_index]+countBI
-                plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
-
-                obs_wavelength_CII=(z_absSiIV+1)*(CII_emitted)#
-                obs_wavelength_CII_index =np.min (where (wavelength>obs_wavelength_CII))                  
-                obs_wavelength_CII_vel=beta[obs_wavelength_CII_index]+countBI
-                plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
-
-                obs_wavelength_OI=(z_absSiIV+1)*(OI_emitted)#
-                obs_wavelength_OI_index =np.min (where (wavelength>obs_wavelength_OI))                  
-                obs_wavelength_OI_vel=beta[obs_wavelength_OI_index]+countBI
-                plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
-
-                count2=1
-                
+            obs_wavelength_C=(z_absSiIV+1)*(avr_CIV_doublet)#
+            obs_wavelength_C_index =np.min (where (wavelength>obs_wavelength_C))
+            obs_wavelength_C_vel=beta[obs_wavelength_C_index]+countBI
+            plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
+    
+            obs_wavelength_CII=(z_absSiIV+1)*(CII_emitted)#
+            obs_wavelength_CII_index =np.min (where (wavelength>obs_wavelength_CII))                  
+            obs_wavelength_CII_vel=beta[obs_wavelength_CII_index]+countBI
+            plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
+    
+            obs_wavelength_OI=(z_absSiIV+1)*(OI_emitted)#
+            obs_wavelength_OI_index =np.min (where (wavelength>obs_wavelength_OI))                  
+            obs_wavelength_OI_vel=beta[obs_wavelength_OI_index]+countBI
+            plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
+    
+            count2=1
+            #This seems like the code was being tested in the short term to loop over each interval with "brac" (now trough cutoff)        
             nextbrac = (1. - (norm_flux_used[entry-1] / 0.9))
             nextnextbrac = (1. - (norm_flux_used[entry-2] / 0.9))
             nextnextnextbrac = (1. - (norm_flux_used[entry-3] / 0.9))
