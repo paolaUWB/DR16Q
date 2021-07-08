@@ -23,20 +23,6 @@ import time
 start_time = time.time()
 
 
-val = input("Enter your value: ")
-print(val)
-
-## Must type cast to int - input will automatically be string
-
-num = int(input("Enter number: "))
-print(num)
-name1 = input("Enter name: ")
-print(name1)
-
-print("type of number: ", type(num))
-print("type of name: ", type(name1))
-
-'''
 ########################################## SPHINX ###########################################
 """
 normalization
@@ -45,6 +31,23 @@ Normalization module for this project
 """
 #############################################################################################
 
+
+## ASKS USER HOW MANY ANCHOR POINTS TO USE ON THE PLOT, WHERE THEY SHOULD GO, AND HOW FAR OFF FROM THAT POINT THE ANCHOR POINT CAN BE
+## PROVIDES A RANGE OF WAVELENGTHS
+number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
+number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
+user_input_wavelength = []
+for i in number_of_anchor_points:
+    guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
+    user_input_wavelength.append(guess)
+print(user_input_wavelength)
+range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
+for i in number_of_anchor_points:
+    range_of_wavelength = Range(user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value)
+    print(range_of_wavelength)
+
+
+'''
 ######################################### VARIABLES ######################################### 
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
