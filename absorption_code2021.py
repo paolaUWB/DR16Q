@@ -36,7 +36,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file#, read_file_abs, pandas_test
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+<<<<<<< HEAD
 import pandas as pd
+=======
+from file_reader import read_file, read_file_abs
+>>>>>>> master
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -206,10 +210,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     z_absC = (wavelength/avr_CIV_doublet)-1.
     RC=(1.+zem)/(1.+z_absC)
     betaC=((RC**2.)-1.)/((RC**2.)+1.)
-    betaa = -betaC*(300000.)
+    betaa = -betaC*(299792.458) #betaa is in km/s and betaC is in units of c (speed of light)
     beta=[]
-    for ll in betaa:
-        betas=round (ll,4)
+    for velocity in betaa:
+        betas=round (velocity,4)
         beta.append (betas)
     beta=array(beta)
 

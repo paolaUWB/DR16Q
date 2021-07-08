@@ -17,10 +17,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData  ###, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error, wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file
+#from file_reader import read_file
 from scipy import signal
 import time 
 start_time = time.time()
+
 
 ########################################## SPHINX ###########################################
 """
@@ -30,6 +31,22 @@ Normalization module for this project
 """
 #############################################################################################
 
+
+## ASKS USER HOW MANY ANCHOR POINTS TO USE ON THE PLOT, WHERE THEY SHOULD GO, AND HOW FAR OFF FROM THAT POINT THE ANCHOR POINT CAN BE
+## PROVIDES A RANGE OF WAVELENGTHS
+number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
+number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
+user_input_wavelength = []
+for i in number_of_anchor_points:
+    guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
+    user_input_wavelength.append(guess)
+print(user_input_wavelength)
+range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
+for i in number_of_anchor_points: 
+    range_of_wavelength = Range(user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value)
+    print(range_of_wavelength)
+
+'''
 ######################################### VARIABLES ######################################### 
 
 DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
@@ -632,3 +649,4 @@ np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 print("--- %s seconds" %(time.time()-start_time))
    
+'''
