@@ -54,8 +54,7 @@ STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
-plot_full_wavelength = 'yes' ## DO YOU WANT TO PLOT FULL RANGE OF WAVELENGTH OR ONLY A RANGE? 'yes'/'no'
-
+plot_full_wavelength = 'no' ## DO YOU WANT TO PLOT FULL RANGE OF WAVELENGTH OR ONLY A RANGE? 'yes'/'no'
 save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
 save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 
@@ -242,7 +241,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
     plt.title(data.FigureData.spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
-    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), np.max(original_ranges.flux), subtitle_text)
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), max_peak + 1, subtitle_text)
     plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
     plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
     plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
@@ -287,7 +286,7 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
     plt.title(data.FigureData.spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
-    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), np.max(original_ranges.flux), subtitle_text)
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), max_peak + 1, subtitle_text)
     plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
     plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
     plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
@@ -498,6 +497,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     max_wavelength = np.max(np.where(wavelength_data < right_point_to))
 
     max_peak = np.max(flux_data[min_wavelength + 1 : max_wavelength + 1])
+    max_peak_norm = np.max(flux_normalized[min_wavelength + 1 : max_wavelength + 1])
     
     ## Takes in wavelength observed from/to -- this changes depending on if plot_full_spectrum == yes or no
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
@@ -520,7 +520,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
-            draw_normalized_figure(spectra_index, original_ranges_norm, figure_data_norm, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, NORMALIZED_PDF)
+            draw_normalized_figure(spectra_index, original_ranges_norm, figure_data_norm, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, max_peak_norm, NORMALIZED_PDF)
             #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, NORMALIZED_PDF)
 
     if flagged and not flagged_snr_mean_in_ehvo and (save_new_output_file == 'yes'):
