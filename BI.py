@@ -167,6 +167,3 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
         BI_all_individual.append(BI_individual)
         EW_all_individual.append(EW_individual)
 
-
-
-

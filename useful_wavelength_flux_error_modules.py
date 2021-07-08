@@ -62,6 +62,55 @@ def wavelength_flux_error(starting_point: float, ending_point: float, z: float, 
 
     return RangesData(wavelength, flux, error)
 
+def wavelength_flux_error_for_points_high_redshift(wavelength: float, starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
+    """Returns one point of wavelength, flux and error for a range of 10 (wavelength) at the end of the spectra for high redshift cases.
+
+    Uses the red shift to find the observed wavelengths, and between those two wavelengths records: all of 
+    the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average 
+    wavelength, median flux and median error for the right, left and middle point.
+
+    Parameters:
+    -----------
+    starting_point : float
+        Uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT, 
+        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.
+    ending_point: float
+        Also, uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT
+        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.
+    z: float
+        Values from the data base of the redshift, DR16Q (for now..)
+    spectra_data: list
+        Current spectra data from files, DR16Q (for now...)
+
+    Returns:
+    --------
+    PointData.
+
+    Examples: 
+    ---------
+    wavelength, flux, and error would be replaced with data points.
+    [(wavelength, flux, error),
+    (wavelength, flux, error),
+    (wavelength, flux, error)]
+    """
+    
+    ###### CHECK OVER DOCUMENTATION FOR THIS ######
+    
+    wavelength_column = spectra_data[:, column_index.wavelength]
+
+    point_from = np.max(np.where(wavelength_column <= starting_point))
+    point_to = np.min(np.where(wavelength_column >= ending_point))
+
+    wavelength = spectra_data[point_from:point_to, column_index.wavelength]
+    flux = spectra_data[point_from:point_to, column_index.flux] 
+    error = spectra_data[point_from:point_to, column_index.error] 
+    
+    point = PointData(
+        np.average(wavelength),
+        np.median(flux),
+        np.median(error))
+
+    return point
 
 
 def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
@@ -112,7 +161,6 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
         np.median(flux),
         np.median(error))
 
-   
     return point
 
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
@@ -177,8 +225,3 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     return snr_mean_in_ehvo 
-
-## CANT GET THIS TO CALL IN THE NORMALIZATION CODE ??? 
-def smooth(norm_flux, box_size):
-    y_smooth = signal.savgol_filter(norm_flux,box_size,2)  #linear
-    return y_smooth
