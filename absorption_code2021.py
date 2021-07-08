@@ -36,11 +36,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file#, read_file_abs, pandas_test
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-<<<<<<< HEAD
 import pandas as pd
-=======
-from file_reader import read_file, read_file_abs
->>>>>>> master
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -157,7 +153,8 @@ if __name__ == "__main__":
 path = "OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
 good_norm_csv = pd.read_csv(path, 'good_normalization.csv',
         dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
-        usecols = ['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']
+        usecols = [2, 3, 4],
+        engine = 'python'
     ) #[['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']]
 
 for column in good_norm_csv:
