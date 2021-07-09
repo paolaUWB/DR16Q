@@ -13,6 +13,7 @@
 import os
 import sys
 import numpy as np 
+import pandas as pd
 from matplotlib import pyplot as plt
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
@@ -50,7 +51,7 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 1 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -58,6 +59,8 @@ save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'n
 save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
+
+dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 BOXCAR_SIZE = 11 ## MUST BE ODD
 
@@ -136,19 +139,26 @@ def powerlaw(wavelength, b, c):
     """
     return b * (np.power(wavelength, c))
     '''
-column_index = ColumnIndexes(0, 1, 2)
 
 def read_spectra(spectra_data):
+    """ Reads the spectra data from each DRX file
+    
+    Parameters:
+    -----------
+    spectra_data: list
+        Current spectra data from files, DR9Q (for now...)
 
+    Returns: 
+    --------
+    array
+        all wavelength, flux, error values in columns
+    """
+
+    column_index = ColumnIndexes(0, 1, 2)
     wavelength = spectra_data[:, column_index.wavelength]
     flux = spectra_data[:, column_index.flux] 
     error = spectra_data[:, column_index.error] 
     
-    #point = PointData(
-    #    np.average(wavelength),
-    #    np.median(flux),
-    #    np.median(error))
-
     return [wavelength, flux, error]
 
 def define_three_anchor_points(z: float, spectra_data):
@@ -194,7 +204,17 @@ def define_three_anchor_points(z: float, spectra_data):
     
     return (left_point, middle_point, right_point)
 
-def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, verbose=True):
+def dynamic_find_anchor_points(spectra_data, number_of_anchor_points):
+    anchor_pts = []
+    for i in number_of_anchor_points:
+        print('range: ',wavelength_range)
+        spec_point = wavelength_flux_error_for_points_high_redshift(spectra_data[0], wavelength_range[i-1][0], wavelength_range[i-1][1], z, spectra_data)
+        anchor_pts.append(spec_point)
+    print("requested point: ", anchor_pts)
+    return anchor_pts
+
+'''
+def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, number_of_anchor_points, verbose=True):
     """
     Function based on 'define_three_anchor_points'. Defines a user-specified 
         number of anchor points. This function makes use of the function
@@ -220,25 +240,25 @@ def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:fl
         List of PointData objects.
 
     """
+    
+
+
 
     anchor_pts = []
-    
-    
-    
-    for i, point in enumerate(user_anchors):
-        
-        llim = point - user_delta
-        ulim = point + user_delta
-        
-        spec_point = wavelength_flux_error_for_points(llim, ulim, z, spectra_data)
-        
+    print('user anchors:', number_of_anchor_points)
+    #for i, point in enumerate(user_anchors):
+    for i in number_of_anchor_points:
+        spec_point = wavelength_flux_error_for_points_high_redshift(wavelength, range_of_wavelength.start, range_of_wavelength.end, z, spectra_data)
+        print('spec_point: ', spec_point)
         anchor_pts.append(spec_point)
+        print('anchor points:', anchor_pts)
         
         print('Matched user requested point', np.round(point, 2))
-        print('        with restframe point', np.round(spec_point[0]/(1+z), 2))
+        print('        with point', np.round(anchor_pts[0], 2))
+        #print('        with restframe point', np.round(spec_point[0]/(1+z), 2))
     
     return anchor_pts
-
+'''
 ### Masking points with large errors: 
 
 ###    for n in range(1, len(flux_normalized) - 5):  ### !!! Is this too big? 
@@ -392,6 +412,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
     ## DEFINING WAVELENGTH, FLUX, AND ERROR FOR WHOLE SPECTRA
     wavelength, flux, error = read_spectra(current_spectra_data)
+    print("wavelength: ", wavelength)
 
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
@@ -400,48 +421,69 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print("wavelength to: ", wavelength_observed_to)
     
     WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 20., np.max(current_spectra_data[:, 0]))
-
-    point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
     
     ###########################################################################
     #%% Begin Test dynamic function
     ###########################################################################
 
-    user_anchors = [1285, 1420, 1690, 2010]
-    user_delta = 1
-    dynamic = True
+    #user_anchors = [1285, 1420, 1690, 2010]
+    #user_delta = 1
     
-    anchor_pts = dynamic_find_anchor_points(current_spectra_data, z, user_anchors, user_delta)
+    #anchor_pts = dynamic_find_anchor_points(current_spectra_data, z, user_anchors, user_delta)
     
-    if dynamic:
+    ## ASKS USER HOW MANY ANCHOR POINTS TO USE ON THE PLOT, WHERE THEY SHOULD GO, AND HOW FAR OFF FROM THAT POINT THE ANCHOR POINT CAN BE
+    ## PROVIDES A RANGE OF WAVELENGTHS
+
+    if dynamic == 'yes':
         
-        
-        
+        number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
+        number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
+        user_input_wavelength = []
+        wavelength_range = []
+        for i in number_of_anchor_points:
+            guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
+            user_input_wavelength.append(guess)
+        print(user_input_wavelength)
+        range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
+        for i in number_of_anchor_points: 
+            range_of_wavelength = [user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value]
+            wavelength_range.append(range_of_wavelength)
+
+        #anchor_point = dynamic_find_anchor_points(current_spectra_data, z, user_input_wavelength, wavelength_range, number_of_anchor_points)
+        anchor_point = dynamic_find_anchor_points(current_spectra_data, number_of_anchor_points)
+
         power_law_wave = []
         power_law_flux = []
         
-        for point in anchor_pts:
+        for point in anchor_point:
             
             power_law_wave.append(point[0])
             power_law_flux.append(point[1])
             
-        
         try:
             pars, covar = curve_fit(powerlaw, power_law_wave, power_law_flux, p0=[b, c], maxfev=10000)
         except:
             print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
             print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
     
-        bf, cf = pars[0], pars[1]    
+        bf, cf = pars[0], pars[1]  
+
+        power_law_data_x = power_law_wave
+        power_law_data_y = power_law_flux
+        print("powerlaw data x;", power_law_data_x)
+        print("powerlaw data y: ", power_law_data_y)
+    else:
+        point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
+        ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
+        power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
+        power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
             
     
     ###########################################################################
     #%% End Test dynamic function
     ###########################################################################
 
-    ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
-    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
-    power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
+
 
     try:
         pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
