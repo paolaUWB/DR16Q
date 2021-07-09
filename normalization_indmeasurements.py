@@ -7,6 +7,7 @@
 #############################################################################################
 ########################################## IMPORTS ##########################################
 
+#from normalization import dynamic_find_anchor_points
 import os
 import sys
 import numpy as np 
@@ -31,9 +32,74 @@ Normalization module for this project
 """
 #############################################################################################
 
+def dynamic_find_anchor_points(number_of_anchor_points):
+    anchor_pts = []
+    for i in number_of_anchor_points:
+        spec_point = wavelength_flux_error_for_points_high_redshift(wavelength, range_of_wavelength.start, range_of_wavelength.end, z, spectra_data)
+        anchor_pts.append(spec_point)
+        print("requested point: ", )
+    return anchor_pts
+
+number_of_anchor_points = [1,2,3,4]
+point = dynamic_find_anchor_points(number_of_anchor_points)
+print(point)
+'''
+if dynamic == 'yes':
+    
+    number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
+    number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
+    user_input_wavelength = []
+    wavelength_range = []
+    for i in number_of_anchor_points:
+        guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
+        user_input_wavelength.append(guess)
+    print(user_input_wavelength)
+    range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
+    for i in number_of_anchor_points: 
+        range_of_wavelength = Range(user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value)
+        wavelength_range.append(range_of_wavelength)
+
+    anchor_point = dynamic_find_anchor_points(current_spectra_data, z, user_input_wavelength, wavelength_range, number_of_anchor_points)
+
+    power_law_wave = []
+    power_law_flux = []
+    
+    for point in anchor_point:
+        
+        power_law_wave.append(point[0])
+        power_law_flux.append(point[1])
+        
+    try:
+        pars, covar = curve_fit(powerlaw, power_law_wave, power_law_flux, p0=[b, c], maxfev=10000)
+    except:
+        print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+        print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
+
+    bf, cf = pars[0], pars[1]  
+
+    power_law_data_x = power_law_wave
+    power_law_data_y = power_law_flux
+    print("powerlaw data x;", power_law_data_x)
+    print("powerlaw data y: ", power_law_data_y)
+else:
+    point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
+    ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
+    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
+    power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
+    '''
+
+
+
+
+
+
+
+
+
 
 ## ASKS USER HOW MANY ANCHOR POINTS TO USE ON THE PLOT, WHERE THEY SHOULD GO, AND HOW FAR OFF FROM THAT POINT THE ANCHOR POINT CAN BE
 ## PROVIDES A RANGE OF WAVELENGTHS
+'''
 number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
 number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
 user_input_wavelength = []
@@ -45,6 +111,10 @@ range_value = int(input("Specify a range of wavelengths you would like used to f
 for i in number_of_anchor_points: 
     range_of_wavelength = Range(user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value)
     print(range_of_wavelength)
+
+point = dynamic_find_anchor_points(spectra_data, z, user_input_wavelength, range_of_wavelength)
+'''
+
 
 '''
 ######################################### VARIABLES ######################################### 
