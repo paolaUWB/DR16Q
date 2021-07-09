@@ -33,7 +33,7 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file#, read_file_abs, pandas_test
+from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_file_abs, pandas_test, read_list_spectra, read_spectra
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 import pandas as pd
@@ -50,7 +50,7 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES
 # SETS THE DIRECTORY TO FIND THE NORMALIZED DATA FILES (DR9, DR16)
 # note to wen: after downloading the repository, NO MATTER where you are in your computer it
 # this will properly lead you to the normlazied data files of the data release specified
-SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/" 
+SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
 
 # CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -66,7 +66,7 @@ countBI = '2000' # = lower limit of absorption width to be flagged
 maxvel = -60000.
 minvel = -30000. # the velocites are negative because they are moving towards us ^
 
-STARTS_FROM, ENDS_AT = 1, 1000 # [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE.
+STARTS_FROM, ENDS_AT = 11, 11 # [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE.
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
@@ -149,22 +149,37 @@ if __name__ == "__main__":
     clear_file(ABSORPTION_VALUES)
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
+# writing read file for normalization and absorption
+# read list of spectra, general file to read for anything (abs or norm)
+
+norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
+
 # Read list of spectra, zem, and snr
-path = "OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
-good_norm_csv = pd.read_csv(path, 'good_normalization.csv',
-        dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
-        usecols = [2, 3, 4],
-        engine = 'python'
-    ) #[['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']]
+print("spectra list: ", norm_spectra_list[100])
 
-for column in good_norm_csv:
-    column_contents = good_norm_csv[column]
-    print('column name: ', column)
-    print('column contents: ', column_contents)
-    #draw_abs_figure()
+# Loops over each spectra
+for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
+    z = round(redshift_list[spectra_index - 1], 5)
+    snr = round(calc_snr_list[spectra_index - 1], 5)
+    current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
+    
+    print("current spectra file name: ", current_spectrum_file_name)
+    print(str(spectra_index) + ": " + current_spectrum_file_name)
+    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
+
+    # Read the wavelength, norm_flux and norm_error, rounding the numbers. 
+    wavelength, flux, error = read_spectra(current_spectra_data)
+
+    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
+    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+
+    # draw simple plot 
+    #draw_abs_figure(wavelength, flux)
+    draw_abs_figure(wavelength, flux)
 '''
 ######################################### VARIABLES #########################################
+
 # Define variables. Check which of them are necessary later; You might want to rename some of them to anything that makes more sense. 
 brac_all, deltav_all = []
 absspeccount = 0
@@ -178,28 +193,7 @@ EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
 '''
 
 '''
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OLD WORKING POINT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# Loops over each spectra
-for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-    # fix start from and ends at !!!!!!
-    z = round(redshift_value[spectra_index - 1], 8)
-    snr = round(calc_snr_value[spectra_index - 1], 8)
-    current_spectrum_file_name = norm_spectra_filename[spectra_index - 1]
-    
-    print(str(spectra_index) + ": " + current_spectrum_file_name)
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-
-    # Read the wavelength, norm_flux and norm_error, rounding the numbers. 
-
-    # draw simple plot 
-
-    normalized_ranges = DataNormalized(flux_normalized, error_normalized)
-    # ^^^^^^^^ fix this, other way to access data
-    draw_abs_figure(normalized_ranges)
-'''
-
-''' 
 ****************************************** IN WORK ******************************************    
 # Include if statement for smoothing and smooth spectrum if so. Similar to normalization.py.   
 
