@@ -36,7 +36,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-from file_reader import read_file, read_file_abs
+from utility_functions import read_file, read_file_abs
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -55,7 +55,7 @@ SPEC_DIREC = os.getcwd() + "DATA/NORM_DR" + DR + "Q/"
 # CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
-smooth = 'yes' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
+smooth = 'yes' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error?
 boxcar_size = 5  # boxcar_size must always be an odd integer.
 
 # Set a variable to plot all cases or only those with absorption -- Do you want to include all ...
@@ -75,7 +75,7 @@ STARTS_FROM, ENDS_AT = 1, 1000 # [899-1527 for dr9] [1- ~21800 for dr16] RANGE O
 ABSORPTION_VALUES = OUT_DIREC + "/" + "absorption_measurements_test.txt"
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('absorption_BI' + countBI + '_test.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('absorption_BI' + str(countBI) + '_test.pdf') 
 
 #############################################################################################
 ####################################### DO NOT CHANGE #######################################
