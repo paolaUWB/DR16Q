@@ -225,5 +225,7 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     """
     wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
     wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
+    print("LOWER: ",wavelengths_for_snr_lower)
+    print("UPPER: ",wavelengths_for_snr_upper)
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     return snr_mean_in_ehvo 
