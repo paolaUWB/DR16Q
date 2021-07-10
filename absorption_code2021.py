@@ -33,7 +33,7 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_file_abs, pandas_test, read_list_spectra, read_spectra
+from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 import pandas as pd
@@ -41,32 +41,31 @@ import pandas as pd
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
 
-# INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER AS A STRING i.e. '9' or '16']
+#INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER AS A STRING i.e. '9' or '16']
 DR = '16'
 
-# DEFINING THE CONFIG FILE
+#DEFINING THE CONFIG FILE
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
-# SETS THE DIRECTORY TO FIND THE NORMALIZED DATA FILES (DR9, DR16)
-# note to wen: after downloading the repository, NO MATTER where you are in your computer it
-# this will properly lead you to the normlazied data files of the data release specified
+#SETS THE DIRECTORY TO FIND THE NORMALIZED DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
 
-# CREATES DIRECTORY FOR OUTPUT FILES
+#CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
-smooth = 'yes' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
-boxcar_size = 5  # boxcar_size must always be an odd integer.
+sm = 'no' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
+boxcar_size = 101  # boxcar_size must always be an odd integer.
 
 # Set a variable to plot all cases or only those with absorption -- Do you want to include all ...
 # ... cases (if no, it only includes those with absorption). It is called plotall in the old ...
 # ... code, but I am not 100% sure of what it excludes. 
+plot_all = 'yes'
 
 countBI = '2000' # = lower limit of absorption width to be flagged 
 maxvel = -60000.
 minvel = -30000. # the velocites are negative because they are moving towards us ^
 
-STARTS_FROM, ENDS_AT = 11, 11 # [899-1527 for dr9] [1- ~21800 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE.
+STARTS_FROM, ENDS_AT = 11, 11 # RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE NORM_DRXQ.csv FILE.
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
@@ -91,7 +90,7 @@ avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
 avr_OVI_doublet = 1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
 
 ## RANGES OF WAVELENGTHS IN THE SPECTRA
-WAVELENGTH_RESTFRAME = Range(0., 5000.)
+WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 
 #############################################################################################
 ######################################### FUNCTION(S) #######################################   
@@ -116,28 +115,29 @@ def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)
     return y_smooth
 
-def draw_abs_figure(flux_normalized, wavelength_normalized):
+def draw_abs_figure(flux_normalized, velocity):
     """ Draws the normalized spectra graph.
 
-    Parameters:
-    ----------- 
+    Parameters
+    ----------
     flux_normalized: array
         The normalized flux to be graphed.
-    wavelength_normalized: array
-        The value of the normalized wavelength to be graphed.
-    Returns:
-    --------
+    velocity: array
+        The value of the velocity calculated using the normalized flux.
+    Returns
+    -------
     None.
     
-    Notes:
-    ------
-    Creates a graph of the spectra and saves to the absorption2000_test.pdf.pdf
+    Notes
+    -----
+    Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
     """
 
-    plt.plot(flux_normalized, wavelength_normalized)
-    plt.title("drinks on prh")
-    plt.xlabel("Wavelength [A]")
-    plt.ylabel("Normalized Flux[10^[-17]]cgs")
+    plt.plot(flux_normalized, velocity)
+    plt.title("NO drinks on prh")
+    plt.xlabel("velocity (km/s)")
+    plt.ylabel("Normalized Flux")
+    plt.xlim(-70000, 0)
     ABSORPTION_OUTPUT_PLOT_PDF.savefig()
     plt.close()
 
@@ -149,66 +149,65 @@ if __name__ == "__main__":
     clear_file(ABSORPTION_VALUES)
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
-# writing read file for normalization and absorption
-# read list of spectra, general file to read for anything (abs or norm)
-
+# Read list of spectra, zem, and snr
+# move to changeable variables and add a note about the header names
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
 
-# Read list of spectra, zem, and snr
-print("spectra list: ", norm_spectra_list[100])
+# Define variables
+
+######################################### VARIABLES #########################################
+brac_all, deltav_all = [], []
+absspeccount = 0
+count = 0
+BI = 0
+vmins, vmaxs, vmins_all, vmaxs_all = [], [], [], [] # v = velocity
+final_depth_individual, final_depth_all_individual = [], []
+BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind = [], [], [], [], [], []
+EW_individual, EW_ind, EW_all_individual, vlast = [], [], [], [] #EW = equivalent width
+############################################################################################
 
 # Loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
+    # Read the wavelength, norm_flux and norm_error, rounding the numbers. 
     z = round(redshift_list[spectra_index - 1], 5)
-    snr = round(calc_snr_list[spectra_index - 1], 5)
+    calc_snr = round(calc_snr_list[spectra_index - 1], 5)
     current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
     
-    print("current spectra file name: ", current_spectrum_file_name)
-    print(str(spectra_index) + ": " + current_spectrum_file_name)
+    print(str(spectra_index), "current spectra file name: ", current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-
-    # Read the wavelength, norm_flux and norm_error, rounding the numbers. 
     wavelength, flux, error = read_spectra(current_spectra_data)
 
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
 
-    # draw simple plot 
-    #draw_abs_figure(wavelength, flux)
-    draw_abs_figure(wavelength, flux)
-'''
-######################################### VARIABLES #########################################
-
-# Define variables. Check which of them are necessary later; You might want to rename some of them to anything that makes more sense. 
-brac_all, deltav_all = []
-absspeccount = 0
-count = 0
-BI = 0
-vmins, vmaxs, vmins_all, vmaxs_all = [] # v = velocity
-final_depth_individual, final_depth_all_individual = []
-BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind = []
-EW_individual, EW_ind, EW_all_individual, vlast = [] #EW = equivalent width
-############################################################################################
-'''
-
-'''
-
-****************************************** IN WORK ******************************************    
-# Include if statement for smoothing and smooth spectrum if so. Similar to normalization.py.   
+    # Include if statement for smoothing and smooth spectrum.
+    if sm == 'yes':
+        sm_flux = smooth(flux, boxcar_size)
+        sm_error = smooth(error, boxcar_size) / np.sqrt(boxcar_size)   
+        non_sm_flux = flux
+        non_sm_error = error
+        flux = sm_flux
+        error = sm_error
 
     # Transform the wavelength array to velocity (called "beta" - we can change it) based on the CIV doublet: 
-    z_absC = (wavelength/avr_CIV_doublet)-1.
-    RC=(1.+zem)/(1.+z_absC)
-    betaC=((RC**2.)-1.)/((RC**2.)+1.)
-    betaa = -betaC*(299792.458) #betaa is in km/s and betaC is in units of c (speed of light)
-    beta=[]
+    z_absC = (wavelength / avr_CIV_doublet) - 1.
+    RC = (1. + z) / (1. + z_absC)
+    betaC = ((RC**2.) -1.) / ((RC**2.) + 1.)
+    betaa = -betaC * (299792.458) #betaa is in km/s and betaC is in units of c (speed of light)
+    beta = []
     for velocity in betaa:
-        betas=round (velocity,4)
-        beta.append (betas)
-    beta=array(beta)
+        betas = round(velocity,4)
+        beta.append(betas)
+    beta = np.array(beta)
 
-    # Initialize all the variables 
+    # Initialize all the variables
+
+    # draw simple plot 
+    draw_abs_figure(beta, flux)
+
+'''
+****************************************** IN WORK ******************************************     
     # Calculate BI, vmin and vmax by looping through the beta array in the velocity limits -- 
     ###################### 0 -> -
     # will call the module that does that. It in
