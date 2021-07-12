@@ -1,13 +1,9 @@
-21856: spec-7684-57286-0814-dered.dr16
+1: spec-10901-58397-0466-dered.dr16
+2: spec-7634-56935-0762-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
-       Flagging figure #21856, file name: spec-7684-57286-0814-dered.dr16
-21857: spec-6583-56566-0306-dered.dr16
+       Flagging figure #2, file name: spec-7634-56935-0762-dered.dr16
+3: spec-8214-57867-0380-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
-       Flagging figure #21857, file name: spec-6583-56566-0306-dered.dr16
-21858: spec-10259-58190-0798-dered.dr16
-21859: spec-7710-58284-0701-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #21859, file name: spec-7710-58284-0701-dered.dr16
+       Flagging figure #3, file name: spec-8214-57867-0380-dered.dr16
