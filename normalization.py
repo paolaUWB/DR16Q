@@ -60,7 +60,7 @@ save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 BOXCAR_SIZE = 11 ## MUST BE ODD
 
@@ -516,20 +516,17 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
         wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
         wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+        try:
+            pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
+        except:
+            print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+            print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
+
+        bf, cf = pars[0], pars[1]
             
     ###########################################################################
     #%% End Test dynamic function
     ###########################################################################
-
-
-
-    try:
-        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
-    except:
-        print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
-        print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
-
-    bf, cf = pars[0], pars[1]
 
     #flux_normalized = flux/powerlaw(wavelength, bf, cf)
     #error_normalized = error/powerlaw(wavelength, bf, cf) 
@@ -682,7 +679,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
-            #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, NORMALIZED_PDF)
 
     if flagged and not flagged_snr_mean_in_ehvo and (save_new_output_file == 'yes'):
         append_row_to_csv(FLAGGED_BAD_FIT, fields)
