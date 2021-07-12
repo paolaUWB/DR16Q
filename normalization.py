@@ -516,20 +516,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
         wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
         wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+
+        try:
+            pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
+        except:
+            print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+            print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
+
+        bf, cf = pars[0], pars[1]
             
     ###########################################################################
     #%% End Test dynamic function
     ###########################################################################
-
-
-
-    try:
-        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
-    except:
-        print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
-        print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
-
-    bf, cf = pars[0], pars[1]
 
     #flux_normalized = flux/powerlaw(wavelength, bf, cf)
     #error_normalized = error/powerlaw(wavelength, bf, cf) 
