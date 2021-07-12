@@ -184,8 +184,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # ^^^^^^^^ fix this, other way to access data
     draw_abs_figure(normalized_ranges)
 
-''' 
-****************************************** IN WORK ******************************************    
+    
 # Include if statement for smoothing and smooth spectrum if so. Similar to normalization.py.   
 
     # Transform the wavelength array to velocity (called "beta" - we can change it) based on the CIV doublet: 
@@ -318,7 +317,6 @@ for loop2 in range (0, len(vmins_all)):
 vmaxs_final = array(vmaxs_final)
 vmins_final = array(vmins_final)    
 savetxt(ffile,vlast,fmt='%s')
-****************************************** IN WORK ******************************************
-'''
+
 
 ABSORPTION_OUTPUT_PLOT_PDF.close()
