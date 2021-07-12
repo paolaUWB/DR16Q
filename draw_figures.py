@@ -10,7 +10,7 @@ def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wave
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
     subtitle_text = f"z={z} snr={snr} snr_mean_in_ehvo={snr_mean_in_ehvo}"
-    plt.text(((wavelength_observed_from + wavelength_observed_to)/2.3), max_peak + 0.25, subtitle_text)
+    plt.text(((wavelength_observed_from + wavelength_observed_to)/2.7), max_peak - 0.25, subtitle_text)
     plt.plot(wavelength, flux, color = "xkcd:ultramarine")
     plt.plot(test1.wavelength, test1.flux, color = "xkcd:green apple", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "xkcd:bubblegum", linestyle = "-")

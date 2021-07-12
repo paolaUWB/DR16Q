@@ -471,14 +471,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         
         number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
         number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
-        user_input_wavelength = []
-        wavelength_range = []
-        anchor_pts = []
-        powerlaw_wavelength = []
-        powerlaw_flux = []
         try_again = 'no'
         
         while try_again == 'no':
+            user_input_wavelength = []
+            wavelength_range = []
+            anchor_pts = []
+            powerlaw_wavelength = []
+            powerlaw_flux = []
             for i in number_of_anchor_points:
                 guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
                 user_input_wavelength.append(guess)
@@ -492,7 +492,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 anchor_pts.append(anchor_pt)
                 powerlaw_wavelength.append(anchor_pt[0])
                 powerlaw_flux.append(anchor_pt[1])
-                print(anchor_pts)
             try:
                 pars, covar = curve_fit(powerlaw, powerlaw_wavelength, powerlaw_flux, p0=[b, c], maxfev=10000)
             except:
@@ -503,9 +502,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             error_normalized = error/powerlaw(wavelength, bf, cf)
             snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
             draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, ORIGINAL_PDF)
+
             try_again = str(input("Are you happy with the fit? 'yes'/'no':"))
         power_law_data_x = powerlaw_wavelength
         power_law_data_y = powerlaw_flux
+        #append_row_to_csv(GOOD_NORMALIZATION, fields) ???? NEED THESE BEING ADDED TO GOOD_NORMALIZATION IF FIT DEEMED GOOD
 
     else:
         #point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
