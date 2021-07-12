@@ -21,21 +21,21 @@ Useful functions.
 column_index = ColumnIndexes(0, 1, 2)
 
 def wavelength_flux_error(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
-    """Function: returns wavelength, flux and error for all wavelengths.
+    """Returns wavelength, flux and error for all wavelengths.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     z: float
         Values from the data base of the redshift, DR16Q (for now..)
     spectra_data: list
         Current spectra data from files, DR16Q (for now...)
 
-    Returns:
-    --------
+    Returns
+    -------
     RangesData.
 
-    Examples:
-    ---------
+    Examples
+    --------
     RangesData(wavelength, flux, error). List of tuples of arrays.
     RangesData creates a list of tuples, within each tuple it stores arrays for the ranges of 
     wavelength, flux, and error values.
@@ -69,8 +69,8 @@ def wavelength_flux_error_for_points_high_redshift(wavelength: float, starting_p
     the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average 
     wavelength, median flux and median error for the right, left and middle point.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     starting_point : float
         Uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT, 
         WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.
@@ -82,12 +82,12 @@ def wavelength_flux_error_for_points_high_redshift(wavelength: float, starting_p
     spectra_data: list
         Current spectra data from files, DR16Q (for now...)
 
-    Returns:
-    --------
+    Returns
+    -------
     PointData.
 
-    Examples: 
-    ---------
+    Examples
+    --------
     wavelength, flux, and error would be replaced with data points.
     [(wavelength, flux, error),
     (wavelength, flux, error),
@@ -122,8 +122,8 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average 
     wavelength, median flux and median error for the right, left and middle point.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     starting_point : float
         Uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT, 
         WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.
@@ -135,12 +135,12 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     spectra_data: list
         Current spectra data from files, DR16Q (for now...)
 
-    Returns:
-    --------
+    Returns
+    -------
     PointData.
 
-    Examples: 
-    ---------
+    Examples
+    --------
     wavelength, flux, and error would be replaced with data points.
     [(wavelength, flux, error),
     (wavelength, flux, error),
@@ -166,10 +166,10 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     return point
 
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
-    """Function: returns a range of a wavelength, flux and error defined by starting and ending points.
+    """Returns a range of a wavelength, flux and error defined by starting and ending points.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     starting_point : float
         Uses the range defined by the following variable: WAVELENGTH_RESTFRAME.start,     
     ending_point: float
@@ -179,12 +179,12 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     spectra_data: list
         Current spectra data from files, DR16Q (for now...)
 
-    Returns:
-    --------
+    Returns
+    -------
     RangesData.
 
-    Examples:
-    ---------
+    Examples
+    --------
     RangesData(wavelength, flux, error). List of tuples of arrays.
     RangesData creates a list of tuples, within each tuple it stores arrays for the ranges of 
     wavelength, flux, and error values.
@@ -206,8 +206,8 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
 def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normalized):
     """ Calculates the snr (signal to noise ratio). [Want a high SNR value].
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     wavelength: array
         Comes from RangesData().    
     z: float
@@ -218,12 +218,14 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     error_normalized: array
         The error from RangesData() divided by the power law. 
 
-    Returns:
-    --------
+    Returns
+    -------
     Float or Int.
         snr_mean_in_ehvo().
     """
     wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
     wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
+    print("LOWER: ",wavelengths_for_snr_lower)
+    print("UPPER: ",wavelengths_for_snr_upper)
     snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     return snr_mean_in_ehvo 

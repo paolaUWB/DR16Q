@@ -5,8 +5,8 @@ import pandas as pd
 
 ######################################### sphinx ######################################### 
 """
-utility_functions.py
-====================
+utility_functions
+=================
 Utility functions for this project.
 """
 #############################################################################################
@@ -53,20 +53,52 @@ def append_row_to_csv(file_name: str, fields: list):
         writer = csv.writer(f)
         writer.writerow(fields)
 
-def pandas_test(path: str, file_name: str):
-    good_norm = pd.read_csv(path, file_name,
-        dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
-        usecols = ['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']
-    ) [['NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR']]
-    return good_norm
-
 def read_list_spectra(file_name: str, column_list: list):
-    print("column_list: ", column_list)
+    """Reads in a csv file of spectra to allow you to access certain columns of data from the csv file.
+
+    Parameters
+    ----------
+    file_name: str
+        Enter in the name of your csv file as a string. Can also enter the path of where the file
+        is as long as the name of the file is included in the pathway.
+    column_list: list
+        Enter in the names of the columns you want to access from your csv file in the form as 
+        a list of strings.
+
+    Returns
+    -------
+    spectra_list: list
+        Whatever information is in the spectra column as a list.
+    redshift_list: list
+        Whatever information is in the redshift column as a list.
+    snr_list: list
+        Whatever infromation is in the snr column as a list.
+
+    Example
+    -------
+    >>> CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv"
+    >>> norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
+    [spec-9140-58039-0081norm.dr16  1.9  14.1
+    spec-7671-57360-0092norm.dr16   1.9  14.2]
+    
+    Notes
+    -----
+    ``good_normalization.csv`` in this case is a csv file with several headers but we only wanted to select these three.
+    Contents of ``good_normalization.csv`` for purpose of example:
+
+    >>> SPECTRA FILE NAME,NORM SPECTRA FILE NAME,REDSHIFT,CALCULATED SNR,SDSS SNR,BF,CF
+    >>> spec-9140-58039-0081-dered.dr16,spec-9140-58039-0081norm.dr16,1.9,14.1,31.,9.1,0.1
+    >>> spec-7671-57360-0092-dered.dr16,spec-7671-57360-0092norm.dr16,1.9,14.2,20.,9.1,-2.01
+
+    ...
+    
+    See Also
+    --------
+    Pandas is being utilized to read in the csv file, ``pd.read_csv()`` has many different keyword parameters that can be utilized.
+    Check pandas api for more details.
+    """
+    
     data = pd.read_csv(file_name)
-    #data = pd.read_csv(file_name,
-    #    dtype = {"REDSHIFT": float, "CALCULATED SNR": float},
-     #   names = column_list, 
-      #  engine = 'python')
     spectra_list = data[column_list[0]]
     redshift_list = data[column_list[1]]
     snr_list = data[column_list[2]]

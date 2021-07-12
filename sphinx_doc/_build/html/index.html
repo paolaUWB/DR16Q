@@ -145,81 +145,53 @@
               
               <div>
                 
-  <div class="section" id="welcome-to-searching-for-extremely-high-velocity-outflows-s-documentation">
-<h1>Welcome to Searching for Extremely-High Velocity Outflows’s documentation!<a class="headerlink" href="#welcome-to-searching-for-extremely-high-velocity-outflows-s-documentation" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-useful_wavelength_flux_error_modules"></span><p>Created on Tue Feb  9 17:10:41 2021</p>
+  <div class="section" id="module-useful_wavelength_flux_error_modules">
+<span id="welcome-to-searching-for-extremely-high-velocity-outflows-s-documentation"></span><h1>Welcome to Searching for Extremely-High Velocity Outflows’s documentation!<a class="headerlink" href="#module-useful_wavelength_flux_error_modules" title="Permalink to this headline">¶</a></h1>
+<p>Created on Tue Feb  9 17:10:41 2021</p>
 <p>&#64;author: wendygarcia mikelcharles</p>
-<dl class="py function">
-<dt id="useful_wavelength_flux_error_modules.calculate_snr">
-<code class="sig-prename descclassname">useful_wavelength_flux_error_modules.</code><code class="sig-name descname">calculate_snr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wavelength</span></em>, <em class="sig-param"><span class="n">z</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">WAVELENGTH_FOR_SNR</span><span class="p">:</span> <span class="n">range</span></em>, <em class="sig-param"><span class="n">error_normalized</span></em><span class="sig-paren">)</span><a class="headerlink" href="#useful_wavelength_flux_error_modules.calculate_snr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the snr (signal to noise ratio). [Want a high SNR value].</p>
-<dl class="simple">
-<dt>wavelength: array</dt><dd><p>Comes from RangesData().</p>
+<span class="target" id="module-utility_functions"></span><dl class="py function">
+<dt id="utility_functions.read_list_spectra">
+<code class="sig-prename descclassname">utility_functions.</code><code class="sig-name descname">read_list_spectra</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">column_list</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#utility_functions.read_list_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in a csv file of spectra to allow you to access certain columns of data from the csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<em>str</em>) – Enter in the name of your csv file as a string. Can also enter the path of where the file
+is as long as the name of the file is included in the pathway.</p></li>
+<li><p><strong>column_list</strong> (<em>list</em>) – Enter in the names of the columns you want to access from your csv file in the form as
+a list of strings.</p></li>
+</ul>
 </dd>
-<dt>z: float</dt><dd><p>Values from the data base of the redshift, DR9Q (for now..).</p>
-</dd>
-<dt>WAVELENGTH_FOR_SNR: range</dt><dd><p>A range defined in the beginning of the normalization code. Can
-be changed by user.</p>
-</dd>
-<dt>error_normalized: array</dt><dd><p>The error from RangesData() divided by the power law.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Float or Int.</dt><dd><p>snr_mean_in_ehvo().</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py data">
-<dt id="useful_wavelength_flux_error_modules.column_index">
-<code class="sig-prename descclassname">useful_wavelength_flux_error_modules.</code><code class="sig-name descname">column_index</code><em class="property"> = ColumnIndexes(wavelength=0, flux=1, error=2)</em><a class="headerlink" href="#useful_wavelength_flux_error_modules.column_index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Useful functions.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="useful_wavelength_flux_error_modules.wavelength_flux_error_for_points">
-<code class="sig-prename descclassname">useful_wavelength_flux_error_modules.</code><code class="sig-name descname">wavelength_flux_error_for_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">starting_point</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">ending_point</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">z</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">spectra_data</span></em><span class="sig-paren">)</span> &#x2192; data_types.PointData<a class="headerlink" href="#useful_wavelength_flux_error_modules.wavelength_flux_error_for_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns one point of wavelength, flux and error based on a range of values in a good defined range.</p>
-<p>Uses the red shift to find the observed wavelenghts, and between those two wavelengths records: all of
-the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average
-wavelength, median flux and median error for the right, left and middle point.</p>
-<dl class="simple">
-<dt>starting_point<span class="classifier">float</span></dt><dd><p>Uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT,
-WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.</p>
-</dd>
-<dt>ending_point: float</dt><dd><p>Also, uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT
-WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.</p>
-</dd>
-<dt>z: float</dt><dd><p>Values from the data base of the redshift, DR16Q (for now..)</p>
-</dd>
-<dt>spectra_data: list</dt><dd><p>Current spectra data from files, DR16Q (for now…)</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>spectra_list</strong> (<em>list</em>) – Whatever information is in the spectra column as a list.</p></li>
+<li><p><strong>redshift_list</strong> (<em>list</em>) – Whatever information is in the redshift column as a list.</p></li>
+<li><p><strong>snr_list</strong> (<em>list</em>) – Whatever infromation is in the snr column as a list.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
-<p>PointData.</p>
-<p>wavelength, flux, and error would be replaced with data points.
-[(wavelength, flux, error),
-(wavelength, flux, error),
-(wavelength, flux, error)]</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="useful_wavelength_flux_error_modules.wavelength_flux_error_in_range">
-<code class="sig-prename descclassname">useful_wavelength_flux_error_modules.</code><code class="sig-name descname">wavelength_flux_error_in_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">starting_point</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">ending_point</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">z</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">spectra_data</span></em><span class="sig-paren">)</span> &#x2192; data_types.RangesData<a class="headerlink" href="#useful_wavelength_flux_error_modules.wavelength_flux_error_in_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function: returns a range of a wavelength, flux and error defined by starting and ending points.</p>
-<dl class="simple">
-<dt>starting_point<span class="classifier">float</span></dt><dd><p>Uses the range defined by the following variable: WAVELENGTH_RESTFRAME.start,</p>
-</dd>
-<dt>ending_point: float</dt><dd><p>Also, uses the range defined by the following variable: WAVELENGTH_RESTFRAME.end</p>
-</dd>
-<dt>z: float</dt><dd><p>Values from the data base of the redshift, DR16Q (for now..)</p>
-</dd>
-<dt>spectra_data: list</dt><dd><p>Current spectra data from files, DR16Q (for now…)</p>
-</dd>
-</dl>
-<p>RangesData.</p>
-<p>RangesData(wavelength, flux, error). List of tuples of arrays.
-RangesData creates a list of tuples, within each tuple it stores arrays for the ranges of
-wavelength, flux, and error values.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CONFIG_FILE</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/OUTPUT_FILES/NORMALIZATION/good_normalization.csv&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">norm_spectra_list</span><span class="p">,</span> <span class="n">redshift_list</span><span class="p">,</span> <span class="n">calc_snr_list</span> <span class="o">=</span> <span class="n">read_list_spectra</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;NORM SPECTRA FILE NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;REDSHIFT&quot;</span><span class="p">,</span> <span class="s2">&quot;CALCULATED SNR&quot;</span><span class="p">])</span>
+<span class="go">[spec-9140-58039-0081norm.dr16  1.9  14.1</span>
+<span class="go">spec-7671-57360-0092norm.dr16   1.9  14.2]</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p><code class="docutils literal notranslate"><span class="pre">good_normalization.csv</span></code> in this case is a csv file with several headers but we only wanted to select these three.
+Contents of <code class="docutils literal notranslate"><span class="pre">good_normalization.csv</span></code> for purpose of example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SPECTRA</span> <span class="n">FILE</span> <span class="n">NAME</span><span class="p">,</span><span class="n">NORM</span> <span class="n">SPECTRA</span> <span class="n">FILE</span> <span class="n">NAME</span><span class="p">,</span><span class="n">REDSHIFT</span><span class="p">,</span><span class="n">CALCULATED</span> <span class="n">SNR</span><span class="p">,</span><span class="n">SDSS</span> <span class="n">SNR</span><span class="p">,</span><span class="n">BF</span><span class="p">,</span><span class="n">CF</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="o">-</span><span class="mi">9140</span><span class="o">-</span><span class="mi">58039</span><span class="o">-</span><span class="mi">0081</span><span class="o">-</span><span class="n">dered</span><span class="o">.</span><span class="n">dr16</span><span class="p">,</span><span class="n">spec</span><span class="o">-</span><span class="mi">9140</span><span class="o">-</span><span class="mi">58039</span><span class="o">-</span><span class="mi">0081</span><span class="n">norm</span><span class="o">.</span><span class="n">dr16</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="mf">14.1</span><span class="p">,</span><span class="mf">31.</span><span class="p">,</span><span class="mf">9.1</span><span class="p">,</span><span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="o">-</span><span class="mi">7671</span><span class="o">-</span><span class="mi">57360</span><span class="o">-</span><span class="mi">0092</span><span class="o">-</span><span class="n">dered</span><span class="o">.</span><span class="n">dr16</span><span class="p">,</span><span class="n">spec</span><span class="o">-</span><span class="mi">7671</span><span class="o">-</span><span class="mi">57360</span><span class="o">-</span><span class="mi">0092</span><span class="n">norm</span><span class="o">.</span><span class="n">dr16</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="mf">14.2</span><span class="p">,</span><span class="mf">20.</span><span class="p">,</span><span class="mf">9.1</span><span class="p">,</span><span class="o">-</span><span class="mf">2.01</span>
+</pre></div>
+</div>
+<p>…</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Pandas is being utilized to read in the csv file, <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> has many different keyword parameters that can be utilized.
+Check pandas api for more details.</p>
+</div>
 </dd></dl>
 
 <div class="toctree-wrapper compound">
