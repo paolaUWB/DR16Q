@@ -15,3 +15,5 @@ FigureDataOriginal = namedtuple('FigureDataOriginal', ['FigureData','bf', 'cf', 
 FlaggedSNRData = namedtuple('FlaggedSNRData', ['FigureData','bf', 'cf', 'power_law_data_x', 'power_law_data_y'])
 
 DataNormalized = namedtuple('DataNormalized', ['flux_normalized', 'error_normalized'])
+
+AnchorPoints = namedtuple('AnchorPoints', ['anchor_pts_x', 'anchor_pts_y'])
