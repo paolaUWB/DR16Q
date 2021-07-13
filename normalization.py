@@ -51,16 +51,16 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 3 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 1000 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
-save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
+save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
+save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 BOXCAR_SIZE = 11 ## MUST BE ODD
 
@@ -516,7 +516,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
         wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
         wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
+        
         try:
             pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
         except:
@@ -524,6 +524,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
 
         bf, cf = pars[0], pars[1]
+        flux_normalized = flux/powerlaw(wavelength, bf, cf)
+        error_normalized = error/powerlaw(wavelength, bf, cf)
+        snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
             
     ###########################################################################
     #%% End Test dynamic function
@@ -591,7 +594,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
         point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(anchor_point[2][1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(anchor_point[1][1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(anchor_point[0][1]) + ", POINT C PL:" + str(point_C_powerlaw)
 
-    ## AVERAGE VALUE OF POWERLAW IN TEST REGIONS
+    ## VALUE OF POWERLAW IN TEST REGIONS
     powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
     powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
 
@@ -680,7 +683,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
-            #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, NORMALIZED_PDF)
 
     if flagged and not flagged_snr_mean_in_ehvo and (save_new_output_file == 'yes'):
         append_row_to_csv(FLAGGED_BAD_FIT, fields)
