@@ -149,16 +149,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index), "current spectra file name: ", current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-    normalized_wavelength, normalzied_flux, normalized_error = read_spectra(current_spectra_data)
+    normalized_wavelength, normalized_flux, normalized_error = read_spectra(current_spectra_data)
 
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
 
     # Include if statement for smoothing and smooth spectrum.
     if want_to_smooth == 'yes':
-        sm_flux = smooth(normalzied_flux, boxcar_size)
+        sm_flux = smooth(normalized_flux, boxcar_size)
         sm_error = smooth(normalized_error, boxcar_size) / np.sqrt(boxcar_size)   
-        non_sm_flux = normalzied_flux
+        non_sm_flux = normalized_flux
         non_sm_error = normalized_error
         normazlied_flux = sm_flux
         normalized_error = sm_error
