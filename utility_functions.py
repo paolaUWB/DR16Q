@@ -111,3 +111,4 @@ def read_spectra(spectra_data):
     error = spectra_data[:, column_index.error] 
     
     return [wavelength, flux, error]
+

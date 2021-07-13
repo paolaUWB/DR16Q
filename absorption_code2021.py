@@ -28,7 +28,6 @@ Parameters
 import os
 import sys
 import numpy as np 
-from matplotlib import pyplot as plt
 from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
@@ -37,6 +36,7 @@ from utility_functions import print_to_file, clear_file, read_list_spectra, read
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 import pandas as pd
+from draw_figures import draw_abs_figure 
 
 #############################################################################################
 ############################## CHANGEABLE VARIABLES #########################################
@@ -115,31 +115,6 @@ def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)
     return y_smooth
 
-def draw_abs_figure(flux_normalized, velocity):
-    """ Draws the normalized spectra graph.
-
-    Parameters
-    ----------
-    flux_normalized: array
-        The normalized flux to be graphed.
-    velocity: array
-        The value of the velocity calculated using the normalized flux.
-    Returns
-    -------
-    None.
-    
-    Notes
-    -----
-    Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
-    """
-
-    plt.plot(flux_normalized, velocity)
-    plt.title("NO drinks on prh")
-    plt.xlabel("velocity (km/s)")
-    plt.ylabel("Normalized Flux")
-    plt.xlim(-70000, 0)
-    ABSORPTION_OUTPUT_PLOT_PDF.savefig()
-    plt.close()
 
 #############################################################################################
 ######################################### MAIN CODE #########################################
@@ -204,7 +179,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # Initialize all the variables
 
     # draw simple plot 
-    draw_abs_figure(beta, flux)
+    draw_abs_figure(beta, flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
 
 '''
 ****************************************** IN WORK ******************************************     
