@@ -516,6 +516,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
         wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
         wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
+        
         try:
             pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
         except:
@@ -523,6 +524,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
 
         bf, cf = pars[0], pars[1]
+        flux_normalized = flux/powerlaw(wavelength, bf, cf)
+        error_normalized = error/powerlaw(wavelength, bf, cf)
+        snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
             
     ###########################################################################
     #%% End Test dynamic function
@@ -590,7 +594,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
         point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(anchor_point[2][1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(anchor_point[1][1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(anchor_point[0][1]) + ", POINT C PL:" + str(point_C_powerlaw)
 
-    ## AVERAGE VALUE OF POWERLAW IN TEST REGIONS
+    ## VALUE OF POWERLAW IN TEST REGIONS
     powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
     powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
 
