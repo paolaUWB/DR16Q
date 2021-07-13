@@ -146,3 +146,30 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.ylim(-2, np.max(flux_normalized) + 1)
     FILE.savefig()
     plt.close(figure_index)
+
+def draw_abs_figure(flux_normalized, velocity, savefile_name, spectra_name):
+    """ Draws the normalized spectra graph.
+
+    Parameters
+    ----------
+    flux_normalized: array
+        The normalized flux to be graphed.
+    velocity: array
+        The value of the velocity calculated using the normalized flux.
+    Returns
+    -------
+    None.
+    
+    Notes
+    -----
+    Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
+    """
+
+    plt.plot(flux_normalized, velocity)
+    plt.title("NO drinks on prh")
+    plt.xlabel("velocity (km/s)")
+    plt.ylabel("Normalized Flux")
+    plt.xlim(-70000, 0)        
+    plt.text(-60000, 3, str(spectra_name), rotation = 0, fontsize = 9)
+    savefile_name.savefig()
+    plt.close()

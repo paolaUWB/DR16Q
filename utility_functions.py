@@ -105,9 +105,62 @@ def read_list_spectra(file_name: str, column_list: list):
     return(spectra_list,redshift_list, snr_list)
 
 def read_spectra(spectra_data):
+    """Reads in and returns a lists of lists contating the wavelength, flux, and error for each spectra.
+
+    Defines the variables to be used in the code.
+
+    Parameters
+    ----------
+    spectra_data:
+        The drX (X being 9 or 16) files in the form of a text file conataining the wavelength, flux
+        and error of that paticular spectra.
+
+    Returns
+    -------
+    wavelength
+        All of the wavelength values in a list.
+    flux
+        All of the flux values in a list.
+    error
+        All of the error values in a list.
+
+    Note
+    ----
+    As shown in the return, these are a lists within a list.
+    """
+
     column_index = ColumnIndexes(0, 1, 2)
     wavelength = spectra_data[:, column_index.wavelength]
     flux = spectra_data[:, column_index.flux] 
     error = spectra_data[:, column_index.error] 
     
     return [wavelength, flux, error]
+
+def wavelength_to_velocity(redshift, wavelength):
+    """Reads in a 
+
+    Parameters
+    ----------
+    redshift: list
+        The list of redshift values needed for the equation.
+    wavelength: list
+        The list of wavelength values that will be converted to velocity.
+        
+    Returns
+    -------
+    beta: array
+        The values of velocity that were converted from their wavelength.
+    """
+    avr_CIV_doublet = 1549.0524
+    # Transform the wavelength array to velocity (called "beta" - we can change it) based on the CIV doublet: 
+    z_absC = (wavelength / avr_CIV_doublet) - 1.
+    RC = (1. + redshift) / (1. + z_absC)
+    betaC = ((RC**2.) -1.) / ((RC**2.) + 1.)
+    betakm = -betaC * (299792.458) #betakm is in km/s and betaC is in units of c (speed of light)
+    beta = []
+    for velocity in betakm:
+        betas = round(velocity, 5)
+        beta.append(betas)
+    beta = np.array(beta)
+
+    return beta
