@@ -33,9 +33,8 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra
+from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
-from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 import pandas as pd
 
 #############################################################################################
@@ -53,7 +52,7 @@ SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 #CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
-sm = 'no' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
+want_to_smooth = 'no' # do you want to use smoothed norm flux/error instead of unsmoothed norm flux/error
 boxcar_size = 101  # boxcar_size must always be an odd integer.
 
 # Set a variable to plot all cases or only those with absorption -- Do you want to include all ...
@@ -116,26 +115,28 @@ def smooth(norm_flux, box_size):
     return y_smooth
 
 def draw_abs_figure(flux_normalized, velocity):
-    """ Draws the normalized spectra graph.
+    """ Plots normalized flux x velocity.
 
     Parameters
     ----------
     flux_normalized: array
-        The normalized flux to be graphed.
+        The normalized flux values to be graphed.
     velocity: array
-        The value of the velocity calculated using the normalized flux.
+        The value of the velocity calculated using the wavelength.
+        Converting wavelength to velocity is not done in this function.
+
     Returns
     -------
     None.
     
     Notes
     -----
-    Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
+    Creates a graph of the normalized spectra and saves to the ``absorption_BI2000_test.pdf``
     """
 
     plt.plot(flux_normalized, velocity)
     plt.title("NO drinks on prh")
-    plt.xlabel("velocity (km/s)")
+    plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
     ABSORPTION_OUTPUT_PLOT_PDF.savefig()
@@ -154,7 +155,6 @@ if __name__ == "__main__":
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
 
 # Define variables
-
 ######################################### VARIABLES #########################################
 brac_all, deltav_all = [], []
 absspeccount = 0
@@ -176,35 +176,27 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index), "current spectra file name: ", current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-    wavelength, flux, error = read_spectra(current_spectra_data)
+    normalized_wavelength, normalzied_flux, normalized_error = read_spectra(current_spectra_data)
 
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
 
     # Include if statement for smoothing and smooth spectrum.
-    if sm == 'yes':
-        sm_flux = smooth(flux, boxcar_size)
-        sm_error = smooth(error, boxcar_size) / np.sqrt(boxcar_size)   
-        non_sm_flux = flux
-        non_sm_error = error
-        flux = sm_flux
-        error = sm_error
+    if want_to_smooth == 'yes':
+        sm_flux = smooth(normalzied_flux, boxcar_size)
+        sm_error = smooth(normalized_error, boxcar_size) / np.sqrt(boxcar_size)   
+        non_sm_flux = normalzied_flux
+        non_sm_error = normalized_error
+        normazlied_flux = sm_flux
+        normalized_error = sm_error
 
     # Transform the wavelength array to velocity (called "beta" - we can change it) based on the CIV doublet: 
-    z_absC = (wavelength / avr_CIV_doublet) - 1.
-    RC = (1. + z) / (1. + z_absC)
-    betaC = ((RC**2.) -1.) / ((RC**2.) + 1.)
-    betaa = -betaC * (299792.458) #betaa is in km/s and betaC is in units of c (speed of light)
-    beta = []
-    for velocity in betaa:
-        betas = round(velocity,4)
-        beta.append(betas)
-    beta = np.array(beta)
+    beta = wavelength_to_velocity(z, normalized_wavelength)
 
     # Initialize all the variables
 
     # draw simple plot 
-    draw_abs_figure(beta, flux)
+    draw_abs_figure(beta, normalzied_flux)
 
 '''
 ****************************************** IN WORK ******************************************     
