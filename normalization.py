@@ -516,7 +516,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
         wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
         wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
+        
         try:
             pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
         except:
