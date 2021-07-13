@@ -13,14 +13,15 @@
 import os
 import sys
 import numpy as np 
+import pandas as pd
 from matplotlib import pyplot as plt
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file
-from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, ColumnIndexes  ###, DataNormalized
+from data_types import AnchorPoints, Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, ColumnIndexes  ###, DataNormalized
 from useful_wavelength_flux_error_modules import wavelength_flux_error, wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr
-from draw_figures import draw_original_figure, draw_normalized_figure, powerlaw
+from draw_figures import draw_original_figure, draw_normalized_figure, powerlaw, draw_dynamic, draw_dynamic_points
 from scipy import signal
 import time 
 start_time = time.time()
@@ -50,14 +51,16 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 100 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 1000 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
-save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
+save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
+save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
+
+dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 BOXCAR_SIZE = 11 ## MUST BE ODD
 
@@ -136,19 +139,26 @@ def powerlaw(wavelength, b, c):
     """
     return b * (np.power(wavelength, c))
     '''
-column_index = ColumnIndexes(0, 1, 2)
 
 def read_spectra(spectra_data):
+    """ Reads the spectra data from each DRX file
+    
+    Parameters:
+    -----------
+    spectra_data: list
+        Current spectra data from files, DR9Q (for now...)
 
+    Returns: 
+    --------
+    array
+        all wavelength, flux, error values in columns
+    """
+
+    column_index = ColumnIndexes(0, 1, 2)
     wavelength = spectra_data[:, column_index.wavelength]
     flux = spectra_data[:, column_index.flux] 
     error = spectra_data[:, column_index.error] 
     
-    #point = PointData(
-    #    np.average(wavelength),
-    #    np.median(flux),
-    #    np.median(error))
-
     return [wavelength, flux, error]
 
 def define_three_anchor_points(z: float, spectra_data):
@@ -192,9 +202,44 @@ def define_three_anchor_points(z: float, spectra_data):
             z,
             spectra_data)
     
-    return (left_point, middle_point, right_point)
+    return [left_point, middle_point, right_point]
 
-def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, verbose=True):
+def dynamic_find_anchor_points(spectra_data, number_of_anchor_points):
+    """
+    Function based on 'define_three_anchor_points'. Defines a user-specified 
+        number of anchor points. This function makes use of the function
+        'wavelength_flux_error_for_points' to find the closest wavelength bin
+        to the user-requested anchor point values.
+
+    Parameters
+    ----------
+    spectra_data : tuple
+        (wavelength, flux, error).
+    number_of_anchor_points: array
+        [1,2,3,...,n] where n is the number of anchor points defined by the user
+    z : float
+        redshift.
+    user_anchors : list
+        User-defined desired anchor points.
+    user_delta : float
+        Wavelength range to search for anchor points.
+
+    Returns
+    -------
+    anchor_pts : arr
+        List of PointData objects.
+
+    """
+    anchor_pts = []
+    for i in number_of_anchor_points:
+        print('range: ',wavelength_range)
+        spec_point = wavelength_flux_error_for_points_high_redshift(spectra_data[0], wavelength_range[i-1][0], wavelength_range[i-1][1], z, spectra_data)
+        anchor_pts.append(spec_point)
+    print("requested point: ", anchor_pts)
+    return anchor_pts
+
+'''
+def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, number_of_anchor_points, verbose=True):
     """
     Function based on 'define_three_anchor_points'. Defines a user-specified 
         number of anchor points. This function makes use of the function
@@ -220,25 +265,25 @@ def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:fl
         List of PointData objects.
 
     """
+    
+
+
 
     anchor_pts = []
-    
-    
-    
-    for i, point in enumerate(user_anchors):
-        
-        llim = point - user_delta
-        ulim = point + user_delta
-        
-        spec_point = wavelength_flux_error_for_points(llim, ulim, z, spectra_data)
-        
+    print('user anchors:', number_of_anchor_points)
+    #for i, point in enumerate(user_anchors):
+    for i in number_of_anchor_points:
+        spec_point = wavelength_flux_error_for_points_high_redshift(wavelength, range_of_wavelength.start, range_of_wavelength.end, z, spectra_data)
+        print('spec_point: ', spec_point)
         anchor_pts.append(spec_point)
+        print('anchor points:', anchor_pts)
         
         print('Matched user requested point', np.round(point, 2))
-        print('        with restframe point', np.round(spec_point[0]/(1+z), 2))
+        print('        with point', np.round(anchor_pts[0], 2))
+        #print('        with restframe point', np.round(spec_point[0]/(1+z), 2))
     
     return anchor_pts
-
+'''
 ### Masking points with large errors: 
 
 ###    for n in range(1, len(flux_normalized) - 5):  ### !!! Is this too big? 
@@ -306,6 +351,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
+    plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(-2, max_peak + 2)
     FLAGGED_PDF.savefig()
     plt.close(figure_index)
@@ -351,6 +397,7 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
+    plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(-2, max_peak + 2)
     POWERLAW_TEST_PDF.savefig()
     plt.close(figure_index)
@@ -392,71 +439,105 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
     ## DEFINING WAVELENGTH, FLUX, AND ERROR FOR WHOLE SPECTRA
     wavelength, flux, error = read_spectra(current_spectra_data)
-
-    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
-    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
-    print("wavelength from: ", wavelength_observed_from)
-    print("wavelength to: ", wavelength_observed_to)
     
     WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 20., np.max(current_spectra_data[:, 0]))
 
-    point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
-    
+    original_ranges = RangesData(wavelength, flux, error)
+
     ###########################################################################
     #%% Begin Test dynamic function
     ###########################################################################
 
-    user_anchors = [1285, 1420, 1690, 2010]
-    user_delta = 1
-    dynamic = True
+    #user_anchors = [1285, 1420, 1690, 2010]
+    #user_delta = 1
     
-    anchor_pts = dynamic_find_anchor_points(current_spectra_data, z, user_anchors, user_delta)
+    #anchor_pts = dynamic_find_anchor_points(current_spectra_data, z, user_anchors, user_delta)
     
-    if dynamic:
+    ## ASKS USER HOW MANY ANCHOR POINTS TO USE ON THE PLOT, WHERE THEY SHOULD GO, AND HOW FAR OFF FROM THAT POINT THE ANCHOR POINT CAN BE
+    ## PROVIDES A RANGE OF WAVELENGTHS
+
+    if dynamic == 'yes':
+        ## is there a better way to define these?
+        wavelength_observed_from = 3000
+        wavelength_observed_to = 6500
+        #WAVELENGTH_FOR_SNR = Range(1200., 1300.)
+        #WAVELENGTH_RESTFRAME_TEST_1 = Range(800., 850.)
+        #WAVELENGTH_RESTFRAME_TEST_2 = Range(900., 950.)
+        test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
+        test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
+        max_peak = np.max(flux)
+
+        draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, max_peak)
         
+        number_of_anchor_points = int(input("How many anchor points would you like to use?: "))
+        number_of_anchor_points = [x for x in range(1, number_of_anchor_points + 1)]
+        try_again = 'no'
         
-        
-        power_law_wave = []
-        power_law_flux = []
-        
-        for point in anchor_pts:
-            
-            power_law_wave.append(point[0])
-            power_law_flux.append(point[1])
-            
+        while try_again == 'no':
+            user_input_wavelength = []
+            wavelength_range = []
+            anchor_pts = []
+            powerlaw_wavelength = []
+            powerlaw_flux = []
+            for i in number_of_anchor_points:
+                guess = int(input("Where would you like anchor point #" + str(i) + " to be?: "))
+                user_input_wavelength.append(guess)
+            range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
+            for i in number_of_anchor_points: 
+                range_of_wavelength = [user_input_wavelength[i - 1] - range_value, user_input_wavelength[i - 1] + range_value]
+                wavelength_range.append(range_of_wavelength)
+            anchor_point = dynamic_find_anchor_points(current_spectra_data, number_of_anchor_points)
+            for i in number_of_anchor_points:
+                anchor_pt = [anchor_point[i-1][0], anchor_point[i-1][1]]
+                anchor_pts.append(anchor_pt)
+                powerlaw_wavelength.append(anchor_pt[0])
+                powerlaw_flux.append(anchor_pt[1])
+            try:
+                pars, covar = curve_fit(powerlaw, powerlaw_wavelength, powerlaw_flux, p0=[b, c], maxfev=10000)
+            except:
+                print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
+                print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
+            bf, cf = pars[0], pars[1]
+            flux_normalized = flux/powerlaw(wavelength, bf, cf)
+            error_normalized = error/powerlaw(wavelength, bf, cf)
+            snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
+            draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, ORIGINAL_PDF)
+
+            try_again = str(input("Are you happy with the fit? 'yes'/'no':"))
+        power_law_data_x = powerlaw_wavelength
+        power_law_data_y = powerlaw_flux
+        #append_row_to_csv(GOOD_NORMALIZATION, fields) ???? NEED THESE BEING ADDED TO GOOD_NORMALIZATION IF FIT DEEMED GOOD
+
+    else:
+        #point_C, point_B, point_A = define_three_anchor_points(z, current_spectra_data)
+        anchor_point = define_three_anchor_points(z, current_spectra_data)
+        ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
+        power_law_data_x = (anchor_point[0].wavelength, anchor_point[1].wavelength, anchor_point[2].wavelength)
+        power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
+        wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
+        wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
         
         try:
-            pars, covar = curve_fit(powerlaw, power_law_wave, power_law_flux, p0=[b, c], maxfev=10000)
+            pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
         except:
             print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
             print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
-    
-        bf, cf = pars[0], pars[1]    
+
+        bf, cf = pars[0], pars[1]
+        flux_normalized = flux/powerlaw(wavelength, bf, cf)
+        error_normalized = error/powerlaw(wavelength, bf, cf)
+        snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
             
-    
     ###########################################################################
     #%% End Test dynamic function
     ###########################################################################
 
-    ## THE THREE POINTS THAT THE POWER LAW WILL USE (POINTS C, B, AND A)
-    power_law_data_x = (point_C.wavelength, point_B.wavelength, point_A.wavelength)
-    power_law_data_y = (point_C.flux, point_B.flux, point_A.flux)
-
-    try:
-        pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
-    except:
-        print("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name)
-        print_to_file("Error - curve_fit failed-1st powerlaw " + current_spectrum_file_name, LOG_FILE)
-
-    bf, cf = pars[0], pars[1]
-
-    flux_normalized = flux/powerlaw(wavelength, bf, cf)
-    error_normalized = error/powerlaw(wavelength, bf, cf) 
+    #flux_normalized = flux/powerlaw(wavelength, bf, cf)
+    #error_normalized = error/powerlaw(wavelength, bf, cf) 
 
     ## FLAGGING LOW SNR
     flagged_snr_mean_in_ehvo = False
-    snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
+    #snr_mean_in_ehvo = calculate_snr(wavelength, z, WAVELENGTH_FOR_SNR, error_normalized)
 
     if snr_mean_in_ehvo < SNR_CUTOFF:  
         flagged_snr_mean_in_ehvo = True
@@ -478,8 +559,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         non_sm_error_norm = error_normalized 
         flux_normalized = sm_flux_norm
         error_normalized = sm_error_norm
-
-    original_ranges = RangesData(wavelength, flux, error)
 
     #############################################################################################
     #################################### TESTING TWO REGIONS ####################################
@@ -510,13 +589,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         error_message = "       Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
-        point_A_powerlaw = powerlaw(point_A[0], bf, cf)
-        point_B_powerlaw = powerlaw(point_B[0], bf, cf)
-        point_C_powerlaw = powerlaw(point_C[0], bf, cf)
-        point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(point_A[1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(point_B[1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(point_C[1]) + ", POINT C PL:" + str(point_C_powerlaw)
-        #### DELETE POINT_POWERLAW??
+        point_A_powerlaw = powerlaw(anchor_point[2][0], bf, cf)
+        point_B_powerlaw = powerlaw(anchor_point[1][0], bf, cf)
+        point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
+        point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(anchor_point[2][1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(anchor_point[1][1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(anchor_point[0][1]) + ", POINT C PL:" + str(point_C_powerlaw)
 
-        ## AVERAGE VALUE OF POWERLAW IN TEST REGIONS
+    ## VALUE OF POWERLAW IN TEST REGIONS
     powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
     powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
 
@@ -535,10 +613,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flagged_t2 = False
 
     ## SECONDARY TESTS FOR FLAGGED CASES
-    if np.average(powerlaw_test1) < avg_flux_test1:
+    if np.average(powerlaw_test1) <= avg_flux_test1:
         flagged_fit_1 = True
 
-    if np.average(powerlaw_test2) < avg_flux_test2: 
+    if np.average(powerlaw_test2) <= avg_flux_test2: 
         flagged_fit_2 = True
 
     if np.min(powerlaw_test1) > max_test1:
@@ -565,19 +643,27 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         append_row_to_csv(GOODNESS_OF_FIT, field)
 
     ## SCALING GRAPHS
-    middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
-    right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
+    if dynamic == 'yes':
+        max_peak = np.max(flux)
+        max_peak_norm = np.max(flux_normalized)
+    else:
+        middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
+        right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
 
-    wavelength_data = current_spectra_data[:,0]
-    flux_data = current_spectra_data[:,1]
+        wavelength_data = current_spectra_data[:,0]
+        flux_data = current_spectra_data[:,1]
 
-    min_wavelength = np.min(np.where(wavelength_data > middle_point_from))
-    max_wavelength = np.max(np.where(wavelength_data < right_point_to))
+        min_wavelength = np.min(np.where(wavelength_data > middle_point_from))
+        max_wavelength = np.max(np.where(wavelength_data < right_point_to))
 
-    max_peak = np.max(flux_data[min_wavelength + 1 : max_wavelength + 1])
-    max_peak_norm = np.max(flux_normalized[min_wavelength + 1 : max_wavelength + 1])
-    
+        max_peak = np.max(flux_data[min_wavelength + 1 : max_wavelength + 1])
+        max_peak_norm = np.max(flux_normalized[min_wavelength + 1 : max_wavelength + 1])
+        
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
+    #original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+
+    #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF)
+
 
     ## DRAWING FIGURES
     if flagged_snr_mean_in_ehvo:
@@ -588,16 +674,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         if flagged:
             draw_flagged_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
             val = 0.5
-            flagged_A = abs(point_A_powerlaw - point_A[1]) <= val
-            flagged_C = abs(point_C_powerlaw - point_C[1]) <= val
-            flagged_B = abs(point_B_powerlaw - point_B[1]) <= val
+            flagged_A = abs(point_A_powerlaw - anchor_point[2][1]) <= val
+            flagged_C = abs(point_C_powerlaw - anchor_point[0][1]) <= val
+            flagged_B = abs(point_B_powerlaw - anchor_point[1][1]) <= val
             if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)) and (save_new_output_file == 'yes'): 
                 flagged = False
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
-            #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, NORMALIZED_PDF)
 
     if flagged and not flagged_snr_mean_in_ehvo and (save_new_output_file == 'yes'):
         append_row_to_csv(FLAGGED_BAD_FIT, fields)

@@ -1,5 +1,7 @@
 {
     "restructuredtext.confPath": "${workspaceFolder}/source",
     "git.ignoreLimitWarning": true,
-    "python.pythonPath": "C:\\Python39\\python.exe"
+    "python.terminal.activateEnvironment": true,
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    "python.condaPath": "C:\\ProgramData\\Anaconda3\\Scripts\\conda.exe"
 }
