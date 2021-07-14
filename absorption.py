@@ -1,6 +1,6 @@
 """
 ======================
-absorption_code2021.py
+absorption.py
 ======================
 
 @author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker
@@ -33,9 +33,10 @@ from scipy import signal
 from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity, basic_absorption_parameters
+from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from draw_figures import draw_abs_figure 
+import absorption_information
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
@@ -126,8 +127,8 @@ count = 0
 BI = 0
 vmins, vmaxs, vmins_all, vmaxs_all = [], [], [], [] # v = velocity
 final_depth_individual, final_depth_all_individual = [], []
-BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind, BI_mid = [], [], [], [], [], [], [] # what are all the differences??
-EW_individual, EW_ind, EW_all_individual, vlast = [], [], [], [] #EW = equivalent width
+BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_mid = [], [], [], [], []
+EW_individual, EW_all_individual, vlast = [], [], [] #EW = equivalent width
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
@@ -183,7 +184,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # Calculate BI, vmin and vmax by looping through the beta array in the velocity limits
     # Calculate depth of each individual absorption trough
-    BI_ehvo, BI_abs, v_min, v_max, EW, depth = basic_absorption_parameters(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
+    BI_ehvo, BI_abs, v_min, v_max, EW, depth = absorption_information(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
 
     #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo                 
     if beta.any():
@@ -223,14 +224,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             
             EW = inner_integral * delta_v
             EW = round(EW, 4)
-            EW_ind.append(EW)          
+            EW_individual.append(EW)          
 
             # BI calculation
             if part >= BALNICITY_INDEX_LIMIT:
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (inner_integral * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(round(BI, 4)) #Append to intermediate results
-                BI_ind.append(round(BI, 4))   
+                BI_individual.append(round(BI, 4))   
 
                 # vmin calculation               
                 if count2 == 0 and non_trough_count == 0:  
@@ -331,7 +332,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         
 # Clean below this. Do we need it? Where is it saving it?
 
-BI_all= array(BI_all)
+BI_total= array(BI_total)
 
 vmins = array(vmins)
 vmaxs = array(vmaxs)
