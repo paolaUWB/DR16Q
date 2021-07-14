@@ -33,8 +33,8 @@ def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, f
 def powerlaw(wavelength, b, c):
     """ Calculates the power law. 
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     wavelength: array
         Comes from RangesData().    
     b: int
@@ -42,8 +42,8 @@ def powerlaw(wavelength, b, c):
     c: float
         Initial parameter of powerlaw.
 
-    Returns:
-    --------
+    Returns
+    -------
     array
         Power law value in the form of an array.
     """
@@ -52,8 +52,8 @@ def powerlaw(wavelength, b, c):
 def draw_original_figure(figure_index: int, original_ranges: RangesData, data: FigureDataOriginal, test1: RangesData, test2: RangesData, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
     """ Draws the original spectra graph.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     figure_index: int
         Makes a separate graph for each spectra. 
     original_ranges: RangesData
@@ -67,8 +67,8 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     max_peak: any
         Max peak value of data per spectra.
 
-    Returns:
-    --------
+    Returns
+    -------
     None.
 
     Note:
@@ -99,8 +99,8 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
     """ Draws the normalized spectra graph.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     figure_index: int
         Makes a separate graph for each spectra. 
     original_ranges: RangesData
@@ -116,12 +116,12 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     normalized_flux_test_1: any
     normalized_flux_test_2: any
 
-    Returns:
-    --------
+    Returns
+    -------
     None.
     
-    Notes:
-    ------
+    Notes
+    -----
     Creates a graph of the spectra and saves to the original_graphs.pdf
     """
 
@@ -147,3 +147,30 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.ylim(0, max_peak + (max_peak / 4))
     FILE.savefig()
     plt.close(figure_index)
+
+def draw_abs_figure(flux_normalized, velocity, savefile_name, spectra_name):
+    """ Draws the normalized spectra graph.
+    
+    Parameters
+    ----------
+    flux_normalized: array
+        The normalized flux to be graphed.
+    velocity: array
+        The value of the velocity calculated using the normalized flux.
+    Returns
+    -------
+    None.
+    
+    Notes
+    -----
+    Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
+    """
+
+    plt.plot(flux_normalized, velocity)
+    plt.title("NO drinks on prh")
+    plt.xlabel("velocity (km/s)")
+    plt.ylabel("Normalized Flux")
+    plt.xlim(-70000, 0)        
+    plt.text(-60000, 3, str(spectra_name), rotation = 0, fontsize = 9)
+    savefile_name.savefig()
+    plt.close()
