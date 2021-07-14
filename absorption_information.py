@@ -3,11 +3,14 @@
 #vmax, and vmin per absorption feature, and depth of absorption feature
  
   # Initialize all variables for each spectrum (again, clean so it is not so many lines)
+from absorption import BI_all
+
+
 vmins, vmaxs=[]
-BI_total, EW_individual=[] #EW is equivalent width = (vmin-vmax)
+BI_total, EW_individual=[] #EW is equivalent width = (vmax-vmin)
 BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
 index_depth_final, flux_depth, final_depth_individual = []
-non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number (like 99 or 999)
+non_trough_count = 100 ###what is this? Probably something just set as an arbitrary large number (like 99 or 999)
 
 # verner table data
 wavelength_CIV_emit1=  1550.7700
@@ -182,6 +185,11 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
         BI_all_individual.append(BI_individual)
         EW_all_individual.append(EW_individual)
 
+"""Per spectrum, we can just take the individual BI for every trough and sum them for total BI;
+I'm not sure what differentiates the BI_total and BI_all so I made BI_sum """
+#This might be replacing the above work^
+BI_sum = np.sum(BI_individual)
+
 
 def depth(vmins,vmaxs):
 """Returns the depth of each BAL from the given spectra. Must be evaluated on each spectrum.
@@ -203,7 +211,7 @@ float
     flux_in_BAL=[]
     for each_v in vmins:
         #how are flux values organized in the absorption file?
-        flux_temp = each_v #???
+        each_flux = each_v #??? (I need a way to call the specific flux for a given velocity, but the flux is paired with wavelength)
         
-        flux_in_BAL.append(flux_temp)
+        flux_in_BAL.append(flux_temporary)
     return min(flux_in_BAL)
