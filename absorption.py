@@ -36,7 +36,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from draw_figures import draw_abs_figure 
-import absorption_information
+import basic_absorption_parameters
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
@@ -165,73 +165,83 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         sm_error = smooth(normalized_error, boxcar_size) / np.sqrt(boxcar_size)   
         non_sm_flux = normalized_flux
         non_sm_error = normalized_error
-        normazlied_flux = sm_flux
+        normalized_flux = sm_flux
         normalized_error = sm_error
 
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
+    # draw simple plot 
+    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
+
     ################################# INITIALIZING  VARIABLES IN LOOP ##############################################################
     index_depth_final, flux_depth, final_depth_individual = []
-    non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number (like 99 or 999)
+    non_trough_count = 999 # arbitrary large number that we will never reach
 
     delta_v = 0 #change in velocity
-    part = 0
+    sum_of_deltas = 0
     bb = -1 #???
                         
     count2 = 0 # variable initialization to get into vmin/vmax loop
     ###############################################################################################################################
 
-    # Calculate BI, vmin and vmax by looping through the beta array in the velocity limits
+    # Calculate BI, v_min and v_max by looping through the beta array in the velocity limits
     # Calculate depth of each individual absorption trough
-    BI_ehvo, BI_abs, v_min, v_max, EW, depth = absorption_information(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
+    # VVVVVVVV add these things later VVVVVVVV once the module is made
+    # BI_ehvo, BI_abs, v_min, v_max, EW, depth = basic_absorption_parameters(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
 
-    #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo                 
+    vmaxindex = 0
+
+    if beta.any(): # for reference VELOCITY_LIMIT = Range(-60000., -30000)
+        try:
+            vmaxindex = np.max(np.where(beta <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of VELOCITY_LIMIT.end
+        except:
+            vmaxindex = 0
+
     if beta.any():
         try:
-            v_max = np.max(np.where(beta <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of VELOCITY_LIMIT.end
+            vminindex = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
         except:
-            v_max = 0
+            vminindex = np.where(beta == np.min(beta))
 
-    try:
-        v_min = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
-    except:
-        v_min = np.where(beta == np.min(beta))
+    velocity_range_index = np.arange(vminindex, vmaxindex)
+    velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
 
-    velocity_range = np.arange(v_min, v_max)
-    velocity_range  = np.array(velocity_range[::-1])   # From right to left (reversed list)
+    #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
 
     # It uses a loop: for jjjs in jjj:
-    for current_velocity_index in velocity_range:
+    for current_velocity_index in velocity_range_index:
         # Initialize variables in each loop
         C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
-        # ([1 - f(v)/0.9] = inner_integral) > 0 when there is an absorption feature 
-        inner_integral = (1. - (normazlied_flux[current_velocity_index] / 0.9))
-        bracBAL= (1. - (normazlied_flux[current_velocity_index] / 0.9))
+        # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
+        # bracket is the things inside the bracket from the BI integral calculation 
+        bracket = (1. - (normalized_flux[current_velocity_index] / 0.9))
         
-        # Handle 3-point
-        if inner_integral > 0:
+        # Handle 3-point spike limit
+        if bracket > 0:
             non_trough_count = 0
         else:
             non_trough_count += 1
-            inner_integral = 0
+            bracket = 0
 
-        if((inner_integral > 0) or (non_trough_count <= 3)):
+        if((bracket > 0) or (non_trough_count <= 3)):
             delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
-            part = part + delta_v
-            brac_all.append(inner_integral)
+            sum_of_deltas += delta_v
+            brac_all.append(bracket)
             delta_v_all.append(delta_v)
             
-            EW = inner_integral * delta_v
-            EW = round(EW, 4)
+            EW = bracket * delta_v
+            EW = round(EW, 5)
             EW_individual.append(EW)          
 
             # BI calculation
-            if part >= BALNICITY_INDEX_LIMIT:
+            if sum_of_deltas >= BALNICITY_INDEX_LIMIT:
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
-                BI = (inner_integral * C) * (delta_v) #Calculate BAL for this delta_v
+                BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(round(BI, 4)) #Append to intermediate results
-                BI_individual.append(round(BI, 4))   
+                BI_individual.append(round(BI, 5)) 
+
+                # INSERT PLOT (line for where BI is being calculated)
 
                 # vmin calculation               
                 if count2 == 0 and non_trough_count == 0:  
@@ -261,7 +271,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     z_absSiIV = (wavelength[current_velocity_index]/avr_SiIV_doublet)-1    #<-- right now it does it in the loop value, ...
                     # ... that in the BI program is called current_velocity_index ( for jjjs in jjj:). We want to rewrite this so i can be a module. 
 
-            
+        
                     axvspan(beta[vmins_index],beta[vmaxs_index], alpha=0.2, color='red')
                         
                     z_absSiIV_final = (wavelength[vmaxs_index]/avr_SiIV_doublet)-1.
@@ -270,7 +280,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_Cfinal_index =np.min (where (wavelength>obs_wavelength_Cfinal))
                     obs_wavelength_C_final_vel=beta[obs_wavelength_Cfinal_index]
                     axvspan(obs_wavelength_C_vel,obs_wavelength_C_final_vel, alpha=0.2, color='grey')
-            plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')#  <-- plot a lie at the vmin and vmax of the same color
+            plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')#  <-- plot a line at the vmin and vmax of the same color
 
                     obs_wavelength_CIIfinal=(z_absSiIV_final+1.)*(CII_emitted)
                     obs_wavelength_CIIfinal_index =np.min (where (wavelength>obs_wavelength_CIIfinal))
@@ -352,6 +362,4 @@ vmins_final = array(vmins_final)
 savetxt(ffile,vlast,fmt='%s')
 ****************************************** IN WORK ******************************************
 '''
-    # draw simple plot 
-    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
 ABSORPTION_OUTPUT_PLOT_PDF.close()
