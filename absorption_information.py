@@ -1,9 +1,24 @@
+ 
+#Add keyword argument detailing the specific range over which BI is calculated. Outputs will need to be total BI_EHVO, BI per abs feature,
+#vmax, and vmin per absorption feature, and depth of absorption feature
+ 
   # Initialize all variables for each spectrum (again, clean so it is not so many lines)
 vmins, vmaxs=[]
-BI_mid, BI_individual, EW_individual=[] #EW is equivalent width
+BI_total, EW_individual=[] #EW is equivalent width = (vmin-vmax)
 BI_individual=[] #BALnicity index will be single-valued per spectrum in terms of km/s
 index_depth_final, flux_depth, final_depth_individual = []
 non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number (like 99 or 999)
+
+# verner table data
+wavelength_CIV_emit1=  1550.7700
+wavelength_CIV_emit2 = 1548.1950
+avr_CIV_doublet = 1549.0524 #weighted average
+avr_SiIV_doublet = 1396.747 # weighted average; individuals: 1402.770, 1393.755
+CII_emitted = 1335.313 # (weighted average); individuals:
+OI_emitted = 1303.4951 # weighted average; individuals pag 20 in Verner Table
+avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
+avr_OVI_doublet = 1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
+
 
 deltav = 0 #change in velocity
 part = 0
@@ -69,7 +84,7 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
         C = 1                
         BI = (trough_cutoff * C) * (deltav) #Calculate BAL for this dv
         BI = round(BI, 4)
-        BI_mid.append(BI) #Append to intermediate results
+        BI_total.append(BI) #Append to intermediate results
 
         BI_ind.append(BI)
 
@@ -143,7 +158,7 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
                 axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha=0.2, color='yellow')
 
                 BI_ind_sum = round(sum(BI_ind),2)
-        BI_individual.append(BI_ind_sum)# this array contains one single BI value of each absortopn feature in a single spectrum
+        BI_individual.append(BI_ind_sum)# this array contains one single BI value of each absorption feature in a single spectrum
                 BI_ind = []
                 
                 EW_ind_sum = round(sum(EW_ind),2)
@@ -162,8 +177,33 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
         EW_ind=[]
 
     if entry == last:
-        BI_total= round(sum(BI_mid),2)         
+        BI_total= round(sum(BI_total),2)         
         BI_all.append(BI_total)    
         BI_all_individual.append(BI_individual)
         EW_all_individual.append(EW_individual)
 
+
+def depth(vmins,vmaxs):
+"""Returns the depth of each BAL from the given spectra. Must be evaluated on each spectrum.
+
+Parameters
+----------
+vmin : float
+    The starting point for the BAL trough
+vmax : float
+    The ending border of the BAL trough
+
+Returns
+-------
+float
+    "depth" will return the lowest flux for the region bordered by vmin and vmax. Be aware that broken pixels in the region may
+    lead to erroneous depths.
+
+"""
+    flux_in_BAL=[]
+    for each_v in vmins:
+        #how are flux values organized in the absorption file?
+        flux_temp = each_v #???
+        
+        flux_in_BAL.append(flux_temp)
+    return min(flux_in_BAL)
