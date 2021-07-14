@@ -70,6 +70,9 @@ VELOCITY_LIMIT = Range(-60000., -30000)
 # range of spectra you are working with from the NORM_DRXQ.csv file
 STARTS_FROM, ENDS_AT = 11, 11 
 
+# ranges of wavelengths in the spectra
+WAVELENGTH_RESTFRAME = Range(1200., 1800.)
+
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
 
@@ -91,9 +94,6 @@ CII_emitted = 1335.313 # (weighted average); individuals:
 OI_emitted = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 avr_NV_doublet = 1240.15 # weighted average; individuals: 1242.80, 1238.82
 avr_OVI_doublet = 1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
-
-# ranges of wavelengths in the spectra
-WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 
 ###############################################################################################################################
 ######################################### FUNCTION(S) #########################################################################
@@ -118,17 +118,6 @@ def smooth(norm_flux, box_size):
     y_smooth = signal.savgol_filter(norm_flux,box_size,2)
     return y_smooth
 
-###############################################################################################################################
-######################################### MAIN CODE ###########################################################################
-
-# clear files
-if __name__ == "__main__":
-    clear_file(ABSORPTION_VALUES)
-    #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
-
-# read list of spectra, zem, and snr
-norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
-
 ######################################### VARIABLES ###########################################################################
 
 brac_all, delta_v_all = [], []
@@ -141,9 +130,19 @@ BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind, BI_mid =
 EW_individual, EW_ind, EW_all_individual, vlast = [], [], [], [] #EW = equivalent width
 
 ###############################################################################################################################
+######################################### MAIN CODE ###########################################################################
+
+# clear files
+if __name__ == "__main__":
+    clear_file(ABSORPTION_VALUES)
+    #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
+
+# read list of spectra, zem, and snr
+norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
 
 # loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
+    
     # read the wavelength, norm_flux and norm_error, rounding the numbers. 
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
@@ -155,6 +154,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # reading wavelength, normalized flux, and normalized error from NORM_DRXQ of that paticular spectra
     wavelength, normalized_flux, normalized_error = read_spectra(current_spectra_data)
 
+    # initializing observed wavelength values
     wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
     wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
 
@@ -170,7 +170,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
-    ################################# INITIALIZING  VARIABLES #####################################################################
+    ################################# INITIALIZING  VARIABLES IN LOOP ##############################################################
     index_depth_final, flux_depth, final_depth_individual = []
     non_trough_count = 100 #what is this? Probably something just set as an arbitrary large number (like 99 or 999)
 
