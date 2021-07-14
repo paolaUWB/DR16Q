@@ -1,5 +1,6 @@
 {
     "restructuredtext.confPath": "${workspaceFolder}/source",
     "git.ignoreLimitWarning": true,
-    "python.pythonPath": "C:\\Python39\\python.exe"
+    "python.pythonPath": "C:\\Python39\\python.exe",
+    "editor.scrollbar.verticalScrollbarSize": 20
 }

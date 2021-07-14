@@ -19,8 +19,8 @@ from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file
-from data_types import AnchorPoints, Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, ColumnIndexes  ###, DataNormalized
-from useful_wavelength_flux_error_modules import wavelength_flux_error, wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, ColumnIndexes  ###AnchorPoints, DataNormalized
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr ### wavelength_flux_error
 from draw_figures import draw_original_figure, draw_normalized_figure, powerlaw, draw_dynamic, draw_dynamic_points
 from scipy import signal
 import time 
@@ -51,7 +51,7 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 1, 1000 ## [899-1527 for dr9] [1-18056, 18058-21851 for dr16] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 1000 ## [1-10, 899-1527 for dr9] [1-18056, 18058-21851 for dr16 (21852-21859 are high redshift cases)] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -352,7 +352,7 @@ def draw_flagged_figure(figure_index: int, original_ranges: RangesData, data: Fi
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
-    plt.ylim(-2, max_peak + 2)
+    plt.ylim(-2, max_peak + (max_peak / 1.5))
     FLAGGED_PDF.savefig()
     plt.close(figure_index)
 
@@ -398,7 +398,7 @@ def draw_powerlaw_test_figure(figure_index: int, original_ranges: RangesData, da
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
-    plt.ylim(-2, max_peak + 2)
+    plt.ylim(-2, max_peak + (max_peak / 1.5))
     POWERLAW_TEST_PDF.savefig()
     plt.close(figure_index)
 
@@ -566,6 +566,25 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## CHECKING FIT OF CURVE FOR NORMALIZATION 
     flagged = False
 
+    point_A_powerlaw = powerlaw(anchor_point[2][0], bf, cf)
+    point_B_powerlaw = powerlaw(anchor_point[1][0], bf, cf)
+    point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
+
+    #restframe_wavelength_from = anchor_point[0][0]
+    #restframe_wavelength_to = anchor_point[1][0]
+    restframe_wavelength_from = 1650
+    restframe_wavelength_to = 1700
+    wavelength_from_index = np.max(np.where(wavelength <= (z + 1) * restframe_wavelength_from))
+    wavelength_to_index = np.min(np.where(wavelength >= (z + 1) * restframe_wavelength_to))
+    flux_range = flux[wavelength_from_index : wavelength_to_index]
+    avg_flux = np.average(flux_range)
+    val = ((0.5)/30) * avg_flux
+    flagged_A = abs(point_A_powerlaw - anchor_point[2][1]) <= val
+    flagged_C = abs(point_C_powerlaw - anchor_point[0][1]) <= val
+    flagged_B = abs(point_B_powerlaw - anchor_point[1][1]) <= val
+    if flagged_A and flagged_B and flagged_C:
+        flagged_anchor_point = True
+
     ## GREEN REGION
     test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
     normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
@@ -584,15 +603,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print("     flagged_by_test2: ", flagged_by_test2)
         print_to_file("     flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
 
-    if flagged_by_test1 and flagged_by_test2:
+    if flagged_by_test1 and flagged_by_test2 and not(flagged_A and flagged_B and flagged_C):
         flagged = True
         error_message = "       Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
         print(error_message)
         print_to_file(error_message, LOG_FILE)
-        point_A_powerlaw = powerlaw(anchor_point[2][0], bf, cf)
-        point_B_powerlaw = powerlaw(anchor_point[1][0], bf, cf)
-        point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
-        point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(anchor_point[2][1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(anchor_point[1][1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(anchor_point[0][1]) + ", POINT C PL:" + str(point_C_powerlaw)
+        #point_A_powerlaw = powerlaw(anchor_point[2][0], bf, cf)
+        #point_B_powerlaw = powerlaw(anchor_point[1][0], bf, cf)
+        #point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
+        #point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(anchor_point[2][1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(anchor_point[1][1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(anchor_point[0][1]) + ", POINT C PL:" + str(point_C_powerlaw)
 
     ## VALUE OF POWERLAW IN TEST REGIONS
     powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
@@ -650,13 +669,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
         right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
 
-        wavelength_data = current_spectra_data[:,0]
-        flux_data = current_spectra_data[:,1]
+        #wavelength_data = current_spectra_data[:,0]
+        #flux_data = current_spectra_data[:,1]
 
-        min_wavelength = np.min(np.where(wavelength_data > middle_point_from))
-        max_wavelength = np.max(np.where(wavelength_data < right_point_to))
+        min_wavelength = np.min(np.where(wavelength > middle_point_from))
+        max_wavelength = np.max(np.where(wavelength < right_point_to))
 
-        max_peak = np.max(flux_data[min_wavelength + 1 : max_wavelength + 1])
+        max_peak = np.max(flux[min_wavelength + 1 : max_wavelength + 1])
         max_peak_norm = np.max(flux_normalized[min_wavelength + 1 : max_wavelength + 1])
         
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
@@ -673,11 +692,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF)
         if flagged:
             draw_flagged_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
-            val = 0.5
-            flagged_A = abs(point_A_powerlaw - anchor_point[2][1]) <= val
-            flagged_C = abs(point_C_powerlaw - anchor_point[0][1]) <= val
-            flagged_B = abs(point_B_powerlaw - anchor_point[1][1]) <= val
-            if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)) and (save_new_output_file == 'yes'): 
+            #wavelength_from = anchor_point[0][0]
+            #wavelength_to = anchor_point[1][0]
+            #wavelength_from_index = np.max(np.where(wavelength <= wavelength_from))
+            #wavelength_to_index = np.min(np.where(wavelength >= wavelength_to))
+            #flux_range = flux_data[wavelength_from_index : wavelength_to_index]
+            #avg_flux = np.average(flux_range)
+            #val = ((1)/25) * avg_flux
+            #flagged_A = abs(point_A_powerlaw - anchor_point[2][1]) <= val
+            #flagged_C = abs(point_C_powerlaw - anchor_point[0][1]) <= val
+            #flagged_B = abs(point_B_powerlaw - anchor_point[1][1]) <= val
+            #if (flagged_A and flagged_B and flagged_C) and ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)) and (save_new_output_file == 'yes'): 
+            if ((flagged_fit_1 and flagged_fit_2) or (flagged_t1 or flagged_t2)) and (save_new_output_file == 'yes'): 
                 flagged = False
                 draw_powerlaw_test_figure(spectra_index, original_ranges, original_figure_data, test1, test2, max_peak)
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
