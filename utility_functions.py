@@ -2,6 +2,7 @@ import csv
 import numpy as np 
 from data_types import ColumnIndexes, RangesData, PointData
 import pandas as pd
+import scipy.constants as sc
 
 ######################################### sphinx ######################################### 
 """
@@ -21,17 +22,6 @@ def read_file(FILE: str):
             redshift_value_list.append(np.float(each_row_in_file[1]))
             snr_value_list.append(np.float(each_row_in_file[2]))
     return(redshift_value_list, snr_value_list, spectra_list)
-
-def read_file_abs(FILE: str):
-    spectra_index, spectra_filename, norm_spectra_filename, redshift_value, calc_snr_value, sdss_snr, bf, cf = [], [], [], [], [], [], [], []
-
-    with open(FILE) as f:  
-        for line in f:
-            each_row_in_file = line.split(",")
-            norm_spectra_filename.append(each_row_in_file[2])
-            redshift_value.append(np.float(each_row_in_file[3]))
-            calc_snr_value.append(np.float(each_row_in_file[4]))
-    return(redshift_value, calc_snr_value, norm_spectra_filename)
 
 def print_to_file(text: str, file_name: str):
     print(text, file = open(file_name, 'a'))
@@ -105,7 +95,7 @@ def read_list_spectra(file_name: str, column_list: list):
     return(spectra_list,redshift_list, snr_list)
 
 def read_spectra(spectra_data):
-    """Reads in and returns a lists of lists contating the wavelength, flux, and error for each spectra.
+    """Reads in and returns a lists of lists containing the wavelength, flux, and error for each spectra.
 
     Defines the variables to be used in the code.
 
@@ -117,16 +107,16 @@ def read_spectra(spectra_data):
 
     Returns
     -------
-    wavelength
+    wavelength: list
         All of the wavelength values in a list.
-    flux
+    flux: list
         All of the flux values in a list.
-    error
+    error: list
         All of the error values in a list.
 
     Note
     ----
-    As shown in the return, these are a lists within a list.
+    As shown in the return, the return value are lists within a list.
     """
 
     column_index = ColumnIndexes(0, 1, 2)
@@ -137,7 +127,7 @@ def read_spectra(spectra_data):
     return [wavelength, flux, error]
 
 def wavelength_to_velocity(redshift, wavelength):
-    """Reads in a 
+    """Reads in a list of wavelength values to be converted to velocity.
 
     Parameters
     ----------
@@ -149,15 +139,19 @@ def wavelength_to_velocity(redshift, wavelength):
     Returns
     -------
     beta: array
-        The values of velocity that were converted from their wavelength.
+        The values of velocity that were converted from wavelength.
     """
+    # CIV doublet data from verner table
     avr_CIV_doublet = 1549.0524
-    # Transform the wavelength array to velocity (called "beta" - we can change it) based on the CIV doublet: 
+
+    # Transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
+    c_in_km = sc.speed_of_light**-3
     z_absC = (wavelength / avr_CIV_doublet) - 1.
     RC = (1. + redshift) / (1. + z_absC)
-    betaC = ((RC**2.) -1.) / ((RC**2.) + 1.)
-    betakm = -betaC * (299792.458) #betakm is in km/s and betaC is in units of c (speed of light)
+    betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.) # betaC is in units of c (speed of light)
+    betakm = -betaC * c_in_km #betakm is in km/s
     beta = []
+
     for velocity in betakm:
         betas = round(velocity, 5)
         beta.append(betas)
