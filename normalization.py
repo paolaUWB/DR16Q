@@ -51,7 +51,7 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 12000, 13000 ## [1-10, 899-1527 for dr9] [1-18056, 18058-21851 for dr16 (21852-21859 are high redshift cases)] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 1000 ## [1-10, 899-1527 for dr9] [1-18056, 18058-21851 for dr16 (21852-21859 are high redshift cases)] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
 
 SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 
@@ -63,7 +63,7 @@ sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 val1 = 0.05
-val2 = 0.07
+val2 = 0.05
 BOXCAR_SIZE = 11 ## MUST BE ODD
 
 #############################################################################################
@@ -350,7 +350,6 @@ if (__name__ == "__main__"):
     field = ["SPECTRA INDEX", "SPECTRA FILE NAME", "CHI SQUARED"]
     fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
 
-    ### This might not be right - if statement? will skip else if yes.....
     if save_new_output_file == 'yes':
         clear_file(FLAGGED_BAD_FIT)
         clear_file(FLAGGED_SNR)
@@ -504,7 +503,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flagged_anchor_point = False 
     flagged_fit_1 = False
     flagged_fit_2 = False
-    
     flagged_t1 = False
     flagged_t2 = False
 
@@ -514,9 +512,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     index_wavelength_from = np.max(np.where(wavelength <= (z + 1) * RESTFRAME_WAVELENGTH_TESTS.start))
     index_wavelength_to = np.min(np.where(wavelength >= (z + 1) * RESTFRAME_WAVELENGTH_TESTS.end))
     avg_normalized_flux = np.median(flux_normalized[index_wavelength_from : index_wavelength_to])
+    #avg_flux = np.average(flux[index_wavelength_from : index_wavelength_to])
     ### we want this val at the top
-    value = val2 * avg_normalized_flux
+    #value = val2 * avg_flux
+    value = 2 * val2 * avg_normalized_flux
     print('VALUE: ', value)
+    if not flagged_snr_mean_in_ehvo:
+        print_to_file("     Value: " + str(value), LOG_FILE_NO_LOW_SNR)
 
     ## INDICES OF WAVELENGTHS AT EACH ANCHOR POINT
     point_A_wavelength_index = np.max(np.where(wavelength <= anchor_point[2][0]))
@@ -567,41 +569,45 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             print_to_file(error_message, LOG_FILE_NO_LOW_SNR)
 
         ##### change these to use normalized flux (use 1 instead of powerlaw)
-        ## VALUE OF POWERLAW IN TEST REGIONS
-        powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
-        powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
+        ## VALUE OF POWERLAW IN TEST REGIONS)
+        #powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
+        #powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
 
         ## AVERAGE FLUX VALUE IN TEST REGIONS
-        avg_flux_test1 = np.average(test1.flux) + val1
-        avg_flux_test2 = np.average(test2.flux) + val1
+        #avg_flux_test1 = np.average(test1.flux) + val1
+        #avg_flux_test2 = np.average(test2.flux) + val1
+        avg_flux_test1 = np.median(flux_normalized[int(WAVELENGTH_RESTFRAME_TEST_1.start) : int(WAVELENGTH_RESTFRAME_TEST_1.end)])
+        avg_flux_test2 = np.median(flux_normalized[int(WAVELENGTH_RESTFRAME_TEST_2.start) : int(WAVELENGTH_RESTFRAME_TEST_2.end)])
 
         ## MAX FLUX OF TEST REGIONS
-        max_test1 = np.max(test1.flux)
-        max_test2 = np.max(test2.flux)
+        #max_test1 = np.max(test1.flux)
+        #max_test2 = np.max(test2.flux)
         ##### 
 
         ## TEST 3
-        if np.average(powerlaw_test1) <= avg_flux_test1:
+        #if np.average(powerlaw_test1) <= avg_flux_test1:
+        if 1 >= avg_flux_test1:
             flagged_fit_1 = True
             print_to_file('     Failed Test 3 [green]', LOG_FILE)
             print_to_file('     Failed Test 3 [green]', LOG_FILE_NO_LOW_SNR)
 
-        if np.average(powerlaw_test2) <= avg_flux_test2: 
+        #if np.average(powerlaw_test2) <= avg_flux_test2: 
+        if 1 >= avg_flux_test2:
             flagged_fit_2 = True
             print_to_file('     Failed Test 3 [pink]', LOG_FILE)
             print_to_file('     Failed Test 3 [pink]', LOG_FILE_NO_LOW_SNR)
 
         ## TEST 4
         ##### maybe get rid of this test?? 
-        if np.min(powerlaw_test1) > max_test1:
-            flagged_t1 = True
-            print_to_file('     Failed Test 4 [green]', LOG_FILE)
-            print_to_file('     Failed Test 4 [green]', LOG_FILE_NO_LOW_SNR)
+        #if np.min(powerlaw_test1) > max_test1: 
+        #    flagged_t1 = True
+        #    print_to_file('     Failed Test 4 [green]', LOG_FILE)
+        #    print_to_file('     Failed Test 4 [green]', LOG_FILE_NO_LOW_SNR)
 
-        if np.min(powerlaw_test2) > max_test2:
-            flagged_t2 = True
-            print_to_file('     Failed Test 4 [pink]', LOG_FILE)
-            print_to_file('     Failed Test 4 [pink]', LOG_FILE_NO_LOW_SNR)
+        #if np.min(powerlaw_test2) > max_test2:
+        #    flagged_t2 = True
+        #    print_to_file('     Failed Test 4 [pink]', LOG_FILE)
+        #    print_to_file('     Failed Test 4 [pink]', LOG_FILE_NO_LOW_SNR)
         #####
 
         ### why doesn't this include flagged_fit_1/2????
