@@ -93,6 +93,7 @@ ORIGINAL_PDF = PdfPages('original_graphs.pdf')
 NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
 FLAGGED_PDF = PdfPages('flagged_spectra.pdf') 
 POWERLAW_TEST_PDF = PdfPages('powerlaw_test_graphs.pdf')
+GOOD_FIT_PDF = PdfPages('good_fit.pdf')
 
 
 #############################################################################################
@@ -493,55 +494,35 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flagged = False
     flagged_anchor_point = False 
 
-    ### this might need to change to work with the normalized flux - this is returning the original flux
-    point_A_powerlaw = powerlaw(anchor_point[2][0], bf, cf)
-    point_B_powerlaw = powerlaw(anchor_point[1][0], bf, cf)
-    point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
-
     RESTFRAME_WAVELENGTH_TESTS = Range(1650., 1700.) ### might want diff values? move to top? 
 
-    ################### TEST 1 ##################
-    ### use normalized flux??
+    ########################################## TEST 1 ###########################################
     index_wavelength_from = np.max(np.where(wavelength <= (z + 1) * RESTFRAME_WAVELENGTH_TESTS.start))
     index_wavelength_to = np.min(np.where(wavelength >= (z + 1) * RESTFRAME_WAVELENGTH_TESTS.end))
-    #flux_range = flux[index_wavelength_from : index_wavelength_to]
-    #avg_flux = np.average(flux_range)
-    #avg_flux = np.average(flux[index_wavelength_from : index_wavelength_to])
     avg_normalized_flux = np.average(flux_normalized[index_wavelength_from : index_wavelength_to])
-    #val = ((0.5)/30) * avg_flux
+    ### we want this val at the top
+    val = 0.05
+    value = val * avg_normalized_flux
+    print('VALUE: ', value)
 
-    ## WAVELENGTHS AT EACH ANCHOR POINT
+    ## INDICES OF WAVELENGTHS AT EACH ANCHOR POINT
     point_A_wavelength_index = np.max(np.where(wavelength <= anchor_point[2][0]))
     point_B_wavelength_index = np.max(np.where(wavelength <= anchor_point[1][0]))
     point_C_wavelength_index = np.max(np.where(wavelength <= anchor_point[0][0]))
 
-    '''
-    point_A_wavelength_index = np.min(np.where(wavelength >= anchor_point[2][0]))
-    point_B_wavelength_index = np.min(np.where(wavelength >= anchor_point[1][0]))
-    point_C_wavelength_index = np.min(np.where(wavelength >= anchor_point[0][0]))
-    '''
-
     ## NORMALIZED FLUX AT ANCHOR POINTS
-    print('anchor pt: ', anchor_point[0][0])
+    print('anchor pt: ', anchor_point[0][0]) ## value is different from one below SLIGHTLY - will this matter?
     print('wavelength pt a: ', wavelength[point_C_wavelength_index])
     point_A_flux_norm = flux_normalized[point_A_wavelength_index]
     point_B_flux_norm = flux_normalized[point_B_wavelength_index]
     point_C_flux_norm = flux_normalized[point_C_wavelength_index]
 
-    ### we want this val at the top
-    val = 0.05
-    '''
-    flagged_A = abs(point_A_powerlaw - anchor_point[2][1]) <= val
-    flagged_B = abs(point_B_powerlaw - anchor_point[1][1]) <= val
-    flagged_C = abs(point_C_powerlaw - anchor_point[0][1]) <= val
-    '''
-    flagged_A = abs(1 - point_A_flux_norm) <= val
-    flagged_B = abs(1 - point_B_flux_norm) <= val
-    flagged_C = abs(1 - point_C_flux_norm) <= val
+    flagged_A = abs(1 - point_A_flux_norm) <= value
+    flagged_B = abs(1 - point_B_flux_norm) <= value
+    flagged_C = abs(1 - point_C_flux_norm) <= value
 
     if flagged_A and flagged_B and flagged_C:
         flagged_anchor_point = True ## being flagged is good in this case - might want to change that? 
-        print('FLAGGED: ', flagged_anchor_point)
 
     ## GREEN REGION
     test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
@@ -562,16 +543,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             print("     flagged_by_test2: ", flagged_by_test2)
             print_to_file("     flagged_by_test2: " + str(flagged_by_test2), LOG_FILE)
 
-        if flagged_by_test1 and flagged_by_test2 and not(flagged_A and flagged_B and flagged_C):
+        if flagged_by_test1 and flagged_by_test2:
             flagged = True
             error_message = "       Flagging figure #" + str(spectra_index) + ", file name: " + current_spectrum_file_name
             print(error_message)
             print_to_file(error_message, LOG_FILE)
-            #point_A_powerlaw = powerlaw(anchor_point[2][0], bf, cf)
-            #point_B_powerlaw = powerlaw(anchor_point[1][0], bf, cf)
-            #point_C_powerlaw = powerlaw(anchor_point[0][0], bf, cf)
-            #point_powerlaw = str(spectra_index) + ": " + str(current_spectrum_file_name) + ", POINT A: " + str(anchor_point[2][1]) + ", POINT A PL:" + str(point_A_powerlaw) + ", POINT B: " + str(anchor_point[1][1]) + ", POINT B PL:" + str(point_B_powerlaw) + ", POINT C: " + str(anchor_point[0][1]) + ", POINT C PL:" + str(point_C_powerlaw)
 
+        ##### change these to use normalized flux (use 1 instead of powerlaw)
         ## VALUE OF POWERLAW IN TEST REGIONS
         powerlaw_test1 = powerlaw(test1.wavelength, bf, cf)
         powerlaw_test2 = powerlaw(test2.wavelength, bf, cf)
@@ -583,6 +561,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         ## MAX FLUX OF TEST REGIONS
         max_test1 = np.max(test1.flux)
         max_test2 = np.max(test2.flux)
+        ##### 
 
         flagged_fit_1 = False
         flagged_fit_2 = False
@@ -597,12 +576,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         if np.average(powerlaw_test2) <= avg_flux_test2: 
             flagged_fit_2 = True
 
+        ##### maybe get rid of this test?? 
         if np.min(powerlaw_test1) > max_test1:
             flagged_t1 = True
 
         if np.min(powerlaw_test2) > max_test2:
             flagged_t2 = True
+        #####
 
+        ### why doesn't this include flagged_fit_1/2????
         if not flagged_snr_mean_in_ehvo and (flagged_t1 or flagged_t2) and save_new_output_file == 'yes':
             append_row_to_csv(FLAGGED_ABSORPTION, fields)
 
@@ -668,6 +650,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 append_row_to_csv(GOOD_NORMALIZATION, fields)
         else:
             draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
+            draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, GOOD_FIT_PDF)
 
     if flagged and not flagged_snr_mean_in_ehvo and (save_new_output_file == 'yes'):
         append_row_to_csv(FLAGGED_BAD_FIT, fields)
@@ -705,6 +688,7 @@ ORIGINAL_PDF.close()
 NORMALIZED_PDF.close()
 FLAGGED_PDF.close()
 POWERLAW_TEST_PDF.close()
+GOOD_FIT_PDF.close()
 
 if save_new_output_file == 'yes': np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
 
