@@ -35,7 +35,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
-from draw_figures import draw_abs_figure 
+from abs_plot import draw_abs_figure 
 #import basic_absorption_parameters
 
 ###############################################################################################################################
@@ -174,7 +174,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(beta)
 
     # draw simple plot 
-    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
+    #draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
 
     ################################# INITIALIZING  VARIABLES IN LOOP ##############################################################
     #index_depth_final, flux_depth, final_depth_individual = []
@@ -212,8 +212,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print("velocity_range_index", velocity_range_index)
     print("vminindex", vminindex)
     print("vmaxindex", vminindex)
-    
 
+    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
+    print("da")
+    
 #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
 
 # It uses a loop: for jjjs in jjj:
@@ -255,6 +257,8 @@ for current_velocity_index in velocity_range_index:
                 vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
                 vmins.append(round(beta[vmins_index], 4))
                 count2 = 1
+
+    
 
 #    ooooooooooooooooooooooooooooooooooooooo   ^^^         IN WORK         ^^^   ooooooooooooooooooooooooooooooooooooooo
  
