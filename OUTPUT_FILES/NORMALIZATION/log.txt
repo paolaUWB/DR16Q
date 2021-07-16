@@ -1,159 +1,119 @@
-<<<<<<< HEAD
-21856: spec-7684-57286-0814-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-<<<<<<< HEAD
-<<<<<<< HEAD
-       Flagging figure #1, file name: spec-10901-58397-0466-dered.dr16
-=======
-       Flagging figure #2, file name: spec-7634-56935-0762-dered.dr16
-3: spec-8214-57867-0380-dered.dr16
-=======
-       Flagging figure #21856, file name: spec-7684-57286-0814-dered.dr16
-21857: spec-6583-56566-0306-dered.dr16
->>>>>>> 0d059c1733f3430072555ed52be363bf276154e2
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #21857, file name: spec-6583-56566-0306-dered.dr16
-21858: spec-10259-58190-0798-dered.dr16
-21859: spec-7710-58284-0701-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-<<<<<<< HEAD
-       Flagging figure #100, file name: spec-7832-56904-0796-dered.dr16
->>>>>>> f6bf47c5196ed8ca62ee89ea32465b5f4a02c25c
-=======
-       Flagging figure #21859, file name: spec-7710-58284-0701-dered.dr16
->>>>>>> 0d059c1733f3430072555ed52be363bf276154e2
-=======
 1: spec-10901-58397-0466-dered.dr16
-<<<<<<< HEAD
->>>>>>> 2eed45081d402148acb4dbd984777f30384174f8
-=======
+     Flagged - low SNR
 2: spec-7634-56935-0762-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #2, file name: spec-7634-56935-0762-dered.dr16
+     Flagged - low SNR
 3: spec-8214-57867-0380-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #3, file name: spec-8214-57867-0380-dered.dr16
+     Flagged - low SNR
 4: spec-8302-57389-0164-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 5: spec-9140-58039-0081-dered.dr16
+     Failed Test 3 [pink]
 6: spec-7663-57328-0626-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #6, file name: spec-7663-57328-0626-dered.dr16
+     Flagged - low SNR
 7: spec-11309-58428-0826-dered.dr16
+     Flagged - low SNR
 8: spec-8055-57187-0792-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 9: spec-8162-56993-0726-dered.dr16
+     Flagged - low SNR
 10: spec-8744-58124-0859-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 11: spec-7764-58042-0059-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 12: spec-11059-58515-0558-dered.dr16
+     Flagged - low SNR
 13: spec-8530-58016-0383-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 14: spec-9153-58022-0045-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 15: spec-7318-56990-0380-dered.dr16
+     Flagged - low SNR
 16: spec-7671-57360-0092-dered.dr16
      flagged_by_test2: True
 17: spec-7685-57062-0023-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #17, file name: spec-7685-57062-0023-dered.dr16
+     Flagged - low SNR
 18: spec-8823-57446-0393-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 19: spec-10732-58253-0784-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 20: spec-4421-55858-0894-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 21: spec-5297-55913-0686-dered.dr16
      flagged_by_test2: True
 22: spec-5304-55925-0798-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #22, file name: spec-5304-55925-0798-dered.dr16
+     Flagged - low SNR
 23: spec-5363-55956-0084-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #23, file name: spec-5363-55956-0084-dered.dr16
+     Flagged - low SNR
 24: spec-5723-56597-0996-dered.dr16
+     Flagged - low SNR
 25: spec-5863-56042-0078-dered.dr16
+     Flagged - low SNR
 26: spec-5899-56038-0507-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #26, file name: spec-5899-56038-0507-dered.dr16
+     Flagged - low SNR
 27: spec-6138-56598-0594-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 28: spec-6442-56369-0726-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #28, file name: spec-6442-56369-0726-dered.dr16
+     Flagged - low SNR
 29: spec-6482-56358-0618-dered.dr16
+     Flagged - low SNR
 30: spec-6662-56364-0712-dered.dr16
+     Flagged - low SNR
 31: spec-6669-56413-0946-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #31, file name: spec-6669-56413-0946-dered.dr16
+     Flagged - low SNR
 32: spec-6692-56390-0940-dered.dr16
+     Flagged - low SNR
 33: spec-6783-56284-0672-dered.dr16
+     Flagged - low SNR
 34: spec-7339-56768-0119-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 35: spec-7759-58401-0124-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #35, file name: spec-7759-58401-0124-dered.dr16
+     Flagged - low SNR
 36: spec-10917-58252-0046-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 37: spec-11347-58440-0354-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 38: spec-8865-57426-0726-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 39: spec-9155-58043-0456-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #39, file name: spec-9155-58043-0456-dered.dr16
+     Failed Test 3 [pink]
 40: spec-9411-58070-0290-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 41: spec-11340-58433-0826-dered.dr16
+     Flagged - low SNR
 42: spec-7584-56957-0256-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 43: spec-7725-58158-0762-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 44: spec-7732-58108-0100-dered.dr16
 45: spec-7857-57278-0834-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 46: spec-11109-58523-0138-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 47: spec-7743-58107-0994-dered.dr16
+     Failed Test 1 [anchor points]
 48: spec-7375-56981-0683-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 49: spec-7913-57333-0686-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #49, file name: spec-7913-57333-0686-dered.dr16
+     Flagged - low SNR
 50: spec-10665-58456-0918-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #50, file name: spec-10665-58456-0918-dered.dr16
+     Flagged - low SNR
 51: spec-9148-58039-0042-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 52: spec-9204-57712-0460-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 53: spec-7644-57327-0353-dered.dr16
 54: spec-5201-55832-0846-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 55: spec-5202-55824-0914-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #55, file name: spec-5202-55824-0914-dered.dr16
+     Flagged - low SNR
 56: spec-5288-55865-0969-dered.dr16
+     Flagged - low SNR
 57: spec-5322-56003-0312-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 58: spec-5326-56002-0370-dered.dr16
      flagged_by_test2: True
 59: spec-5406-55955-0486-dered.dr16
@@ -161,289 +121,281 @@
      flagged_by_test2: True
        Flagging figure #59, file name: spec-5406-55955-0486-dered.dr16
 60: spec-5438-56002-0285-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 61: spec-5738-56002-0806-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 62: spec-5862-56045-0724-dered.dr16
      flagged_by_test1: True
+     Failed Test 3 [pink]
 63: spec-5994-56101-0196-dered.dr16
 64: spec-6370-56238-0059-dered.dr16
+     Flagged - low SNR
 65: spec-6430-56299-0696-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 66: spec-6716-56401-0714-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #66, file name: spec-6716-56401-0714-dered.dr16
+     Flagged - low SNR
 67: spec-6800-56399-0376-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 68: spec-7114-56748-0106-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #68, file name: spec-7114-56748-0106-dered.dr16
+     Flagged - low SNR
 69: spec-7906-57333-0282-dered.dr16
+     Flagged - low SNR
 70: spec-8377-57783-0345-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #70, file name: spec-8377-57783-0345-dered.dr16
+     Flagged - low SNR
 71: spec-11294-58451-0682-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #71, file name: spec-11294-58451-0682-dered.dr16
+     Flagged - low SNR
 72: spec-7662-57358-0956-dered.dr16
+     Flagged - low SNR
 73: spec-7726-58154-0638-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #73, file name: spec-7726-58154-0638-dered.dr16
+     Flagged - low SNR
 74: spec-11341-58428-0699-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #74, file name: spec-11341-58428-0699-dered.dr16
+     Flagged - low SNR
 75: spec-8384-57513-0905-dered.dr16
+     Flagged - low SNR
 76: spec-11040-58456-0700-dered.dr16
+     Flagged - low SNR
 77: spec-8742-57364-0704-dered.dr16
+     Flagged - low SNR
 78: spec-9144-57666-0213-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 79: spec-7578-56956-0116-dered.dr16
+     Flagged - low SNR
 80: spec-8387-57483-0450-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 81: spec-4853-55928-0920-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 82: spec-5197-55828-0030-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 83: spec-5320-55999-0104-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #83, file name: spec-5320-55999-0104-dered.dr16
+     Flagged - low SNR
 84: spec-5324-55947-0577-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 85: spec-5368-56001-0946-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #85, file name: spec-5368-56001-0946-dered.dr16
+     Flagged - low SNR
 86: spec-5412-55981-0632-dered.dr16
+     Flagged - low SNR
 87: spec-5450-55986-0680-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 88: spec-5464-56035-0518-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 89: spec-5469-56037-0689-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 90: spec-5905-56065-0640-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 91: spec-6428-56279-0192-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #91, file name: spec-6428-56279-0192-dered.dr16
+     Failed Test 1 [anchor points]
 92: spec-6689-56396-0002-dered.dr16
+     Flagged - low SNR
 93: spec-6721-56398-0840-dered.dr16
+     Flagged - low SNR
 94: spec-6737-56365-0672-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 95: spec-6840-56685-0392-dered.dr16
+     Flagged - low SNR
 96: spec-7118-56686-0018-dered.dr16
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 97: spec-7235-56603-0711-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #97, file name: spec-7235-56603-0711-dered.dr16
+     Failed Test 1 [anchor points]
 98: spec-7631-57279-0786-dered.dr16
+     Flagged - low SNR
 99: spec-7687-57007-0376-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #99, file name: spec-7687-57007-0376-dered.dr16
+     Flagged - low SNR
 100: spec-7832-56904-0796-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #100, file name: spec-7832-56904-0796-dered.dr16
+     Flagged - low SNR
 101: spec-8840-57425-0698-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 102: spec-11314-58436-0494-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #102, file name: spec-11314-58436-0494-dered.dr16
 103: spec-8863-57724-0590-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 104: spec-9154-58013-0583-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #104, file name: spec-9154-58013-0583-dered.dr16
+     Flagged - low SNR
 105: spec-10748-58224-0788-dered.dr16
+     Flagged - low SNR
 106: spec-7879-57359-0209-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 107: spec-8542-57933-0220-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 108: spec-7671-57360-0958-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 109: spec-8743-57663-0257-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 110: spec-7582-56960-0620-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #110, file name: spec-7582-56960-0620-dered.dr16
+     Flagged - low SNR
 111: spec-7676-57329-0716-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #111, file name: spec-7676-57329-0716-dered.dr16
+     Flagged - low SNR
 112: spec-5193-56066-0854-dered.dr16
 113: spec-5303-55980-0022-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 114: spec-5371-55976-0375-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 115: spec-5430-56000-0860-dered.dr16
+     Flagged - low SNR
 116: spec-5459-56035-0821-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 117: spec-5470-56008-0024-dered.dr16
+     Failed Test 3 [pink]
 118: spec-5483-56017-0080-dered.dr16
+     Flagged - low SNR
 119: spec-5787-56254-0280-dered.dr16
      flagged_by_test1: True
 120: spec-5973-56067-0856-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 121: spec-5986-56328-0702-dered.dr16
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 122: spec-6002-56104-0333-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 123: spec-6038-56090-0192-dered.dr16
+     Flagged - low SNR
 124: spec-6467-56270-0933-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #124, file name: spec-6467-56270-0933-dered.dr16
 125: spec-6638-56370-0035-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 126: spec-7092-56683-0634-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #126, file name: spec-7092-56683-0634-dered.dr16
+     Failed Test 1 [anchor points]
 127: spec-11124-58430-0782-dered.dr16
+     Failed Test 3 [pink]
 128: spec-11307-58430-0280-dered.dr16
+     Flagged - low SNR
 129: spec-8502-57512-0664-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #129, file name: spec-8502-57512-0664-dered.dr16
+     Flagged - low SNR
 130: spec-11329-58426-0355-dered.dr16
      flagged_by_test2: True
 131: spec-8287-57401-0190-dered.dr16
+     Flagged - low SNR
 132: spec-8838-57870-0656-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 133: spec-11083-58515-0124-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #133, file name: spec-11083-58515-0124-dered.dr16
+     Flagged - low SNR
 134: spec-7624-57039-0348-dered.dr16
 135: spec-7636-56989-0188-dered.dr16
+     Flagged - low SNR
 136: spec-7647-57655-0057-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 137: spec-8747-57401-0020-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #137, file name: spec-8747-57401-0020-dered.dr16
+     Flagged - low SNR
 138: spec-10244-58225-0714-dered.dr16
+     Flagged - low SNR
 139: spec-11281-58424-0952-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 140: spec-7655-57336-0586-dered.dr16
+     Failed Test 1 [anchor points]
 141: spec-7745-58077-0679-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #141, file name: spec-7745-58077-0679-dered.dr16
+     Flagged - low SNR
 142: spec-7751-58081-0846-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 143: spec-7756-58392-0073-dered.dr16
+     Flagged - low SNR
 144: spec-11087-58488-0328-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #144, file name: spec-11087-58488-0328-dered.dr16
+     Flagged - low SNR
 145: spec-7390-57130-0961-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #145, file name: spec-7390-57130-0961-dered.dr16
 146: spec-10666-58440-0880-dered.dr16
+     Flagged - low SNR
 147: spec-5158-55913-0592-dered.dr16
+     Flagged - low SNR
 148: spec-5172-56071-0722-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 149: spec-5205-56040-0352-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #149, file name: spec-5205-56040-0352-dered.dr16
+     Failed Test 1 [anchor points]
 150: spec-5314-55952-0508-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #150, file name: spec-5314-55952-0508-dered.dr16
+     Failed Test 1 [anchor points]
 151: spec-5434-56033-0598-dered.dr16
+     Failed Test 3 [pink]
 152: spec-5790-56271-0352-dered.dr16
+     Failed Test 1 [anchor points]
 153: spec-5792-56269-0798-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 154: spec-6435-56341-0258-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 155: spec-6483-56341-0720-dered.dr16
+     Flagged - low SNR
 156: spec-6690-56416-0865-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #156, file name: spec-6690-56416-0865-dered.dr16
+     Flagged - low SNR
 157: spec-6709-56429-0316-dered.dr16
      flagged_by_test2: True
 158: spec-6809-56454-0922-dered.dr16
+     Failed Test 1 [anchor points]
 159: spec-6970-56444-0302-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 160: spec-7238-56660-0165-dered.dr16
+     Flagged - low SNR
 161: spec-7316-56710-0644-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #161, file name: spec-7316-56710-0644-dered.dr16
+     Failed Test 1 [anchor points]
 162: spec-8054-57194-0545-dered.dr16
+     Flagged - low SNR
 163: spec-11284-58420-0350-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 164: spec-7611-56946-0192-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #164, file name: spec-7611-56946-0192-dered.dr16
+     Flagged - low SNR
 165: spec-7878-57340-0670-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [green]
 166: spec-11293-58462-0284-dered.dr16
+     Flagged - low SNR
 167: spec-7297-57040-0514-dered.dr16
+     Flagged - low SNR
 168: spec-7885-57336-0182-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 169: spec-8872-57422-0824-dered.dr16
+     Flagged - low SNR
 170: spec-9145-58041-0855-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 171: spec-10472-58159-0789-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 172: spec-8228-57423-0458-dered.dr16
+     Flagged - low SNR
 173: spec-9176-58080-0591-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #173, file name: spec-9176-58080-0591-dered.dr16
+     Flagged - low SNR
 174: spec-11085-58462-0568-dered.dr16
+     Flagged - low SNR
 175: spec-11346-58429-0852-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 176: spec-9364-57699-0550-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #176, file name: spec-9364-57699-0550-dered.dr16
+     Flagged - low SNR
 177: spec-7616-56902-0588-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 178: spec-7845-56980-0610-dered.dr16
+     Flagged - low SNR
 179: spec-8745-57391-0609-dered.dr16
+     Flagged - low SNR
 180: spec-7869-57012-0602-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 181: spec-9156-58039-0299-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #181, file name: spec-9156-58039-0299-dered.dr16
+     Failed Test 3 [pink]
 182: spec-5039-56220-0218-dered.dr16
      flagged_by_test2: True
 183: spec-5166-56065-0730-dered.dr16
      flagged_by_test2: True
 184: spec-5285-55946-0392-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 185: spec-5312-56001-0140-dered.dr16
 186: spec-5322-56003-0417-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 187: spec-5430-56000-0420-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 188: spec-5478-56014-0340-dered.dr16
+     Flagged - low SNR
 189: spec-5491-56034-0704-dered.dr16
 190: spec-5712-56602-0816-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 191: spec-5738-56002-0043-dered.dr16
+     Flagged - low SNR
 192: spec-5788-56255-0570-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #192, file name: spec-5788-56255-0570-dered.dr16
+     Failed Test 1 [anchor points]
 193: spec-5891-56034-0076-dered.dr16
      flagged_by_test2: True
 194: spec-5986-56328-0302-dered.dr16
@@ -451,390 +403,377 @@
      flagged_by_test2: True
        Flagging figure #194, file name: spec-5986-56328-0302-dered.dr16
 195: spec-5997-56309-0843-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 196: spec-6434-56362-0340-dered.dr16
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 197: spec-6449-56356-0572-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 198: spec-6449-56356-0756-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 199: spec-6649-56364-0826-dered.dr16
 200: spec-7059-56592-0286-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 201: spec-7235-56603-0110-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #201, file name: spec-7235-56603-0110-dered.dr16
+     Flagged - low SNR
 202: spec-8401-57482-0335-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #202, file name: spec-8401-57482-0335-dered.dr16
+     Failed Test 1 [anchor points]
 203: spec-8743-57663-0103-dered.dr16
+     Failed Test 1 [anchor points]
 204: spec-8864-57428-0151-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 205: spec-9180-57693-0324-dered.dr16
 206: spec-11118-58522-0668-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #206, file name: spec-11118-58522-0668-dered.dr16
+     Flagged - low SNR
 207: spec-7686-57015-0350-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #207, file name: spec-7686-57015-0350-dered.dr16
+     Flagged - low SNR
 208: spec-7857-57278-0623-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 209: spec-7879-57359-0648-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #209, file name: spec-7879-57359-0648-dered.dr16
+     Flagged - low SNR
 210: spec-8859-57452-0634-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #210, file name: spec-8859-57452-0634-dered.dr16
+     Flagged - low SNR
 211: spec-9203-57692-0186-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #211, file name: spec-9203-57692-0186-dered.dr16
 212: spec-9597-58137-0657-dered.dr16
+     Flagged - low SNR
 213: spec-10739-58255-0066-dered.dr16
+     Flagged - low SNR
 214: spec-8229-57430-0776-dered.dr16
+     Flagged - low SNR
 215: spec-7584-56957-0901-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 216: spec-11040-58456-0317-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 217: spec-5200-56091-0840-dered.dr16
+     Flagged - low SNR
 218: spec-5289-55893-0480-dered.dr16
      flagged_by_test2: True
 219: spec-5737-56381-0136-dered.dr16
+     Flagged - low SNR
 220: spec-5797-56273-0074-dered.dr16
+     Flagged - low SNR
 221: spec-5811-56334-0139-dered.dr16
+     Failed Test 1 [anchor points]
 222: spec-5904-56046-0532-dered.dr16
+     Flagged - low SNR
 223: spec-5992-56066-0320-dered.dr16
 224: spec-5996-56096-0309-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 225: spec-6318-56186-0375-dered.dr16
+     Flagged - low SNR
 226: spec-6415-56310-0857-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 227: spec-6623-56367-0121-dered.dr16
+     Failed Test 1 [anchor points]
 228: spec-6748-56371-0474-dered.dr16
+     Flagged - low SNR
 229: spec-7088-56657-0068-dered.dr16
 230: spec-7108-56686-0069-dered.dr16
 231: spec-7383-56749-0952-dered.dr16
+     Flagged - low SNR
 232: spec-7629-56988-0018-dered.dr16
+     Failed Test 1 [anchor points]
 233: spec-7732-58108-0620-dered.dr16
+     Flagged - low SNR
 234: spec-8503-57519-0032-dered.dr16
+     Flagged - low SNR
 235: spec-8843-57423-0592-dered.dr16
+     Flagged - low SNR
 236: spec-7660-57357-0278-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 237: spec-11087-58488-0728-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 238: spec-7722-58425-0531-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 239: spec-8360-57452-0102-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #239, file name: spec-8360-57452-0102-dered.dr16
+     Flagged - low SNR
 240: spec-8822-58167-0348-dered.dr16
      flagged_by_test2: True
 241: spec-11073-58451-0262-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 242: spec-11074-58488-0563-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 243: spec-11090-58487-0693-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #243, file name: spec-11090-58487-0693-dered.dr16
+     Flagged - low SNR
 244: spec-8067-58253-0102-dered.dr16
+     Flagged - low SNR
 245: spec-8847-57429-0846-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 246: spec-7616-56902-0364-dered.dr16
      flagged_by_test2: True
 247: spec-8208-57430-0769-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #247, file name: spec-8208-57430-0769-dered.dr16
+     Failed Test 1 [anchor points]
 248: spec-10657-58157-0874-dered.dr16
+     Flagged - low SNR
 249: spec-7715-57364-0106-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 250: spec-5155-55946-0624-dered.dr16
+     Flagged - low SNR
 251: spec-5182-56341-0700-dered.dr16
+     Flagged - low SNR
 252: spec-5439-56045-0250-dered.dr16
 253: spec-5440-55983-0712-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #253, file name: spec-5440-55983-0712-dered.dr16
+     Flagged - low SNR
 254: spec-5859-56065-0052-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #254, file name: spec-5859-56065-0052-dered.dr16
+     Flagged - low SNR
 255: spec-6434-56362-0770-dered.dr16
+     Flagged - low SNR
 256: spec-6491-56337-0210-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #256, file name: spec-6491-56337-0210-dered.dr16
 257: spec-6752-56366-0598-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #257, file name: spec-6752-56366-0598-dered.dr16
+     Failed Test 1 [anchor points]
 258: spec-7059-56592-0776-dered.dr16
+     Flagged - low SNR
 259: spec-7339-57510-0817-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 260: spec-7696-57655-0835-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 261: spec-7749-58073-0682-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #261, file name: spec-7749-58073-0682-dered.dr16
+     Flagged - low SNR
 262: spec-8500-57432-0800-dered.dr16
+     Failed Test 1 [anchor points]
 263: spec-9405-58048-0921-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 264: spec-7660-57357-0081-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 265: spec-10925-58271-0036-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 266: spec-11053-58437-0482-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #266, file name: spec-11053-58437-0482-dered.dr16
+     Flagged - low SNR
 267: spec-8539-58021-0141-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 268: spec-9549-57807-0478-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 269: spec-8406-57513-0964-dered.dr16
+     Flagged - low SNR
 270: spec-7577-56944-0495-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 271: spec-10227-58224-0894-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #271, file name: spec-10227-58224-0894-dered.dr16
+     Flagged - low SNR
 272: spec-10232-58223-0928-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 273: spec-11040-58456-0262-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #273, file name: spec-11040-58456-0262-dered.dr16
+     Flagged - low SNR
 274: spec-7756-58392-0984-dered.dr16
+     Flagged - low SNR
 275: spec-5195-56048-0102-dered.dr16
+     Flagged - low SNR
 276: spec-5202-55824-0174-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 277: spec-5769-56246-0172-dered.dr16
+     Flagged - low SNR
 278: spec-5987-56339-0264-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 279: spec-5996-56096-0608-dered.dr16
      flagged_by_test1: True
+     Failed Test 3 [pink]
 280: spec-6202-56266-0584-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 281: spec-6427-56328-0110-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 282: spec-6986-56717-0170-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 283: spec-7088-56657-0588-dered.dr16
+     Failed Test 3 [pink]
 284: spec-7838-56958-0378-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #284, file name: spec-7838-56958-0378-dered.dr16
+     Flagged - low SNR
 285: spec-8857-57449-0410-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #285, file name: spec-8857-57449-0410-dered.dr16
+     Flagged - low SNR
 286: spec-7722-58425-0772-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 287: spec-8871-57519-0914-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 288: spec-9606-58103-0149-dered.dr16
+     Failed Test 3 [pink]
 289: spec-11073-58451-0962-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 290: spec-8729-57399-0846-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 291: spec-9329-57688-0257-dered.dr16
 292: spec-8528-57896-0376-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 293: spec-8850-57782-0192-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 294: spec-10232-58223-0222-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 295: spec-11044-58508-0259-dered.dr16
+     Flagged - low SNR
 296: spec-7892-57333-0134-dered.dr16
 297: spec-10242-58161-0406-dered.dr16
+     Flagged - low SNR
 298: spec-10276-58225-0877-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 299: spec-8504-57518-0098-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #299, file name: spec-8504-57518-0098-dered.dr16
+     Flagged - low SNR
 300: spec-9564-57817-0665-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 301: spec-11085-58462-0573-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #301, file name: spec-11085-58462-0573-dered.dr16
+     Failed Test 1 [anchor points]
 302: spec-5204-56036-0816-dered.dr16
      flagged_by_test2: True
 303: spec-5360-55983-0014-dered.dr16
+     Failed Test 1 [anchor points]
 304: spec-5395-56003-0542-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 305: spec-5397-55944-0352-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 306: spec-5397-55944-0906-dered.dr16
+     Flagged - low SNR
 307: spec-5799-56325-0058-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 308: spec-5801-56328-0854-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #308, file name: spec-5801-56328-0854-dered.dr16
+     Flagged - low SNR
 309: spec-5877-56041-0833-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #309, file name: spec-5877-56041-0833-dered.dr16
+     Flagged - low SNR
 310: spec-5885-56036-0405-dered.dr16
+     Flagged - low SNR
 311: spec-5890-56037-0394-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 312: spec-5894-56039-0220-dered.dr16
 313: spec-5900-56043-0250-dered.dr16
+     Failed Test 1 [anchor points]
 314: spec-5903-56064-0038-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #314, file name: spec-5903-56064-0038-dered.dr16
+     Flagged - low SNR
 315: spec-6017-56075-0590-dered.dr16
+     Failed Test 3 [pink]
 316: spec-6406-56330-0854-dered.dr16
+     Failed Test 3 [pink]
 317: spec-6429-56274-0236-dered.dr16
+     Flagged - low SNR
 318: spec-6449-56356-0116-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 319: spec-6635-56370-0548-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 320: spec-6833-56413-0278-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #320, file name: spec-6833-56413-0278-dered.dr16
+     Failed Test 1 [anchor points]
 321: spec-6973-56741-0344-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #321, file name: spec-6973-56741-0344-dered.dr16
+     Flagged - low SNR
 322: spec-7565-56809-0200-dered.dr16
      flagged_by_test1: True
 323: spec-7718-57362-0079-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 324: spec-8490-57104-0424-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #324, file name: spec-8490-57104-0424-dered.dr16
 325: spec-10467-58138-0567-dered.dr16
+     Flagged - low SNR
 326: spec-11118-58522-0814-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #326, file name: spec-11118-58522-0814-dered.dr16
+     Flagged - low SNR
 327: spec-8532-58022-0979-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 328: spec-10228-58223-0180-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 329: spec-7750-58402-0902-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #329, file name: spec-7750-58402-0902-dered.dr16
+     Flagged - low SNR
 330: spec-10449-58137-0887-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 331: spec-7702-58017-0856-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 332: spec-8055-57187-0793-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 333: spec-8372-57787-0510-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #333, file name: spec-8372-57787-0510-dered.dr16
+     Flagged - low SNR
 334: spec-8743-57663-0458-dered.dr16
      flagged_by_test2: True
 335: spec-9239-58018-0304-dered.dr16
+     Flagged - low SNR
 336: spec-9143-57665-0035-dered.dr16
+     Failed Test 1 [anchor points]
 337: spec-7640-57311-0018-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 338: spec-7722-58425-0298-dered.dr16
+     Flagged - low SNR
 339: spec-8754-58425-0656-dered.dr16
+     Flagged - low SNR
 340: spec-7915-57309-0358-dered.dr16
      flagged_by_test1: True
 341: spec-7906-57333-0305-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 342: spec-5165-56063-0726-dered.dr16
+     Flagged - low SNR
 343: spec-5200-56091-0107-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 344: spec-5423-55958-0320-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 345: spec-5480-56001-0920-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #345, file name: spec-5480-56001-0920-dered.dr16
 346: spec-6058-56090-0210-dered.dr16
+     Flagged - low SNR
 347: spec-6121-56187-0890-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 348: spec-6644-56384-0409-dered.dr16
 349: spec-6737-56365-0860-dered.dr16
+     Failed Test 3 [pink]
 350: spec-6833-56413-0792-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #350, file name: spec-6833-56413-0792-dered.dr16
+     Flagged - low SNR
 351: spec-6838-56429-0490-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 352: spec-7059-56592-0610-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 353: spec-7184-56629-0327-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 354: spec-7675-57327-0758-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 355: spec-8227-57427-0354-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 356: spec-8292-57373-0176-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #356, file name: spec-8292-57373-0176-dered.dr16
+     Flagged - low SNR
 357: spec-8424-58248-0642-dered.dr16
+     Flagged - low SNR
 358: spec-8427-57846-0465-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #358, file name: spec-8427-57846-0465-dered.dr16
+     Flagged - low SNR
 359: spec-8738-57402-0294-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #359, file name: spec-8738-57402-0294-dered.dr16
+     Flagged - low SNR
 360: spec-11040-58456-0383-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 361: spec-7842-56899-0718-dered.dr16
 362: spec-10720-58250-0979-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 363: spec-11342-58425-0433-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 364: spec-7611-56946-0066-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 365: spec-9405-58048-0552-dered.dr16
+     Flagged - low SNR
 366: spec-10938-58514-0582-dered.dr16
      flagged_by_test2: True
 367: spec-7650-57575-0269-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #367, file name: spec-7650-57575-0269-dered.dr16
+     Flagged - low SNR
 368: spec-7679-57367-0342-dered.dr16
+     Failed Test 1 [anchor points]
 369: spec-9177-58044-0684-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #369, file name: spec-9177-58044-0684-dered.dr16
+     Flagged - low SNR
 370: spec-11303-58428-0400-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 371: spec-7579-56954-0755-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 372: spec-11315-58402-0654-dered.dr16
+     Flagged - low SNR
 373: spec-7702-58017-0190-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 374: spec-8379-57787-0065-dered.dr16
+     Flagged - low SNR
 375: spec-8530-58016-0875-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #375, file name: spec-8530-58016-0875-dered.dr16
+     Flagged - low SNR
 376: spec-5339-55922-0676-dered.dr16
+     Failed Test 1 [anchor points]
 377: spec-5396-55947-1000-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #377, file name: spec-5396-55947-1000-dered.dr16
+     Failed Test 1 [anchor points]
 378: spec-5448-56013-0106-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 379: spec-5864-56047-0876-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 380: spec-5974-56314-0518-dered.dr16
      flagged_by_test2: True
 381: spec-5977-56098-0276-dered.dr16
@@ -844,219 +783,225 @@
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #383, file name: spec-6492-56362-0738-dered.dr16
+     Failed Test 3 [pink]
 384: spec-6647-56390-0160-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 385: spec-6790-56430-0166-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 386: spec-8383-57518-0610-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 387: spec-7700-58016-0489-dered.dr16
+     Flagged - low SNR
 388: spec-7729-58135-0732-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 389: spec-7861-57281-0784-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 390: spec-10260-58173-0710-dered.dr16
+     Flagged - low SNR
 391: spec-7835-56986-0686-dered.dr16
+     Flagged - low SNR
 392: spec-7633-56931-0960-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 393: spec-8371-57786-0265-dered.dr16
      flagged_by_test2: True
 394: spec-7879-57359-0194-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 395: spec-7720-58101-0606-dered.dr16
+     Flagged - low SNR
 396: spec-8376-57786-0850-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 397: spec-8514-58174-0512-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 398: spec-9590-57813-0295-dered.dr16
      flagged_by_test2: True
 399: spec-4468-55894-0786-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 400: spec-4835-56016-0460-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #400, file name: spec-4835-56016-0460-dered.dr16
 401: spec-5174-56047-0005-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 402: spec-5203-56034-0346-dered.dr16
+     Failed Test 1 [anchor points]
 403: spec-5315-55978-0366-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 404: spec-5377-55957-0558-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 405: spec-5380-55980-0768-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #405, file name: spec-5380-55980-0768-dered.dr16
+     Flagged - low SNR
 406: spec-5782-56272-0604-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 407: spec-5784-56029-0226-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 408: spec-5968-56356-0408-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #408, file name: spec-5968-56356-0408-dered.dr16
+     Flagged - low SNR
 409: spec-5987-56339-0860-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 410: spec-5997-56309-0870-dered.dr16
+     Failed Test 3 [pink]
 411: spec-6312-56487-0636-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 412: spec-6482-56358-0520-dered.dr16
+     Flagged - low SNR
 413: spec-6627-56369-0996-dered.dr16
+     Failed Test 1 [anchor points]
 414: spec-6800-56399-0724-dered.dr16
+     Flagged - low SNR
 415: spec-7382-56991-0118-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 416: spec-8862-57461-0960-dered.dr16
      flagged_by_test2: True
 417: spec-9177-58044-0678-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 418: spec-9549-57807-0304-dered.dr16
 419: spec-9552-57814-0059-dered.dr16
+     Flagged - low SNR
 420: spec-7619-56900-0602-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #420, file name: spec-7619-56900-0602-dered.dr16
 421: spec-7646-57570-0161-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 422: spec-7651-57654-0456-dered.dr16
+     Flagged - low SNR
 423: spec-7668-57579-0707-dered.dr16
      flagged_by_test2: True
 424: spec-7833-57286-0932-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 425: spec-8520-58191-0231-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 426: spec-11379-58438-0758-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #426, file name: spec-11379-58438-0758-dered.dr16
 427: spec-7624-57039-0660-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 428: spec-9357-57807-0077-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 429: spec-8860-57458-0932-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #429, file name: spec-8860-57458-0932-dered.dr16
+     Flagged - low SNR
 430: spec-7829-57011-0780-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #430, file name: spec-7829-57011-0780-dered.dr16
+     Flagged - low SNR
 431: spec-8760-57672-0002-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #431, file name: spec-8760-57672-0002-dered.dr16
 432: spec-11309-58428-0424-dered.dr16
+     Flagged - low SNR
 433: spec-7655-57336-0208-dered.dr16
+     Flagged - low SNR
 434: spec-10245-58161-0274-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #434, file name: spec-10245-58161-0274-dered.dr16
+     Flagged - low SNR
 435: spec-8297-57416-0527-dered.dr16
+     Flagged - low SNR
 436: spec-8871-57519-0054-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #436, file name: spec-8871-57519-0054-dered.dr16
+     Flagged - low SNR
 437: spec-10431-58137-0135-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 438: spec-5340-56011-0988-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 439: spec-5352-56269-0584-dered.dr16
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 440: spec-5427-56001-0455-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 441: spec-5793-56337-0712-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 442: spec-5854-56035-0580-dered.dr16
+     Flagged - low SNR
 443: spec-6044-56090-0648-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 444: spec-6385-56356-0373-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 445: spec-6975-56720-0458-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 446: spec-6986-56717-0208-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #446, file name: spec-6986-56717-0208-dered.dr16
+     Flagged - low SNR
 447: spec-7109-56658-0710-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #447, file name: spec-7109-56658-0710-dered.dr16
 448: spec-7449-56740-0862-dered.dr16
+     Flagged - low SNR
 449: spec-7622-56987-0561-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 450: spec-7850-56956-0314-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #450, file name: spec-7850-56956-0314-dered.dr16
+     Flagged - low SNR
 451: spec-10921-58251-0219-dered.dr16
+     Flagged - low SNR
 452: spec-11296-58425-0574-dered.dr16
+     Flagged - low SNR
 453: spec-7912-57310-0351-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 454: spec-8525-57900-0758-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 455: spec-9411-58070-0555-dered.dr16
+     Flagged - low SNR
 456: spec-10434-58140-0572-dered.dr16
      flagged_by_test1: True
 457: spec-9147-58038-0241-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 458: spec-10660-58466-0671-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 459: spec-7630-57006-0180-dered.dr16
+     Failed Test 1 [anchor points]
 460: spec-7821-57279-0079-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 461: spec-8057-57190-0226-dered.dr16
+     Flagged - low SNR
 462: spec-8760-57672-0738-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #462, file name: spec-8760-57672-0738-dered.dr16
+     Flagged - low SNR
 463: spec-11650-58508-0652-dered.dr16
+     Flagged - low SNR
 464: spec-11294-58451-0910-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #464, file name: spec-11294-58451-0910-dered.dr16
 465: spec-5358-56016-0486-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 466: spec-5403-55979-0500-dered.dr16
+     Failed Test 3 [pink]
 467: spec-5779-56338-0292-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 468: spec-5863-56042-0042-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #468, file name: spec-5863-56042-0042-dered.dr16
+     Flagged - low SNR
 469: spec-5867-56034-0637-dered.dr16
+     Failed Test 1 [anchor points]
 470: spec-5880-56042-0522-dered.dr16
+     Flagged - low SNR
 471: spec-6048-56072-0860-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #471, file name: spec-6048-56072-0860-dered.dr16
+     Flagged - low SNR
 472: spec-6369-56217-0778-dered.dr16
+     Flagged - low SNR
 473: spec-6660-56370-0736-dered.dr16
 474: spec-6661-56366-0222-dered.dr16
+     Flagged - low SNR
 475: spec-6685-56412-0378-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 476: spec-6690-56416-0385-dered.dr16
+     Flagged - low SNR
 477: spec-6703-56636-0507-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 478: spec-6745-56425-0434-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 479: spec-6970-56444-0172-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 480: spec-7236-56605-0334-dered.dr16
+     Flagged - low SNR
 481: spec-8506-57893-0528-dered.dr16
 482: spec-8830-57447-0885-dered.dr16
+     Flagged - low SNR
 483: spec-7576-56948-0202-dered.dr16
+     Flagged - low SNR
 484: spec-7622-56987-0104-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #484, file name: spec-7622-56987-0104-dered.dr16
+     Flagged - low SNR
 485: spec-7685-57062-0486-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 486: spec-7717-58100-0677-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #486, file name: spec-7717-58100-0677-dered.dr16
+     Flagged - low SNR
 487: spec-7710-58284-0752-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #487, file name: spec-7710-58284-0752-dered.dr16
+     Flagged - low SNR
 488: spec-8729-57399-0420-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
@@ -1064,325 +1009,329 @@
 489: spec-10723-58287-0019-dered.dr16
      flagged_by_test2: True
 490: spec-11296-58425-0466-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #490, file name: spec-11296-58425-0466-dered.dr16
+     Flagged - low SNR
 491: spec-8190-57448-0250-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #491, file name: spec-8190-57448-0250-dered.dr16
+     Flagged - low SNR
 492: spec-8729-57399-0670-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 493: spec-8732-57418-0032-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 494: spec-11046-58398-0643-dered.dr16
+     Failed Test 3 [pink]
 495: spec-9355-57814-0118-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 496: spec-8755-58138-0309-dered.dr16
+     Flagged - low SNR
 497: spec-10264-58162-0775-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #497, file name: spec-10264-58162-0775-dered.dr16
+     Flagged - low SNR
 498: spec-7647-57655-0066-dered.dr16
+     Flagged - low SNR
 499: spec-7748-58396-0649-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #499, file name: spec-7748-58396-0649-dered.dr16
+     Failed Test 1 [anchor points]
 500: spec-8542-57933-0232-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 501: spec-5396-55947-0930-dered.dr16
 502: spec-5741-55980-0190-dered.dr16
+     Flagged - low SNR
 503: spec-5987-56339-0498-dered.dr16
+     Flagged - low SNR
 504: spec-6034-56103-0712-dered.dr16
      flagged_by_test2: True
 505: spec-7377-56741-0822-dered.dr16
+     Flagged - low SNR
 506: spec-7580-56955-0827-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #506, file name: spec-7580-56955-0827-dered.dr16
+     Failed Test 1 [anchor points]
 507: spec-7655-57336-0358-dered.dr16
+     Failed Test 1 [anchor points]
 508: spec-7830-57043-0274-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #508, file name: spec-7830-57043-0274-dered.dr16
+     Flagged - low SNR
 509: spec-8839-57846-0263-dered.dr16
 510: spec-11293-58462-0855-dered.dr16
+     Flagged - low SNR
 511: spec-8286-57062-0292-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #511, file name: spec-8286-57062-0292-dered.dr16
+     Flagged - low SNR
 512: spec-9405-58048-0965-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 513: spec-10667-58163-0190-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #513, file name: spec-10667-58163-0190-dered.dr16
+     Flagged - low SNR
 514: spec-7892-57333-0024-dered.dr16
 515: spec-7769-58420-0284-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 516: spec-7707-57663-0492-dered.dr16
+     Flagged - low SNR
 517: spec-11396-58490-0784-dered.dr16
+     Failed Test 1 [anchor points]
 518: spec-7867-57003-0055-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #518, file name: spec-7867-57003-0055-dered.dr16
+     Flagged - low SNR
 519: spec-7576-56948-0604-dered.dr16
+     Flagged - low SNR
 520: spec-8525-57900-0815-dered.dr16
+     Flagged - low SNR
 521: spec-9407-58041-0707-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 522: spec-10917-58252-0620-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #522, file name: spec-10917-58252-0620-dered.dr16
+     Flagged - low SNR
 523: spec-7713-58096-0948-dered.dr16
+     Flagged - low SNR
 524: spec-8233-57887-0733-dered.dr16
+     Flagged - low SNR
 525: spec-8424-58248-0592-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 526: spec-11303-58428-0234-dered.dr16
+     Flagged - low SNR
 527: spec-7915-57309-0871-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 528: spec-8850-57782-0468-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 529: spec-10460-58161-0739-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 530: spec-5164-56067-0928-dered.dr16
 531: spec-6003-56311-0344-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 532: spec-6486-56328-0254-dered.dr16
      flagged_by_test2: True
 533: spec-6690-56416-0328-dered.dr16
+     Flagged - low SNR
 534: spec-6690-56416-0370-dered.dr16
 535: spec-6829-56453-0709-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #535, file name: spec-6829-56453-0709-dered.dr16
+     Flagged - low SNR
 536: spec-7659-57060-0819-dered.dr16
+     Flagged - low SNR
 537: spec-8525-57900-0814-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 538: spec-8491-57488-0396-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 539: spec-9352-57805-0621-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 540: spec-10762-58390-0632-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #540, file name: spec-10762-58390-0632-dered.dr16
+     Flagged - low SNR
 541: spec-10904-58402-0049-dered.dr16
+     Flagged - low SNR
 542: spec-11108-58467-0872-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 543: spec-11114-58437-0780-dered.dr16
+     Failed Test 1 [anchor points]
 544: spec-9331-57711-0233-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #544, file name: spec-9331-57711-0233-dered.dr16
 545: spec-9344-58038-0868-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 546: spec-11295-58456-0458-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 547: spec-9173-58069-0823-dered.dr16
+     Failed Test 1 [anchor points]
 548: spec-9372-58074-0133-dered.dr16
 549: spec-9396-58101-0713-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 550: spec-11080-58401-0400-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #550, file name: spec-11080-58401-0400-dered.dr16
+     Flagged - low SNR
 551: spec-11315-58402-0862-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 552: spec-7664-57367-0194-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 553: spec-8748-58396-0922-dered.dr16
+     Flagged - low SNR
 554: spec-11554-58456-0715-dered.dr16
+     Flagged - low SNR
 555: spec-8761-58430-0769-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 556: spec-9372-58074-0171-dered.dr16
+     Failed Test 1 [anchor points]
 557: spec-4373-55811-0056-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #557, file name: spec-4373-55811-0056-dered.dr16
+     Flagged - low SNR
 558: spec-5443-56010-0580-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #558, file name: spec-5443-56010-0580-dered.dr16
+     Flagged - low SNR
 559: spec-5808-56325-0532-dered.dr16
 560: spec-5905-56065-0668-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #560, file name: spec-5905-56065-0668-dered.dr16
+     Flagged - low SNR
 561: spec-5973-56067-0372-dered.dr16
 562: spec-6322-56190-0422-dered.dr16
+     Flagged - low SNR
 563: spec-6477-56365-0530-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 564: spec-6627-56369-0176-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 565: spec-6642-56396-0658-dered.dr16
+     Flagged - low SNR
 566: spec-6833-56413-0876-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 567: spec-7166-56602-0399-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 568: spec-9341-57743-0141-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #568, file name: spec-9341-57743-0141-dered.dr16
 569: spec-9394-58108-0381-dered.dr16
+     Failed Test 1 [anchor points]
 570: spec-9546-57864-0317-dered.dr16
+     Failed Test 3 [pink]
 571: spec-10665-58456-0272-dered.dr16
+     Flagged - low SNR
 572: spec-7288-57039-0332-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 573: spec-7733-58103-0752-dered.dr16
+     Failed Test 3 [pink]
 574: spec-8056-57186-0716-dered.dr16
+     Flagged - low SNR
 575: spec-10291-58101-0718-dered.dr16
+     Flagged - low SNR
 576: spec-7585-57190-0662-dered.dr16
+     Flagged - low SNR
 577: spec-8058-57196-0944-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #577, file name: spec-8058-57196-0944-dered.dr16
+     Flagged - low SNR
 578: spec-8538-57549-0746-dered.dr16
+     Flagged - low SNR
 579: spec-7691-57360-0584-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #579, file name: spec-7691-57360-0584-dered.dr16
+     Flagged - low SNR
 580: spec-7838-56958-0926-dered.dr16
+     Flagged - low SNR
 581: spec-8746-58396-0342-dered.dr16
+     Flagged - low SNR
 582: spec-7598-56956-0226-dered.dr16
+     Flagged - low SNR
 583: spec-7904-57358-0084-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #583, file name: spec-7904-57358-0084-dered.dr16
+     Flagged - low SNR
 584: spec-8194-57401-0322-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #584, file name: spec-8194-57401-0322-dered.dr16
+     Flagged - low SNR
 585: spec-7826-56931-0420-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #585, file name: spec-7826-56931-0420-dered.dr16
+     Flagged - low SNR
 586: spec-7845-56980-0536-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 587: spec-11288-58401-0844-dered.dr16
+     Flagged - low SNR
 588: spec-8055-57187-0579-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 589: spec-7683-58133-0391-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #589, file name: spec-7683-58133-0391-dered.dr16
+     Flagged - low SNR
 590: spec-8280-57061-0554-dered.dr16
+     Flagged - low SNR
 591: spec-4970-56039-0268-dered.dr16
+     Flagged - low SNR
 592: spec-5352-56269-0334-dered.dr16
+     Flagged - low SNR
 593: spec-5469-56037-0868-dered.dr16
+     Flagged - low SNR
 594: spec-5790-56271-0071-dered.dr16
+     Failed Test 1 [anchor points]
 595: spec-5975-56334-0920-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 596: spec-6010-56097-0090-dered.dr16
+     Failed Test 1 [anchor points]
 597: spec-6018-56067-0058-dered.dr16
+     Flagged - low SNR
 598: spec-6430-56299-0510-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 599: spec-6709-56429-0888-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #599, file name: spec-6709-56429-0888-dered.dr16
+     Flagged - low SNR
 600: spec-6795-56425-0850-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 601: spec-7113-56711-0816-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 602: spec-7895-57659-0970-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 603: spec-7628-56978-0900-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #603, file name: spec-7628-56978-0900-dered.dr16
+     Flagged - low SNR
 604: spec-8386-57518-0048-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 605: spec-8386-57518-0704-dered.dr16
+     Flagged - low SNR
 606: spec-8282-57041-0739-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 607: spec-8377-57783-0240-dered.dr16
+     Flagged - low SNR
 608: spec-9566-58083-0062-dered.dr16
+     Flagged - low SNR
 609: spec-7671-57360-0360-dered.dr16
+     Failed Test 3 [pink]
 610: spec-8063-57576-0784-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 611: spec-7693-57361-0372-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 612: spec-8192-57348-0318-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 613: spec-11115-58514-0569-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 614: spec-7699-57574-0627-dered.dr16
+     Flagged - low SNR
 615: spec-5175-55955-0532-dered.dr16
+     Failed Test 3 [pink]
 616: spec-5284-55866-0892-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 617: spec-5427-56001-0940-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 618: spec-5437-55973-0498-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 619: spec-5716-56684-0401-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 620: spec-5784-56029-0779-dered.dr16
+     Flagged - low SNR
 621: spec-5804-56304-0092-dered.dr16
+     Flagged - low SNR
 622: spec-5855-56088-0564-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #622, file name: spec-5855-56088-0564-dered.dr16
 623: spec-5869-56064-0790-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #623, file name: spec-5869-56064-0790-dered.dr16
+     Flagged - low SNR
 624: spec-6408-56329-0800-dered.dr16
+     Flagged - low SNR
 625: spec-6429-56274-0334-dered.dr16
+     Flagged - low SNR
 626: spec-6493-56338-0954-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 627: spec-6693-56384-0730-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 628: spec-6815-56419-0970-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #628, file name: spec-6815-56419-0970-dered.dr16
 629: spec-6835-56420-0982-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #629, file name: spec-6835-56420-0982-dered.dr16
+     Flagged - low SNR
 630: spec-7081-56684-0823-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #630, file name: spec-7081-56684-0823-dered.dr16
+     Flagged - low SNR
 631: spec-7107-56740-0655-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 632: spec-7445-56720-0783-dered.dr16
+     Failed Test 1 [anchor points]
 633: spec-7636-56989-0653-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 634: spec-8055-57187-0502-dered.dr16
+     Flagged - low SNR
 635: spec-8160-57071-0930-dered.dr16
+     Failed Test 1 [anchor points]
 636: spec-8850-57782-0922-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 637: spec-7728-58138-0111-dered.dr16
+     Failed Test 1 [anchor points]
 638: spec-7582-56960-0108-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 639: spec-7650-57575-0506-dered.dr16
+     Flagged - low SNR
 640: spec-7665-57328-0148-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 641: spec-7738-58100-0337-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 642: spec-11083-58515-0797-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #642, file name: spec-11083-58515-0797-dered.dr16
+     Failed Test 1 [anchor points]
 643: spec-7642-57651-0556-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 644: spec-11329-58426-0273-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #644, file name: spec-11329-58426-0273-dered.dr16
+     Flagged - low SNR
 645: spec-7750-58402-0628-dered.dr16
+     Flagged - low SNR
 646: spec-11079-58485-0512-dered.dr16
      flagged_by_test1: True
 647: spec-8183-57375-0593-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 648: spec-5155-55946-0173-dered.dr16
 649: spec-5293-55953-0194-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 650: spec-5319-55953-0066-dered.dr16
+     Flagged - low SNR
 651: spec-5397-55944-0232-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 652: spec-5455-56009-0188-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
@@ -1392,260 +1341,231 @@
      flagged_by_test2: True
        Flagging figure #653, file name: spec-5485-56063-0068-dered.dr16
 654: spec-5767-56245-0817-dered.dr16
+     Failed Test 1 [anchor points]
 655: spec-5895-56046-0632-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 656: spec-6024-56088-0262-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 657: spec-6036-56093-0698-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 658: spec-6053-56091-0523-dered.dr16
+     Flagged - low SNR
 659: spec-6404-56330-0793-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 660: spec-6670-56389-0286-dered.dr16
 661: spec-6686-56389-0210-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #661, file name: spec-6686-56389-0210-dered.dr16
 662: spec-6780-56605-0408-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #662, file name: spec-6780-56605-0408-dered.dr16
+     Flagged - low SNR
 663: spec-7384-56715-0414-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 664: spec-8303-57805-0398-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #664, file name: spec-8303-57805-0398-dered.dr16
+     Failed Test 1 [anchor points]
 665: spec-8527-57897-0815-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 666: spec-8751-57685-0858-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 667: spec-9578-57817-0673-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #667, file name: spec-9578-57817-0673-dered.dr16
+     Flagged - low SNR
 668: spec-11304-58448-0598-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #668, file name: spec-11304-58448-0598-dered.dr16
+     Flagged - low SNR
 669: spec-9235-58021-0936-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #669, file name: spec-9235-58021-0936-dered.dr16
+     Flagged - low SNR
 670: spec-11078-58437-0305-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 671: spec-7288-57039-0882-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 672: spec-8362-57732-0328-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 673: spec-8746-58396-0714-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #673, file name: spec-8746-58396-0714-dered.dr16
+     Flagged - low SNR
 674: spec-8505-57834-0416-dered.dr16
+     Flagged - low SNR
 675: spec-11633-58463-0754-dered.dr16
+     Flagged - low SNR
 676: spec-7682-57415-0688-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 677: spec-7860-57006-0760-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 678: spec-7578-56956-0597-dered.dr16
+     Flagged - low SNR
 679: spec-7650-57575-0843-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #679, file name: spec-7650-57575-0843-dered.dr16
+     Flagged - low SNR
 680: spec-8758-58139-0761-dered.dr16
+     Flagged - low SNR
 681: spec-7722-58425-0640-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 682: spec-7748-58396-0522-dered.dr16
      flagged_by_test2: True
 683: spec-10468-58131-0914-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #683, file name: spec-10468-58131-0914-dered.dr16
+     Flagged - low SNR
 684: spec-7670-57328-0514-dered.dr16
+     Flagged - low SNR
 685: spec-8832-57445-0739-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 686: spec-8850-57782-0894-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 687: spec-7600-56984-0500-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #687, file name: spec-7600-56984-0500-dered.dr16
+     Flagged - low SNR
 688: spec-7642-57651-0316-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 689: spec-8375-57520-0674-dered.dr16
+     Flagged - low SNR
 690: spec-9316-58082-0815-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #690, file name: spec-9316-58082-0815-dered.dr16
 691: spec-5368-56001-0474-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #691, file name: spec-5368-56001-0474-dered.dr16
+     Flagged - low SNR
 692: spec-5386-56008-0340-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #692, file name: spec-5386-56008-0340-dered.dr16
+     Flagged - low SNR
 693: spec-5406-55955-0952-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #693, file name: spec-5406-55955-0952-dered.dr16
 694: spec-5413-55976-0400-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 695: spec-5466-56033-0446-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 696: spec-5766-56248-0756-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #696, file name: spec-5766-56248-0756-dered.dr16
+     Flagged - low SNR
 697: spec-6027-56103-0338-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #697, file name: spec-6027-56103-0338-dered.dr16
+     Flagged - low SNR
 698: spec-6395-56354-0271-dered.dr16
+     Flagged - low SNR
 699: spec-6411-56331-0426-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 700: spec-6470-56334-0444-dered.dr16
+     Flagged - low SNR
 701: spec-6486-56328-0706-dered.dr16
+     Failed Test 3 [pink]
 702: spec-7096-56683-0980-dered.dr16
+     Failed Test 1 [anchor points]
 703: spec-7320-56722-0194-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #703, file name: spec-7320-56722-0194-dered.dr16
+     Flagged - low SNR
 704: spec-7586-57186-0306-dered.dr16
+     Failed Test 1 [anchor points]
 705: spec-7728-58138-0450-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #705, file name: spec-7728-58138-0450-dered.dr16
+     Flagged - low SNR
 706: spec-9148-58039-0470-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 707: spec-9589-57813-0017-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #707, file name: spec-9589-57813-0017-dered.dr16
+     Flagged - low SNR
 708: spec-10665-58456-0504-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #708, file name: spec-10665-58456-0504-dered.dr16
+     Flagged - low SNR
 709: spec-8871-57519-0133-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #709, file name: spec-8871-57519-0133-dered.dr16
+     Flagged - low SNR
 710: spec-9552-57814-0755-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 711: spec-9364-57699-0512-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #711, file name: spec-9364-57699-0512-dered.dr16
+     Flagged - low SNR
 712: spec-11069-58456-0696-dered.dr16
+     Flagged - low SNR
 713: spec-7738-58100-0185-dered.dr16
+     Flagged - low SNR
 714: spec-9604-58133-0403-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 715: spec-7626-56934-0198-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 716: spec-10761-58283-0796-dered.dr16
+     Flagged - low SNR
 717: spec-11314-58436-0612-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 718: spec-7685-57062-0996-dered.dr16
+     Flagged - low SNR
 719: spec-7698-58013-0959-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 720: spec-7751-58081-0044-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #720, file name: spec-7751-58081-0044-dered.dr16
+     Flagged - low SNR
 721: spec-8758-58139-0955-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 722: spec-9367-57758-0884-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #722, file name: spec-9367-57758-0884-dered.dr16
+     Flagged - low SNR
 723: spec-11076-58428-0844-dered.dr16
 724: spec-4644-55922-0166-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 725: spec-5320-55999-0270-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 726: spec-5334-55928-0686-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 727: spec-5402-55927-0377-dered.dr16
 728: spec-5897-56042-0248-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #728, file name: spec-5897-56042-0248-dered.dr16
+     Flagged - low SNR
 729: spec-6035-56076-0936-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 730: spec-6048-56072-0541-dered.dr16
 731: spec-6053-56091-0862-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 732: spec-6059-56093-0316-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #732, file name: spec-6059-56093-0316-dered.dr16
 733: spec-6413-56336-0920-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 734: spec-6428-56279-0757-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 735: spec-6966-56748-0978-dered.dr16
+     Failed Test 1 [anchor points]
 736: spec-7378-56715-0634-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #736, file name: spec-7378-56715-0634-dered.dr16
+     Flagged - low SNR
 737: spec-7411-56776-0794-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 738: spec-7643-57302-0817-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #738, file name: spec-7643-57302-0817-dered.dr16
+     Flagged - low SNR
 739: spec-8183-57375-0308-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 740: spec-9560-57805-0131-dered.dr16
      flagged_by_test2: True
 741: spec-7685-57062-0410-dered.dr16
+     Flagged - low SNR
 742: spec-9158-57664-0766-dered.dr16
+     Failed Test 1 [anchor points]
 743: spec-8297-57416-0904-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #743, file name: spec-8297-57416-0904-dered.dr16
+     Flagged - low SNR
 744: spec-8302-57389-0886-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 745: spec-8366-57432-0287-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #745, file name: spec-8366-57432-0287-dered.dr16
+     Flagged - low SNR
 746: spec-9159-57666-0736-dered.dr16
+     Failed Test 1 [anchor points]
 747: spec-8055-57187-0877-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #747, file name: spec-8055-57187-0877-dered.dr16
+     Failed Test 1 [anchor points]
 748: spec-10262-58543-0274-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 749: spec-10474-58143-0128-dered.dr16
 750: spec-10242-58161-0650-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 751: spec-10753-58242-0477-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 752: spec-7623-56901-0860-dered.dr16
      flagged_by_test2: True
 753: spec-11337-58431-0270-dered.dr16
+     Flagged - low SNR
 754: spec-5162-55893-0899-dered.dr16
+     Flagged - low SNR
 755: spec-5341-55931-0634-dered.dr16
      flagged_by_test1: True
 756: spec-5357-55956-0732-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #756, file name: spec-5357-55956-0732-dered.dr16
+     Flagged - low SNR
 757: spec-5730-56607-0282-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 758: spec-5769-56246-0008-dered.dr16
+     Flagged - low SNR
 759: spec-5803-56272-0040-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #759, file name: spec-5803-56272-0040-dered.dr16
+     Flagged - low SNR
 760: spec-6053-56091-0200-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 761: spec-6060-56074-0760-dered.dr16
+     Flagged - low SNR
 762: spec-6111-56270-0258-dered.dr16
+     Flagged - low SNR
 763: spec-6172-56269-0318-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 764: spec-6198-56211-0235-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
@@ -1655,74 +1575,59 @@
      flagged_by_test2: True
        Flagging figure #765, file name: spec-6300-56449-0872-dered.dr16
 766: spec-6648-56383-0466-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #766, file name: spec-6648-56383-0466-dered.dr16
+     Flagged - low SNR
 767: spec-6752-56366-0590-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 768: spec-6791-56429-0878-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #768, file name: spec-6791-56429-0878-dered.dr16
+     Flagged - low SNR
 769: spec-6838-56429-0482-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 770: spec-7279-57071-0247-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #770, file name: spec-7279-57071-0247-dered.dr16
+     Flagged - low SNR
 771: spec-7315-56685-0079-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 772: spec-7860-57006-0626-dered.dr16
+     Flagged - low SNR
 773: spec-8234-57450-0089-dered.dr16
      flagged_by_test2: True
 774: spec-7700-58016-0786-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 775: spec-8531-57905-0632-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #775, file name: spec-8531-57905-0632-dered.dr16
+     Flagged - low SNR
 776: spec-10478-58171-0084-dered.dr16
+     Failed Test 1 [anchor points]
 777: spec-7580-56955-0650-dered.dr16
+     Flagged - low SNR
 778: spec-11395-58488-0170-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #778, file name: spec-11395-58488-0170-dered.dr16
+     Flagged - low SNR
 779: spec-8299-57346-0658-dered.dr16
+     Failed Test 1 [anchor points]
 780: spec-9369-58054-0586-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 781: spec-8067-58253-0194-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 782: spec-8067-58253-0646-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #782, file name: spec-8067-58253-0646-dered.dr16
+     Flagged - low SNR
 783: spec-9311-57743-0683-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 784: spec-8744-58124-0048-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #784, file name: spec-8744-58124-0048-dered.dr16
+     Flagged - low SNR
 785: spec-7670-57328-0910-dered.dr16
+     Flagged - low SNR
 786: spec-8213-58487-0518-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #786, file name: spec-8213-58487-0518-dered.dr16
+     Flagged - low SNR
 787: spec-7644-57327-0766-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #787, file name: spec-7644-57327-0766-dered.dr16
+     Flagged - low SNR
 788: spec-8748-58396-0074-dered.dr16
+     Failed Test 1 [anchor points]
 789: spec-9145-58041-0100-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #789, file name: spec-9145-58041-0100-dered.dr16
+     Flagged - low SNR
 790: spec-10293-58132-0160-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 791: spec-5307-55998-0232-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #791, file name: spec-5307-55998-0232-dered.dr16
+     Flagged - low SNR
 792: spec-5330-56000-0308-dered.dr16
+     Flagged - low SNR
 793: spec-5347-56008-0412-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
@@ -1730,415 +1635,368 @@
 794: spec-5350-56009-0593-dered.dr16
 795: spec-5361-55973-0900-dered.dr16
 796: spec-5380-55980-0352-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 797: spec-5449-56030-0642-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #797, file name: spec-5449-56030-0642-dered.dr16
+     Flagged - low SNR
 798: spec-5466-56033-0554-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 799: spec-5732-56326-0138-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #799, file name: spec-5732-56326-0138-dered.dr16
+     Flagged - low SNR
 800: spec-5813-56363-0333-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 801: spec-5869-56064-0482-dered.dr16
+     Flagged - low SNR
 802: spec-5876-56042-0050-dered.dr16
      flagged_by_test2: True
 803: spec-6410-56336-0369-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 804: spec-6427-56328-0680-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 805: spec-6463-56340-0001-dered.dr16
 806: spec-6682-56390-0354-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #806, file name: spec-6682-56390-0354-dered.dr16
+     Flagged - low SNR
 807: spec-6748-56371-0358-dered.dr16
 808: spec-7085-56625-0714-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #808, file name: spec-7085-56625-0714-dered.dr16
+     Failed Test 1 [anchor points]
 809: spec-7238-56660-0093-dered.dr16
      flagged_by_test2: True
 810: spec-9583-57809-0290-dered.dr16
+     Flagged - low SNR
 811: spec-11311-58429-0375-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #811, file name: spec-11311-58429-0375-dered.dr16
+     Flagged - low SNR
 812: spec-7317-56992-0217-dered.dr16
+     Flagged - low SNR
 813: spec-7892-57333-0683-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #813, file name: spec-7892-57333-0683-dered.dr16
 814: spec-7651-57654-0716-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 815: spec-10762-58390-0663-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #815, file name: spec-10762-58390-0663-dered.dr16
+     Flagged - low SNR
 816: spec-9179-57682-0524-dered.dr16
+     Flagged - low SNR
 817: spec-11305-58449-0122-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 818: spec-10254-58514-0966-dered.dr16
+     Flagged - low SNR
 819: spec-7668-57579-0394-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 820: spec-11353-58467-0382-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #820, file name: spec-11353-58467-0382-dered.dr16
+     Flagged - low SNR
 821: spec-10273-58466-0270-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 822: spec-11061-58428-0556-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #822, file name: spec-11061-58428-0556-dered.dr16
+     Failed Test 1 [anchor points]
 823: spec-11380-58462-0573-dered.dr16
+     Flagged - low SNR
 824: spec-5206-56033-0300-dered.dr16
+     Flagged - low SNR
 825: spec-5292-55926-0614-dered.dr16
+     Flagged - low SNR
 826: spec-5304-55925-0678-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 827: spec-5347-56008-0342-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 828: spec-5772-56003-0504-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #828, file name: spec-5772-56003-0504-dered.dr16
+     Flagged - low SNR
 829: spec-5801-56328-0207-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 830: spec-5804-56304-0035-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 831: spec-5891-56034-0222-dered.dr16
      flagged_by_test1: True
 832: spec-6497-56329-0534-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 833: spec-6647-56390-0356-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 834: spec-6687-56602-0238-dered.dr16
+     Flagged - low SNR
 835: spec-7707-57663-0342-dered.dr16
      flagged_by_test2: True
 836: spec-8192-57348-0655-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 837: spec-9176-58080-0480-dered.dr16
+     Flagged - low SNR
 838: spec-10247-58162-0676-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #838, file name: spec-10247-58162-0676-dered.dr16
+     Flagged - low SNR
 839: spec-8378-57785-0824-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #839, file name: spec-8378-57785-0824-dered.dr16
+     Flagged - low SNR
 840: spec-9401-58103-0655-dered.dr16
 841: spec-7819-57280-0961-dered.dr16
+     Flagged - low SNR
 842: spec-8302-57389-0616-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #842, file name: spec-8302-57389-0616-dered.dr16
+     Flagged - low SNR
 843: spec-10239-58142-0474-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #843, file name: spec-10239-58142-0474-dered.dr16
+     Flagged - low SNR
 844: spec-10288-58131-0774-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #844, file name: spec-10288-58131-0774-dered.dr16
+     Flagged - low SNR
 845: spec-11075-58451-0200-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 846: spec-11302-58436-0220-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #846, file name: spec-11302-58436-0220-dered.dr16
+     Flagged - low SNR
 847: spec-7850-56956-0016-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 848: spec-7914-57331-0204-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 849: spec-8184-57426-0245-dered.dr16
+     Flagged - low SNR
 850: spec-8512-57903-0656-dered.dr16
+     Flagged - low SNR
 851: spec-8831-57448-0589-dered.dr16
      flagged_by_test2: True
+     Failed Test 3 [pink]
 852: spec-10748-58224-0166-dered.dr16
+     Flagged - low SNR
 853: spec-7667-57580-0227-dered.dr16
+     Flagged - low SNR
 854: spec-8410-57481-0158-dered.dr16
+     Flagged - low SNR
 855: spec-8429-57893-0580-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 856: spec-11120-58510-0495-dered.dr16
+     Flagged - low SNR
 857: spec-7748-58396-0621-dered.dr16
+     Flagged - low SNR
 858: spec-7900-57358-0688-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 859: spec-9402-58039-0953-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 860: spec-7664-57367-0849-dered.dr16
+     Failed Test 1 [anchor points]
 861: spec-9404-58045-0714-dered.dr16
+     Failed Test 1 [anchor points]
 862: spec-10472-58159-0314-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #862, file name: spec-10472-58159-0314-dered.dr16
+     Failed Test 1 [anchor points]
 863: spec-5175-55955-0690-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #863, file name: spec-5175-55955-0690-dered.dr16
+     Failed Test 1 [anchor points]
 864: spec-5288-55865-0484-dered.dr16
+     Flagged - low SNR
 865: spec-5292-55926-0374-dered.dr16
      flagged_by_test2: True
 866: spec-5375-55973-0704-dered.dr16
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 867: spec-5415-55982-0052-dered.dr16
+     Failed Test 1 [anchor points]
 868: spec-5424-56033-0538-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #868, file name: spec-5424-56033-0538-dered.dr16
+     Flagged - low SNR
 869: spec-5471-56034-0674-dered.dr16
+     Flagged - low SNR
 870: spec-5719-56014-0620-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #870, file name: spec-5719-56014-0620-dered.dr16
 871: spec-5743-56011-0328-dered.dr16
+     Flagged - low SNR
 872: spec-5770-56014-0944-dered.dr16
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
 873: spec-5973-56067-0466-dered.dr16
+     Failed Test 1 [anchor points]
 874: spec-6322-56190-0424-dered.dr16
 875: spec-6452-56366-0974-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #875, file name: spec-6452-56366-0974-dered.dr16
+     Failed Test 1 [anchor points]
 876: spec-6463-56340-0566-dered.dr16
      flagged_by_test2: True
 877: spec-6659-56607-0640-dered.dr16
+     Flagged - low SNR
 878: spec-6746-56386-0018-dered.dr16
+     Flagged - low SNR
 879: spec-6835-56420-0374-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #879, file name: spec-6835-56420-0374-dered.dr16
+     Flagged - low SNR
 880: spec-7316-56710-0412-dered.dr16
+     Flagged - low SNR
 881: spec-7675-57327-0938-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 882: spec-8293-57361-0604-dered.dr16
      flagged_by_test2: True
 883: spec-9208-57688-0383-dered.dr16
      flagged_by_test1: True
 884: spec-8497-58161-0230-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #884, file name: spec-8497-58161-0230-dered.dr16
+     Flagged - low SNR
 885: spec-7891-57332-0330-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 886: spec-7278-57041-0235-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #886, file name: spec-7278-57041-0235-dered.dr16
+     Failed Test 1 [anchor points]
 887: spec-7627-56933-0823-dered.dr16
+     Flagged - low SNR
 888: spec-9562-57817-0342-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #888, file name: spec-9562-57817-0342-dered.dr16
+     Flagged - low SNR
 889: spec-8730-57672-0384-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 890: spec-11079-58485-0978-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 891: spec-8541-58257-0563-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 892: spec-9175-58049-0690-dered.dr16
+     Failed Test 1 [anchor points]
 893: spec-8533-58017-0330-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 894: spec-11316-58396-0732-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #894, file name: spec-11316-58396-0732-dered.dr16
+     Flagged - low SNR
 895: spec-7711-57667-0502-dered.dr16
+     Flagged - low SNR
 896: spec-7877-56898-0646-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 897: spec-9356-57809-0923-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #897, file name: spec-9356-57809-0923-dered.dr16
+     Failed Test 1 [anchor points]
 898: spec-4656-55828-0740-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #898, file name: spec-4656-55828-0740-dered.dr16
+     Flagged - low SNR
 899: spec-4770-55928-0926-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #899, file name: spec-4770-55928-0926-dered.dr16
+     Failed Test 3 [pink]
 900: spec-5160-55895-0426-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 901: spec-5205-56040-0136-dered.dr16
+     Failed Test 1 [anchor points]
 902: spec-5212-56016-0750-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #902, file name: spec-5212-56016-0750-dered.dr16
 903: spec-5474-56036-0766-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 904: spec-5488-56013-0922-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 905: spec-5715-56657-0272-dered.dr16
 906: spec-6144-56237-0822-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #906, file name: spec-6144-56237-0822-dered.dr16
+     Flagged - low SNR
 907: spec-6434-56362-0144-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 908: spec-6677-56385-0770-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 909: spec-7737-57722-0962-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #909, file name: spec-7737-57722-0962-dered.dr16
+     Flagged - low SNR
 910: spec-8301-57390-0391-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #910, file name: spec-8301-57390-0391-dered.dr16
+     Flagged - low SNR
 911: spec-10720-58250-0174-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #911, file name: spec-10720-58250-0174-dered.dr16
 912: spec-7619-56900-0680-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 913: spec-7904-57358-0184-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 914: spec-8401-57482-0518-dered.dr16
+     Flagged - low SNR
 915: spec-7661-57286-0041-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #915, file name: spec-7661-57286-0041-dered.dr16
+     Flagged - low SNR
 916: spec-9141-57663-0257-dered.dr16
+     Flagged - low SNR
 917: spec-7613-56988-0106-dered.dr16
+     Flagged - low SNR
 918: spec-7756-58392-0466-dered.dr16
+     Flagged - low SNR
 919: spec-8199-57428-0923-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #919, file name: spec-8199-57428-0923-dered.dr16
+     Flagged - low SNR
 920: spec-11314-58436-0484-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #920, file name: spec-11314-58436-0484-dered.dr16
+     Flagged - low SNR
 921: spec-11633-58463-0669-dered.dr16
-     flagged_by_test1: True
+     Failed Test 1 [anchor points]
 922: spec-7733-58103-0722-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #922, file name: spec-7733-58103-0722-dered.dr16
+     Flagged - low SNR
 923: spec-7656-57338-0819-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 924: spec-8308-57417-0196-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #924, file name: spec-8308-57417-0196-dered.dr16
+     Flagged - low SNR
 925: spec-7727-58152-0900-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #925, file name: spec-7727-58152-0900-dered.dr16
+     Flagged - low SNR
 926: spec-7915-57309-0606-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 927: spec-7769-58420-0826-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #927, file name: spec-7769-58420-0826-dered.dr16
+     Flagged - low SNR
 928: spec-7583-56958-0116-dered.dr16
+     Flagged - low SNR
 929: spec-5299-55927-0968-dered.dr16
      flagged_by_test2: True
 930: spec-5305-55984-0262-dered.dr16
+     Flagged - low SNR
 931: spec-5406-55955-0634-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 932: spec-5486-56030-0988-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 933: spec-6015-56096-0120-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 934: spec-6397-56365-0598-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #934, file name: spec-6397-56365-0598-dered.dr16
+     Flagged - low SNR
 935: spec-6483-56341-0392-dered.dr16
+     Failed Test 1 [anchor points]
 936: spec-6487-56362-0214-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 937: spec-6735-56397-0866-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #937, file name: spec-6735-56397-0866-dered.dr16
 938: spec-6760-56425-0312-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 939: spec-7381-56717-0085-dered.dr16
+     Flagged - low SNR
 940: spec-7770-58044-0744-dered.dr16
 941: spec-10910-58254-0836-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #941, file name: spec-10910-58254-0836-dered.dr16
+     Flagged - low SNR
 942: spec-11546-58488-0812-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #942, file name: spec-11546-58488-0812-dered.dr16
 943: spec-7744-58396-0687-dered.dr16
+     Failed Test 1 [anchor points]
 944: spec-7891-57332-0272-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #944, file name: spec-7891-57332-0272-dered.dr16
+     Flagged - low SNR
 945: spec-11074-58488-0983-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #945, file name: spec-11074-58488-0983-dered.dr16
+     Flagged - low SNR
 946: spec-7573-56946-0568-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 947: spec-11309-58428-0646-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 948: spec-7704-57572-0623-dered.dr16
+     Failed Test 1 [anchor points]
 949: spec-7819-57280-0024-dered.dr16
+     Flagged - low SNR
 950: spec-8844-57424-0059-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 951: spec-10666-58440-0098-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #951, file name: spec-10666-58440-0098-dered.dr16
 952: spec-11704-58514-0672-dered.dr16
+     Flagged - low SNR
 953: spec-9155-58043-0194-dered.dr16
      flagged_by_test2: True
 954: spec-4835-56016-0042-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #954, file name: spec-4835-56016-0042-dered.dr16
+     Flagged - low SNR
 955: spec-4853-55928-0959-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 956: spec-5301-55987-0136-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #956, file name: spec-5301-55987-0136-dered.dr16
+     Failed Test 1 [anchor points]
 957: spec-5350-56009-0876-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #957, file name: spec-5350-56009-0876-dered.dr16
+     Flagged - low SNR
 958: spec-5410-56016-0928-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #958, file name: spec-5410-56016-0928-dered.dr16
+     Failed Test 1 [anchor points]
 959: spec-5441-56017-0434-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #959, file name: spec-5441-56017-0434-dered.dr16
+     Flagged - low SNR
 960: spec-5740-55998-0552-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #960, file name: spec-5740-55998-0552-dered.dr16
+     Failed Test 3 [pink]
 961: spec-6407-56311-0678-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #961, file name: spec-6407-56311-0678-dered.dr16
+     Flagged - low SNR
 962: spec-6434-56362-0204-dered.dr16
+     Flagged - low SNR
 963: spec-6481-56363-0824-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #963, file name: spec-6481-56363-0824-dered.dr16
+     Flagged - low SNR
 964: spec-6638-56370-0638-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #964, file name: spec-6638-56370-0638-dered.dr16
+     Failed Test 1 [anchor points]
 965: spec-6782-56572-0050-dered.dr16
+     Flagged - low SNR
 966: spec-6782-56572-0520-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #966, file name: spec-6782-56572-0520-dered.dr16
+     Flagged - low SNR
 967: spec-6974-56442-0778-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #967, file name: spec-6974-56442-0778-dered.dr16
+     Flagged - low SNR
 968: spec-7091-56658-0852-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 969: spec-7092-56683-0792-dered.dr16
      flagged_by_test1: True
 970: spec-7117-56685-0310-dered.dr16
@@ -2146,2243 +2004,68 @@
      flagged_by_test2: True
        Flagging figure #970, file name: spec-7117-56685-0310-dered.dr16
 971: spec-7282-56660-0208-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 972: spec-7416-56810-0258-dered.dr16
-     flagged_by_test2: True
+     Failed Test 1 [anchor points]
 973: spec-8359-57449-0335-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #973, file name: spec-8359-57449-0335-dered.dr16
 974: spec-8509-57843-0854-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #974, file name: spec-8509-57843-0854-dered.dr16
+     Flagged - low SNR
 975: spec-8827-57444-0758-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #975, file name: spec-8827-57444-0758-dered.dr16
 976: spec-9363-57742-0242-dered.dr16
+     Flagged - low SNR
 977: spec-7606-56977-0104-dered.dr16
+     Flagged - low SNR
 978: spec-7703-57333-0043-dered.dr16
+     Flagged - low SNR
 979: spec-8734-57642-0007-dered.dr16
+     Flagged - low SNR
 980: spec-8865-57426-0321-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 981: spec-8366-57432-0601-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 982: spec-7660-57357-0580-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 983: spec-8735-58133-0201-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 984: spec-8064-58255-0438-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #984, file name: spec-8064-58255-0438-dered.dr16
+     Flagged - low SNR
 985: spec-8366-57432-0530-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 986: spec-8411-57875-0544-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 987: spec-7617-56949-0408-dered.dr16
+     Flagged - low SNR
 988: spec-10911-58256-0877-dered.dr16
      flagged_by_test2: True
 989: spec-10915-58257-0058-dered.dr16
+     Flagged - low SNR
 990: spec-11061-58428-0255-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 991: spec-7701-57356-0828-dered.dr16
+     Flagged - low SNR
 992: spec-8738-57402-0815-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 993: spec-11060-58523-0838-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 994: spec-4870-55923-0716-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #994, file name: spec-4870-55923-0716-dered.dr16
+     Flagged - low SNR
 995: spec-5201-55832-0628-dered.dr16
+     Flagged - low SNR
 996: spec-5418-56037-0128-dered.dr16
-     flagged_by_test1: True
+     Flagged - low SNR
 997: spec-5439-56045-0214-dered.dr16
      flagged_by_test1: True
      flagged_by_test2: True
        Flagging figure #997, file name: spec-5439-56045-0214-dered.dr16
 998: spec-5794-56282-0572-dered.dr16
+     Failed Test 1 [anchor points]
 999: spec-6316-56483-0104-dered.dr16
-     flagged_by_test2: True
+     Flagged - low SNR
 1000: spec-6412-56358-0472-dered.dr16
-1: spec-10901-58397-0466-dered.dr16
-2: spec-7634-56935-0762-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #2, file name: spec-7634-56935-0762-dered.dr16
-3: spec-8214-57867-0380-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #3, file name: spec-8214-57867-0380-dered.dr16
-4: spec-8302-57389-0164-dered.dr16
-     flagged_by_test2: True
-5: spec-9140-58039-0081-dered.dr16
-6: spec-7663-57328-0626-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #6, file name: spec-7663-57328-0626-dered.dr16
-7: spec-11309-58428-0826-dered.dr16
-8: spec-8055-57187-0792-dered.dr16
-     flagged_by_test1: True
-9: spec-8162-56993-0726-dered.dr16
-10: spec-8744-58124-0859-dered.dr16
-     flagged_by_test2: True
-11: spec-7764-58042-0059-dered.dr16
-     flagged_by_test1: True
-12: spec-11059-58515-0558-dered.dr16
-13: spec-8530-58016-0383-dered.dr16
-     flagged_by_test2: True
-14: spec-9153-58022-0045-dered.dr16
-     flagged_by_test1: True
-15: spec-7318-56990-0380-dered.dr16
-16: spec-7671-57360-0092-dered.dr16
-     flagged_by_test2: True
-17: spec-7685-57062-0023-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #17, file name: spec-7685-57062-0023-dered.dr16
-18: spec-8823-57446-0393-dered.dr16
-     flagged_by_test2: True
-19: spec-10732-58253-0784-dered.dr16
-     flagged_by_test2: True
-20: spec-4421-55858-0894-dered.dr16
-     flagged_by_test1: True
-21: spec-5297-55913-0686-dered.dr16
-     flagged_by_test2: True
-22: spec-5304-55925-0798-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #22, file name: spec-5304-55925-0798-dered.dr16
-23: spec-5363-55956-0084-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #23, file name: spec-5363-55956-0084-dered.dr16
-24: spec-5723-56597-0996-dered.dr16
-25: spec-5863-56042-0078-dered.dr16
-26: spec-5899-56038-0507-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #26, file name: spec-5899-56038-0507-dered.dr16
-27: spec-6138-56598-0594-dered.dr16
-     flagged_by_test1: True
-28: spec-6442-56369-0726-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #28, file name: spec-6442-56369-0726-dered.dr16
-29: spec-6482-56358-0618-dered.dr16
-30: spec-6662-56364-0712-dered.dr16
-31: spec-6669-56413-0946-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #31, file name: spec-6669-56413-0946-dered.dr16
-32: spec-6692-56390-0940-dered.dr16
-33: spec-6783-56284-0672-dered.dr16
-34: spec-7339-56768-0119-dered.dr16
-     flagged_by_test1: True
-35: spec-7759-58401-0124-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #35, file name: spec-7759-58401-0124-dered.dr16
-36: spec-10917-58252-0046-dered.dr16
-     flagged_by_test2: True
-37: spec-11347-58440-0354-dered.dr16
-     flagged_by_test1: True
-38: spec-8865-57426-0726-dered.dr16
-     flagged_by_test1: True
-39: spec-9155-58043-0456-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #39, file name: spec-9155-58043-0456-dered.dr16
-40: spec-9411-58070-0290-dered.dr16
-     flagged_by_test1: True
-41: spec-11340-58433-0826-dered.dr16
-42: spec-7584-56957-0256-dered.dr16
-     flagged_by_test1: True
-43: spec-7725-58158-0762-dered.dr16
-     flagged_by_test2: True
-44: spec-7732-58108-0100-dered.dr16
-45: spec-7857-57278-0834-dered.dr16
-     flagged_by_test1: True
-46: spec-11109-58523-0138-dered.dr16
-     flagged_by_test2: True
-47: spec-7743-58107-0994-dered.dr16
-48: spec-7375-56981-0683-dered.dr16
-     flagged_by_test2: True
-49: spec-7913-57333-0686-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #49, file name: spec-7913-57333-0686-dered.dr16
-50: spec-10665-58456-0918-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #50, file name: spec-10665-58456-0918-dered.dr16
-51: spec-9148-58039-0042-dered.dr16
-     flagged_by_test2: True
-52: spec-9204-57712-0460-dered.dr16
-     flagged_by_test2: True
-53: spec-7644-57327-0353-dered.dr16
-54: spec-5201-55832-0846-dered.dr16
-     flagged_by_test1: True
-55: spec-5202-55824-0914-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #55, file name: spec-5202-55824-0914-dered.dr16
-56: spec-5288-55865-0969-dered.dr16
-57: spec-5322-56003-0312-dered.dr16
-     flagged_by_test2: True
-58: spec-5326-56002-0370-dered.dr16
-     flagged_by_test2: True
-59: spec-5406-55955-0486-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #59, file name: spec-5406-55955-0486-dered.dr16
-60: spec-5438-56002-0285-dered.dr16
-     flagged_by_test2: True
-61: spec-5738-56002-0806-dered.dr16
-     flagged_by_test2: True
-62: spec-5862-56045-0724-dered.dr16
-     flagged_by_test1: True
-63: spec-5994-56101-0196-dered.dr16
-64: spec-6370-56238-0059-dered.dr16
-65: spec-6430-56299-0696-dered.dr16
-     flagged_by_test2: True
-66: spec-6716-56401-0714-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #66, file name: spec-6716-56401-0714-dered.dr16
-67: spec-6800-56399-0376-dered.dr16
-     flagged_by_test1: True
-68: spec-7114-56748-0106-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #68, file name: spec-7114-56748-0106-dered.dr16
-69: spec-7906-57333-0282-dered.dr16
-70: spec-8377-57783-0345-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #70, file name: spec-8377-57783-0345-dered.dr16
-71: spec-11294-58451-0682-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #71, file name: spec-11294-58451-0682-dered.dr16
-72: spec-7662-57358-0956-dered.dr16
-73: spec-7726-58154-0638-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #73, file name: spec-7726-58154-0638-dered.dr16
-74: spec-11341-58428-0699-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #74, file name: spec-11341-58428-0699-dered.dr16
-75: spec-8384-57513-0905-dered.dr16
-76: spec-11040-58456-0700-dered.dr16
-77: spec-8742-57364-0704-dered.dr16
-78: spec-9144-57666-0213-dered.dr16
-     flagged_by_test2: True
-79: spec-7578-56956-0116-dered.dr16
-80: spec-8387-57483-0450-dered.dr16
-     flagged_by_test2: True
-81: spec-4853-55928-0920-dered.dr16
-     flagged_by_test1: True
-82: spec-5197-55828-0030-dered.dr16
-     flagged_by_test2: True
-83: spec-5320-55999-0104-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #83, file name: spec-5320-55999-0104-dered.dr16
-84: spec-5324-55947-0577-dered.dr16
-     flagged_by_test2: True
-85: spec-5368-56001-0946-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #85, file name: spec-5368-56001-0946-dered.dr16
-86: spec-5412-55981-0632-dered.dr16
-87: spec-5450-55986-0680-dered.dr16
-     flagged_by_test2: True
-88: spec-5464-56035-0518-dered.dr16
-     flagged_by_test2: True
-89: spec-5469-56037-0689-dered.dr16
-     flagged_by_test2: True
-90: spec-5905-56065-0640-dered.dr16
-     flagged_by_test1: True
-91: spec-6428-56279-0192-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #91, file name: spec-6428-56279-0192-dered.dr16
-92: spec-6689-56396-0002-dered.dr16
-93: spec-6721-56398-0840-dered.dr16
-94: spec-6737-56365-0672-dered.dr16
-     flagged_by_test1: True
-95: spec-6840-56685-0392-dered.dr16
-96: spec-7118-56686-0018-dered.dr16
-97: spec-7235-56603-0711-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #97, file name: spec-7235-56603-0711-dered.dr16
-98: spec-7631-57279-0786-dered.dr16
-99: spec-7687-57007-0376-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #99, file name: spec-7687-57007-0376-dered.dr16
-100: spec-7832-56904-0796-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #100, file name: spec-7832-56904-0796-dered.dr16
-101: spec-8840-57425-0698-dered.dr16
-     flagged_by_test1: True
-102: spec-11314-58436-0494-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #102, file name: spec-11314-58436-0494-dered.dr16
-103: spec-8863-57724-0590-dered.dr16
-     flagged_by_test2: True
-104: spec-9154-58013-0583-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #104, file name: spec-9154-58013-0583-dered.dr16
-105: spec-10748-58224-0788-dered.dr16
-106: spec-7879-57359-0209-dered.dr16
-     flagged_by_test1: True
-107: spec-8542-57933-0220-dered.dr16
-     flagged_by_test2: True
-108: spec-7671-57360-0958-dered.dr16
-     flagged_by_test2: True
-109: spec-8743-57663-0257-dered.dr16
-     flagged_by_test2: True
-110: spec-7582-56960-0620-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #110, file name: spec-7582-56960-0620-dered.dr16
-111: spec-7676-57329-0716-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #111, file name: spec-7676-57329-0716-dered.dr16
-112: spec-5193-56066-0854-dered.dr16
-113: spec-5303-55980-0022-dered.dr16
-     flagged_by_test2: True
-114: spec-5371-55976-0375-dered.dr16
-     flagged_by_test2: True
-115: spec-5430-56000-0860-dered.dr16
-116: spec-5459-56035-0821-dered.dr16
-     flagged_by_test2: True
-117: spec-5470-56008-0024-dered.dr16
-118: spec-5483-56017-0080-dered.dr16
-119: spec-5787-56254-0280-dered.dr16
-     flagged_by_test1: True
-120: spec-5973-56067-0856-dered.dr16
-     flagged_by_test2: True
-121: spec-5986-56328-0702-dered.dr16
-122: spec-6002-56104-0333-dered.dr16
-     flagged_by_test1: True
-123: spec-6038-56090-0192-dered.dr16
-124: spec-6467-56270-0933-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #124, file name: spec-6467-56270-0933-dered.dr16
-125: spec-6638-56370-0035-dered.dr16
-     flagged_by_test2: True
-126: spec-7092-56683-0634-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #126, file name: spec-7092-56683-0634-dered.dr16
-127: spec-11124-58430-0782-dered.dr16
-128: spec-11307-58430-0280-dered.dr16
-129: spec-8502-57512-0664-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #129, file name: spec-8502-57512-0664-dered.dr16
-130: spec-11329-58426-0355-dered.dr16
-     flagged_by_test2: True
-131: spec-8287-57401-0190-dered.dr16
-132: spec-8838-57870-0656-dered.dr16
-     flagged_by_test2: True
-133: spec-11083-58515-0124-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #133, file name: spec-11083-58515-0124-dered.dr16
-134: spec-7624-57039-0348-dered.dr16
-135: spec-7636-56989-0188-dered.dr16
-136: spec-7647-57655-0057-dered.dr16
-     flagged_by_test1: True
-137: spec-8747-57401-0020-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #137, file name: spec-8747-57401-0020-dered.dr16
-138: spec-10244-58225-0714-dered.dr16
-139: spec-11281-58424-0952-dered.dr16
-     flagged_by_test1: True
-140: spec-7655-57336-0586-dered.dr16
-141: spec-7745-58077-0679-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #141, file name: spec-7745-58077-0679-dered.dr16
-142: spec-7751-58081-0846-dered.dr16
-     flagged_by_test2: True
-143: spec-7756-58392-0073-dered.dr16
-144: spec-11087-58488-0328-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #144, file name: spec-11087-58488-0328-dered.dr16
-145: spec-7390-57130-0961-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #145, file name: spec-7390-57130-0961-dered.dr16
-146: spec-10666-58440-0880-dered.dr16
-147: spec-5158-55913-0592-dered.dr16
-148: spec-5172-56071-0722-dered.dr16
-     flagged_by_test1: True
-149: spec-5205-56040-0352-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #149, file name: spec-5205-56040-0352-dered.dr16
-150: spec-5314-55952-0508-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #150, file name: spec-5314-55952-0508-dered.dr16
-151: spec-5434-56033-0598-dered.dr16
-152: spec-5790-56271-0352-dered.dr16
-153: spec-5792-56269-0798-dered.dr16
-     flagged_by_test2: True
-154: spec-6435-56341-0258-dered.dr16
-     flagged_by_test1: True
-155: spec-6483-56341-0720-dered.dr16
-156: spec-6690-56416-0865-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #156, file name: spec-6690-56416-0865-dered.dr16
-157: spec-6709-56429-0316-dered.dr16
-     flagged_by_test2: True
-158: spec-6809-56454-0922-dered.dr16
-159: spec-6970-56444-0302-dered.dr16
-     flagged_by_test2: True
-160: spec-7238-56660-0165-dered.dr16
-161: spec-7316-56710-0644-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #161, file name: spec-7316-56710-0644-dered.dr16
-162: spec-8054-57194-0545-dered.dr16
-163: spec-11284-58420-0350-dered.dr16
-     flagged_by_test1: True
-164: spec-7611-56946-0192-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #164, file name: spec-7611-56946-0192-dered.dr16
-165: spec-7878-57340-0670-dered.dr16
-     flagged_by_test2: True
-166: spec-11293-58462-0284-dered.dr16
-167: spec-7297-57040-0514-dered.dr16
-168: spec-7885-57336-0182-dered.dr16
-     flagged_by_test1: True
-169: spec-8872-57422-0824-dered.dr16
-170: spec-9145-58041-0855-dered.dr16
-     flagged_by_test1: True
-171: spec-10472-58159-0789-dered.dr16
-     flagged_by_test2: True
-172: spec-8228-57423-0458-dered.dr16
-173: spec-9176-58080-0591-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #173, file name: spec-9176-58080-0591-dered.dr16
-174: spec-11085-58462-0568-dered.dr16
-175: spec-11346-58429-0852-dered.dr16
-     flagged_by_test1: True
-176: spec-9364-57699-0550-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #176, file name: spec-9364-57699-0550-dered.dr16
-177: spec-7616-56902-0588-dered.dr16
-     flagged_by_test2: True
-178: spec-7845-56980-0610-dered.dr16
-179: spec-8745-57391-0609-dered.dr16
-180: spec-7869-57012-0602-dered.dr16
-     flagged_by_test2: True
-181: spec-9156-58039-0299-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #181, file name: spec-9156-58039-0299-dered.dr16
-182: spec-5039-56220-0218-dered.dr16
-     flagged_by_test2: True
-183: spec-5166-56065-0730-dered.dr16
-     flagged_by_test2: True
-184: spec-5285-55946-0392-dered.dr16
-     flagged_by_test2: True
-185: spec-5312-56001-0140-dered.dr16
-186: spec-5322-56003-0417-dered.dr16
-     flagged_by_test2: True
-187: spec-5430-56000-0420-dered.dr16
-     flagged_by_test2: True
-188: spec-5478-56014-0340-dered.dr16
-189: spec-5491-56034-0704-dered.dr16
-190: spec-5712-56602-0816-dered.dr16
-     flagged_by_test2: True
-191: spec-5738-56002-0043-dered.dr16
-192: spec-5788-56255-0570-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #192, file name: spec-5788-56255-0570-dered.dr16
-193: spec-5891-56034-0076-dered.dr16
-     flagged_by_test2: True
-194: spec-5986-56328-0302-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #194, file name: spec-5986-56328-0302-dered.dr16
-195: spec-5997-56309-0843-dered.dr16
-     flagged_by_test1: True
-196: spec-6434-56362-0340-dered.dr16
-197: spec-6449-56356-0572-dered.dr16
-     flagged_by_test2: True
-198: spec-6449-56356-0756-dered.dr16
-     flagged_by_test2: True
-199: spec-6649-56364-0826-dered.dr16
-200: spec-7059-56592-0286-dered.dr16
-     flagged_by_test2: True
-201: spec-7235-56603-0110-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #201, file name: spec-7235-56603-0110-dered.dr16
-202: spec-8401-57482-0335-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #202, file name: spec-8401-57482-0335-dered.dr16
-203: spec-8743-57663-0103-dered.dr16
-204: spec-8864-57428-0151-dered.dr16
-     flagged_by_test2: True
-205: spec-9180-57693-0324-dered.dr16
-206: spec-11118-58522-0668-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #206, file name: spec-11118-58522-0668-dered.dr16
-207: spec-7686-57015-0350-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #207, file name: spec-7686-57015-0350-dered.dr16
-208: spec-7857-57278-0623-dered.dr16
-     flagged_by_test2: True
-209: spec-7879-57359-0648-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #209, file name: spec-7879-57359-0648-dered.dr16
-210: spec-8859-57452-0634-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #210, file name: spec-8859-57452-0634-dered.dr16
-211: spec-9203-57692-0186-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #211, file name: spec-9203-57692-0186-dered.dr16
-212: spec-9597-58137-0657-dered.dr16
-213: spec-10739-58255-0066-dered.dr16
-214: spec-8229-57430-0776-dered.dr16
-215: spec-7584-56957-0901-dered.dr16
-     flagged_by_test2: True
-216: spec-11040-58456-0317-dered.dr16
-     flagged_by_test1: True
-217: spec-5200-56091-0840-dered.dr16
-218: spec-5289-55893-0480-dered.dr16
-     flagged_by_test2: True
-219: spec-5737-56381-0136-dered.dr16
-220: spec-5797-56273-0074-dered.dr16
-221: spec-5811-56334-0139-dered.dr16
-222: spec-5904-56046-0532-dered.dr16
-223: spec-5992-56066-0320-dered.dr16
-224: spec-5996-56096-0309-dered.dr16
-     flagged_by_test1: True
-225: spec-6318-56186-0375-dered.dr16
-226: spec-6415-56310-0857-dered.dr16
-     flagged_by_test2: True
-227: spec-6623-56367-0121-dered.dr16
-228: spec-6748-56371-0474-dered.dr16
-229: spec-7088-56657-0068-dered.dr16
-230: spec-7108-56686-0069-dered.dr16
-231: spec-7383-56749-0952-dered.dr16
-232: spec-7629-56988-0018-dered.dr16
-233: spec-7732-58108-0620-dered.dr16
-234: spec-8503-57519-0032-dered.dr16
-235: spec-8843-57423-0592-dered.dr16
-236: spec-7660-57357-0278-dered.dr16
-     flagged_by_test1: True
-237: spec-11087-58488-0728-dered.dr16
-     flagged_by_test1: True
-238: spec-7722-58425-0531-dered.dr16
-     flagged_by_test2: True
-239: spec-8360-57452-0102-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #239, file name: spec-8360-57452-0102-dered.dr16
-240: spec-8822-58167-0348-dered.dr16
-     flagged_by_test2: True
-241: spec-11073-58451-0262-dered.dr16
-     flagged_by_test2: True
-242: spec-11074-58488-0563-dered.dr16
-     flagged_by_test1: True
-243: spec-11090-58487-0693-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #243, file name: spec-11090-58487-0693-dered.dr16
-244: spec-8067-58253-0102-dered.dr16
-245: spec-8847-57429-0846-dered.dr16
-     flagged_by_test1: True
-246: spec-7616-56902-0364-dered.dr16
-     flagged_by_test2: True
-247: spec-8208-57430-0769-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #247, file name: spec-8208-57430-0769-dered.dr16
-248: spec-10657-58157-0874-dered.dr16
-249: spec-7715-57364-0106-dered.dr16
-     flagged_by_test2: True
-250: spec-5155-55946-0624-dered.dr16
-251: spec-5182-56341-0700-dered.dr16
-252: spec-5439-56045-0250-dered.dr16
-253: spec-5440-55983-0712-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #253, file name: spec-5440-55983-0712-dered.dr16
-254: spec-5859-56065-0052-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #254, file name: spec-5859-56065-0052-dered.dr16
-255: spec-6434-56362-0770-dered.dr16
-256: spec-6491-56337-0210-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #256, file name: spec-6491-56337-0210-dered.dr16
-257: spec-6752-56366-0598-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #257, file name: spec-6752-56366-0598-dered.dr16
-258: spec-7059-56592-0776-dered.dr16
-259: spec-7339-57510-0817-dered.dr16
-     flagged_by_test2: True
-260: spec-7696-57655-0835-dered.dr16
-     flagged_by_test1: True
-261: spec-7749-58073-0682-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #261, file name: spec-7749-58073-0682-dered.dr16
-262: spec-8500-57432-0800-dered.dr16
-263: spec-9405-58048-0921-dered.dr16
-     flagged_by_test1: True
-264: spec-7660-57357-0081-dered.dr16
-     flagged_by_test2: True
-265: spec-10925-58271-0036-dered.dr16
-     flagged_by_test2: True
-266: spec-11053-58437-0482-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #266, file name: spec-11053-58437-0482-dered.dr16
-267: spec-8539-58021-0141-dered.dr16
-     flagged_by_test2: True
-268: spec-9549-57807-0478-dered.dr16
-     flagged_by_test2: True
-269: spec-8406-57513-0964-dered.dr16
-270: spec-7577-56944-0495-dered.dr16
-     flagged_by_test1: True
-271: spec-10227-58224-0894-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #271, file name: spec-10227-58224-0894-dered.dr16
-272: spec-10232-58223-0928-dered.dr16
-     flagged_by_test2: True
-273: spec-11040-58456-0262-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #273, file name: spec-11040-58456-0262-dered.dr16
-274: spec-7756-58392-0984-dered.dr16
-275: spec-5195-56048-0102-dered.dr16
-276: spec-5202-55824-0174-dered.dr16
-     flagged_by_test2: True
-277: spec-5769-56246-0172-dered.dr16
-278: spec-5987-56339-0264-dered.dr16
-     flagged_by_test1: True
-279: spec-5996-56096-0608-dered.dr16
-     flagged_by_test1: True
-280: spec-6202-56266-0584-dered.dr16
-     flagged_by_test2: True
-281: spec-6427-56328-0110-dered.dr16
-     flagged_by_test1: True
-282: spec-6986-56717-0170-dered.dr16
-     flagged_by_test1: True
-283: spec-7088-56657-0588-dered.dr16
-284: spec-7838-56958-0378-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #284, file name: spec-7838-56958-0378-dered.dr16
-285: spec-8857-57449-0410-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #285, file name: spec-8857-57449-0410-dered.dr16
-286: spec-7722-58425-0772-dered.dr16
-     flagged_by_test2: True
-287: spec-8871-57519-0914-dered.dr16
-     flagged_by_test2: True
-288: spec-9606-58103-0149-dered.dr16
-289: spec-11073-58451-0962-dered.dr16
-     flagged_by_test2: True
-290: spec-8729-57399-0846-dered.dr16
-     flagged_by_test1: True
-291: spec-9329-57688-0257-dered.dr16
-292: spec-8528-57896-0376-dered.dr16
-     flagged_by_test1: True
-293: spec-8850-57782-0192-dered.dr16
-     flagged_by_test2: True
-294: spec-10232-58223-0222-dered.dr16
-     flagged_by_test1: True
-295: spec-11044-58508-0259-dered.dr16
-296: spec-7892-57333-0134-dered.dr16
-297: spec-10242-58161-0406-dered.dr16
-298: spec-10276-58225-0877-dered.dr16
-     flagged_by_test2: True
-299: spec-8504-57518-0098-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #299, file name: spec-8504-57518-0098-dered.dr16
-300: spec-9564-57817-0665-dered.dr16
-     flagged_by_test2: True
-301: spec-11085-58462-0573-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #301, file name: spec-11085-58462-0573-dered.dr16
-302: spec-5204-56036-0816-dered.dr16
-     flagged_by_test2: True
-303: spec-5360-55983-0014-dered.dr16
-304: spec-5395-56003-0542-dered.dr16
-     flagged_by_test2: True
-305: spec-5397-55944-0352-dered.dr16
-     flagged_by_test2: True
-306: spec-5397-55944-0906-dered.dr16
-307: spec-5799-56325-0058-dered.dr16
-     flagged_by_test2: True
-308: spec-5801-56328-0854-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #308, file name: spec-5801-56328-0854-dered.dr16
-309: spec-5877-56041-0833-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #309, file name: spec-5877-56041-0833-dered.dr16
-310: spec-5885-56036-0405-dered.dr16
-311: spec-5890-56037-0394-dered.dr16
-     flagged_by_test2: True
-312: spec-5894-56039-0220-dered.dr16
-313: spec-5900-56043-0250-dered.dr16
-314: spec-5903-56064-0038-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #314, file name: spec-5903-56064-0038-dered.dr16
-315: spec-6017-56075-0590-dered.dr16
-316: spec-6406-56330-0854-dered.dr16
-317: spec-6429-56274-0236-dered.dr16
-318: spec-6449-56356-0116-dered.dr16
-     flagged_by_test2: True
-319: spec-6635-56370-0548-dered.dr16
-     flagged_by_test2: True
-320: spec-6833-56413-0278-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #320, file name: spec-6833-56413-0278-dered.dr16
-321: spec-6973-56741-0344-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #321, file name: spec-6973-56741-0344-dered.dr16
-322: spec-7565-56809-0200-dered.dr16
-     flagged_by_test1: True
-323: spec-7718-57362-0079-dered.dr16
-     flagged_by_test1: True
-324: spec-8490-57104-0424-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #324, file name: spec-8490-57104-0424-dered.dr16
-325: spec-10467-58138-0567-dered.dr16
-326: spec-11118-58522-0814-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #326, file name: spec-11118-58522-0814-dered.dr16
-327: spec-8532-58022-0979-dered.dr16
-     flagged_by_test2: True
-328: spec-10228-58223-0180-dered.dr16
-     flagged_by_test2: True
-329: spec-7750-58402-0902-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #329, file name: spec-7750-58402-0902-dered.dr16
-330: spec-10449-58137-0887-dered.dr16
-     flagged_by_test2: True
-331: spec-7702-58017-0856-dered.dr16
-     flagged_by_test2: True
-332: spec-8055-57187-0793-dered.dr16
-     flagged_by_test2: True
-333: spec-8372-57787-0510-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #333, file name: spec-8372-57787-0510-dered.dr16
-334: spec-8743-57663-0458-dered.dr16
-     flagged_by_test2: True
-335: spec-9239-58018-0304-dered.dr16
-336: spec-9143-57665-0035-dered.dr16
-337: spec-7640-57311-0018-dered.dr16
-     flagged_by_test2: True
-338: spec-7722-58425-0298-dered.dr16
-339: spec-8754-58425-0656-dered.dr16
-340: spec-7915-57309-0358-dered.dr16
-     flagged_by_test1: True
-341: spec-7906-57333-0305-dered.dr16
-     flagged_by_test2: True
-342: spec-5165-56063-0726-dered.dr16
-343: spec-5200-56091-0107-dered.dr16
-     flagged_by_test1: True
-344: spec-5423-55958-0320-dered.dr16
-     flagged_by_test2: True
-345: spec-5480-56001-0920-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #345, file name: spec-5480-56001-0920-dered.dr16
-346: spec-6058-56090-0210-dered.dr16
-347: spec-6121-56187-0890-dered.dr16
-     flagged_by_test1: True
-348: spec-6644-56384-0409-dered.dr16
-349: spec-6737-56365-0860-dered.dr16
-350: spec-6833-56413-0792-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #350, file name: spec-6833-56413-0792-dered.dr16
-351: spec-6838-56429-0490-dered.dr16
-     flagged_by_test1: True
-352: spec-7059-56592-0610-dered.dr16
-     flagged_by_test1: True
-353: spec-7184-56629-0327-dered.dr16
-     flagged_by_test2: True
-354: spec-7675-57327-0758-dered.dr16
-     flagged_by_test2: True
-355: spec-8227-57427-0354-dered.dr16
-     flagged_by_test1: True
-356: spec-8292-57373-0176-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #356, file name: spec-8292-57373-0176-dered.dr16
-357: spec-8424-58248-0642-dered.dr16
-358: spec-8427-57846-0465-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #358, file name: spec-8427-57846-0465-dered.dr16
-359: spec-8738-57402-0294-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #359, file name: spec-8738-57402-0294-dered.dr16
-360: spec-11040-58456-0383-dered.dr16
-     flagged_by_test2: True
-361: spec-7842-56899-0718-dered.dr16
-362: spec-10720-58250-0979-dered.dr16
-     flagged_by_test1: True
-363: spec-11342-58425-0433-dered.dr16
-     flagged_by_test2: True
-364: spec-7611-56946-0066-dered.dr16
-     flagged_by_test2: True
-365: spec-9405-58048-0552-dered.dr16
-366: spec-10938-58514-0582-dered.dr16
-     flagged_by_test2: True
-367: spec-7650-57575-0269-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #367, file name: spec-7650-57575-0269-dered.dr16
-368: spec-7679-57367-0342-dered.dr16
-369: spec-9177-58044-0684-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #369, file name: spec-9177-58044-0684-dered.dr16
-370: spec-11303-58428-0400-dered.dr16
-     flagged_by_test2: True
-371: spec-7579-56954-0755-dered.dr16
-     flagged_by_test1: True
-372: spec-11315-58402-0654-dered.dr16
-373: spec-7702-58017-0190-dered.dr16
-     flagged_by_test1: True
-374: spec-8379-57787-0065-dered.dr16
-375: spec-8530-58016-0875-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #375, file name: spec-8530-58016-0875-dered.dr16
-376: spec-5339-55922-0676-dered.dr16
-377: spec-5396-55947-1000-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #377, file name: spec-5396-55947-1000-dered.dr16
-378: spec-5448-56013-0106-dered.dr16
-     flagged_by_test2: True
-379: spec-5864-56047-0876-dered.dr16
-     flagged_by_test2: True
-380: spec-5974-56314-0518-dered.dr16
-     flagged_by_test2: True
-381: spec-5977-56098-0276-dered.dr16
-382: spec-6040-56101-0884-dered.dr16
-     flagged_by_test1: True
-383: spec-6492-56362-0738-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #383, file name: spec-6492-56362-0738-dered.dr16
-384: spec-6647-56390-0160-dered.dr16
-     flagged_by_test2: True
-385: spec-6790-56430-0166-dered.dr16
-     flagged_by_test2: True
-386: spec-8383-57518-0610-dered.dr16
-     flagged_by_test2: True
-387: spec-7700-58016-0489-dered.dr16
-388: spec-7729-58135-0732-dered.dr16
-     flagged_by_test1: True
-389: spec-7861-57281-0784-dered.dr16
-     flagged_by_test2: True
-390: spec-10260-58173-0710-dered.dr16
-391: spec-7835-56986-0686-dered.dr16
-392: spec-7633-56931-0960-dered.dr16
-     flagged_by_test1: True
-393: spec-8371-57786-0265-dered.dr16
-     flagged_by_test2: True
-394: spec-7879-57359-0194-dered.dr16
-     flagged_by_test2: True
-395: spec-7720-58101-0606-dered.dr16
-396: spec-8376-57786-0850-dered.dr16
-     flagged_by_test2: True
-397: spec-8514-58174-0512-dered.dr16
-     flagged_by_test1: True
-398: spec-9590-57813-0295-dered.dr16
-     flagged_by_test2: True
-399: spec-4468-55894-0786-dered.dr16
-     flagged_by_test2: True
-400: spec-4835-56016-0460-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #400, file name: spec-4835-56016-0460-dered.dr16
-401: spec-5174-56047-0005-dered.dr16
-     flagged_by_test2: True
-402: spec-5203-56034-0346-dered.dr16
-403: spec-5315-55978-0366-dered.dr16
-     flagged_by_test2: True
-404: spec-5377-55957-0558-dered.dr16
-     flagged_by_test2: True
-405: spec-5380-55980-0768-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #405, file name: spec-5380-55980-0768-dered.dr16
-406: spec-5782-56272-0604-dered.dr16
-     flagged_by_test2: True
-407: spec-5784-56029-0226-dered.dr16
-     flagged_by_test2: True
-408: spec-5968-56356-0408-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #408, file name: spec-5968-56356-0408-dered.dr16
-409: spec-5987-56339-0860-dered.dr16
-     flagged_by_test1: True
-410: spec-5997-56309-0870-dered.dr16
-411: spec-6312-56487-0636-dered.dr16
-     flagged_by_test1: True
-412: spec-6482-56358-0520-dered.dr16
-413: spec-6627-56369-0996-dered.dr16
-414: spec-6800-56399-0724-dered.dr16
-415: spec-7382-56991-0118-dered.dr16
-     flagged_by_test1: True
-416: spec-8862-57461-0960-dered.dr16
-     flagged_by_test2: True
-417: spec-9177-58044-0678-dered.dr16
-     flagged_by_test2: True
-418: spec-9549-57807-0304-dered.dr16
-419: spec-9552-57814-0059-dered.dr16
-420: spec-7619-56900-0602-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #420, file name: spec-7619-56900-0602-dered.dr16
-421: spec-7646-57570-0161-dered.dr16
-     flagged_by_test2: True
-422: spec-7651-57654-0456-dered.dr16
-423: spec-7668-57579-0707-dered.dr16
-     flagged_by_test2: True
-424: spec-7833-57286-0932-dered.dr16
-     flagged_by_test2: True
-425: spec-8520-58191-0231-dered.dr16
-     flagged_by_test2: True
-426: spec-11379-58438-0758-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #426, file name: spec-11379-58438-0758-dered.dr16
-427: spec-7624-57039-0660-dered.dr16
-     flagged_by_test1: True
-428: spec-9357-57807-0077-dered.dr16
-     flagged_by_test2: True
-429: spec-8860-57458-0932-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #429, file name: spec-8860-57458-0932-dered.dr16
-430: spec-7829-57011-0780-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #430, file name: spec-7829-57011-0780-dered.dr16
-431: spec-8760-57672-0002-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #431, file name: spec-8760-57672-0002-dered.dr16
-432: spec-11309-58428-0424-dered.dr16
-433: spec-7655-57336-0208-dered.dr16
-434: spec-10245-58161-0274-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #434, file name: spec-10245-58161-0274-dered.dr16
-435: spec-8297-57416-0527-dered.dr16
-436: spec-8871-57519-0054-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #436, file name: spec-8871-57519-0054-dered.dr16
-437: spec-10431-58137-0135-dered.dr16
-     flagged_by_test2: True
-438: spec-5340-56011-0988-dered.dr16
-     flagged_by_test1: True
-439: spec-5352-56269-0584-dered.dr16
-440: spec-5427-56001-0455-dered.dr16
-     flagged_by_test1: True
-441: spec-5793-56337-0712-dered.dr16
-     flagged_by_test1: True
-442: spec-5854-56035-0580-dered.dr16
-443: spec-6044-56090-0648-dered.dr16
-     flagged_by_test2: True
-444: spec-6385-56356-0373-dered.dr16
-     flagged_by_test1: True
-445: spec-6975-56720-0458-dered.dr16
-     flagged_by_test1: True
-446: spec-6986-56717-0208-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #446, file name: spec-6986-56717-0208-dered.dr16
-447: spec-7109-56658-0710-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #447, file name: spec-7109-56658-0710-dered.dr16
-448: spec-7449-56740-0862-dered.dr16
-449: spec-7622-56987-0561-dered.dr16
-     flagged_by_test2: True
-450: spec-7850-56956-0314-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #450, file name: spec-7850-56956-0314-dered.dr16
-451: spec-10921-58251-0219-dered.dr16
-452: spec-11296-58425-0574-dered.dr16
-453: spec-7912-57310-0351-dered.dr16
-     flagged_by_test2: True
-454: spec-8525-57900-0758-dered.dr16
-     flagged_by_test2: True
-455: spec-9411-58070-0555-dered.dr16
-456: spec-10434-58140-0572-dered.dr16
-     flagged_by_test1: True
-457: spec-9147-58038-0241-dered.dr16
-     flagged_by_test1: True
-458: spec-10660-58466-0671-dered.dr16
-     flagged_by_test2: True
-459: spec-7630-57006-0180-dered.dr16
-460: spec-7821-57279-0079-dered.dr16
-     flagged_by_test1: True
-461: spec-8057-57190-0226-dered.dr16
-462: spec-8760-57672-0738-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #462, file name: spec-8760-57672-0738-dered.dr16
-463: spec-11650-58508-0652-dered.dr16
-464: spec-11294-58451-0910-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #464, file name: spec-11294-58451-0910-dered.dr16
-465: spec-5358-56016-0486-dered.dr16
-     flagged_by_test1: True
-466: spec-5403-55979-0500-dered.dr16
-467: spec-5779-56338-0292-dered.dr16
-     flagged_by_test2: True
-468: spec-5863-56042-0042-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #468, file name: spec-5863-56042-0042-dered.dr16
-469: spec-5867-56034-0637-dered.dr16
-470: spec-5880-56042-0522-dered.dr16
-471: spec-6048-56072-0860-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #471, file name: spec-6048-56072-0860-dered.dr16
-472: spec-6369-56217-0778-dered.dr16
-473: spec-6660-56370-0736-dered.dr16
-474: spec-6661-56366-0222-dered.dr16
-475: spec-6685-56412-0378-dered.dr16
-     flagged_by_test2: True
-476: spec-6690-56416-0385-dered.dr16
-477: spec-6703-56636-0507-dered.dr16
-     flagged_by_test2: True
-478: spec-6745-56425-0434-dered.dr16
-     flagged_by_test2: True
-479: spec-6970-56444-0172-dered.dr16
-     flagged_by_test2: True
-480: spec-7236-56605-0334-dered.dr16
-481: spec-8506-57893-0528-dered.dr16
-482: spec-8830-57447-0885-dered.dr16
-483: spec-7576-56948-0202-dered.dr16
-484: spec-7622-56987-0104-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #484, file name: spec-7622-56987-0104-dered.dr16
-485: spec-7685-57062-0486-dered.dr16
-     flagged_by_test1: True
-486: spec-7717-58100-0677-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #486, file name: spec-7717-58100-0677-dered.dr16
-487: spec-7710-58284-0752-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #487, file name: spec-7710-58284-0752-dered.dr16
-488: spec-8729-57399-0420-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #488, file name: spec-8729-57399-0420-dered.dr16
-489: spec-10723-58287-0019-dered.dr16
-     flagged_by_test2: True
-490: spec-11296-58425-0466-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #490, file name: spec-11296-58425-0466-dered.dr16
-491: spec-8190-57448-0250-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #491, file name: spec-8190-57448-0250-dered.dr16
-492: spec-8729-57399-0670-dered.dr16
-     flagged_by_test2: True
-493: spec-8732-57418-0032-dered.dr16
-     flagged_by_test1: True
-494: spec-11046-58398-0643-dered.dr16
-495: spec-9355-57814-0118-dered.dr16
-     flagged_by_test1: True
-496: spec-8755-58138-0309-dered.dr16
-497: spec-10264-58162-0775-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #497, file name: spec-10264-58162-0775-dered.dr16
-498: spec-7647-57655-0066-dered.dr16
-499: spec-7748-58396-0649-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #499, file name: spec-7748-58396-0649-dered.dr16
-500: spec-8542-57933-0232-dered.dr16
-     flagged_by_test1: True
-501: spec-5396-55947-0930-dered.dr16
-502: spec-5741-55980-0190-dered.dr16
-503: spec-5987-56339-0498-dered.dr16
-504: spec-6034-56103-0712-dered.dr16
-     flagged_by_test2: True
-505: spec-7377-56741-0822-dered.dr16
-506: spec-7580-56955-0827-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #506, file name: spec-7580-56955-0827-dered.dr16
-507: spec-7655-57336-0358-dered.dr16
-508: spec-7830-57043-0274-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #508, file name: spec-7830-57043-0274-dered.dr16
-509: spec-8839-57846-0263-dered.dr16
-510: spec-11293-58462-0855-dered.dr16
-511: spec-8286-57062-0292-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #511, file name: spec-8286-57062-0292-dered.dr16
-512: spec-9405-58048-0965-dered.dr16
-     flagged_by_test1: True
-513: spec-10667-58163-0190-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #513, file name: spec-10667-58163-0190-dered.dr16
-514: spec-7892-57333-0024-dered.dr16
-515: spec-7769-58420-0284-dered.dr16
-     flagged_by_test1: True
-516: spec-7707-57663-0492-dered.dr16
-517: spec-11396-58490-0784-dered.dr16
-518: spec-7867-57003-0055-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #518, file name: spec-7867-57003-0055-dered.dr16
-519: spec-7576-56948-0604-dered.dr16
-520: spec-8525-57900-0815-dered.dr16
-521: spec-9407-58041-0707-dered.dr16
-     flagged_by_test2: True
-522: spec-10917-58252-0620-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #522, file name: spec-10917-58252-0620-dered.dr16
-523: spec-7713-58096-0948-dered.dr16
-524: spec-8233-57887-0733-dered.dr16
-525: spec-8424-58248-0592-dered.dr16
-     flagged_by_test1: True
-526: spec-11303-58428-0234-dered.dr16
-527: spec-7915-57309-0871-dered.dr16
-     flagged_by_test1: True
-528: spec-8850-57782-0468-dered.dr16
-     flagged_by_test1: True
-529: spec-10460-58161-0739-dered.dr16
-     flagged_by_test2: True
-530: spec-5164-56067-0928-dered.dr16
-531: spec-6003-56311-0344-dered.dr16
-     flagged_by_test2: True
-532: spec-6486-56328-0254-dered.dr16
-     flagged_by_test2: True
-533: spec-6690-56416-0328-dered.dr16
-534: spec-6690-56416-0370-dered.dr16
-535: spec-6829-56453-0709-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #535, file name: spec-6829-56453-0709-dered.dr16
-536: spec-7659-57060-0819-dered.dr16
-537: spec-8525-57900-0814-dered.dr16
-     flagged_by_test1: True
-538: spec-8491-57488-0396-dered.dr16
-     flagged_by_test2: True
-539: spec-9352-57805-0621-dered.dr16
-     flagged_by_test2: True
-540: spec-10762-58390-0632-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #540, file name: spec-10762-58390-0632-dered.dr16
-541: spec-10904-58402-0049-dered.dr16
-542: spec-11108-58467-0872-dered.dr16
-     flagged_by_test2: True
-543: spec-11114-58437-0780-dered.dr16
-544: spec-9331-57711-0233-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #544, file name: spec-9331-57711-0233-dered.dr16
-545: spec-9344-58038-0868-dered.dr16
-     flagged_by_test2: True
-546: spec-11295-58456-0458-dered.dr16
-     flagged_by_test1: True
-547: spec-9173-58069-0823-dered.dr16
-548: spec-9372-58074-0133-dered.dr16
-549: spec-9396-58101-0713-dered.dr16
-     flagged_by_test2: True
-550: spec-11080-58401-0400-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #550, file name: spec-11080-58401-0400-dered.dr16
-551: spec-11315-58402-0862-dered.dr16
-     flagged_by_test2: True
-552: spec-7664-57367-0194-dered.dr16
-     flagged_by_test2: True
-553: spec-8748-58396-0922-dered.dr16
-554: spec-11554-58456-0715-dered.dr16
-555: spec-8761-58430-0769-dered.dr16
-     flagged_by_test1: True
-556: spec-9372-58074-0171-dered.dr16
-557: spec-4373-55811-0056-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #557, file name: spec-4373-55811-0056-dered.dr16
-558: spec-5443-56010-0580-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #558, file name: spec-5443-56010-0580-dered.dr16
-559: spec-5808-56325-0532-dered.dr16
-560: spec-5905-56065-0668-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #560, file name: spec-5905-56065-0668-dered.dr16
-561: spec-5973-56067-0372-dered.dr16
-562: spec-6322-56190-0422-dered.dr16
-563: spec-6477-56365-0530-dered.dr16
-     flagged_by_test1: True
-564: spec-6627-56369-0176-dered.dr16
-     flagged_by_test2: True
-565: spec-6642-56396-0658-dered.dr16
-566: spec-6833-56413-0876-dered.dr16
-     flagged_by_test2: True
-567: spec-7166-56602-0399-dered.dr16
-     flagged_by_test1: True
-568: spec-9341-57743-0141-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #568, file name: spec-9341-57743-0141-dered.dr16
-569: spec-9394-58108-0381-dered.dr16
-570: spec-9546-57864-0317-dered.dr16
-571: spec-10665-58456-0272-dered.dr16
-572: spec-7288-57039-0332-dered.dr16
-     flagged_by_test2: True
-573: spec-7733-58103-0752-dered.dr16
-574: spec-8056-57186-0716-dered.dr16
-575: spec-10291-58101-0718-dered.dr16
-576: spec-7585-57190-0662-dered.dr16
-577: spec-8058-57196-0944-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #577, file name: spec-8058-57196-0944-dered.dr16
-578: spec-8538-57549-0746-dered.dr16
-579: spec-7691-57360-0584-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #579, file name: spec-7691-57360-0584-dered.dr16
-580: spec-7838-56958-0926-dered.dr16
-581: spec-8746-58396-0342-dered.dr16
-582: spec-7598-56956-0226-dered.dr16
-583: spec-7904-57358-0084-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #583, file name: spec-7904-57358-0084-dered.dr16
-584: spec-8194-57401-0322-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #584, file name: spec-8194-57401-0322-dered.dr16
-585: spec-7826-56931-0420-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #585, file name: spec-7826-56931-0420-dered.dr16
-586: spec-7845-56980-0536-dered.dr16
-     flagged_by_test1: True
-587: spec-11288-58401-0844-dered.dr16
-588: spec-8055-57187-0579-dered.dr16
-     flagged_by_test2: True
-589: spec-7683-58133-0391-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #589, file name: spec-7683-58133-0391-dered.dr16
-590: spec-8280-57061-0554-dered.dr16
-591: spec-4970-56039-0268-dered.dr16
-592: spec-5352-56269-0334-dered.dr16
-593: spec-5469-56037-0868-dered.dr16
-594: spec-5790-56271-0071-dered.dr16
-595: spec-5975-56334-0920-dered.dr16
-     flagged_by_test1: True
-596: spec-6010-56097-0090-dered.dr16
-597: spec-6018-56067-0058-dered.dr16
-598: spec-6430-56299-0510-dered.dr16
-     flagged_by_test2: True
-599: spec-6709-56429-0888-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #599, file name: spec-6709-56429-0888-dered.dr16
-600: spec-6795-56425-0850-dered.dr16
-     flagged_by_test2: True
-601: spec-7113-56711-0816-dered.dr16
-     flagged_by_test2: True
-602: spec-7895-57659-0970-dered.dr16
-     flagged_by_test2: True
-603: spec-7628-56978-0900-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #603, file name: spec-7628-56978-0900-dered.dr16
-604: spec-8386-57518-0048-dered.dr16
-     flagged_by_test1: True
-605: spec-8386-57518-0704-dered.dr16
-606: spec-8282-57041-0739-dered.dr16
-     flagged_by_test1: True
-607: spec-8377-57783-0240-dered.dr16
-608: spec-9566-58083-0062-dered.dr16
-609: spec-7671-57360-0360-dered.dr16
-610: spec-8063-57576-0784-dered.dr16
-     flagged_by_test2: True
-611: spec-7693-57361-0372-dered.dr16
-     flagged_by_test1: True
-612: spec-8192-57348-0318-dered.dr16
-     flagged_by_test1: True
-613: spec-11115-58514-0569-dered.dr16
-     flagged_by_test1: True
-614: spec-7699-57574-0627-dered.dr16
-615: spec-5175-55955-0532-dered.dr16
-616: spec-5284-55866-0892-dered.dr16
-     flagged_by_test2: True
-617: spec-5427-56001-0940-dered.dr16
-     flagged_by_test2: True
-618: spec-5437-55973-0498-dered.dr16
-     flagged_by_test1: True
-619: spec-5716-56684-0401-dered.dr16
-     flagged_by_test2: True
-620: spec-5784-56029-0779-dered.dr16
-621: spec-5804-56304-0092-dered.dr16
-622: spec-5855-56088-0564-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #622, file name: spec-5855-56088-0564-dered.dr16
-623: spec-5869-56064-0790-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #623, file name: spec-5869-56064-0790-dered.dr16
-624: spec-6408-56329-0800-dered.dr16
-625: spec-6429-56274-0334-dered.dr16
-626: spec-6493-56338-0954-dered.dr16
-     flagged_by_test2: True
-627: spec-6693-56384-0730-dered.dr16
-     flagged_by_test2: True
-628: spec-6815-56419-0970-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #628, file name: spec-6815-56419-0970-dered.dr16
-629: spec-6835-56420-0982-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #629, file name: spec-6835-56420-0982-dered.dr16
-630: spec-7081-56684-0823-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #630, file name: spec-7081-56684-0823-dered.dr16
-631: spec-7107-56740-0655-dered.dr16
-     flagged_by_test1: True
-632: spec-7445-56720-0783-dered.dr16
-633: spec-7636-56989-0653-dered.dr16
-     flagged_by_test1: True
-634: spec-8055-57187-0502-dered.dr16
-635: spec-8160-57071-0930-dered.dr16
-636: spec-8850-57782-0922-dered.dr16
-     flagged_by_test2: True
-637: spec-7728-58138-0111-dered.dr16
-638: spec-7582-56960-0108-dered.dr16
-     flagged_by_test2: True
-639: spec-7650-57575-0506-dered.dr16
-640: spec-7665-57328-0148-dered.dr16
-     flagged_by_test2: True
-641: spec-7738-58100-0337-dered.dr16
-     flagged_by_test2: True
-642: spec-11083-58515-0797-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #642, file name: spec-11083-58515-0797-dered.dr16
-643: spec-7642-57651-0556-dered.dr16
-     flagged_by_test2: True
-644: spec-11329-58426-0273-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #644, file name: spec-11329-58426-0273-dered.dr16
-645: spec-7750-58402-0628-dered.dr16
-646: spec-11079-58485-0512-dered.dr16
-     flagged_by_test1: True
-647: spec-8183-57375-0593-dered.dr16
-     flagged_by_test1: True
-648: spec-5155-55946-0173-dered.dr16
-649: spec-5293-55953-0194-dered.dr16
-     flagged_by_test2: True
-650: spec-5319-55953-0066-dered.dr16
-651: spec-5397-55944-0232-dered.dr16
-     flagged_by_test2: True
-652: spec-5455-56009-0188-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #652, file name: spec-5455-56009-0188-dered.dr16
-653: spec-5485-56063-0068-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #653, file name: spec-5485-56063-0068-dered.dr16
-654: spec-5767-56245-0817-dered.dr16
-655: spec-5895-56046-0632-dered.dr16
-     flagged_by_test2: True
-656: spec-6024-56088-0262-dered.dr16
-     flagged_by_test2: True
-657: spec-6036-56093-0698-dered.dr16
-     flagged_by_test2: True
-658: spec-6053-56091-0523-dered.dr16
-659: spec-6404-56330-0793-dered.dr16
-     flagged_by_test2: True
-660: spec-6670-56389-0286-dered.dr16
-661: spec-6686-56389-0210-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #661, file name: spec-6686-56389-0210-dered.dr16
-662: spec-6780-56605-0408-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #662, file name: spec-6780-56605-0408-dered.dr16
-663: spec-7384-56715-0414-dered.dr16
-     flagged_by_test2: True
-664: spec-8303-57805-0398-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #664, file name: spec-8303-57805-0398-dered.dr16
-665: spec-8527-57897-0815-dered.dr16
-     flagged_by_test1: True
-666: spec-8751-57685-0858-dered.dr16
-     flagged_by_test2: True
-667: spec-9578-57817-0673-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #667, file name: spec-9578-57817-0673-dered.dr16
-668: spec-11304-58448-0598-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #668, file name: spec-11304-58448-0598-dered.dr16
-669: spec-9235-58021-0936-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #669, file name: spec-9235-58021-0936-dered.dr16
-670: spec-11078-58437-0305-dered.dr16
-     flagged_by_test1: True
-671: spec-7288-57039-0882-dered.dr16
-     flagged_by_test2: True
-672: spec-8362-57732-0328-dered.dr16
-     flagged_by_test1: True
-673: spec-8746-58396-0714-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #673, file name: spec-8746-58396-0714-dered.dr16
-674: spec-8505-57834-0416-dered.dr16
-675: spec-11633-58463-0754-dered.dr16
-676: spec-7682-57415-0688-dered.dr16
-     flagged_by_test2: True
-677: spec-7860-57006-0760-dered.dr16
-     flagged_by_test2: True
-678: spec-7578-56956-0597-dered.dr16
-679: spec-7650-57575-0843-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #679, file name: spec-7650-57575-0843-dered.dr16
-680: spec-8758-58139-0761-dered.dr16
-681: spec-7722-58425-0640-dered.dr16
-     flagged_by_test2: True
-682: spec-7748-58396-0522-dered.dr16
-     flagged_by_test2: True
-683: spec-10468-58131-0914-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #683, file name: spec-10468-58131-0914-dered.dr16
-684: spec-7670-57328-0514-dered.dr16
-685: spec-8832-57445-0739-dered.dr16
-     flagged_by_test2: True
-686: spec-8850-57782-0894-dered.dr16
-     flagged_by_test2: True
-687: spec-7600-56984-0500-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #687, file name: spec-7600-56984-0500-dered.dr16
-688: spec-7642-57651-0316-dered.dr16
-     flagged_by_test2: True
-689: spec-8375-57520-0674-dered.dr16
-690: spec-9316-58082-0815-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #690, file name: spec-9316-58082-0815-dered.dr16
-691: spec-5368-56001-0474-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #691, file name: spec-5368-56001-0474-dered.dr16
-692: spec-5386-56008-0340-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #692, file name: spec-5386-56008-0340-dered.dr16
-693: spec-5406-55955-0952-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #693, file name: spec-5406-55955-0952-dered.dr16
-694: spec-5413-55976-0400-dered.dr16
-     flagged_by_test2: True
-695: spec-5466-56033-0446-dered.dr16
-     flagged_by_test2: True
-696: spec-5766-56248-0756-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #696, file name: spec-5766-56248-0756-dered.dr16
-697: spec-6027-56103-0338-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #697, file name: spec-6027-56103-0338-dered.dr16
-698: spec-6395-56354-0271-dered.dr16
-699: spec-6411-56331-0426-dered.dr16
-     flagged_by_test1: True
-700: spec-6470-56334-0444-dered.dr16
-701: spec-6486-56328-0706-dered.dr16
-702: spec-7096-56683-0980-dered.dr16
-703: spec-7320-56722-0194-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #703, file name: spec-7320-56722-0194-dered.dr16
-704: spec-7586-57186-0306-dered.dr16
-705: spec-7728-58138-0450-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #705, file name: spec-7728-58138-0450-dered.dr16
-706: spec-9148-58039-0470-dered.dr16
-     flagged_by_test2: True
-707: spec-9589-57813-0017-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #707, file name: spec-9589-57813-0017-dered.dr16
-708: spec-10665-58456-0504-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #708, file name: spec-10665-58456-0504-dered.dr16
-709: spec-8871-57519-0133-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #709, file name: spec-8871-57519-0133-dered.dr16
-710: spec-9552-57814-0755-dered.dr16
-     flagged_by_test2: True
-711: spec-9364-57699-0512-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #711, file name: spec-9364-57699-0512-dered.dr16
-712: spec-11069-58456-0696-dered.dr16
-713: spec-7738-58100-0185-dered.dr16
-714: spec-9604-58133-0403-dered.dr16
-     flagged_by_test1: True
-715: spec-7626-56934-0198-dered.dr16
-     flagged_by_test1: True
-716: spec-10761-58283-0796-dered.dr16
-717: spec-11314-58436-0612-dered.dr16
-     flagged_by_test2: True
-718: spec-7685-57062-0996-dered.dr16
-719: spec-7698-58013-0959-dered.dr16
-     flagged_by_test2: True
-720: spec-7751-58081-0044-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #720, file name: spec-7751-58081-0044-dered.dr16
-721: spec-8758-58139-0955-dered.dr16
-     flagged_by_test1: True
-722: spec-9367-57758-0884-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #722, file name: spec-9367-57758-0884-dered.dr16
-723: spec-11076-58428-0844-dered.dr16
-724: spec-4644-55922-0166-dered.dr16
-     flagged_by_test2: True
-725: spec-5320-55999-0270-dered.dr16
-     flagged_by_test2: True
-726: spec-5334-55928-0686-dered.dr16
-     flagged_by_test2: True
-727: spec-5402-55927-0377-dered.dr16
-728: spec-5897-56042-0248-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #728, file name: spec-5897-56042-0248-dered.dr16
-729: spec-6035-56076-0936-dered.dr16
-     flagged_by_test2: True
-730: spec-6048-56072-0541-dered.dr16
-731: spec-6053-56091-0862-dered.dr16
-     flagged_by_test2: True
-732: spec-6059-56093-0316-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #732, file name: spec-6059-56093-0316-dered.dr16
-733: spec-6413-56336-0920-dered.dr16
-     flagged_by_test2: True
-734: spec-6428-56279-0757-dered.dr16
-     flagged_by_test1: True
-735: spec-6966-56748-0978-dered.dr16
-736: spec-7378-56715-0634-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #736, file name: spec-7378-56715-0634-dered.dr16
-737: spec-7411-56776-0794-dered.dr16
-     flagged_by_test1: True
-738: spec-7643-57302-0817-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #738, file name: spec-7643-57302-0817-dered.dr16
-739: spec-8183-57375-0308-dered.dr16
-     flagged_by_test2: True
-740: spec-9560-57805-0131-dered.dr16
-     flagged_by_test2: True
-741: spec-7685-57062-0410-dered.dr16
-742: spec-9158-57664-0766-dered.dr16
-743: spec-8297-57416-0904-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #743, file name: spec-8297-57416-0904-dered.dr16
-744: spec-8302-57389-0886-dered.dr16
-     flagged_by_test2: True
-745: spec-8366-57432-0287-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #745, file name: spec-8366-57432-0287-dered.dr16
-746: spec-9159-57666-0736-dered.dr16
-747: spec-8055-57187-0877-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #747, file name: spec-8055-57187-0877-dered.dr16
-748: spec-10262-58543-0274-dered.dr16
-     flagged_by_test2: True
-749: spec-10474-58143-0128-dered.dr16
-750: spec-10242-58161-0650-dered.dr16
-     flagged_by_test2: True
-751: spec-10753-58242-0477-dered.dr16
-     flagged_by_test2: True
-752: spec-7623-56901-0860-dered.dr16
-     flagged_by_test2: True
-753: spec-11337-58431-0270-dered.dr16
-754: spec-5162-55893-0899-dered.dr16
-755: spec-5341-55931-0634-dered.dr16
-     flagged_by_test1: True
-756: spec-5357-55956-0732-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #756, file name: spec-5357-55956-0732-dered.dr16
-757: spec-5730-56607-0282-dered.dr16
-     flagged_by_test2: True
-758: spec-5769-56246-0008-dered.dr16
-759: spec-5803-56272-0040-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #759, file name: spec-5803-56272-0040-dered.dr16
-760: spec-6053-56091-0200-dered.dr16
-     flagged_by_test2: True
-761: spec-6060-56074-0760-dered.dr16
-762: spec-6111-56270-0258-dered.dr16
-763: spec-6172-56269-0318-dered.dr16
-     flagged_by_test2: True
-764: spec-6198-56211-0235-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #764, file name: spec-6198-56211-0235-dered.dr16
-765: spec-6300-56449-0872-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #765, file name: spec-6300-56449-0872-dered.dr16
-766: spec-6648-56383-0466-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #766, file name: spec-6648-56383-0466-dered.dr16
-767: spec-6752-56366-0590-dered.dr16
-     flagged_by_test2: True
-768: spec-6791-56429-0878-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #768, file name: spec-6791-56429-0878-dered.dr16
-769: spec-6838-56429-0482-dered.dr16
-     flagged_by_test1: True
-770: spec-7279-57071-0247-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #770, file name: spec-7279-57071-0247-dered.dr16
-771: spec-7315-56685-0079-dered.dr16
-     flagged_by_test2: True
-772: spec-7860-57006-0626-dered.dr16
-773: spec-8234-57450-0089-dered.dr16
-     flagged_by_test2: True
-774: spec-7700-58016-0786-dered.dr16
-     flagged_by_test2: True
-775: spec-8531-57905-0632-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #775, file name: spec-8531-57905-0632-dered.dr16
-776: spec-10478-58171-0084-dered.dr16
-777: spec-7580-56955-0650-dered.dr16
-778: spec-11395-58488-0170-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #778, file name: spec-11395-58488-0170-dered.dr16
-779: spec-8299-57346-0658-dered.dr16
-780: spec-9369-58054-0586-dered.dr16
-     flagged_by_test1: True
-781: spec-8067-58253-0194-dered.dr16
-     flagged_by_test1: True
-782: spec-8067-58253-0646-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #782, file name: spec-8067-58253-0646-dered.dr16
-783: spec-9311-57743-0683-dered.dr16
-     flagged_by_test1: True
-784: spec-8744-58124-0048-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #784, file name: spec-8744-58124-0048-dered.dr16
-785: spec-7670-57328-0910-dered.dr16
-786: spec-8213-58487-0518-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #786, file name: spec-8213-58487-0518-dered.dr16
-787: spec-7644-57327-0766-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #787, file name: spec-7644-57327-0766-dered.dr16
-788: spec-8748-58396-0074-dered.dr16
-789: spec-9145-58041-0100-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #789, file name: spec-9145-58041-0100-dered.dr16
-790: spec-10293-58132-0160-dered.dr16
-     flagged_by_test2: True
-791: spec-5307-55998-0232-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #791, file name: spec-5307-55998-0232-dered.dr16
-792: spec-5330-56000-0308-dered.dr16
-793: spec-5347-56008-0412-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #793, file name: spec-5347-56008-0412-dered.dr16
-794: spec-5350-56009-0593-dered.dr16
-795: spec-5361-55973-0900-dered.dr16
-796: spec-5380-55980-0352-dered.dr16
-     flagged_by_test2: True
-797: spec-5449-56030-0642-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #797, file name: spec-5449-56030-0642-dered.dr16
-798: spec-5466-56033-0554-dered.dr16
-     flagged_by_test2: True
-799: spec-5732-56326-0138-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #799, file name: spec-5732-56326-0138-dered.dr16
-800: spec-5813-56363-0333-dered.dr16
-     flagged_by_test2: True
-801: spec-5869-56064-0482-dered.dr16
-802: spec-5876-56042-0050-dered.dr16
-     flagged_by_test2: True
-803: spec-6410-56336-0369-dered.dr16
-     flagged_by_test2: True
-804: spec-6427-56328-0680-dered.dr16
-     flagged_by_test2: True
-805: spec-6463-56340-0001-dered.dr16
-806: spec-6682-56390-0354-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #806, file name: spec-6682-56390-0354-dered.dr16
-807: spec-6748-56371-0358-dered.dr16
-808: spec-7085-56625-0714-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #808, file name: spec-7085-56625-0714-dered.dr16
-809: spec-7238-56660-0093-dered.dr16
-     flagged_by_test2: True
-810: spec-9583-57809-0290-dered.dr16
-811: spec-11311-58429-0375-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #811, file name: spec-11311-58429-0375-dered.dr16
-812: spec-7317-56992-0217-dered.dr16
-813: spec-7892-57333-0683-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #813, file name: spec-7892-57333-0683-dered.dr16
-814: spec-7651-57654-0716-dered.dr16
-     flagged_by_test2: True
-815: spec-10762-58390-0663-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #815, file name: spec-10762-58390-0663-dered.dr16
-816: spec-9179-57682-0524-dered.dr16
-817: spec-11305-58449-0122-dered.dr16
-     flagged_by_test1: True
-818: spec-10254-58514-0966-dered.dr16
-819: spec-7668-57579-0394-dered.dr16
-     flagged_by_test1: True
-820: spec-11353-58467-0382-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #820, file name: spec-11353-58467-0382-dered.dr16
-821: spec-10273-58466-0270-dered.dr16
-     flagged_by_test1: True
-822: spec-11061-58428-0556-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #822, file name: spec-11061-58428-0556-dered.dr16
-823: spec-11380-58462-0573-dered.dr16
-824: spec-5206-56033-0300-dered.dr16
-825: spec-5292-55926-0614-dered.dr16
-826: spec-5304-55925-0678-dered.dr16
-     flagged_by_test2: True
-827: spec-5347-56008-0342-dered.dr16
-     flagged_by_test2: True
-828: spec-5772-56003-0504-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #828, file name: spec-5772-56003-0504-dered.dr16
-829: spec-5801-56328-0207-dered.dr16
-     flagged_by_test2: True
-830: spec-5804-56304-0035-dered.dr16
-     flagged_by_test1: True
-831: spec-5891-56034-0222-dered.dr16
-     flagged_by_test1: True
-832: spec-6497-56329-0534-dered.dr16
-     flagged_by_test1: True
-833: spec-6647-56390-0356-dered.dr16
-     flagged_by_test2: True
-834: spec-6687-56602-0238-dered.dr16
-835: spec-7707-57663-0342-dered.dr16
-     flagged_by_test2: True
-836: spec-8192-57348-0655-dered.dr16
-     flagged_by_test2: True
-837: spec-9176-58080-0480-dered.dr16
-838: spec-10247-58162-0676-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #838, file name: spec-10247-58162-0676-dered.dr16
-839: spec-8378-57785-0824-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #839, file name: spec-8378-57785-0824-dered.dr16
-840: spec-9401-58103-0655-dered.dr16
-841: spec-7819-57280-0961-dered.dr16
-842: spec-8302-57389-0616-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #842, file name: spec-8302-57389-0616-dered.dr16
-843: spec-10239-58142-0474-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #843, file name: spec-10239-58142-0474-dered.dr16
-844: spec-10288-58131-0774-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #844, file name: spec-10288-58131-0774-dered.dr16
-845: spec-11075-58451-0200-dered.dr16
-     flagged_by_test2: True
-846: spec-11302-58436-0220-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #846, file name: spec-11302-58436-0220-dered.dr16
-847: spec-7850-56956-0016-dered.dr16
-     flagged_by_test2: True
-848: spec-7914-57331-0204-dered.dr16
-     flagged_by_test2: True
-849: spec-8184-57426-0245-dered.dr16
-850: spec-8512-57903-0656-dered.dr16
-851: spec-8831-57448-0589-dered.dr16
-     flagged_by_test2: True
-852: spec-10748-58224-0166-dered.dr16
-853: spec-7667-57580-0227-dered.dr16
-854: spec-8410-57481-0158-dered.dr16
-855: spec-8429-57893-0580-dered.dr16
-     flagged_by_test1: True
-856: spec-11120-58510-0495-dered.dr16
-857: spec-7748-58396-0621-dered.dr16
-858: spec-7900-57358-0688-dered.dr16
-     flagged_by_test2: True
-859: spec-9402-58039-0953-dered.dr16
-     flagged_by_test1: True
-860: spec-7664-57367-0849-dered.dr16
-861: spec-9404-58045-0714-dered.dr16
-862: spec-10472-58159-0314-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #862, file name: spec-10472-58159-0314-dered.dr16
-863: spec-5175-55955-0690-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #863, file name: spec-5175-55955-0690-dered.dr16
-864: spec-5288-55865-0484-dered.dr16
-865: spec-5292-55926-0374-dered.dr16
-     flagged_by_test2: True
-866: spec-5375-55973-0704-dered.dr16
-867: spec-5415-55982-0052-dered.dr16
-868: spec-5424-56033-0538-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #868, file name: spec-5424-56033-0538-dered.dr16
-869: spec-5471-56034-0674-dered.dr16
-870: spec-5719-56014-0620-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #870, file name: spec-5719-56014-0620-dered.dr16
-871: spec-5743-56011-0328-dered.dr16
-872: spec-5770-56014-0944-dered.dr16
-873: spec-5973-56067-0466-dered.dr16
-874: spec-6322-56190-0424-dered.dr16
-875: spec-6452-56366-0974-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #875, file name: spec-6452-56366-0974-dered.dr16
-876: spec-6463-56340-0566-dered.dr16
-     flagged_by_test2: True
-877: spec-6659-56607-0640-dered.dr16
-878: spec-6746-56386-0018-dered.dr16
-879: spec-6835-56420-0374-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #879, file name: spec-6835-56420-0374-dered.dr16
-880: spec-7316-56710-0412-dered.dr16
-881: spec-7675-57327-0938-dered.dr16
-     flagged_by_test1: True
-882: spec-8293-57361-0604-dered.dr16
-     flagged_by_test2: True
-883: spec-9208-57688-0383-dered.dr16
-     flagged_by_test1: True
-884: spec-8497-58161-0230-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #884, file name: spec-8497-58161-0230-dered.dr16
-885: spec-7891-57332-0330-dered.dr16
-     flagged_by_test1: True
-886: spec-7278-57041-0235-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #886, file name: spec-7278-57041-0235-dered.dr16
-887: spec-7627-56933-0823-dered.dr16
-888: spec-9562-57817-0342-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #888, file name: spec-9562-57817-0342-dered.dr16
-889: spec-8730-57672-0384-dered.dr16
-     flagged_by_test1: True
-890: spec-11079-58485-0978-dered.dr16
-     flagged_by_test2: True
-891: spec-8541-58257-0563-dered.dr16
-     flagged_by_test2: True
-892: spec-9175-58049-0690-dered.dr16
-893: spec-8533-58017-0330-dered.dr16
-     flagged_by_test1: True
-894: spec-11316-58396-0732-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #894, file name: spec-11316-58396-0732-dered.dr16
-895: spec-7711-57667-0502-dered.dr16
-896: spec-7877-56898-0646-dered.dr16
-     flagged_by_test2: True
-897: spec-9356-57809-0923-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #897, file name: spec-9356-57809-0923-dered.dr16
-898: spec-4656-55828-0740-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #898, file name: spec-4656-55828-0740-dered.dr16
-899: spec-4770-55928-0926-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #899, file name: spec-4770-55928-0926-dered.dr16
-900: spec-5160-55895-0426-dered.dr16
-     flagged_by_test2: True
-901: spec-5205-56040-0136-dered.dr16
-902: spec-5212-56016-0750-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #902, file name: spec-5212-56016-0750-dered.dr16
-903: spec-5474-56036-0766-dered.dr16
-     flagged_by_test2: True
-904: spec-5488-56013-0922-dered.dr16
-     flagged_by_test2: True
-905: spec-5715-56657-0272-dered.dr16
-906: spec-6144-56237-0822-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #906, file name: spec-6144-56237-0822-dered.dr16
-907: spec-6434-56362-0144-dered.dr16
-     flagged_by_test2: True
-908: spec-6677-56385-0770-dered.dr16
-     flagged_by_test2: True
-909: spec-7737-57722-0962-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #909, file name: spec-7737-57722-0962-dered.dr16
-910: spec-8301-57390-0391-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #910, file name: spec-8301-57390-0391-dered.dr16
-911: spec-10720-58250-0174-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #911, file name: spec-10720-58250-0174-dered.dr16
-912: spec-7619-56900-0680-dered.dr16
-     flagged_by_test2: True
-913: spec-7904-57358-0184-dered.dr16
-     flagged_by_test1: True
-914: spec-8401-57482-0518-dered.dr16
-915: spec-7661-57286-0041-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #915, file name: spec-7661-57286-0041-dered.dr16
-916: spec-9141-57663-0257-dered.dr16
-917: spec-7613-56988-0106-dered.dr16
-918: spec-7756-58392-0466-dered.dr16
-919: spec-8199-57428-0923-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #919, file name: spec-8199-57428-0923-dered.dr16
-920: spec-11314-58436-0484-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #920, file name: spec-11314-58436-0484-dered.dr16
-921: spec-11633-58463-0669-dered.dr16
-     flagged_by_test1: True
-922: spec-7733-58103-0722-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #922, file name: spec-7733-58103-0722-dered.dr16
-923: spec-7656-57338-0819-dered.dr16
-     flagged_by_test2: True
-924: spec-8308-57417-0196-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #924, file name: spec-8308-57417-0196-dered.dr16
-925: spec-7727-58152-0900-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #925, file name: spec-7727-58152-0900-dered.dr16
-926: spec-7915-57309-0606-dered.dr16
-     flagged_by_test1: True
-927: spec-7769-58420-0826-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #927, file name: spec-7769-58420-0826-dered.dr16
-928: spec-7583-56958-0116-dered.dr16
-929: spec-5299-55927-0968-dered.dr16
-     flagged_by_test2: True
-930: spec-5305-55984-0262-dered.dr16
-931: spec-5406-55955-0634-dered.dr16
-     flagged_by_test2: True
-932: spec-5486-56030-0988-dered.dr16
-     flagged_by_test2: True
-933: spec-6015-56096-0120-dered.dr16
-     flagged_by_test2: True
-934: spec-6397-56365-0598-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #934, file name: spec-6397-56365-0598-dered.dr16
-935: spec-6483-56341-0392-dered.dr16
-936: spec-6487-56362-0214-dered.dr16
-     flagged_by_test2: True
-937: spec-6735-56397-0866-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #937, file name: spec-6735-56397-0866-dered.dr16
-938: spec-6760-56425-0312-dered.dr16
-     flagged_by_test1: True
-939: spec-7381-56717-0085-dered.dr16
-940: spec-7770-58044-0744-dered.dr16
-941: spec-10910-58254-0836-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #941, file name: spec-10910-58254-0836-dered.dr16
-942: spec-11546-58488-0812-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #942, file name: spec-11546-58488-0812-dered.dr16
-943: spec-7744-58396-0687-dered.dr16
-944: spec-7891-57332-0272-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #944, file name: spec-7891-57332-0272-dered.dr16
-945: spec-11074-58488-0983-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #945, file name: spec-11074-58488-0983-dered.dr16
-946: spec-7573-56946-0568-dered.dr16
-     flagged_by_test1: True
-947: spec-11309-58428-0646-dered.dr16
-     flagged_by_test2: True
-948: spec-7704-57572-0623-dered.dr16
-949: spec-7819-57280-0024-dered.dr16
-950: spec-8844-57424-0059-dered.dr16
-     flagged_by_test1: True
-951: spec-10666-58440-0098-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #951, file name: spec-10666-58440-0098-dered.dr16
-952: spec-11704-58514-0672-dered.dr16
-953: spec-9155-58043-0194-dered.dr16
-     flagged_by_test2: True
-954: spec-4835-56016-0042-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #954, file name: spec-4835-56016-0042-dered.dr16
-955: spec-4853-55928-0959-dered.dr16
-     flagged_by_test1: True
-956: spec-5301-55987-0136-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #956, file name: spec-5301-55987-0136-dered.dr16
-957: spec-5350-56009-0876-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #957, file name: spec-5350-56009-0876-dered.dr16
-958: spec-5410-56016-0928-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #958, file name: spec-5410-56016-0928-dered.dr16
-959: spec-5441-56017-0434-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #959, file name: spec-5441-56017-0434-dered.dr16
-960: spec-5740-55998-0552-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #960, file name: spec-5740-55998-0552-dered.dr16
-961: spec-6407-56311-0678-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #961, file name: spec-6407-56311-0678-dered.dr16
-962: spec-6434-56362-0204-dered.dr16
-963: spec-6481-56363-0824-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #963, file name: spec-6481-56363-0824-dered.dr16
-964: spec-6638-56370-0638-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #964, file name: spec-6638-56370-0638-dered.dr16
-965: spec-6782-56572-0050-dered.dr16
-966: spec-6782-56572-0520-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #966, file name: spec-6782-56572-0520-dered.dr16
-967: spec-6974-56442-0778-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #967, file name: spec-6974-56442-0778-dered.dr16
-968: spec-7091-56658-0852-dered.dr16
-     flagged_by_test1: True
-969: spec-7092-56683-0792-dered.dr16
-     flagged_by_test1: True
-970: spec-7117-56685-0310-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #970, file name: spec-7117-56685-0310-dered.dr16
-971: spec-7282-56660-0208-dered.dr16
-     flagged_by_test2: True
-972: spec-7416-56810-0258-dered.dr16
-     flagged_by_test2: True
-973: spec-8359-57449-0335-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #973, file name: spec-8359-57449-0335-dered.dr16
-974: spec-8509-57843-0854-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #974, file name: spec-8509-57843-0854-dered.dr16
-975: spec-8827-57444-0758-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #975, file name: spec-8827-57444-0758-dered.dr16
-976: spec-9363-57742-0242-dered.dr16
-977: spec-7606-56977-0104-dered.dr16
-978: spec-7703-57333-0043-dered.dr16
-979: spec-8734-57642-0007-dered.dr16
-980: spec-8865-57426-0321-dered.dr16
-     flagged_by_test1: True
-981: spec-8366-57432-0601-dered.dr16
-     flagged_by_test2: True
-982: spec-7660-57357-0580-dered.dr16
-     flagged_by_test2: True
-983: spec-8735-58133-0201-dered.dr16
-     flagged_by_test1: True
-984: spec-8064-58255-0438-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #984, file name: spec-8064-58255-0438-dered.dr16
-985: spec-8366-57432-0530-dered.dr16
-     flagged_by_test2: True
-986: spec-8411-57875-0544-dered.dr16
-     flagged_by_test1: True
-987: spec-7617-56949-0408-dered.dr16
-988: spec-10911-58256-0877-dered.dr16
-     flagged_by_test2: True
-989: spec-10915-58257-0058-dered.dr16
-990: spec-11061-58428-0255-dered.dr16
-     flagged_by_test1: True
-991: spec-7701-57356-0828-dered.dr16
-992: spec-8738-57402-0815-dered.dr16
-     flagged_by_test2: True
-993: spec-11060-58523-0838-dered.dr16
-     flagged_by_test2: True
-994: spec-4870-55923-0716-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #994, file name: spec-4870-55923-0716-dered.dr16
-995: spec-5201-55832-0628-dered.dr16
-996: spec-5418-56037-0128-dered.dr16
-     flagged_by_test1: True
-997: spec-5439-56045-0214-dered.dr16
-     flagged_by_test1: True
-     flagged_by_test2: True
-       Flagging figure #997, file name: spec-5439-56045-0214-dered.dr16
-998: spec-5794-56282-0572-dered.dr16
-999: spec-6316-56483-0104-dered.dr16
-     flagged_by_test2: True
-1000: spec-6412-56358-0472-dered.dr16
->>>>>>> 462a355b19db039e20e75613cdb65012ca28608e
+     Flagged - low SNR

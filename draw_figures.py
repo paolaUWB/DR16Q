@@ -91,7 +91,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
-    plt.ylim(-2, max_peak + 2)
+    plt.ylim(-2, max_peak + (max_peak / 1.5))
     FILE.savefig()
     plt.close(figure_index)
 
@@ -129,8 +129,8 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index) 
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 1, figure_data.spectrum_file_name)
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.5, subtitle_text)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.25, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
     #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
     #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
     plt.title(figure_data.spectrum_file_name)
@@ -143,7 +143,8 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.plot(test2.wavelength, normalized_flux_test_2, color = test_2_color, linestyle = "-")
     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
-    plt.ylim(-2, np.max(flux_normalized) + 1)
+    #plt.ylim(0, np.max(flux_normalized) + 1)
+    plt.ylim(0, max_peak + (max_peak / 4))
     FILE.savefig()
     plt.close(figure_index)
 
