@@ -154,7 +154,7 @@ def wavelength_flux_error_for_points(starting_point: float, ending_point: float,
     wavelength = spectra_data[point_from:point_to, column_index.wavelength]
     flux = spectra_data[point_from:point_to, column_index.flux] 
     error = spectra_data[point_from:point_to, column_index.error] 
-    
+
     point = PointData(
         np.average(wavelength),
         np.median(flux),
