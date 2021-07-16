@@ -1,7 +1,7 @@
 """
-======================
+=============
 absorption.py
-======================
+=============
 
 @author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker
 based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo
@@ -171,11 +171,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
+    print(beta)
+
     # draw simple plot 
     draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
 
     ################################# INITIALIZING  VARIABLES IN LOOP ##############################################################
-    index_depth_final, flux_depth, final_depth_individual = []
+    #index_depth_final, flux_depth, final_depth_individual = []
     non_trough_count = 999 # arbitrary large number that we will never reach
 
     delta_v = 0 #change in velocity
@@ -191,6 +193,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # BI_ehvo, BI_abs, v_min, v_max, EW, depth = basic_absorption_parameters(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
 
     vmaxindex = 0
+    vminindex = 0
 
     if beta.any(): # for reference VELOCITY_LIMIT = Range(-60000., -30000)
         try:
@@ -206,6 +209,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     velocity_range_index = np.arange(vminindex, vmaxindex)
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
+    print("velocity_range_index", velocity_range_index)
+    print("vminindex", vminindex)
+    print("vmaxindex", vminindex)
+    
 
 #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
 
