@@ -1,4 +1,3 @@
- 
 #Add keyword argument detailing the specific range over which BI is calculated. Outputs will need to be total BI_EHVO, BI per abs feature,
 #vmax, and vmin per absorption feature, and depth of absorption feature
  
@@ -191,6 +190,15 @@ I'm not sure what differentiates the BI_total and BI_all so I made BI_sum """
 BI_sum = np.sum(BI_individual)
 
 
+def vel_to_flux:
+    #we need a function that takes a step back to get wavelength from velocities
+    """Returns the flux from a velocity
+
+Parameters
+----------
+vel : float
+"""
+    #We
 def depth(vmins,vmaxs):
 """Returns the depth of each BAL from the given spectra. Must be evaluated on each spectrum.
 
