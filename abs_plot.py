@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-def draw_abs_figure(flux_normalized, velocity, savefile_name, spectra_name):
+def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name):
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -18,7 +18,7 @@ def draw_abs_figure(flux_normalized, velocity, savefile_name, spectra_name):
     Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
     """
 
-    plt.plot(flux_normalized, velocity)
+    plt.plot(velocity, flux_normalized)
     plt.title("YO drinks on prh")
     plt.xlabel("velocity (km/s)")
     plt.ylabel("Normalized Flux")

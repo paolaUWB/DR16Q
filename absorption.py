@@ -213,8 +213,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print("vminindex", vminindex)
     print("vmaxindex", vminindex)
 
-    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
-    print("da")
     
 #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
 
@@ -251,6 +249,8 @@ for current_velocity_index in velocity_range_index:
             BI_individual.append(round(BI, 5)) 
 
             # INSERT PLOT (line for where BI is being calculated)
+            #draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
+            print("da")
 
             # vmin calculation               
             if count2 == 0 and non_trough_count == 0:  
