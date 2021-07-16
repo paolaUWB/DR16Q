@@ -179,7 +179,7 @@ if((trough_cutoff > 0) or (non_trough_count <= 3)):
         count2=0# this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
         EW_ind=[]
 
-    if entry == last:
+    if entry == last:   
         BI_total= round(sum(BI_total),2)         
         BI_all.append(BI_total)    
         BI_all_individual.append(BI_individual)
@@ -191,15 +191,6 @@ I'm not sure what differentiates the BI_total and BI_all so I made BI_sum """
 BI_sum = np.sum(BI_individual)
 
 
-def vel_to_flux:
-    #we need a function that takes a step back to get wavelength from velocities
-    """Returns the flux from a velocity
-
-Parameters
-----------
-vel : float
-"""
-    #We
 
 def depth(vmins,vmaxs):
 """Returns the depth of each BAL from the given spectra. Must be evaluated on each spectrum.
@@ -219,9 +210,10 @@ float
 
 """
     flux_in_BAL=[]
-    for each_v in vmins:
-        #how are flux values organized in the absorption file?
-        each_flux = each_v #??? (I need a way to call the specific flux for a given velocity, but the flux is paired with wavelength)
+    #so the 
+    for individ_vel in range(vmaxs_index-vmins_index)#???
         
-        flux_in_BAL.append(flux_temporary)
+        each_flux = norm_flux_used[individ_vel]
+        
+        flux_in_BAL.append(each_flux)
     return min(flux_in_BAL)
