@@ -211,7 +211,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
     print("velocity_range_index", velocity_range_index)
     print("vminindex", vminindex)
-    print("vmaxindex", vminindex)
+    print("vmaxindex", vmaxindex)
 
     
 #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
@@ -249,15 +249,15 @@ for current_velocity_index in velocity_range_index:
             BI_individual.append(round(BI, 5)) 
 
             # INSERT PLOT (line for where BI is being calculated)
-            #draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
-            print("da")
+            draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, vminindex, vmaxindex)
 
             # vmin calculation               
             if count2 == 0 and non_trough_count == 0:  
                 vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
                 vmins.append(round(beta[vmins_index], 4))
                 count2 = 1
-
+    
+                
     
 
 #    ooooooooooooooooooooooooooooooooooooooo   ^^^         IN WORK         ^^^   ooooooooooooooooooooooooooooooooooooooo

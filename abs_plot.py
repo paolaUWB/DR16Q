@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name):
+def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, vmin_index, vmax_index):
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -23,7 +23,8 @@ def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name):
     plt.xlabel("velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)        
-    plt.text(-60000, 3, str(spectra_name), rotation = 0, fontsize = 9)
+    plt.text(-60000, 2, str(spectra_name), rotation = 0, fontsize = 9)
+    plt.axvspan(velocity[vmin_index],velocity[vmax_index], alpha=0.2, color='red')
     savefile_name.savefig()
     plt.close() 
  
