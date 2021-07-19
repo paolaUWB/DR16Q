@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, vmin_index, vmax_index):
+def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, sumdelta):
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -17,14 +17,17 @@ def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, vmin
     -----
     Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
     """
-
-    plt.plot(velocity, flux_normalized)
+    print("waddip")
+    plt.plot(velocity, flux_normalized, color= 'k')
     plt.title("YO drinks on prh")
     plt.xlabel("velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)        
     plt.text(-60000, 2, str(spectra_name), rotation = 0, fontsize = 9)
-    plt.axvspan(velocity[vmin_index],velocity[vmax_index], alpha=0.2, color='red')
+    if len(sumdelta) > 0:
+        plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
+    plt.axhline(y=0.9, color='r', linestyle= '--')    
+    plt.axhline(y=1.0)    
     savefile_name.savefig()
     plt.close() 
  

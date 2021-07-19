@@ -69,7 +69,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-60000., -30000)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 11, 11 
+STARTS_FROM, ENDS_AT = 1, 11 
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -214,52 +214,49 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print("vmaxindex", vmaxindex)
 
     
-#           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
-
-# It uses a loop: for jjjs in jjj:
-for current_velocity_index in velocity_range_index:
-    # Initialize variables in each loop
-    C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
-    # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
-    # bracket is the things inside the bracket from the BI integral calculation 
-    bracket = (1. - (normalized_flux[current_velocity_index] / 0.9))
-    
-    # Handle 3-point spike limit
-    if bracket > 0:
-        non_trough_count = 0
-    else:
-        non_trough_count += 1
-        bracket = 0
-
-    if((bracket > 0) or (non_trough_count <= 3)):
-        delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
-        sum_of_deltas += delta_v
-        brac_all.append(bracket)
-        delta_v_all.append(delta_v)
+    for current_velocity_index in velocity_range_index:
+        # Initialize variables in each loop
+        C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
+        # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
+        # bracket is the things inside the bracket from the BI integral calculation 
+        bracket = (1. - (normalized_flux[current_velocity_index] / 0.9))
         
-        EW = bracket * delta_v
-        EW = round(EW, 5)
-        EW_individual.append(EW)          
+        
+        # Handle 3-point spike limit
+        if bracket > 0:
+            non_trough_count = 0
+        else:
+            non_trough_count += 1
+            bracket = 0
 
-        # BI calculation
-        if sum_of_deltas >= BALNICITY_INDEX_LIMIT:
-            C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
-            BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
-            BI_mid.append(round(BI, 4)) #Append to intermediate results
-            BI_individual.append(round(BI, 5)) 
+        if((bracket > 0) or (non_trough_count <= 3)):
+            delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
+            sum_of_deltas += delta_v
+            brac_all.append(bracket)
+            delta_v_all.append(delta_v)
+            
+            EW = bracket * delta_v
+            EW = round(EW, 5)
+            EW_individual.append(EW)          
 
-            # INSERT PLOT (line for where BI is being calculated)
-            draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, vminindex, vmaxindex)
+            # BI calculation
+            if sum_of_deltas >= BALNICITY_INDEX_LIMIT:
+                C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
+                BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
+                BI_mid.append(round(BI, 4)) #Append to intermediate results
+                BI_individual.append(round(BI, 5)) 
 
-            # vmin calculation               
-            if count2 == 0 and non_trough_count == 0:  
-                vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
-                vmins.append(round(beta[vmins_index], 4))
-                count2 = 1
-    
-                
-    
+                # INSERT PLOT (line for where BI is being calculated)
+                #draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, vminindex, vmaxindex)
 
+                # vmin calculation               
+                if count2 == 0 and non_trough_count == 0:  
+                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
+                    vmins.append(round(beta[vmins_index], 4))
+                    count2 = 1
+        
+    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
+               
 #    ooooooooooooooooooooooooooooooooooooooo   ^^^         IN WORK         ^^^   ooooooooooooooooooooooooooooooooooooooo
  
 '''
