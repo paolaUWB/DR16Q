@@ -35,7 +35,7 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
-from draw_figures import draw_abs_figure 
+from abs_plot import draw_abs_figure 
 #import basic_absorption_parameters
 
 ###############################################################################################################################
@@ -62,10 +62,11 @@ boxcar_size = 101
 plot_all = 'yes'
 
 # lower limit of absorption width to be flagged 
+countBI = '2000' 
 BALNICITY_INDEX_LIMIT = 2000 
 
-# limits on velocity     min,   max
-VELOCITY_LIMIT = Range(-30000, -60000.)
+# limits on velocity
+VELOCITY_LIMIT = Range(-60000., -30000)
 
 # range of spectra you are working with from the good_normalization.csv file
 STARTS_FROM, ENDS_AT = 11, 11 
@@ -80,7 +81,7 @@ WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 ABSORPTION_VALUES = OUT_DIREC + "/" + "absorption_measurements_test.txt"
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('absorption_BI' + str(BALNICITY_INDEX_LIMIT) + '_test.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('absorption_BI' + countBI + '_test.pdf') 
 
 ###############################################################################################################################
 ####################################### DO NOT CHANGE #########################################################################
@@ -170,8 +171,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
+    print(beta)
+
     # draw simple plot 
-    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
+    #draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name)
 
     ################################# INITIALIZING  VARIABLES IN LOOP ##############################################################
     #index_depth_final, flux_depth, final_depth_individual = []
@@ -183,26 +186,34 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                         
     count2 = 0 # variable initialization to get into vmin/vmax loop
     ###############################################################################################################################
-    print("beta", beta)
+
     # Calculate BI, v_min and v_max by looping through the beta array in the velocity limits
     # Calculate depth of each individual absorption trough
     # VVVVVVVV add these things later VVVVVVVV once the module is made
     # BI_ehvo, BI_abs, v_min, v_max, EW, depth = basic_absorption_parameters(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
-                                                        #   min,  max
-    if beta.any(): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
+
+    vmaxindex = 0
+    vminindex = 0
+
+    if beta.any(): # for reference VELOCITY_LIMIT = Range(-60000., -30000)
         try:
             vmaxindex = np.max(np.where(beta <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of VELOCITY_LIMIT.end
         except:
             vmaxindex = 0
+
     if beta.any():
         try:
             vminindex = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
         except:
-            vminindex = np.where(beta == np.max(beta)) 
+            vminindex = np.where(beta == np.min(beta))
 
     velocity_range_index = np.arange(vminindex, vmaxindex)
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
+    print("velocity_range_index", velocity_range_index)
+    print("vminindex", vminindex)
+    print("vmaxindex", vmaxindex)
 
+    
 #           ooooooooooooooooooooooooooooooooooooooo      IN WORK          ooooooooooooooooooooooooooooooooooooooo  
 
 # It uses a loop: for jjjs in jjj:
@@ -238,12 +249,16 @@ for current_velocity_index in velocity_range_index:
             BI_individual.append(round(BI, 5)) 
 
             # INSERT PLOT (line for where BI is being calculated)
+            draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, vminindex, vmaxindex)
 
             # vmin calculation               
             if count2 == 0 and non_trough_count == 0:  
                 vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
                 vmins.append(round(beta[vmins_index], 4))
                 count2 = 1
+    
+                
+    
 
 #    ooooooooooooooooooooooooooooooooooooooo   ^^^         IN WORK         ^^^   ooooooooooooooooooooooooooooooooooooooo
  

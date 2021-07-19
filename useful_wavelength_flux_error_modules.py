@@ -97,9 +97,6 @@ def wavelength_flux_error_for_points_high_redshift(wavelength: float, starting_p
     ###### CHECK OVER DOCUMENTATION FOR THIS ######
     
     wavelength_column = spectra_data[:, column_index.wavelength]
-    print('wavelength column: ',wavelength_column)
-    print('starting point: ', starting_point)
-    print('ending point: ', ending_point)
     point_from = np.max(np.where(wavelength_column <= starting_point))
     point_to = np.min(np.where(wavelength_column >= ending_point))
 
