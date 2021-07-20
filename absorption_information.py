@@ -212,14 +212,14 @@ It's actaully the elements of vmins_index and vmaxs_index that
 ########################## Working through the above in spyder so it actually runs ###########################
 
 
-def depth(vmins,vmaxs):
+def depth(vmins_index,vmaxs_index):
 """Returns the depth of each BAL from the given spectra. Must be evaluated on each spectrum.
 
 Parameters
 ----------
-vmin : float
+vmins_index : float
     The starting point for the BAL trough
-vmax : float
+vmaxs_index : float
     The ending border of the BAL trough
 
 Returns
@@ -229,12 +229,12 @@ float
     lead to erroneous depths.
 
 """
-    flux_in_BAL=[]
     #so the indices across each BAL need to be looped through:
-    #
-    for individ_vel in range(vmaxs_index-vmins_index)#???
-        
-        each_flux = norm_flux_used[individ_vel]
-        
-        flux_in_BAL.append(each_flux)
-    return min(flux_in_BAL)
+    depths=[]
+    for i in range(len(vmins_index)):
+        BALregion=np.linspace(vmins_index[i],vmaxs_index[i],vmaxs_index[i]-vmins_index[i]+1)
+        #print(BALregion)
+        minimum = np.min(norm_flux_used(BALregion))
+        #print(minimum)
+        depths.append(minimum)
+    return depths
