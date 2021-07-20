@@ -95,7 +95,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     FILE.savefig()
     plt.close(figure_index)
 
-def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized, #1 param more since I removed the tuple
+def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized,
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
     """ Draws the normalized spectra graph.
 
