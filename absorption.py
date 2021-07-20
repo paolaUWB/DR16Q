@@ -69,7 +69,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-60000., -30000)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 11 
+STARTS_FROM, ENDS_AT = 11, 71 
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -208,10 +208,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             vminindex = np.where(beta == np.min(beta))
 
     velocity_range_index = np.arange(vminindex, vmaxindex)
-    velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
-    print("velocity_range_index", velocity_range_index)
-    print("vminindex", vminindex)
-    print("vmaxindex", vmaxindex)
+    velocity_range_index = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
 
     
     for current_velocity_index in velocity_range_index:
@@ -255,7 +252,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     vmins.append(round(beta[vmins_index], 4))
                     count2 = 1
         
-    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
+    draw_abs_figure(beta, normalized_flux, normalized_error,ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
                
 #    ooooooooooooooooooooooooooooooooooooooo   ^^^         IN WORK         ^^^   ooooooooooooooooooooooooooooooooooooooo
  
