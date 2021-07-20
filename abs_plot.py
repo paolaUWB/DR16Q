@@ -1,11 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-<<<<<<< HEAD
 def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, sumdelta):
-=======
-def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, sumdelta):
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -23,16 +19,12 @@ def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, sumd
     Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
     """
     plt.plot(velocity, flux_normalized, color= 'k')
-<<<<<<< HEAD
     plt.plot(velocity, error, color= 'grey')
-=======
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
     plt.title("Normalized Flux vs Velocity")
     plt.xlabel("velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)        
     plt.text(-60000, 2, str(spectra_name), rotation = 0, fontsize = 9)
-<<<<<<< HEAD
     plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
     plt.axhline(y=0.9, color='r', linestyle= '--')    
     plt.axhline(y=1.0)
@@ -42,12 +34,6 @@ def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, sumd
         #plt.axvspan(vminx[i],vminx[-1], alpha=0.2, color='red')
     print(max_peak)
     plt.ylim((min_peak, max_peak))
-=======
-    if len(sumdelta) > 0:
-        plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
-    plt.axhline(y=0.9, color='r', linestyle= '--')    
-    plt.axhline(y=1.0)    
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
     savefile_name.savefig()
     plt.close() 
  

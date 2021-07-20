@@ -69,11 +69,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-<<<<<<< HEAD
-STARTS_FROM, ENDS_AT = 11, 71 
-=======
 STARTS_FROM, ENDS_AT = 39, 71
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -203,15 +199,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         except:
             vminindex_for_range = np.where(beta == np.max(beta)) 
 
-<<<<<<< HEAD
-    velocity_range_index = np.arange(vminindex, vmaxindex)
-    velocity_range_index = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
-
-    
-    for current_velocity_index in velocity_range_index:
-        # Initialize variables in each loop
-        C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
-=======
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range)
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
 
@@ -219,15 +206,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     for current_velocity_index in velocity_range_index:
         C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
 
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
         # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
         # bracket is the things inside the bracket from the BI integral calculation 
         bracket = (1. - (normalized_flux[current_velocity_index] / 0.9))
         
-<<<<<<< HEAD
-        
-=======
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
         # Handle 3-point spike limit
         if bracket > 0:
             non_trough_count = 0
@@ -235,60 +217,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             non_trough_count += 1
             bracket = 0
 
-<<<<<<< HEAD
-        if((bracket > 0) or (non_trough_count <= 3)):
-=======
         if((bracket > 0) and (non_trough_count <= 3)):
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
             delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
             sum_of_deltas += delta_v
             brac_all.append(bracket)
             delta_v_all.append(delta_v)
-<<<<<<< HEAD
-            
-            EW = bracket * delta_v
-            EW = round(EW, 5)
-            EW_individual.append(EW)          
-
-            # BI calculation
-            if sum_of_deltas >= BALNICITY_INDEX_LIMIT:
-                C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
-                BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
-                BI_mid.append(round(BI, 4)) #Append to intermediate results
-                BI_individual.append(round(BI, 5)) 
-
-                # INSERT PLOT (line for where BI is being calculated)
-                #draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, vminindex, vmaxindex)
-
-                # vmin calculation               
-                if count2 == 0 and non_trough_count == 0:  
-                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
-                    vmins.append(round(beta[vmins_index], 4))
-                    count2 = 1
-        
-    draw_abs_figure(beta, normalized_flux, normalized_error,ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
-               
-#    ooooooooooooooooooooooooooooooooooooooo   ^^^         IN WORK         ^^^   ooooooooooooooooooooooooooooooooooooooo
- 
-'''
-****************************************** NEXT UP ******************************************  
- # Calculate depth of each individual absorption trough
-    tmp = normazlied_flux[vmaxs_index:vmins_index]
-    tmp_index = np.where(normazlied_flux[vmaxs_index:vmins_index] == np.min(norm_flux_used[vmaxs_index:vmins_index]))
-                    
-    # The depth is calculated around the minimum, instead of as the minimum point, which could be a spike.
-    final_depth = round (np.median(1.-tmp[int(tmp_index[0])-10 : int(tmp_index[0])+10]),2)
-    #final_depth=round((1.-np.min(norm_flux_used[vmaxs_index:vmins_index])),2) <-- kept it to show how it was done before with the minimum point. You can delete it later
-    final_depth_individual.append(final_depth)
-    print('depth',final_depth_individual)
-
-    final_depth_all_individual.append(final_depth_individual)
-   
-    # Calculate where CIV, CII and OI would be for each pair of vmin and vmax *if* the EHVO absorption found were 
-    # instead not EHVO and due to SiIV: 
-
-    # If the absorption is SiIV, this finds and plots where CIV, CII and OI would be
-=======
             EW = bracket * delta_v
             EW = np.round(EW, 5)
             EW_individual.append(EW)       
@@ -331,7 +264,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     # instead not EHVO and due to SiIV: 
 
                     # If the absorption is SiIV, this finds and plots where CIV, CII and OI would be
->>>>>>> 4d8e502022a2fed975b149eaa8189aa691334169
                     z_absSiIV = (wavelength[current_velocity_index]/avr_SiIV_doublet)-1    #<-- right now it does it in the loop value, ...
                     # ... that in the BI program is called current_velocity_index ( for jjjs in jjj:). We want to rewrite this so i can be a module. 
 
