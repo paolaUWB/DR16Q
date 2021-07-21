@@ -37,7 +37,6 @@ from utility_functions import print_to_file, clear_file, read_list_spectra, read
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
 from abs_plot import draw_abs_figure 
 #import basic_absorption_parameters
-from matplotlib import pyplot as plt
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
@@ -242,7 +241,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     vmins.append(np.round(beta[vmins_index], 5))
                     countvmins = 1
 
-    draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
+    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
 
 '''      
 #    ooooooooooooooooooooooooooooooooooooooo          IN WORK            ooooooooooooooooooooooooooooooooooooooo
