@@ -28,7 +28,8 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
     plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
     plt.axhline(y=0.9, color='r', linestyle= '--')    
     plt.axhline(y=1.0)
-    max_peak = (np.max(flux_normalized[np.where(flux_normalized < 5)]))
+    #max_peak = (np.max(flux_normalized[np.where(flux_normalized < 5)]))
+    max_peak = (np.mean(flux_normalized) * 1.9)
     min_peak = (np.min(error) - .5)
     #for i in range(len(vminx)):
         #plt.axvspan(vminx[i], vmaxx[i], alpha=0.2, color='red')
