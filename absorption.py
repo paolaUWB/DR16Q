@@ -233,8 +233,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
                 BI_individual.append(np.round(BI, 5)) 
 
-                #if non_trough_count == 0: # plotting the black line
-                   #plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
+                if non_trough_count == 0: # plotting the black line
+                   plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
 
                 # vmin calculation               
                 if countvmins == 0 and non_trough_count == 0:  
@@ -244,7 +244,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     draw_abs_figure(beta, normalized_flux, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
 
-    '''      
+'''      
 #    ooooooooooooooooooooooooooooooooooooooo          IN WORK            ooooooooooooooooooooooooooooooooooooooo
 
                   # Calculate depth of each individual absorption trough
