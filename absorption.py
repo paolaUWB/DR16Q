@@ -68,7 +68,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 39, 71
+STARTS_FROM, ENDS_AT = 39, 47
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -241,7 +241,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     vmins.append(np.round(beta[vmins_index], 5))
                     countvmins = 1
 
-    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
+    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, vmins)
 
     '''      
 #    ooooooooooooooooooooooooooooooooooooooo          IN WORK            ooooooooooooooooooooooooooooooooooooooo
