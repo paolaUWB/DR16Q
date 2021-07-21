@@ -143,7 +143,7 @@ norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE,
 # loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
-    # read the wavelength, norm_flux and norm_error, rounding the numbers. 
+    # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
     current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
@@ -238,58 +238,33 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 # vmin calculation               
                 if countvmins == 0 and non_trough_count == 0:  
                     vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
-                    vmins.append(np.round(beta[vmins_index], 5))
-                    countvmins = 1
-
-    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
-
-'''      
-#    ooooooooooooooooooooooooooooooooooooooo          IN WORK            ooooooooooooooooooooooooooooooooooooooo
-
-                  # Calculate depth of each individual absorption trough
-
-                    tmp = normalized_flux[vmaxindex:vminindex]
-                    tmp_index = np.where(normalized_flux[vmaxindex:vminindex] == np.min(normalized_flux[vmaxindex:vminindex]))
-                                    
-                    # The depth is calculated around the minimum, instead of as the minimum point, which could be a spike.
-                    final_depth = np.round(np.median(1. - tmp[int(tmp_index[0]) - 10 : int(tmp_index[0]) + 10]), 2)
-                    final_depth_individual.append(final_depth)
-                    print('depth', final_depth_individual)
-
-                    final_depth_all_individual.append(final_depth_individual)  
-                    
+                    vmins.append(np.round(beta[vmins_index], 5))                    
                 
                     # Calculate where CIV, CII and OI would be for each pair of vmin and vmax *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
 
                     # If the absorption is SiIV, this finds and plots where CIV, CII and OI would be
-                    z_absSiIV = (wavelength[current_velocity_index]/avr_SiIV_doublet)-1    #<-- right now it does it in the loop value, ...
-                    # ... that in the BI program is called current_velocity_index ( for jjjs in jjj:). We want to rewrite this so i can be a module. 
+                    z_absSiIV = (wavelength[current_velocity_index] / avr_SiIV_doublet) - 1
+                     
+                    obs_wavelength_C = (z_absSiIV + 1) * (avr_CIV_doublet)
+                    obs_wavelength_C_index = np.min(np.where(wavelength > obs_wavelength_C))
+                    obs_wavelength_C_vel = beta[obs_wavelength_C_index] + BALNICITY_INDEX_LIMIT
+                    plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
 
-                    plt.axvspan(beta[vmins_index],beta[vmaxindex], alpha=0.2, color='red')
-                        
-                    z_absSiIV_final = (wavelength[vmaxindex]/avr_SiIV_doublet)-1.
-                    
-                    obs_wavelength_Cfinal=(z_absSiIV_final+1.)*(avr_CIV_doublet)
-                    obs_wavelength_Cfinal_index =np.min (where (wavelength>obs_wavelength_Cfinal))
-                    obs_wavelength_C_final_vel=beta[obs_wavelength_Cfinal_index]
-                    plt.axvspan(obs_wavelength_C_vel,obs_wavelength_C_final_vel, alpha=0.2, color='grey')
-                    plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')#  <-- plot a line at the vmin and vmax of the same color
-
-                    obs_wavelength_CIIfinal=(z_absSiIV_final+1.)*(CII_emitted)
-                    obs_wavelength_CIIfinal_index =np.min(np.where(wavelength>obs_wavelength_CIIfinal))
-                    obs_wavelength_CII_final_vel=beta[obs_wavelength_CIIfinal_index]
-                    plt.axvspan(obs_wavelength_CII_vel,obs_wavelength_CII_final_vel, alpha=0.2, color='blue')
+                    obs_wavelength_CII = (z_absSiIV + 1) * (CII_emitted)
+                    obs_wavelength_CII_index = np.min(np.where(wavelength > obs_wavelength_CII))                  
+                    obs_wavelength_CII_vel = beta[obs_wavelength_CII_index] + BALNICITY_INDEX_LIMIT
                     plt.plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
 
-
-                    obs_wavelength_OIfinal=(z_absSiIV_final+1.)*(OI_emitted)
-                    obs_wavelength_OIfinal_index =np.min (where (wavelength>obs_wavelength_OIfinal))
-                    obs_wavelength_OI_final_vel=beta[obs_wavelength_OIfinal_index]
-                    plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha=0.2, color='yellow')
+                    obs_wavelength_OI = (z_absSiIV + 1) * (OI_emitted)
+                    obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
+                    obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
                     plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
 
+                    countvmins = 1
 
+    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
+'''      
 # ****************************************** NEXT UP ******************************************  
     # Plot figure as if the absorption was SiIV, CII or OI (we will visually inspect this file). 
 
