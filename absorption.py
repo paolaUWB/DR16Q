@@ -212,7 +212,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             non_trough_count += 1
             bracket = 0
 
-        if((bracket > 0) and (non_trough_count <= 3)):
+        if((bracket > 0) or (non_trough_count <= 3)):
             delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
             sum_of_deltas += delta_v
             brac_all.append(bracket)
@@ -268,9 +268,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
                     vmaxs_index = np.min(np.where (beta >= beta[current_velocity_index]))
                     vmaxs.append(np.round(beta[current_velocity_index], 4))
-                                       
-                    plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
 
+                    plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
                     z_absSiIV_final = (wavelength[vmaxs_index] / avr_SiIV_doublet) - 1.
                     # Calculate where CIV, CII and OI would be for each pair of VMAX *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
@@ -304,12 +303,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     #print('depth', final_depth_individual)
                     
                     count_v = 0 
-
-    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins, vmaxs)
         
-    '''
-
-    else: #if the brac value is not more than zero (so if we don't have absorption feature)
+        else: #if the brac value is not more than zero (so if we don't have absorption feature)
             sum_of_deltas = 0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
             count_v = 0 # this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
             EW_ind = []
@@ -320,11 +315,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-        draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-
         final_depth_all_individual.append(final_depth_individual)
-    
 
+    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins, vmaxs)
+    
+    '''
     if (len(vmaxs) != 0) or (plot_all == 'yes'): 
         #plt.xlim(np.min(beta), 0) # this is just seting how wide the graph should be (so we are setting the domain)
         plt.title('Normalized Flux vs Velocity')
@@ -338,4 +333,5 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         plt.xlim(-70000, 0)
         plt.text(-60000, 2, str(current_spectrum_file_name)+',     z='+str(z)+' snr='+ str(calc_snr), rotation = 0, fontsize = 9)
     '''
+
 ABSORPTION_OUTPUT_PLOT_PDF.close()

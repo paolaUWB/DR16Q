@@ -103,4 +103,4 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
         fiber = s[0]
         plt.savefig(output_spec + plateid + "-" + mjd + "-" + fiber + ".png") # <-- I don't think we really want a million png... only if doing a single one this makes sense. 
     close(count)
-"""""
+"""
