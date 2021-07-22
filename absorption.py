@@ -232,8 +232,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
                 BI_individual.append(np.round(BI, 5)) 
 
-                if non_trough_count == 0: # plotting the black line
-                   plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
+                #if non_trough_count == 0: # plotting the black line
+                   #plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
 
                 # vmin calculation               
                 if countvmins == 0 and non_trough_count == 0:  
@@ -249,21 +249,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_C = (z_absSiIV + 1) * (avr_CIV_doublet)
                     obs_wavelength_C_index = np.min(np.where(wavelength > obs_wavelength_C))
                     obs_wavelength_C_vel = beta[obs_wavelength_C_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
 
                     obs_wavelength_CII = (z_absSiIV + 1) * (CII_emitted)
                     obs_wavelength_CII_index = np.min(np.where(wavelength > obs_wavelength_CII))                  
                     obs_wavelength_CII_vel = beta[obs_wavelength_CII_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
 
                     obs_wavelength_OI = (z_absSiIV + 1) * (OI_emitted)
                     obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
                     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
 
                     countvmins = 1
 
-    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, delta_v_all)
+    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins)
 '''      
 # ****************************************** NEXT UP ******************************************  
     # Plot figure as if the absorption was SiIV, CII or OI (we will visually inspect this file). 
