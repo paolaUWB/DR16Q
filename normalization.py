@@ -20,8 +20,8 @@ from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, ColumnIndexes  ###AnchorPoints, DataNormalized
-from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_for_points_high_redshift, wavelength_flux_error_in_range, calculate_snr ### wavelength_flux_error
-from draw_figures import draw_original_figure, draw_normalized_figure, powerlaw, draw_dynamic, draw_dynamic_points
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr ##wavelength_flux_error_for_points_high_redshift
+from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points ## draw_original_figure, draw_normalized_figure
 from scipy import signal
 import time 
 start_time = time.time()
@@ -51,19 +51,25 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
-STARTS_FROM, ENDS_AT = 18058, 21824  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21851 for dr16 (21852-21859 are high redshift cases)] RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
+STARTS_FROM, ENDS_AT = 1, 21823  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
-SNR_CUTOFF = 10. ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
+## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
+SNR_CUTOFF = 10. 
 
-save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
+save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
+save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
 dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
-val1 = 0.05 
-val2 = 0.075
+## VALUE USED IN TEST 1
+val1 = 0.075
+
+## VALUE USED IN TEST 2
+val2 = 0.05 
+
 BOXCAR_SIZE = 11 ## MUST BE ODD
 
 ## INITIAL PARAMETERS OF POWERLAW
@@ -91,7 +97,7 @@ WAVELENGTH_RESTFRAME_TESTS = Range(1650., 1700.) ## check these values????
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
 LOG_FILE_NO_LOW_SNR = OUT_DIREC + "/" + "log_no_low_snr.txt"
 FLAGGED_BAD_FIT = OUT_DIREC + "/" + "flagged_bad_fit.csv"
-FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo.txt"
+FLAGGED_SNR = OUT_DIREC + "/" + "flagged_snr_in_ehvo.csv"
 FLAGGED_ABSORPTION = OUT_DIREC + "/" + "flagged_absorption.csv"
 GOOD_FIT = OUT_DIREC + "/" + "good_fit.csv"
 GOODNESS_OF_FIT = OUT_DIREC + "/" + "chi_sq_values.csv"
@@ -142,30 +148,32 @@ def define_three_anchor_points(z: float, spectra_data):
     tuple
         left_point, middle_point, right_point for wavelength_flux_error_for_points.
     """
+    WAVELENGTH_OBSERVED_FOR_LEFT_POINT = Range(1280. * (1 + z), 1290. * (1 + z))
+    WAVELENGTH_OBSERVED_FOR_MIDDLE_POINT = Range(1420. * (1 + z), 1430. * (1 + z))
+    WAVELENGTH_OBSERVED_FOR_RIGHT_POINT = Range(1690. * (1 + z), 1710. * (1 + z))
 
     left_point = wavelength_flux_error_for_points(
-        WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.start,
-        WAVELENGTH_RESTFRAME_FOR_LEFT_POINT.end,
+        WAVELENGTH_OBSERVED_FOR_LEFT_POINT.start,
+        WAVELENGTH_OBSERVED_FOR_LEFT_POINT.end,
         z,
         spectra_data)
 
     middle_point = wavelength_flux_error_for_points(
-        WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start,
-        WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.end,
+        WAVELENGTH_OBSERVED_FOR_MIDDLE_POINT.start,
+        WAVELENGTH_OBSERVED_FOR_MIDDLE_POINT.end,
         z,
         spectra_data)
     
     try: 
         right_point = wavelength_flux_error_for_points(
-            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.start,
-            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end,
+            WAVELENGTH_OBSERVED_FOR_RIGHT_POINT.start,
+            WAVELENGTH_OBSERVED_FOR_RIGHT_POINT.end,
             z,
             spectra_data)
     except:
-        right_point = wavelength_flux_error_for_points_high_redshift(
-            wavelength,
-            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
-            WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
+        right_point = wavelength_flux_error_for_points(
+            WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
+            WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
             z,
             spectra_data)
     
@@ -199,7 +207,7 @@ def dynamic_find_anchor_points(spectra_data, number_of_anchor_points):
     """
     anchor_pts = []
     for i in number_of_anchor_points:
-        spec_point = wavelength_flux_error_for_points_high_redshift(spectra_data[0], wavelength_range[i-1][0], wavelength_range[i-1][1], z, spectra_data)
+        spec_point = wavelength_flux_error_for_points(spectra_data[0], wavelength_range[i-1][0], wavelength_range[i-1][1], z, spectra_data)
         anchor_pts.append(spec_point)
     print("User Requested Point: ", anchor_pts)
     return anchor_pts
@@ -236,6 +244,7 @@ def dynamic_find_anchor_points(spectra_data, number_of_anchor_points):
 if (__name__ == "__main__"):
 
     field = ["SPECTRA INDEX", "SPECTRA FILE NAME", "CHI SQUARED"]
+    fields_snr = ["SPECTRA INDEX", "SPECTRA FILE NAME", "SDSS SNR", "CALCULATED SNR"]
     fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
 
     if save_new_output_file == 'yes':
@@ -270,7 +279,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## DEFINING WAVELENGTH, FLUX, AND ERROR FOR WHOLE SPECTRA
     wavelength, flux, error = read_spectra(current_spectra_data)
     
-    WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 20., np.max(current_spectra_data[:, 0]))
+    WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 20., np.max(current_spectra_data[:, 0]))
 
     original_ranges = RangesData(wavelength, flux, error)
 
@@ -337,8 +346,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
         if try_again == 'yes':
             draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, GOOD_FIT)
+            #####################
             if save_new_output_file == 'yes':    
                 append_row_to_csv(GOOD_FIT, fields)
+            #####################
 
         power_law_data_x = powerlaw_wavelength
         power_law_data_y = powerlaw_flux
@@ -367,13 +378,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
         norm_w_f_e = (wavelength, flux_normalized, error_normalized) 
         norm_w_f_e = (np.transpose(norm_w_f_e))  
-        if save_new_norm_file == 'yes': np.savetxt(NORM_DIREC + current_spectrum_file_name[0:len(current_spectrum_file_name)-11] + NORM_FILE_EXTENSION, norm_w_f_e)
+
+        if save_new_norm_file == 'yes': np.savetxt(NORM_DIREC + current_spectrum_file_name[0:len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION, norm_w_f_e)
 
     ## FLAGGING LOW SNR
     flagged_snr_mean_in_ehvo = False
     if snr_mean_in_ehvo < SNR_CUTOFF:  
         flagged_snr_mean_in_ehvo = True
         print_to_file('     Flagged - low SNR', LOG_FILE)
+        ##print to flagged snr?
     else:
         print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE_NO_LOW_SNR)
     
@@ -412,7 +425,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     index_wavelength_from = np.max(np.where(wavelength <= (z + 1) * WAVELENGTH_RESTFRAME_TESTS.start))
     index_wavelength_to = np.min(np.where(wavelength >= (z + 1) * WAVELENGTH_RESTFRAME_TESTS.end))
     median_normalized_flux = np.median(flux_normalized[index_wavelength_from : index_wavelength_to])
-    val = 2 * val2 * median_normalized_flux ### why pick this value?
+    val = 2 * val1 * median_normalized_flux ### why pick this value?
 
     if not flagged_snr_mean_in_ehvo:
         print_to_file("     Value: " + str(val), LOG_FILE_NO_LOW_SNR)
@@ -449,13 +462,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     if not flagged_anchor_point_bad_fit and not flagged_snr_mean_in_ehvo:  
         ## TEST 2 
-        flagged_by_green_region = abs(np.median(normalized_flux_test_1) - 1) >= val1
+        flagged_by_green_region = abs(np.median(normalized_flux_test_1) - 1) >= val2
         if flagged_by_green_region:
             print("     flagged_by_green_region: ", flagged_by_green_region)
             print_to_file("     flagged_by_green_region: " + str(flagged_by_green_region), LOG_FILE)
             print_to_file("     flagged_by_green_region: " + str(flagged_by_green_region), LOG_FILE_NO_LOW_SNR)
 
-        flagged_by_pink_region = abs(np.median(normalized_flux_test_2) - 1) >= val1
+        flagged_by_pink_region = abs(np.median(normalized_flux_test_2) - 1) >= val2
+
         if flagged_by_pink_region:
             print("     flagged_by_pink_region: ", flagged_by_pink_region)
             print_to_file("     flagged_by_pink_region: " + str(flagged_by_pink_region), LOG_FILE)
@@ -502,15 +516,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print_to_file('percent green above = ' + str(np.round(diff_flux_above_green_region/median_flux_green_region, 3)), LOG_FILE_NO_LOW_SNR)
         print_to_file('percent pink above = ' + str(np.round(diff_flux_above_pink_region/median_flux_pink_region, 3)), LOG_FILE_NO_LOW_SNR)
 
-        ## These should be added to powerlaw_test
-        #if flagged and (max_flux_green_region >= median_flux_green_region >= min_flux_green_region):
         if flagged and (max_flux_green_region >= 1 >= min_flux_green_region):
             flagged_fit_too_high_green = True
             print_to_file('     Failed Test 3 [green], percentage: ' + str(np.round(diff_flux_below_green_region/median_flux_green_region, 3)), LOG_FILE)
             print_to_file('     Failed Test 3 [green], percentage: ' + str(np.round(diff_flux_below_green_region/median_flux_green_region, 3)), LOG_FILE_NO_LOW_SNR)
 
-        #if np.average(powerlaw_test2) <= median_flux_pink_region: 
-        #if flagged and (max_flux_pink_region >= median_flux_pink_region >= min_flux_pink_region):
         if flagged and (max_flux_pink_region >= 1 >= min_flux_pink_region):
             flagged_fit_too_high_pink = True
             print_to_file('     Failed Test 3 [pink], percentage: ' + str(np.round(diff_flux_below_pink_region/median_flux_pink_region, 3)), LOG_FILE)
@@ -532,7 +542,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             print_to_file('     Failed Test 4 [pink]', LOG_FILE)
             print_to_file('     Failed Test 4 [pink]', LOG_FILE_NO_LOW_SNR)
 
-        if not flagged_snr_mean_in_ehvo and save_new_output_file == 'yes':
+        if not flagged_snr_mean_in_ehvo and (flagged_completely_below_green or flagged_completely_below_pink) and save_new_output_file == 'yes':
             append_row_to_csv(FLAGGED_ABSORPTION, fields)
 
     elif not flagged_snr_mean_in_ehvo:
@@ -540,6 +550,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         append_row_to_csv(FLAGGED_ABSORPTION, fields)
         print_to_file('     Failed Test 1 [anchor points]', LOG_FILE)
         print_to_file('     Failed Test 1 [anchor points]', LOG_FILE_NO_LOW_SNR)
+    
     ## CHI SQUARED
     residuals_test1 = test1.flux - powerlaw(test1.wavelength, bf, cf)
     residuals_test2 = test2.flux - powerlaw(test2.wavelength, bf, cf)    
@@ -549,8 +560,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     chi_sq = sum((residuals_test1_and_2**2)/powerlaw(wavelength_tests_1_and_2, bf, cf))
 
     field = [spectra_index, current_spectrum_file_name, chi_sq]
+    fields_snr = [spectra_index, current_spectrum_file_name, snr, snr_mean_in_ehvo]
     fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
 
+    if save_new_output_file == 'yes' and flagged_snr_mean_in_ehvo: append_row_to_csv(FLAGGED_SNR, fields_snr)
+    
     if not flagged_snr_mean_in_ehvo:
         append_row_to_csv(GOODNESS_OF_FIT, field)
 
@@ -562,9 +576,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         middle_point_from = (z + 1) * WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.start
         right_point_to = (z + 1) * WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT.end
 
-        #wavelength_data = current_spectra_data[:,0]
-        #flux_data = current_spectra_data[:,1]
-
         min_wavelength = np.min(np.where(wavelength > middle_point_from))
         max_wavelength = np.max(np.where(wavelength < right_point_to))
 
@@ -572,33 +583,30 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         max_peak_norm = np.max(flux_normalized[min_wavelength + 1 : max_wavelength + 1])
         
     figure_data = FigureData(current_spectrum_file_name, wavelength_observed_from, wavelength_observed_to, z, snr, snr_mean_in_ehvo)
-    #original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
-
-    #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF)
-
 
     ## DRAWING FIGURES
     if flagged_snr_mean_in_ehvo:
         flaggedSNRdata = FlaggedSNRData(figure_data, bf, cf, power_law_data_x, power_law_data_y)
     else:
         original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
-        draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF)
-        if flagged:
-            draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, FLAGGED_PDF)
+        #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF)
+        #if flagged:
+            #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, FLAGGED_PDF)
         
-        elif flagged_fit_too_high_green and flagged_fit_too_high_pink:
-                draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, UNFLAGGED_PDF)
-                draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
-                if (save_new_output_file == 'yes'):
-                    append_row_to_csv(GOOD_FIT, fields)
+        #elif flagged_fit_too_high_green and flagged_fit_too_high_pink:
+        if flagged_fit_too_high_green and flagged_fit_too_high_pink:
+            #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, UNFLAGGED_PDF)
+            #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
+            if (save_new_output_file == 'yes'):
+                append_row_to_csv(GOOD_FIT, fields)
 
-        elif flagged_completely_below_green or flagged_completely_below_pink:
-                draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, POSSIBLE_ABSORPTION_PDF)
-                draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
+        #elif flagged_completely_below_green or flagged_completely_below_pink:
+                #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, POSSIBLE_ABSORPTION_PDF)
+                #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
         
-        else:
-            draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
-            draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, GOOD_FIT_PDF)
+        #else:
+            #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
+            #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, GOOD_FIT_PDF)
 
     if flagged and not flagged_snr_mean_in_ehvo and (save_new_output_file == 'yes'):
         append_row_to_csv(FLAGGED_BAD_FIT, fields)
@@ -636,7 +644,8 @@ UNFLAGGED_PDF.close()
 GOOD_FIT_PDF.close()
 POSSIBLE_ABSORPTION_PDF.close()
 
-if save_new_output_file == 'yes': np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
+#if save_new_output_file == 'yes': append_row_to_csv(FLAGGED_SNR, fields_snr)
+    #np.savetxt(FLAGGED_SNR, flagged_snr_in_ehvo_graphs, fmt='%s')
 
 ## what are we wanting printed to the file?
 #else:
