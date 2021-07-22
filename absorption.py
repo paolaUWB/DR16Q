@@ -254,7 +254,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_OI = (z_absSiIV + 1) * (OI_emitted)
                     obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
                     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
                     ############################################################################################
 
                     count_v = 1
@@ -302,11 +301,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                                     
                     final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
                     final_depth_individual.append(final_depth)
-                    print('depth', final_depth_individual)
+                    #print('depth', final_depth_individual)
                     
                     count_v = 0 
 
-    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins)
+    draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins, vmaxs)
         
     '''
 

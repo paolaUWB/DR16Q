@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, c0, c2, o1, vminz):
+def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, c0, c2, o1, vminz, vmaxz):
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -26,14 +26,16 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
     plt.xlim(-70000, 0)
     max_peak = (np.mean(flux_normalized) * 1.9)
     min_peak = (np.min(error) - .5) 
-    plt.text(-58000, (max_peak - .4), str(spectra_name) + ', z=' + str(redshift) + ', snr=' + str(snr), rotation = 0, fontsize = 8.5, backgroundcolor='1.00')
+    plt.text(-58000, (max_peak - .3), str(spectra_name) + ', z=' + str(redshift) + ', snr=' + str(snr), rotation = 0, fontsize = 8.5)
     plt.axhline(y=0.9, color='r', linestyle= '--')    
     plt.axhline(y=1.0)
     #max_peak = (np.max(flux_normalized[np.where(flux_normalized < 5)]))
     #for i in range(len(vminx)):
         #plt.axvspan(vminx[i], vmaxx[i], alpha=0.2, color='red')
     for i in range(len(vminz)):
-        plt.axvline(x=vminz[i], color='g', linestyle= '-')
+        #plt.axvline(x=vminz[i], color='g', linestyle= '-')
+        plt.axvspan(vminz[i],vmaxz[i], alpha = 0.2, color = 'yellow')
+
     plt.axvline(x=c0, color='k', linestyle= '-')
     plt.axvline(x=c2, color='b', linestyle= '-')
     plt.axvline(x=o1, color='y', linestyle= '-')
