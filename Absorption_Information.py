@@ -190,27 +190,6 @@ I'm not sure what differentiates the BI_total and BI_all so I made BI_sum """
 #This might be replacing the above work^
 BI_sum = np.sum(BI_individual)
 
-###################################### Working through #####################################
-"""
-test_beta = [1,2,3,4]
-
-test_vel = np.linspace(-10,10,100)
-
-test_vmins_index = [0,5,10,14]
-test_vmaxs_index = [4,9,13,20]
-b= np.linspace(0,4,5)
-print(b)
-
-#I need to generate a linspace of the indices so that I can find all the fluxes and get the minimum one.
-for i in vmins_index:
-It's actaully the elements of vmins_index and vmaxs_index that 
-    for j in vmaxs_index:
-        a=np.linspace(vmins_index[i],vmaxs_index[j],vmaxs_index[j]-vmins_index[i]+1)
-        print(a)
-#a= range(vmins_index[3])
-"""
-########################## Working through the above in spyder so it actually runs ###########################
-
 
 def depth(vmins_index,vmaxs_index):
 """Returns the depth of each BAL from the given spectra. Must be evaluated on each spectrum.
