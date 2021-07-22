@@ -126,8 +126,8 @@ count = 0
 BI = 0
 vmins, vmaxs, vmins_all, vmaxs_all = [], [], [], [] # v = velocity
 final_depth_individual, final_depth_all_individual = [], []
-BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_mid = [], [], [], [], []
-EW_individual, EW_all_individual, vlast = [], [], [] #EW = equivalent width
+BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_mid, BI_ind, BI_all = [], [], [], [], [], [], []
+EW_individual, EW_all_individual, vlast, EW_ind = [], [], [], [] #EW = equivalent width
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
@@ -160,25 +160,21 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # include if statement for smoothing and smooth spectrum.
     if want_to_smooth == 'yes':
-        sm_flux = smooth(normalized_flux, boxcar_size)
-        sm_error = smooth(normalized_error, boxcar_size) / np.sqrt(boxcar_size)   
-        non_sm_flux = normalized_flux
-        non_sm_error = normalized_error
-        normalized_flux = sm_flux
-        normalized_error = sm_error
+        normalized_flux = smooth(normalized_flux, boxcar_size)
+        normalized_error = smooth(normalized_error, boxcar_size) / np.sqrt(boxcar_size)   
 
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
     ################################# INITIALIZING  VARIABLES IN LOOP ##############################################################
-    #index_depth_final, flux_depth, final_depth_individual = []
+    index_depth_final, flux_depth, final_depth_individual = [], [], []
     non_trough_count = 999 # arbitrary large number that we will never reach
 
     delta_v = 0 #change in velocity
     sum_of_deltas = 0
     bb = -1 #???
                         
-    countvmins = 0 # variable initialization to get into vmin/vmax loop
+    count_v = 0 # variable initialization to get into vmin/vmax loop
     ###############################################################################################################################
 
     # Calculate BI, v_min and v_max by looping through the beta array in the velocity limits
@@ -209,7 +205,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         # bracket is the things inside the bracket from the BI integral calculation 
         bracket = (1. - (normalized_flux[current_velocity_index] / 0.9))
         
-        # Handle 3-point spike limit
+        # Handle 3-point spike limit #####################################################
         if bracket > 0:
             non_trough_count = 0
         else:
@@ -221,29 +217,30 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             sum_of_deltas += delta_v
             brac_all.append(bracket)
             delta_v_all.append(delta_v)
+
             EW = bracket * delta_v
             EW = np.round(EW, 5)
-            EW_individual.append(EW)       
+            EW_ind.append(EW)      
+        ################################################################################# 
 
             # BI calculation
             if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
-                BI_individual.append(np.round(BI, 5)) 
+                BI_ind.append(np.round(BI, 5)) 
 
-                #if non_trough_count == 0: # plotting the black line
-                   #plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
+                # plotting the black line
+                if non_trough_count == 0: 
+                   plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
 
-                # vmin calculation               
-                if countvmins == 0 and non_trough_count == 0:  
-                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT)))  # vmins occurs current beta plus countBI
+                ############################# V MIN CALCULATION ######################################################
+                if count_v == 0 and non_trough_count == 0:  
+                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) # vmins occurs current beta plus BALNICITY_INDEX_LIMIT
                     vmins.append(np.round(beta[vmins_index], 5))                    
                 
-                    # Calculate where CIV, CII and OI would be for each pair of vmin and vmax *if* the EHVO absorption found were 
+                    # Calculate where CIV, CII and OI would be for each pair of VMIN *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
-
-                    # If the absorption is SiIV, this finds and plots where CIV, CII and OI would be
                     z_absSiIV = (wavelength[current_velocity_index] / avr_SiIV_doublet) - 1
                      
                     obs_wavelength_C = (z_absSiIV + 1) * (avr_CIV_doublet)
@@ -257,75 +254,89 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_OI = (z_absSiIV + 1) * (OI_emitted)
                     obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
                     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
+                    plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
+                    ############################################################################################
 
-                    countvmins = 1
+                    count_v = 1
+                
+                bracket_2 = (1. - (normalized_flux[current_velocity_index - 1] / 0.9))
+                bracket_3 = (1. - (normalized_flux[current_velocity_index - 2] / 0.9))
+                bracket_4 = (1. - (normalized_flux[current_velocity_index - 3] / 0.9))
+                bracket_5 = (1. - (normalized_flux[current_velocity_index - 4] / 0.9))
+
+                ############################# V MAX CALCULATION ######################################################
+                if (((bracket > 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and bracket_5 < 0 and count_v == 1)) or (current_velocity_index == vminindex_for_range)):  
+
+                    vmaxs_index = np.min(np.where (beta >= beta[current_velocity_index]))
+                    vmaxs.append(np.round(beta[current_velocity_index], 4))
+                                       
+                    plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
+
+                    z_absSiIV_final = (wavelength[vmaxs_index] / avr_SiIV_doublet) - 1.
+                    # Calculate where CIV, CII and OI would be for each pair of VMAX *if* the EHVO absorption found were 
+                    # instead not EHVO and due to SiIV: 
+                    # if the absorption is SiIV, this finds and plots where CIV, CII and OI would be ###########
+                    obs_wavelength_Cfinal = (z_absSiIV_final + 1.) * (avr_CIV_doublet)
+                    obs_wavelength_Cfinal_index = np.min(np.where(wavelength > obs_wavelength_Cfinal))
+                    obs_wavelength_C_final_vel = beta[obs_wavelength_Cfinal_index]
+                    plt.axvspan(obs_wavelength_C_vel, obs_wavelength_C_final_vel, alpha = 0.2, color = 'grey')
+
+                    obs_wavelength_CIIfinal = (z_absSiIV_final + 1.) * (CII_emitted)
+                    obs_wavelength_CIIfinal_index = np.min (np.where (wavelength > obs_wavelength_CIIfinal))
+                    obs_wavelength_CII_final_vel = beta[obs_wavelength_CIIfinal_index]
+                    plt.axvspan(obs_wavelength_CII_vel,obs_wavelength_CII_final_vel, alpha = 0.2, color = 'blue')
+
+                    obs_wavelength_OIfinal = (z_absSiIV_final + 1.) * (OI_emitted)
+                    obs_wavelength_OIfinal_index = np.min(np.where (wavelength > obs_wavelength_OIfinal))
+                    obs_wavelength_OI_final_vel = beta[obs_wavelength_OIfinal_index]
+                    plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
+                    ############################################################################################
+
+                    BI_ind_sum = round(sum(BI_ind), 2)
+                    BI_individual.append(BI_ind_sum) # this array contains one single BI value of each absortopn feature in a single spectrum
+                    BI_ind = []
+                    
+                    EW_ind_sum = round(sum(EW_ind), 2)
+                    EW_individual.append(EW_ind_sum)
+                    EW_ind = []
+                                    
+                    final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
+                    final_depth_individual.append(final_depth)
+                    print('depth', final_depth_individual)
+                    
+                    count_v = 0 
 
     draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins)
-'''      
-# ****************************************** NEXT UP ******************************************  
-    # Plot figure as if the absorption was SiIV, CII or OI (we will visually inspect this file). 
-
-    if (len(vmaxs) != 0) or (plotall == 'yes'):
-
-        plt.title('Normalized flux vs velocity fhfhkfs')
-        plt.xlabel('Velocity (km/s)')
-        plt.ylabel('Normalized flux')
-        plt.plot((np.min(beta),np.max(beta)),(1,1))
-        plt.plot((np.min(beta),np.max(beta)),(0.9,0.9),'r--')
-        plt.plot(beta, normalized_flux, 'k-')
-    #        plot(beta, sm_flux, 'r-')
-    #        plot(beta, norm_flux, 'k-')
-        plt.plot(beta, normalized_error,'k--')
-        #plot (beta, norm_error,'k--')
-        #plot (beta, sm_error,'k--')
-        plt.ylim(0,3)
-
-        plt.xlim(-70000,0)
-        plt.text(-60000, 2, str(i)+',     z='+str(z)+' snr='+ str(snr), rotation=0, fontsize=9) # <-- Different location?
-
-    # the axvspan using beta need to be defined earlier to plot here f.e., axvspan(beta[current_velocity_index],beta[current_velocity_index-1], alpha=0.05, color='red')
-
-    # Save absorption info in file. 
-
-    if (len(vmaxs) != 0) or (plotall == 'yes'): # < -- I am confused about the "or" there
-        absspeccount=absspeccount+1  # <-- I think this is a variable to show how many cases have absorption? 
-        yes=(str(count)+';'+str(absspeccount)+'  name: ' + str(i) + '\n' + 'BI (-30000 > v > -60,000): ' + str(BI_total) + '\n' +  'vmins: ' + str(vmins) + '\n' + 'vmaxs: '+str(vmaxs) + '\n' + 'BI_individual: '+ str(BI_individual) + '\n' + 'EW_individual: '+ str(EW_individual) + '\n' + 'Depth: '+ str(final_depth_individual) +'\n'+'\n')
-        vlast.append(yes)
-    
-        pp.savefig()
-
-        s = i.split('-')
-        plateid = s[1]
-        mjd = s[2]
-        s = s[3].split('.')
-        fiber = s[0]
-        plt.savefig(output_spec + plateid + "-" + mjd + "-" + fiber + ".png") # <-- I don't think we really want a million png... only if doing a single one this makes sense. 
-
-    close(count)
-
-    if (len(vmaxs) != 0) or (plotall == 'yes'):  #<-- Again, I am confused about what the if includes plotall. 
-        vmins_all.append(vmins)
-        vmaxs_all.append(vmaxs)
         
-# Clean below this. Do we need it? Where is it saving it?
+    '''
 
-BI_total= array(BI_total)
+    else: #if the brac value is not more than zero (so if we don't have absorption feature)
+            sum_of_deltas = 0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
+            count_v = 0 # this is so b/c if the code encounters an other absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
+            EW_ind = []
+        
+        if current_velocity_index == vminindex_for_range:
+            BI_total = round(sum(BI_mid),2)         
+            BI_all.append(BI_total)    
+            BI_all_individual.append(BI_individual)
+            EW_all_individual.append(EW_individual)
 
-vmins = array(vmins)
-vmaxs = array(vmaxs)
-pp.close()
-vmaxs_final=[]
-vmins_final=[]
+        draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
 
-for loop in range (0, len (vmaxs_all)):
-    vmaxs_final.append (str(vmaxs_all[loop])+ ',' )
+        final_depth_all_individual.append(final_depth_individual)
+    
 
-for loop2 in range (0, len(vmins_all)):
-    vmins_final.append (str(vmins_all[loop2])+ ',' )
-                    
-
-vmaxs_final = array(vmaxs_final)
-vmins_final = array(vmins_final)    
-savetxt(ffile,vlast,fmt='%s')
-'''
+    if (len(vmaxs) != 0) or (plot_all == 'yes'): 
+        #plt.xlim(np.min(beta), 0) # this is just seting how wide the graph should be (so we are setting the domain)
+        plt.title('Normalized Flux vs Velocity')
+        plt.xlabel('Velocity (km/s)')
+        plt.ylabel('Normalized Flux')
+        plt.plot((np.min(beta), np.max(beta)), (1,1))
+        plt.plot((np.min(beta), np.max(beta)), (0.9,0.9), 'r--')
+        plt.plot(beta, normalized_flux, 'k-')
+        plt.plot (beta, normalized_error,'k--')
+        plt.ylim(0, 3)
+        plt.xlim(-70000, 0)
+        plt.text(-60000, 2, str(current_spectrum_file_name)+',     z='+str(z)+' snr='+ str(calc_snr), rotation = 0, fontsize = 9)
+    '''
 ABSORPTION_OUTPUT_PLOT_PDF.close()

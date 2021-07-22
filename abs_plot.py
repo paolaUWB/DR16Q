@@ -18,10 +18,10 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
     -----
     Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
     """
-    plt.plot(velocity, flux_normalized, color= 'k')
-    plt.plot(velocity, error, color= 'grey')
+    plt.plot(velocity, flux_normalized, color = 'k')
+    plt.plot(velocity, error, color = 'grey')
     plt.title("Normalized Flux vs Velocity")
-    plt.xlabel("velocity (km/s)")
+    plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
     max_peak = (np.mean(flux_normalized) * 1.9)
