@@ -32,8 +32,8 @@ def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, vmin
  
 """
  # Calculate depth of each individual absorption trough
-    tmp = normazlied_flux[vmaxs_index:vmins_index]
-    tmp_index = np.where(normazlied_flux[vmaxs_index:vmins_index] == np.min(norm_flux_used[vmaxs_index:vmins_index]))
+    tmp = normalized_flux[vmaxs_index:vmins_index]
+    tmp_index = np.where(normalized_flux[vmaxs_index:vmins_index] == np.min(norm_flux_used[vmaxs_index:vmins_index]))
                     
     # The depth is calculated around the minimum, instead of as the minimum point, which could be a spike.
     final_depth = round (np.median(1.-tmp[int(tmp_index[0])-10 : int(tmp_index[0])+10]),2)
@@ -114,4 +114,4 @@ def draw_abs_figure(velocity, flux_normalized, savefile_name, spectra_name, vmin
         plt.savefig(output_spec + plateid + "-" + mjd + "-" + fiber + ".png") # <-- I don't think we really want a million png... only if doing a single one this makes sense. 
 
     close(count)
-"""""
+"""
