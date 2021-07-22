@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, sumdelta):
+def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -18,22 +18,23 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
     -----
     Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
     """
-    plt.plot(velocity, flux_normalized, color= 'k')
-    plt.plot(velocity, error, color= 'grey')
+    plt.plot(velocity, flux_normalized, color = 'k')
+    plt.plot(velocity, error, color = 'grey')
     plt.title("Normalized Flux vs Velocity")
-    plt.xlabel("velocity (km/s)")
+    plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
-    plt.xlim(-70000, 0)        
-    plt.text(-60000, 2, str(spectra_name), rotation = 0, fontsize = 9)
-    plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
-    plt.axhline(y=0.9, color='r', linestyle= '--')    
-    plt.axhline(y=1.0)
-    #max_peak = (np.max(flux_normalized[np.where(flux_normalized < 5)]))
+    plt.xlim(-70000, 0)
     max_peak = (np.mean(flux_normalized) * 1.9)
-    min_peak = (np.min(error) - .5)
+    min_peak = (np.min(error) - .5) 
+    plt.text(-58000, (max_peak - .4), str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr), rotation = 0, fontsize = 8.5, backgroundcolor='1.00')
+    #plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
+    plt.axhline(y = 0.9, color='r', linestyle = '--')    
+    plt.axhline(y = 1.0)
+    #max_peak = (np.max(flux_normalized[np.where(flux_normalized < 5)]))
     #for i in range(len(vminx)):
         #plt.axvspan(vminx[i], vmaxx[i], alpha=0.2, color='red')
-    print(max_peak)
+    #for i in range(len(vminz)):
+        #plt.axvline(x = vminz[i], color = 'g', linestyle = '-')
     plt.ylim((min_peak, max_peak))
     savefile_name.savefig()
     plt.close() 
@@ -41,17 +42,6 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
  
  
 """
- # Calculate depth of each individual absorption trough
-    tmp = normazlied_flux[vmaxs_index:vmins_index]
-    tmp_index = np.where(normazlied_flux[vmaxs_index:vmins_index] == np.min(norm_flux_used[vmaxs_index:vmins_index]))
-                    
-    # The depth is calculated around the minimum, instead of as the minimum point, which could be a spike.
-    final_depth = round (np.median(1.-tmp[int(tmp_index[0])-10 : int(tmp_index[0])+10]),2)
-    #final_depth=round((1.-np.min(norm_flux_used[vmaxs_index:vmins_index])),2) <-- kept it to show how it was done before with the minimum point. You can delete it later
-    final_depth_individual.append(final_depth)
-    print('depth',final_depth_individual)
-    final_depth_all_individual.append(final_depth_individual)
-   
     # Calculate where CIV, CII and OI would be for each pair of vmin and vmax *if* the EHVO absorption found were 
     # instead not EHVO and due to SiIV: 
     # If the absorption is SiIV, this finds and plots where CIV, CII and OI would be
