@@ -1,0 +1,950 @@
+5: spec-9140-58039-0081-dered.dr16
+     Value: 0.10365889482268145
+     Failed Test 3 [pink]
+16: spec-7671-57360-0092-dered.dr16
+     Value: 0.10818779846777378
+     flagged_by_test2: True
+18: spec-8823-57446-0393-dered.dr16
+     Value: 0.09819867967657027
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+20: spec-4421-55858-0894-dered.dr16
+     Value: 0.10281291366053391
+     Failed Test 1 [anchor points]
+21: spec-5297-55913-0686-dered.dr16
+     Value: 0.1054107504366058
+     flagged_by_test2: True
+39: spec-9155-58043-0456-dered.dr16
+     Value: 0.10225841799663596
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #39, file name: spec-9155-58043-0456-dered.dr16
+     Failed Test 3 [pink]
+40: spec-9411-58070-0290-dered.dr16
+     Value: 0.10444688862015689
+     Failed Test 1 [anchor points]
+44: spec-7732-58108-0100-dered.dr16
+     Value: 0.11308231036774233
+47: spec-7743-58107-0994-dered.dr16
+     Value: 0.1039472996237057
+     Failed Test 1 [anchor points]
+53: spec-7644-57327-0353-dered.dr16
+     Value: 0.10420668220052587
+58: spec-5326-56002-0370-dered.dr16
+     Value: 0.10074690102097711
+     flagged_by_test2: True
+59: spec-5406-55955-0486-dered.dr16
+     Value: 0.10894258618489897
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #59, file name: spec-5406-55955-0486-dered.dr16
+60: spec-5438-56002-0285-dered.dr16
+     Value: 0.10102571966993242
+     Failed Test 1 [anchor points]
+62: spec-5862-56045-0724-dered.dr16
+     Value: 0.10668162659243229
+     flagged_by_test1: True
+     Failed Test 3 [pink]
+63: spec-5994-56101-0196-dered.dr16
+     Value: 0.10343201227400729
+87: spec-5450-55986-0680-dered.dr16
+     Value: 0.10198903855265251
+     Failed Test 1 [anchor points]
+89: spec-5469-56037-0689-dered.dr16
+     Value: 0.10181130098678765
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+91: spec-6428-56279-0192-dered.dr16
+     Value: 0.10308538670161922
+     Failed Test 1 [anchor points]
+96: spec-7118-56686-0018-dered.dr16
+     Value: 0.0984701258586459
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+97: spec-7235-56603-0711-dered.dr16
+     Value: 0.10961942512959735
+     Failed Test 1 [anchor points]
+102: spec-11314-58436-0494-dered.dr16
+     Value: 0.11142194666234838
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #102, file name: spec-11314-58436-0494-dered.dr16
+112: spec-5193-56066-0854-dered.dr16
+     Value: 0.10196845971455473
+114: spec-5371-55976-0375-dered.dr16
+     Value: 0.10204313858886196
+     Failed Test 1 [anchor points]
+116: spec-5459-56035-0821-dered.dr16
+     Value: 0.09992781869859624
+     Failed Test 1 [anchor points]
+117: spec-5470-56008-0024-dered.dr16
+     Value: 0.09927326248506983
+     Failed Test 3 [pink]
+119: spec-5787-56254-0280-dered.dr16
+     Value: 0.1037459589463141
+     flagged_by_test1: True
+120: spec-5973-56067-0856-dered.dr16
+     Value: 0.10376939276390376
+     Failed Test 1 [anchor points]
+121: spec-5986-56328-0702-dered.dr16
+     Value: 0.10133635814823182
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+122: spec-6002-56104-0333-dered.dr16
+     Value: 0.10569867225728036
+     Failed Test 1 [anchor points]
+124: spec-6467-56270-0933-dered.dr16
+     Value: 0.10236246703462425
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #124, file name: spec-6467-56270-0933-dered.dr16
+125: spec-6638-56370-0035-dered.dr16
+     Value: 0.10199991534788207
+     Failed Test 1 [anchor points]
+126: spec-7092-56683-0634-dered.dr16
+     Value: 0.10486811885955316
+     Failed Test 1 [anchor points]
+127: spec-11124-58430-0782-dered.dr16
+     Value: 0.10302935074143141
+     Failed Test 3 [pink]
+130: spec-11329-58426-0355-dered.dr16
+     Value: 0.10419715465216331
+     flagged_by_test2: True
+134: spec-7624-57039-0348-dered.dr16
+     Value: 0.10020435059534283
+140: spec-7655-57336-0586-dered.dr16
+     Value: 0.1018506602837988
+     Failed Test 1 [anchor points]
+145: spec-7390-57130-0961-dered.dr16
+     Value: 0.1067074941529107
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #145, file name: spec-7390-57130-0961-dered.dr16
+149: spec-5205-56040-0352-dered.dr16
+     Value: 0.10445030723284066
+     Failed Test 1 [anchor points]
+150: spec-5314-55952-0508-dered.dr16
+     Value: 0.1149391046745567
+     Failed Test 1 [anchor points]
+151: spec-5434-56033-0598-dered.dr16
+     Value: 0.1034747414499364
+     Failed Test 3 [pink]
+152: spec-5790-56271-0352-dered.dr16
+     Value: 0.09940648285771406
+     Failed Test 1 [anchor points]
+157: spec-6709-56429-0316-dered.dr16
+     Value: 0.10760026484619889
+     flagged_by_test2: True
+158: spec-6809-56454-0922-dered.dr16
+     Value: 0.10332619193836055
+     Failed Test 1 [anchor points]
+161: spec-7316-56710-0644-dered.dr16
+     Value: 0.10695794130342368
+     Failed Test 1 [anchor points]
+165: spec-7878-57340-0670-dered.dr16
+     Value: 0.10328472640800679
+     flagged_by_test2: True
+     Failed Test 3 [green]
+171: spec-10472-58159-0789-dered.dr16
+     Value: 0.10469068159670843
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+180: spec-7869-57012-0602-dered.dr16
+     Value: 0.10936588120938745
+     Failed Test 1 [anchor points]
+181: spec-9156-58039-0299-dered.dr16
+     Value: 0.10667752552645511
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #181, file name: spec-9156-58039-0299-dered.dr16
+     Failed Test 3 [pink]
+182: spec-5039-56220-0218-dered.dr16
+     Value: 0.102536025839277
+     flagged_by_test2: True
+183: spec-5166-56065-0730-dered.dr16
+     Value: 0.10676349185365797
+     flagged_by_test2: True
+185: spec-5312-56001-0140-dered.dr16
+     Value: 0.10242586770444609
+187: spec-5430-56000-0420-dered.dr16
+     Value: 0.10546031196351349
+     Failed Test 1 [anchor points]
+189: spec-5491-56034-0704-dered.dr16
+     Value: 0.100842051456817
+192: spec-5788-56255-0570-dered.dr16
+     Value: 0.11035630982416665
+     Failed Test 1 [anchor points]
+193: spec-5891-56034-0076-dered.dr16
+     Value: 0.10631748456517807
+     flagged_by_test2: True
+194: spec-5986-56328-0302-dered.dr16
+     Value: 0.10467368704974321
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #194, file name: spec-5986-56328-0302-dered.dr16
+196: spec-6434-56362-0340-dered.dr16
+     Value: 0.09826872964222737
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+199: spec-6649-56364-0826-dered.dr16
+     Value: 0.10350358640710922
+202: spec-8401-57482-0335-dered.dr16
+     Value: 0.10626392299557388
+     Failed Test 1 [anchor points]
+203: spec-8743-57663-0103-dered.dr16
+     Value: 0.10419142816213951
+     Failed Test 1 [anchor points]
+204: spec-8864-57428-0151-dered.dr16
+     Value: 0.1023168020004469
+     Failed Test 1 [anchor points]
+205: spec-9180-57693-0324-dered.dr16
+     Value: 0.1037314147065338
+211: spec-9203-57692-0186-dered.dr16
+     Value: 0.11310192140820968
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #211, file name: spec-9203-57692-0186-dered.dr16
+215: spec-7584-56957-0901-dered.dr16
+     Value: 0.10303125351904618
+     Failed Test 1 [anchor points]
+216: spec-11040-58456-0317-dered.dr16
+     Value: 0.1096293665128319
+     Failed Test 1 [anchor points]
+218: spec-5289-55893-0480-dered.dr16
+     Value: 0.10582919901475268
+     flagged_by_test2: True
+221: spec-5811-56334-0139-dered.dr16
+     Value: 0.10337597595359252
+     Failed Test 1 [anchor points]
+223: spec-5992-56066-0320-dered.dr16
+     Value: 0.10639370757050398
+227: spec-6623-56367-0121-dered.dr16
+     Value: 0.10532078961141267
+     Failed Test 1 [anchor points]
+229: spec-7088-56657-0068-dered.dr16
+     Value: 0.107229207959191
+230: spec-7108-56686-0069-dered.dr16
+     Value: 0.10286439746246456
+232: spec-7629-56988-0018-dered.dr16
+     Value: 0.09940097616826209
+     Failed Test 1 [anchor points]
+240: spec-8822-58167-0348-dered.dr16
+     Value: 0.10505663357132895
+     flagged_by_test2: True
+246: spec-7616-56902-0364-dered.dr16
+     Value: 0.10500417034633124
+     flagged_by_test2: True
+247: spec-8208-57430-0769-dered.dr16
+     Value: 0.10580775515210239
+     Failed Test 1 [anchor points]
+252: spec-5439-56045-0250-dered.dr16
+     Value: 0.10983353364780071
+256: spec-6491-56337-0210-dered.dr16
+     Value: 0.11680611352109196
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #256, file name: spec-6491-56337-0210-dered.dr16
+257: spec-6752-56366-0598-dered.dr16
+     Value: 0.10563164484179857
+     Failed Test 1 [anchor points]
+260: spec-7696-57655-0835-dered.dr16
+     Value: 0.10313961987141317
+     Failed Test 1 [anchor points]
+262: spec-8500-57432-0800-dered.dr16
+     Value: 0.10192389528698705
+     Failed Test 1 [anchor points]
+267: spec-8539-58021-0141-dered.dr16
+     Value: 0.10912835563311632
+     Failed Test 1 [anchor points]
+276: spec-5202-55824-0174-dered.dr16
+     Value: 0.10669915986852341
+     Failed Test 1 [anchor points]
+279: spec-5996-56096-0608-dered.dr16
+     Value: 0.10165073790466361
+     flagged_by_test1: True
+     Failed Test 3 [pink]
+280: spec-6202-56266-0584-dered.dr16
+     Value: 0.09768962976606174
+     flagged_by_test2: True
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+283: spec-7088-56657-0588-dered.dr16
+     Value: 0.10294659717649995
+     Failed Test 3 [pink]
+288: spec-9606-58103-0149-dered.dr16
+     Value: 0.10273842364913724
+     Failed Test 3 [pink]
+291: spec-9329-57688-0257-dered.dr16
+     Value: 0.1043404937317105
+296: spec-7892-57333-0134-dered.dr16
+     Value: 0.10142871564200072
+301: spec-11085-58462-0573-dered.dr16
+     Value: 0.10254320150343808
+     Failed Test 1 [anchor points]
+302: spec-5204-56036-0816-dered.dr16
+     Value: 0.10212479588757487
+     flagged_by_test2: True
+303: spec-5360-55983-0014-dered.dr16
+     Value: 0.10241051142036482
+     Failed Test 1 [anchor points]
+305: spec-5397-55944-0352-dered.dr16
+     Value: 0.10053583003479863
+     Failed Test 1 [anchor points]
+311: spec-5890-56037-0394-dered.dr16
+     Value: 0.09910540366485786
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+312: spec-5894-56039-0220-dered.dr16
+     Value: 0.10580856163902547
+313: spec-5900-56043-0250-dered.dr16
+     Value: 0.10440753682020908
+     Failed Test 1 [anchor points]
+315: spec-6017-56075-0590-dered.dr16
+     Value: 0.09921642522990268
+     Failed Test 3 [pink]
+316: spec-6406-56330-0854-dered.dr16
+     Value: 0.10430244664647939
+     Failed Test 3 [pink]
+320: spec-6833-56413-0278-dered.dr16
+     Value: 0.10140686642730841
+     Failed Test 1 [anchor points]
+322: spec-7565-56809-0200-dered.dr16
+     Value: 0.10588031656649038
+     flagged_by_test1: True
+324: spec-8490-57104-0424-dered.dr16
+     Value: 0.10786689282568636
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #324, file name: spec-8490-57104-0424-dered.dr16
+334: spec-8743-57663-0458-dered.dr16
+     Value: 0.10540976253267305
+     flagged_by_test2: True
+336: spec-9143-57665-0035-dered.dr16
+     Value: 0.10131245259039941
+     Failed Test 1 [anchor points]
+340: spec-7915-57309-0358-dered.dr16
+     Value: 0.09996246180910395
+     flagged_by_test1: True
+345: spec-5480-56001-0920-dered.dr16
+     Value: 0.10525342145632416
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #345, file name: spec-5480-56001-0920-dered.dr16
+348: spec-6644-56384-0409-dered.dr16
+     Value: 0.10264820890123459
+349: spec-6737-56365-0860-dered.dr16
+     Value: 0.10220151305920942
+     Failed Test 3 [pink]
+361: spec-7842-56899-0718-dered.dr16
+     Value: 0.11148091918971943
+366: spec-10938-58514-0582-dered.dr16
+     Value: 0.1056961038047418
+     flagged_by_test2: True
+368: spec-7679-57367-0342-dered.dr16
+     Value: 0.10408577464076291
+     Failed Test 1 [anchor points]
+376: spec-5339-55922-0676-dered.dr16
+     Value: 0.10214135930591134
+     Failed Test 1 [anchor points]
+377: spec-5396-55947-1000-dered.dr16
+     Value: 0.1029787481953093
+     Failed Test 1 [anchor points]
+380: spec-5974-56314-0518-dered.dr16
+     Value: 0.11154448025931395
+     flagged_by_test2: True
+381: spec-5977-56098-0276-dered.dr16
+     Value: 0.10127844675137121
+382: spec-6040-56101-0884-dered.dr16
+     Value: 0.10368086037408089
+     flagged_by_test1: True
+383: spec-6492-56362-0738-dered.dr16
+     Value: 0.10219361144553687
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #383, file name: spec-6492-56362-0738-dered.dr16
+     Failed Test 3 [pink]
+393: spec-8371-57786-0265-dered.dr16
+     Value: 0.10910500513981936
+     flagged_by_test2: True
+398: spec-9590-57813-0295-dered.dr16
+     Value: 0.10485251015046573
+     flagged_by_test2: True
+399: spec-4468-55894-0786-dered.dr16
+     Value: 0.10821101424441014
+     Failed Test 1 [anchor points]
+400: spec-4835-56016-0460-dered.dr16
+     Value: 0.10893368374585091
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #400, file name: spec-4835-56016-0460-dered.dr16
+402: spec-5203-56034-0346-dered.dr16
+     Value: 0.10179099486161816
+     Failed Test 1 [anchor points]
+404: spec-5377-55957-0558-dered.dr16
+     Value: 0.10294461087546042
+     Failed Test 1 [anchor points]
+406: spec-5782-56272-0604-dered.dr16
+     Value: 0.10541560202121297
+     Failed Test 1 [anchor points]
+410: spec-5997-56309-0870-dered.dr16
+     Value: 0.10605290952422929
+     Failed Test 3 [pink]
+413: spec-6627-56369-0996-dered.dr16
+     Value: 0.10686675327846484
+     Failed Test 1 [anchor points]
+415: spec-7382-56991-0118-dered.dr16
+     Value: 0.11247044611288973
+     Failed Test 1 [anchor points]
+416: spec-8862-57461-0960-dered.dr16
+     Value: 0.12118526073584868
+     flagged_by_test2: True
+418: spec-9549-57807-0304-dered.dr16
+     Value: 0.1058866838493957
+420: spec-7619-56900-0602-dered.dr16
+     Value: 0.10349538519743268
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #420, file name: spec-7619-56900-0602-dered.dr16
+423: spec-7668-57579-0707-dered.dr16
+     Value: 0.10344316894493351
+     flagged_by_test2: True
+426: spec-11379-58438-0758-dered.dr16
+     Value: 0.1027741209668138
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #426, file name: spec-11379-58438-0758-dered.dr16
+431: spec-8760-57672-0002-dered.dr16
+     Value: 0.10244385541940278
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #431, file name: spec-8760-57672-0002-dered.dr16
+437: spec-10431-58137-0135-dered.dr16
+     Value: 0.09906671076895353
+     Failed Test 1 [anchor points]
+439: spec-5352-56269-0584-dered.dr16
+     Value: 0.09908249946875804
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+447: spec-7109-56658-0710-dered.dr16
+     Value: 0.10757904580732727
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #447, file name: spec-7109-56658-0710-dered.dr16
+456: spec-10434-58140-0572-dered.dr16
+     Value: 0.10466208179337988
+     flagged_by_test1: True
+457: spec-9147-58038-0241-dered.dr16
+     Value: 0.1035714300492061
+     Failed Test 1 [anchor points]
+459: spec-7630-57006-0180-dered.dr16
+     Value: 0.1075673986040582
+     Failed Test 1 [anchor points]
+464: spec-11294-58451-0910-dered.dr16
+     Value: 0.10946556359608169
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #464, file name: spec-11294-58451-0910-dered.dr16
+466: spec-5403-55979-0500-dered.dr16
+     Value: 0.09961118780858598
+     Failed Test 3 [pink]
+467: spec-5779-56338-0292-dered.dr16
+     Value: 0.10175703051229208
+     Failed Test 1 [anchor points]
+469: spec-5867-56034-0637-dered.dr16
+     Value: 0.11030592681806556
+     Failed Test 1 [anchor points]
+473: spec-6660-56370-0736-dered.dr16
+     Value: 0.11057188499342663
+481: spec-8506-57893-0528-dered.dr16
+     Value: 0.10284440446024666
+488: spec-8729-57399-0420-dered.dr16
+     Value: 0.10522651293455086
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #488, file name: spec-8729-57399-0420-dered.dr16
+489: spec-10723-58287-0019-dered.dr16
+     Value: 0.10672725621259534
+     flagged_by_test2: True
+494: spec-11046-58398-0643-dered.dr16
+     Value: 0.10048657521725034
+     Failed Test 3 [pink]
+499: spec-7748-58396-0649-dered.dr16
+     Value: 0.1083928520766663
+     Failed Test 1 [anchor points]
+501: spec-5396-55947-0930-dered.dr16
+     Value: 0.10810273669004805
+504: spec-6034-56103-0712-dered.dr16
+     Value: 0.10661415377917159
+     flagged_by_test2: True
+506: spec-7580-56955-0827-dered.dr16
+     Value: 0.10871682060979176
+     Failed Test 1 [anchor points]
+507: spec-7655-57336-0358-dered.dr16
+     Value: 0.10310639259690649
+     Failed Test 1 [anchor points]
+509: spec-8839-57846-0263-dered.dr16
+     Value: 0.10418860840219135
+514: spec-7892-57333-0024-dered.dr16
+     Value: 0.1073013337998125
+517: spec-11396-58490-0784-dered.dr16
+     Value: 0.10416866066281752
+     Failed Test 1 [anchor points]
+525: spec-8424-58248-0592-dered.dr16
+     Value: 0.10236830344665802
+     Failed Test 1 [anchor points]
+530: spec-5164-56067-0928-dered.dr16
+     Value: 0.10400178902283348
+532: spec-6486-56328-0254-dered.dr16
+     Value: 0.10297577948381154
+     flagged_by_test2: True
+534: spec-6690-56416-0370-dered.dr16
+     Value: 0.10373723415246441
+543: spec-11114-58437-0780-dered.dr16
+     Value: 0.10179953681818571
+     Failed Test 1 [anchor points]
+544: spec-9331-57711-0233-dered.dr16
+     Value: 0.10394852702893438
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #544, file name: spec-9331-57711-0233-dered.dr16
+547: spec-9173-58069-0823-dered.dr16
+     Value: 0.10215681834603957
+     Failed Test 1 [anchor points]
+548: spec-9372-58074-0133-dered.dr16
+     Value: 0.1072377607746492
+552: spec-7664-57367-0194-dered.dr16
+     Value: 0.10735645957674425
+     Failed Test 1 [anchor points]
+555: spec-8761-58430-0769-dered.dr16
+     Value: 0.10080751437990704
+     Failed Test 1 [anchor points]
+556: spec-9372-58074-0171-dered.dr16
+     Value: 0.0985574725997092
+     Failed Test 1 [anchor points]
+559: spec-5808-56325-0532-dered.dr16
+     Value: 0.1055953393830123
+561: spec-5973-56067-0372-dered.dr16
+     Value: 0.10624458832221265
+568: spec-9341-57743-0141-dered.dr16
+     Value: 0.10202288032304144
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #568, file name: spec-9341-57743-0141-dered.dr16
+569: spec-9394-58108-0381-dered.dr16
+     Value: 0.10358610988025599
+     Failed Test 1 [anchor points]
+570: spec-9546-57864-0317-dered.dr16
+     Value: 0.09928569499781671
+     Failed Test 3 [pink]
+573: spec-7733-58103-0752-dered.dr16
+     Value: 0.1012512646533057
+     Failed Test 3 [pink]
+594: spec-5790-56271-0071-dered.dr16
+     Value: 0.10071398699038303
+     Failed Test 1 [anchor points]
+596: spec-6010-56097-0090-dered.dr16
+     Value: 0.10385497018239186
+     Failed Test 1 [anchor points]
+598: spec-6430-56299-0510-dered.dr16
+     Value: 0.1016977757829674
+     Failed Test 1 [anchor points]
+609: spec-7671-57360-0360-dered.dr16
+     Value: 0.10033398615902399
+     Failed Test 3 [pink]
+615: spec-5175-55955-0532-dered.dr16
+     Value: 0.10086620664117436
+     Failed Test 3 [pink]
+616: spec-5284-55866-0892-dered.dr16
+     Value: 0.1026790850095502
+     Failed Test 1 [anchor points]
+622: spec-5855-56088-0564-dered.dr16
+     Value: 0.10123312077666534
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #622, file name: spec-5855-56088-0564-dered.dr16
+627: spec-6693-56384-0730-dered.dr16
+     Value: 0.1052352258754949
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+628: spec-6815-56419-0970-dered.dr16
+     Value: 0.10553143439104083
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #628, file name: spec-6815-56419-0970-dered.dr16
+632: spec-7445-56720-0783-dered.dr16
+     Value: 0.10032972278393144
+     Failed Test 1 [anchor points]
+635: spec-8160-57071-0930-dered.dr16
+     Value: 0.10805715271703267
+     Failed Test 1 [anchor points]
+637: spec-7728-58138-0111-dered.dr16
+     Value: 0.1107006844552279
+     Failed Test 1 [anchor points]
+642: spec-11083-58515-0797-dered.dr16
+     Value: 0.10869023266305483
+     Failed Test 1 [anchor points]
+643: spec-7642-57651-0556-dered.dr16
+     Value: 0.1074746135483943
+     Failed Test 1 [anchor points]
+646: spec-11079-58485-0512-dered.dr16
+     Value: 0.10534757470050234
+     flagged_by_test1: True
+648: spec-5155-55946-0173-dered.dr16
+     Value: 0.10259285770477043
+652: spec-5455-56009-0188-dered.dr16
+     Value: 0.11062830235376678
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #652, file name: spec-5455-56009-0188-dered.dr16
+653: spec-5485-56063-0068-dered.dr16
+     Value: 0.10512449062177445
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #653, file name: spec-5485-56063-0068-dered.dr16
+654: spec-5767-56245-0817-dered.dr16
+     Value: 0.0999570782326878
+     Failed Test 1 [anchor points]
+657: spec-6036-56093-0698-dered.dr16
+     Value: 0.09792777880764753
+     Failed Test 1 [anchor points]
+660: spec-6670-56389-0286-dered.dr16
+     Value: 0.10286338062260997
+661: spec-6686-56389-0210-dered.dr16
+     Value: 0.10105321622159685
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #661, file name: spec-6686-56389-0210-dered.dr16
+664: spec-8303-57805-0398-dered.dr16
+     Value: 0.11184486579151379
+     Failed Test 1 [anchor points]
+682: spec-7748-58396-0522-dered.dr16
+     Value: 0.10322756517589111
+     flagged_by_test2: True
+690: spec-9316-58082-0815-dered.dr16
+     Value: 0.10913727148833197
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #690, file name: spec-9316-58082-0815-dered.dr16
+693: spec-5406-55955-0952-dered.dr16
+     Value: 0.10508006655549058
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #693, file name: spec-5406-55955-0952-dered.dr16
+701: spec-6486-56328-0706-dered.dr16
+     Value: 0.1013814702901895
+     Failed Test 3 [pink]
+702: spec-7096-56683-0980-dered.dr16
+     Value: 0.10099741845429339
+     Failed Test 1 [anchor points]
+704: spec-7586-57186-0306-dered.dr16
+     Value: 0.10318339407579524
+     Failed Test 1 [anchor points]
+721: spec-8758-58139-0955-dered.dr16
+     Value: 0.10096543138306797
+     Failed Test 1 [anchor points]
+723: spec-11076-58428-0844-dered.dr16
+     Value: 0.10350371603450084
+725: spec-5320-55999-0270-dered.dr16
+     Value: 0.10877923842615789
+     Failed Test 1 [anchor points]
+727: spec-5402-55927-0377-dered.dr16
+     Value: 0.10120000750740671
+730: spec-6048-56072-0541-dered.dr16
+     Value: 0.10198842218465948
+732: spec-6059-56093-0316-dered.dr16
+     Value: 0.10701357896129582
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #732, file name: spec-6059-56093-0316-dered.dr16
+735: spec-6966-56748-0978-dered.dr16
+     Value: 0.10406304123075567
+     Failed Test 1 [anchor points]
+739: spec-8183-57375-0308-dered.dr16
+     Value: 0.10073819750037859
+     Failed Test 1 [anchor points]
+740: spec-9560-57805-0131-dered.dr16
+     Value: 0.10270320228513137
+     flagged_by_test2: True
+742: spec-9158-57664-0766-dered.dr16
+     Value: 0.09842353907993742
+     Failed Test 1 [anchor points]
+744: spec-8302-57389-0886-dered.dr16
+     Value: 0.11074822341500518
+     Failed Test 1 [anchor points]
+746: spec-9159-57666-0736-dered.dr16
+     Value: 0.1028179823552296
+     Failed Test 1 [anchor points]
+747: spec-8055-57187-0877-dered.dr16
+     Value: 0.11451931705319351
+     Failed Test 1 [anchor points]
+749: spec-10474-58143-0128-dered.dr16
+     Value: 0.10505600964486482
+751: spec-10753-58242-0477-dered.dr16
+     Value: 0.10302860678411921
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+752: spec-7623-56901-0860-dered.dr16
+     Value: 0.10331156469573202
+     flagged_by_test2: True
+755: spec-5341-55931-0634-dered.dr16
+     Value: 0.10722206551605039
+     flagged_by_test1: True
+760: spec-6053-56091-0200-dered.dr16
+     Value: 0.10723977851666966
+     Failed Test 1 [anchor points]
+763: spec-6172-56269-0318-dered.dr16
+     Value: 0.09776833890566103
+     flagged_by_test2: True
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+764: spec-6198-56211-0235-dered.dr16
+     Value: 0.10705501708807844
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #764, file name: spec-6198-56211-0235-dered.dr16
+765: spec-6300-56449-0872-dered.dr16
+     Value: 0.11197968950577174
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #765, file name: spec-6300-56449-0872-dered.dr16
+773: spec-8234-57450-0089-dered.dr16
+     Value: 0.10558694265621947
+     flagged_by_test2: True
+776: spec-10478-58171-0084-dered.dr16
+     Value: 0.10185592282292653
+     Failed Test 1 [anchor points]
+779: spec-8299-57346-0658-dered.dr16
+     Value: 0.10814485137084931
+     Failed Test 1 [anchor points]
+788: spec-8748-58396-0074-dered.dr16
+     Value: 0.10293635809791268
+     Failed Test 1 [anchor points]
+793: spec-5347-56008-0412-dered.dr16
+     Value: 0.10286568916077302
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #793, file name: spec-5347-56008-0412-dered.dr16
+794: spec-5350-56009-0593-dered.dr16
+     Value: 0.10248065115130052
+795: spec-5361-55973-0900-dered.dr16
+     Value: 0.10322958320597064
+802: spec-5876-56042-0050-dered.dr16
+     Value: 0.1059049253411172
+     flagged_by_test2: True
+805: spec-6463-56340-0001-dered.dr16
+     Value: 0.09692278888355843
+807: spec-6748-56371-0358-dered.dr16
+     Value: 0.10449787807049914
+808: spec-7085-56625-0714-dered.dr16
+     Value: 0.10269814559498287
+     Failed Test 1 [anchor points]
+809: spec-7238-56660-0093-dered.dr16
+     Value: 0.10382271696025169
+     flagged_by_test2: True
+813: spec-7892-57333-0683-dered.dr16
+     Value: 0.10523240159145725
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #813, file name: spec-7892-57333-0683-dered.dr16
+822: spec-11061-58428-0556-dered.dr16
+     Value: 0.10766922652580058
+     Failed Test 1 [anchor points]
+827: spec-5347-56008-0342-dered.dr16
+     Value: 0.11085159080958791
+     Failed Test 1 [anchor points]
+829: spec-5801-56328-0207-dered.dr16
+     Value: 0.1083463825156619
+     Failed Test 1 [anchor points]
+831: spec-5891-56034-0222-dered.dr16
+     Value: 0.10103259777807926
+     flagged_by_test1: True
+832: spec-6497-56329-0534-dered.dr16
+     Value: 0.10265204384632978
+     Failed Test 1 [anchor points]
+835: spec-7707-57663-0342-dered.dr16
+     Value: 0.1030279790168836
+     flagged_by_test2: True
+840: spec-9401-58103-0655-dered.dr16
+     Value: 0.099825029892449
+851: spec-8831-57448-0589-dered.dr16
+     Value: 0.10152584940332837
+     flagged_by_test2: True
+     Failed Test 3 [pink]
+855: spec-8429-57893-0580-dered.dr16
+     Value: 0.10292726789235562
+     Failed Test 1 [anchor points]
+860: spec-7664-57367-0849-dered.dr16
+     Value: 0.10304853709855422
+     Failed Test 1 [anchor points]
+861: spec-9404-58045-0714-dered.dr16
+     Value: 0.10437446971006499
+     Failed Test 1 [anchor points]
+862: spec-10472-58159-0314-dered.dr16
+     Value: 0.10436550020805897
+     Failed Test 1 [anchor points]
+863: spec-5175-55955-0690-dered.dr16
+     Value: 0.10170114519514172
+     Failed Test 1 [anchor points]
+865: spec-5292-55926-0374-dered.dr16
+     Value: 0.10566574250306551
+     flagged_by_test2: True
+866: spec-5375-55973-0704-dered.dr16
+     Value: 0.09777215423767886
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+867: spec-5415-55982-0052-dered.dr16
+     Value: 0.10784129802026379
+     Failed Test 1 [anchor points]
+870: spec-5719-56014-0620-dered.dr16
+     Value: 0.10663677016231872
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #870, file name: spec-5719-56014-0620-dered.dr16
+872: spec-5770-56014-0944-dered.dr16
+     Value: 0.09967836095037044
+     Failed Test 3 [green]
+     Failed Test 3 [pink]
+873: spec-5973-56067-0466-dered.dr16
+     Value: 0.1026624570882918
+     Failed Test 1 [anchor points]
+874: spec-6322-56190-0424-dered.dr16
+     Value: 0.09943102577237782
+875: spec-6452-56366-0974-dered.dr16
+     Value: 0.10448383213952402
+     Failed Test 1 [anchor points]
+876: spec-6463-56340-0566-dered.dr16
+     Value: 0.1082105071387905
+     flagged_by_test2: True
+882: spec-8293-57361-0604-dered.dr16
+     Value: 0.10288557267165817
+     flagged_by_test2: True
+883: spec-9208-57688-0383-dered.dr16
+     Value: 0.09893124073456863
+     flagged_by_test1: True
+886: spec-7278-57041-0235-dered.dr16
+     Value: 0.10644000853631208
+     Failed Test 1 [anchor points]
+892: spec-9175-58049-0690-dered.dr16
+     Value: 0.10647481821328525
+     Failed Test 1 [anchor points]
+896: spec-7877-56898-0646-dered.dr16
+     Value: 0.10086782308867055
+     Failed Test 1 [anchor points]
+897: spec-9356-57809-0923-dered.dr16
+     Value: 0.1068125354617857
+     Failed Test 1 [anchor points]
+899: spec-4770-55928-0926-dered.dr16
+     Value: 0.10176612910341948
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #899, file name: spec-4770-55928-0926-dered.dr16
+     Failed Test 3 [pink]
+901: spec-5205-56040-0136-dered.dr16
+     Value: 0.11324297376354982
+     Failed Test 1 [anchor points]
+902: spec-5212-56016-0750-dered.dr16
+     Value: 0.10892900104985835
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #902, file name: spec-5212-56016-0750-dered.dr16
+905: spec-5715-56657-0272-dered.dr16
+     Value: 0.10340297431681111
+911: spec-10720-58250-0174-dered.dr16
+     Value: 0.10456286661123167
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #911, file name: spec-10720-58250-0174-dered.dr16
+912: spec-7619-56900-0680-dered.dr16
+     Value: 0.10343595606622256
+     Failed Test 1 [anchor points]
+921: spec-11633-58463-0669-dered.dr16
+     Value: 0.10756300238630301
+     Failed Test 1 [anchor points]
+923: spec-7656-57338-0819-dered.dr16
+     Value: 0.10480969867424586
+     Failed Test 1 [anchor points]
+929: spec-5299-55927-0968-dered.dr16
+     Value: 0.10279601741620417
+     flagged_by_test2: True
+932: spec-5486-56030-0988-dered.dr16
+     Value: 0.10516003548967588
+     Failed Test 1 [anchor points]
+935: spec-6483-56341-0392-dered.dr16
+     Value: 0.10214502129734525
+     Failed Test 1 [anchor points]
+937: spec-6735-56397-0866-dered.dr16
+     Value: 0.10578924047406009
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #937, file name: spec-6735-56397-0866-dered.dr16
+940: spec-7770-58044-0744-dered.dr16
+     Value: 0.10926142839648612
+942: spec-11546-58488-0812-dered.dr16
+     Value: 0.10343611604852182
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #942, file name: spec-11546-58488-0812-dered.dr16
+943: spec-7744-58396-0687-dered.dr16
+     Value: 0.10450298536347505
+     Failed Test 1 [anchor points]
+948: spec-7704-57572-0623-dered.dr16
+     Value: 0.10314980814670893
+     Failed Test 1 [anchor points]
+951: spec-10666-58440-0098-dered.dr16
+     Value: 0.11446366814050771
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #951, file name: spec-10666-58440-0098-dered.dr16
+953: spec-9155-58043-0194-dered.dr16
+     Value: 0.10304086610239092
+     flagged_by_test2: True
+956: spec-5301-55987-0136-dered.dr16
+     Value: 0.11463776973700485
+     Failed Test 1 [anchor points]
+958: spec-5410-56016-0928-dered.dr16
+     Value: 0.11381968463794556
+     Failed Test 1 [anchor points]
+960: spec-5740-55998-0552-dered.dr16
+     Value: 0.0994343981340929
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #960, file name: spec-5740-55998-0552-dered.dr16
+     Failed Test 3 [pink]
+964: spec-6638-56370-0638-dered.dr16
+     Value: 0.10861858312351769
+     Failed Test 1 [anchor points]
+969: spec-7092-56683-0792-dered.dr16
+     Value: 0.10272039697838782
+     flagged_by_test1: True
+970: spec-7117-56685-0310-dered.dr16
+     Value: 0.10531072368363995
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #970, file name: spec-7117-56685-0310-dered.dr16
+971: spec-7282-56660-0208-dered.dr16
+     Value: 0.10200753016424989
+     Failed Test 1 [anchor points]
+972: spec-7416-56810-0258-dered.dr16
+     Value: 0.11089618494977949
+     Failed Test 1 [anchor points]
+973: spec-8359-57449-0335-dered.dr16
+     Value: 0.10584731109942136
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #973, file name: spec-8359-57449-0335-dered.dr16
+975: spec-8827-57444-0758-dered.dr16
+     Value: 0.10636377616197867
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #975, file name: spec-8827-57444-0758-dered.dr16
+988: spec-10911-58256-0877-dered.dr16
+     Value: 0.10121213527365874
+     flagged_by_test2: True
+997: spec-5439-56045-0214-dered.dr16
+     Value: 0.10653165323184599
+     flagged_by_test1: True
+     flagged_by_test2: True
+       Flagging figure #997, file name: spec-5439-56045-0214-dered.dr16
+998: spec-5794-56282-0572-dered.dr16
+     Value: 0.09876212703225959
+     Failed Test 1 [anchor points]
