@@ -45,10 +45,13 @@ from abs_plot import draw_abs_figure
 DR = '16'
 
 # defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorption/EHVOcases_updatedredshift.csv" # testing
+#CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
 # sets the directory to find the normalized data files
-SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
+SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
+#SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
+
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -68,7 +71,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 39, 71
+STARTS_FROM, ENDS_AT = 11, 20
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -138,7 +141,8 @@ if __name__ == "__main__":
     #clear_file(ABSORPTION_OUTPUT_PLOT) # possibly don't need to to clear pdf, check when runs
 
 # read list of normalized spectra, zem, and calculated snr
-norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
+#norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
+norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) # testing
 
 # loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
@@ -172,7 +176,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     delta_v = 0 #change in velocity
     sum_of_deltas = 0
-    bb = -1 #???
                         
     count_v = 0 # variable initialization to get into vmin/vmax loop
     ###############################################################################################################################
@@ -188,11 +191,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of VELOCITY_LIMIT.end
         except:
             vmaxindex_for_range = 0
-    if beta.any(): # delete if statement ?? OLD_absorption.py does not have it
-        try:
-            vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
-        except:
-            vminindex_for_range = np.where(beta == np.max(beta)) 
+    try:
+        vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
+    except:
+        vminindex_for_range = np.where(beta == np.max(beta)) 
 
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range)
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
@@ -241,6 +243,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 
                     # Calculate where CIV, CII and OI would be for each pair of VMIN *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
+                    plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
                     z_absSiIV = (wavelength[current_velocity_index] / avr_SiIV_doublet) - 1
                      
                     obs_wavelength_C = (z_absSiIV + 1) * (avr_CIV_doublet)
@@ -303,11 +306,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                                     
                     final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
                     final_depth_individual.append(final_depth)
-                    print('depth', final_depth_individual)
                     
                     count_v = 0 
-
-    #draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
         
         else: #if the brac value is not more than zero (so if we don't have absorption feature)
             sum_of_deltas = 0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
@@ -320,23 +320,32 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-        final_depth_all_individual.append(final_depth_individual)
-
-    #draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
     
-    '''
+    ################################################ putting the information into a text file #######################################
+    if (len(vmaxs) != 0) or (plot_all == 'yes'):
+        text = [f"{spectra_index}: {current_spectrum_file_name}",
+                f"BI ({VELOCITY_LIMIT.end} > v > {VELOCITY_LIMIT.start}): {BI_total}",
+                f"vmins: {vmins}",
+                f"vmaxs: {vmaxs}",
+                f"BI_individual: {BI_individual}",
+                f"EW_individual: {EW_individual}",
+                f"Depth: {final_depth_individual}"]
+        vlast.extend(['\n'.join(text), '\n'])
+    #################################################################################################################################
+
+    final_depth_all_individual.append(final_depth_individual)
+
     if (len(vmaxs) != 0) or (plot_all == 'yes'): 
-        #plt.xlim(np.min(beta), 0) # this is just seting how wide the graph should be (so we are setting the domain)
-        plt.title('Normalized Flux vs Velocity')
-        plt.xlabel('Velocity (km/s)')
-        plt.ylabel('Normalized Flux')
-        plt.plot((np.min(beta), np.max(beta)), (1,1))
-        plt.plot((np.min(beta), np.max(beta)), (0.9,0.9), 'r--')
-        plt.plot(beta, normalized_flux, 'k-')
-        plt.plot (beta, normalized_error,'k--')
-        plt.ylim(0, 3)
-        plt.xlim(-70000, 0)
-        plt.text(-60000, 2, str(current_spectrum_file_name)+',     z='+str(z)+' snr='+ str(calc_snr), rotation = 0, fontsize = 9)
-    '''
+        draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+
+BI_all= np.array(BI_all)
+
+vmins = np.array(vmins)
+vmaxs = np.array(vmaxs)
 
 ABSORPTION_OUTPUT_PLOT_PDF.close()
+vmins_final, vmaxs_final = [], []
+
+vmaxs_final = np.array(vmaxs_final)
+vmins_final = np.array(vmins_final)
+np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
