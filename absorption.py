@@ -71,7 +71,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 11, 20
+STARTS_FROM, ENDS_AT = 11, 16
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -184,17 +184,18 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # Calculate depth of each individual absorption trough
     # VVVVVVVV add these things later VVVVVVVV once the module is made
     # BI_ehvo, BI_abs, v_min, v_max, EW, depth = basic_absorption_parameters(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
-                                                       
+                                                        # start,  end
                                                         #   min,  max
-    if beta.any(): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
+    if any(beta): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
         try:
             vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of VELOCITY_LIMIT.end
         except:
             vmaxindex_for_range = 0
+            print("V max not in range")
     try:
         vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
     except:
-        vminindex_for_range = np.where(beta == np.max(beta)) 
+        vminindex_for_range = np.where(beta == np.min(beta)) 
 
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range)
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
@@ -320,11 +321,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-    
+    print("BI_all", BI_all)
     ################################################ putting the information into a text file #######################################
     if (len(vmaxs) != 0) or (plot_all == 'yes'):
         text = [f"{spectra_index}: {current_spectrum_file_name}",
-                f"BI ({VELOCITY_LIMIT.end} > v > {VELOCITY_LIMIT.start}): {BI_total}",
+                f"BI ({VELOCITY_LIMIT.end} > v > {VELOCITY_LIMIT.start}): {BI_all}",
                 f"vmins: {vmins}",
                 f"vmaxs: {vmaxs}",
                 f"BI_individual: {BI_individual}",
@@ -344,8 +345,18 @@ vmins = np.array(vmins)
 vmaxs = np.array(vmaxs)
 
 ABSORPTION_OUTPUT_PLOT_PDF.close()
+
 vmins_final, vmaxs_final = [], []
 
+for loop in range (0, len (vmaxs_all)):
+    vmaxs_final.append(str(vmaxs_all[loop])+ ',' )
+
+for loop2 in range (0, len(vmins_all)):
+    vmins_final.append(str(vmins_all[loop2])+ ',' )
+                    
 vmaxs_final = np.array(vmaxs_final)
 vmins_final = np.array(vmins_final)
+
+print("list: ", np.arange(-60000, -30000))
+
 np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
