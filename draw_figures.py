@@ -5,13 +5,61 @@ from matplotlib import pyplot as plt
 from data_types import RangesData, FigureData, FigureDataOriginal
 
 def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, spectrum_file_name, FILE):
+    """ Draws a plot containing a dynamic number of anchor points 
+
+    Parameters:
+    -----------
+    figure_index: int
+        Makes a separate graph for each spectra 
+    wavelength: list
+        List of data that is being plotted on the x axis
+    wavelength_observed_from: int
+        The minimum x value to be plotted (xlim)
+    wavelength_observed_to: int
+        The maximum x value to be plotted (xlim)
+    flux: list
+        List of the data that is being plotted on the y axis
+    test1: RangesData
+        Green highlighted test region on the graph
+    test2: RangesData
+        Pink highlighted test region on the graph 
+    number_of_anchor_points: int
+        Variable containing the number of anchor points to be plotted
+    anchor_pts: list
+        A list of the wavelength, flux, and error for each anchor point
+    max_peak: float
+        Scaling value in the y direction
+    bf: float
+        Initial parameter of powerlaw curve fit
+    cf: float
+        Initial parameter of powerlaw curve fit
+    z: float
+        Redshift
+    snr: float
+        Signal to noise ratio provided by SDSS
+    snr_mean_in_ehvo: float 
+        Signal to noise ratio calculated in region we care about
+    spectrum_file_name: string
+        The name of the spectra
+    FILE: path
+        Path to file you would like these graphs to save to
+    
+    Returns
+    -------
+    None.
+
+    Note:
+    -----
+    Returns nothing, but draws the spectra of the graph.
+
+    """
     plt.figure(figure_index)
     plt.title(spectrum_file_name)
     plt.xlabel("Wavelength[A]")
     plt.ylabel("Flux[10^[-17]]cgs")
     subtitle_text = f"z={z} snr={snr} snr_mean_in_ehvo={snr_mean_in_ehvo}"
     plt.text(((wavelength_observed_from + wavelength_observed_to)/2.7), max_peak - 0.25, subtitle_text)
-    plt.plot(wavelength, flux, color = "xkcd:ultramarine")
+    plt.plot(wavelength, flux, color = "xkcd:midnightblue") #"xkcd:ultramarine")
     plt.plot(test1.wavelength, test1.flux, color = "xkcd:green apple", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "xkcd:bubblegum", linestyle = "-")
     for i in number_of_anchor_points:
@@ -23,7 +71,7 @@ def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wave
     plt.show()
 
 def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, max_peak):
-    plt.plot(wavelength, flux, color = "xkcd:ultramarine")
+    plt.plot(wavelength, flux, color = "xkcd:midnightblue") #"xkcd:ultramarine")
     plt.plot(test1.wavelength, test1.flux, color = "xkcd:green apple", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "xkcd:bubblegum", linestyle = "-")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
@@ -76,7 +124,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     Returns nothing, but draws the original spectra of the graph.
     """
 
-    main_color = "xkcd:ultramarine"
+    main_color = "xkcd:midnightblue" #"xkcd:ultramarine")
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
     plt.figure(figure_index)
@@ -95,7 +143,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     FILE.savefig()
     plt.close(figure_index)
 
-def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized, #1 param more since I removed the tuple
+def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized,
                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
     """ Draws the normalized spectra graph.
 
@@ -125,7 +173,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     Creates a graph of the spectra and saves to the original_graphs.pdf
     """
 
-    main_color = "xkcd:ultramarine"
+    main_color = "xkcd:midnightblue" #"xkcd:ultramarine")
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index) 
