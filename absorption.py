@@ -71,7 +71,11 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
+<<<<<<< HEAD
 STARTS_FROM, ENDS_AT = 39, 47
+=======
+STARTS_FROM, ENDS_AT = 11, 20
+>>>>>>> e46d30633e17f4a1b0ab3f061b3923d16e08719a
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -303,7 +307,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                                     
                     final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
                     final_depth_individual.append(final_depth)
+<<<<<<< HEAD
                     #print('depth', final_depth_individual)
+=======
+>>>>>>> e46d30633e17f4a1b0ab3f061b3923d16e08719a
                     
                     count_v = 0 
         
@@ -318,9 +325,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
+<<<<<<< HEAD
         final_depth_all_individual.append(final_depth_individual)
 
     draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins, vmaxs)
+=======
+>>>>>>> e46d30633e17f4a1b0ab3f061b3923d16e08719a
     
     ################################################ putting the information into a text file #######################################
     if (len(vmaxs) != 0) or (plot_all == 'yes'):
