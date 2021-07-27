@@ -46,6 +46,8 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorpt
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
+BALNICITY_INDEX_LIMIT = 600
+
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
@@ -72,7 +74,7 @@ boxcar_size = 101
 plot_all = 'yes'
 
 # lower limit of absorption width to be flagged 
-BALNICITY_INDEX_LIMIT = 2000 
+#BALNICITY_INDEX_LIMIT = 2000 
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
@@ -153,14 +155,18 @@ if __name__ == "__main__":
 #norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) # testing
 
+spectra_loop_count = 0
+
 # loops over each spectra
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-    
+    spectra_loop_count+= 1
+    print("line 159: loop spectra", spectra_loop_count)
+
     # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
     current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
-    
+
     print(str(spectra_index), "current spectra file name:", current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
@@ -185,20 +191,29 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     if any(beta): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
         try:
             vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) # index value of VELOCITY_LIMIT.end or closest value
+            print("try vmaxindex_for_range", vmaxindex_for_range)
         except:
             vmaxindex_for_range = 0
+            print("except vmaxindex_for_range", vmaxindex_for_range)
     try:
         vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) # index value of VELOCITY_LIMIT.start or closest value
+        print("try vminindex_for_range", vminindex_for_range)
     except:
         vminindex_for_range = np.where(beta == np.min(beta)) 
+        print("except vminindex_for_range", vminindex_for_range)
     
+    print("line 197: beta spot")
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range) # from left to right
     velocity_range_index  = np.array(velocity_range_index[::-1])   # from right to left (reversed list)
                                                                    # ^^^^^^^^ 0 to -60000
 
+    loop_velocity_count = 0
     # looping through the velocity ranges
     for current_velocity_index in velocity_range_index:
         C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
+
+        loop_velocity_count += 1
+        print("line 207: loop through velocity", loop_velocity_count)
 
         # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
         # bracket is the things inside the bracket from the BI integral calculation 
@@ -207,9 +222,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         # Handle 3-point spike limit #####################################################
         if bracket > 0:
             non_trough_count = 0
+            print("line 216: if spike")
+            print("if line 217: non_trough_count", non_trough_count)
+            print("if line 218 bracket", bracket)
+
         else:
             non_trough_count += 1
             bracket = 0
+            print("line 223: else spike")
+            print("else line 224: non_trough_count", non_trough_count)
+            print("else line 225 bracket", bracket)
 
         if((bracket > 0) or (non_trough_count <= 3)):
             delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
@@ -217,9 +239,19 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             brac_all.append(bracket)
             delta_v_all.append(delta_v)
 
+            print("line 233: delta_v", delta_v)
+            print("line 234: sum_of_deltas", sum_of_deltas)
+            print("line 235: brac_all", brac_all)
+            print("line 236: delta_v_all", delta_v_all)
+
             EW = bracket * delta_v
             EW = np.round(EW, 5)
-            EW_ind.append(EW)      
+            EW_ind.append(EW)   
+
+            print("line 242: EW", EW)
+            print("line 243: EW_ind", EW_ind)   
+
+
         ################################################################################# 
 
             # BI calculation
@@ -229,14 +261,22 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
                 BI_ind.append(np.round(BI, 5)) 
 
+                print("line 255: BI", BI)
+                print("line 256: BI_mid", BI_mid)
+                print("line 257: BI_ind", BI_ind) 
+
                 # plotting the black line
                 if non_trough_count == 0: 
                     plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
+                    print("non_trough_count", non_trough_count)
 
                 ############################# V MIN CALCULATION ######################################################
                 if count_v == 0 and non_trough_count == 0:  
                     vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) # vmins occurs current beta plus BALNICITY_INDEX_LIMIT
                     vmins.append(np.round(beta[vmins_index], 5))                    
+
+                    print("line 268: vmins_index", vmins_index)
+                    print("line 269: vmins", vmins)
 
                     plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
 
@@ -269,9 +309,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
                 ############################# V MAX CALCULATION ######################################################
                 if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or (current_velocity_index == vmaxindex_for_range)):  
-
                     vmaxs_index = np.min(np.where (beta >= beta[current_velocity_index]))
                     vmaxs.append(np.round(beta[current_velocity_index], 4))
+
+                    print("line 305: vmaxs_index", vmaxs_index)
+                    print("line 306: vmaxs", vmaxs)
 
                     plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
                     
@@ -309,17 +351,34 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     final_depth_individual.append(final_depth)
                     
                     count_v = 0 
+
+                    print("line 345: BI_ind_sum", BI_ind_sum)
+                    print("line 346: BI_individual", BI_individual)
+                    print("line 347: BI_ind", BI_ind)
+                    print("line 348: EW_ind_sum", EW_ind_sum)
+                    print("line 349: EW_individual", EW_individual)
+                    print("line 350: EW_ind", EW_ind)
+                    print("line 351: final_depth", final_depth)
+                    print("line 352: final_depth_individual", final_depth_individual)
         
         else: #if the bracket value is not more than zero (so if we don't have absorption feature)
             sum_of_deltas = 0 # this is b/c we do not want to keep counting the width of the absorption feature if it is not wider than 2,000km/s
             count_v = 0 # this is b/c if the code encounters another absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 242
             EW_ind = []
+            print("line 358: sum_of_deltas", sum_of_deltas)
+            print("line 359: count_v", count_v)
+            print("line 360: EW_ind", EW_ind)
         
         if current_velocity_index == vmaxindex_for_range:
             BI_total = np.round(sum(BI_mid), 2)         
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
+
+            print("line 368: BI_total", BI_total)
+            print("line 369: BI_all", BI_all)
+            print("line 370: BI_all_individual", BI_all_individual)
+            print("line 371: EW_all_individual", EW_all_individual)
 
     ################################################ putting the information into a text file #######################################
     if (len(vmaxs) != 0) or (plot_all == 'yes'):
@@ -332,32 +391,49 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 f"Depth: {final_depth_individual}"]
         vlast.extend(['\n'.join(text), '\n'])
     #################################################################################################################################
-    
+
     final_depth_all_individual.append(final_depth_individual)
+    print("line 386: final_depth_all_individual", final_depth_all_individual)
 
     if (len(vmaxs) != 0) or (plot_all == 'yes'): 
         draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+        print("in 390 if")
 
     if (len(vmaxs) != 0) or (plot_all == 'yes'):
         vmins_all.append(vmins)
         vmaxs_all.append(vmaxs)
+        print("in 395 if")
+        print("line 396 vmins_all", vmins_all)
+        print("line 397 vmaxs_all", vmaxs_all)
 
 BI_all= np.array(BI_all)
 
 vmins = np.array(vmins)
 vmaxs = np.array(vmaxs)
 
+print("line 404 BI_all", BI_all)
+print("line 405 vmins", vmins)
+print("line 406 vmaxs", vmaxs)
+
 ABSORPTION_OUTPUT_PLOT_PDF.close()
 
 vmins_final, vmaxs_final = [], []
 
+print("line 412 vmins_final", vmins_final)
+print("line 413 vmaxs_final", vmaxs_final)
+
 for loop in range(0, len (vmaxs_all)):
     vmaxs_final.append(str(vmaxs_all[loop])+ ',' )
+    print("417 for loop", vmaxs_final)
 
 for loop2 in range(0, len(vmins_all)):
     vmins_final.append(str(vmins_all[loop2])+ ',' )
+    print("421 for loop", vmins_final)
                     
 vmaxs_final = np.array(vmaxs_final)
 vmins_final = np.array(vmins_final)
+
+print("line 426 vmaxs_final", vmaxs_final)
+print("line 427 vmins_final", vmins_final)
 
 np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
