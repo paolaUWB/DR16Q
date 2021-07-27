@@ -314,13 +314,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     
                     count_v = 0 
         
-        else: #if the brac value is not more than zero (so if we don't have absorption feature)
-            sum_of_deltas = 0 # this is so b/c we do not want to keep counting the width of the absorption feature if it is not wider than 600km/s
-            count_v = 0 # this is b/c if the code encounters another absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 205
+        else: #if the bracket value is not more than zero (so if we don't have absorption feature)
+            sum_of_deltas = 0 # this is b/c we do not want to keep counting the width of the absorption feature if it is not wider than 2,000km/s
+            count_v = 0 # this is b/c if the code encounters another absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 242
             EW_ind = []
         
         if current_velocity_index == vmaxindex_for_range:
-            print("in loop")
             BI_total = np.round(sum(BI_mid), 2)         
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
@@ -356,10 +355,10 @@ ABSORPTION_OUTPUT_PLOT_PDF.close()
 
 vmins_final, vmaxs_final = [], []
 
-for loop in range (0, len (vmaxs_all)):
+for loop in range(0, len (vmaxs_all)):
     vmaxs_final.append(str(vmaxs_all[loop])+ ',' )
 
-for loop2 in range (0, len(vmins_all)):
+for loop2 in range(0, len(vmins_all)):
     vmins_final.append(str(vmins_all[loop2])+ ',' )
                     
 vmaxs_final = np.array(vmaxs_final)
