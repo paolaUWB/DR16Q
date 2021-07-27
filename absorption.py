@@ -179,11 +179,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
-    # Calculate BI, v_min and v_max by looping through the beta array in the velocity limits
-    # Calculate depth of each individual absorption trough
-    # VVVVVVVV add these things later VVVVVVVV once the module is made
-    # BI_ehvo, BI_abs, v_min, v_max, EW, depth = basic_absorption_parameters(wavelength, normalized_flux, z, VELOCITY_LIMIT.end, VELOCITY_LIMIT.start)
-
     # finding and labeling index of beta that we will be looping through
                                                         # start,  end
                                                         #   min,  max
@@ -263,7 +258,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
                     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
                     plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
-                    ############################################################################################
+                ############################################################################################
 
                     count_v = 1
                 
@@ -308,7 +303,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     EW_ind_sum = np.round(sum(EW_ind), 2)
                     EW_individual.append(EW_ind_sum)
                     EW_ind = []
-                                    
+                    
+                    # calculating the depth of each individual absorption trough
                     final_depth = np.round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
                     final_depth_individual.append(final_depth)
                     
@@ -336,7 +332,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 f"Depth: {final_depth_individual}"]
         vlast.extend(['\n'.join(text), '\n'])
     #################################################################################################################################
-
+    
     final_depth_all_individual.append(final_depth_individual)
 
     if (len(vmaxs) != 0) or (plot_all == 'yes'): 
