@@ -80,7 +80,7 @@ plot_all = 'yes'
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 40
+STARTS_FROM, ENDS_AT = 1, 39
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
