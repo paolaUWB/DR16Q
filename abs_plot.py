@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
+def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
     """ Draws the normalized spectra graph.
     
     Parameters

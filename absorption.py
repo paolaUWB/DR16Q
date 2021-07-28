@@ -35,7 +35,7 @@ from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
-from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, DataNormalized 
+from data_types import Range
 from abs_plot import draw_abs_figure 
 #import basic_absorption_parameters
 
@@ -46,7 +46,7 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorpt
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
-BALNICITY_INDEX_LIMIT = 1000
+#BI_INDEX_LIMIT should be 1000 to get accurate results for testing
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
@@ -70,20 +70,18 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 want_to_smooth = 'no' 
 boxcar_size = 101 
 
-# plot all cases or only those with absorption 
-plot_all = 'yes'
+# plot all cases or only those with absorption
+# and provide text file for all cases or only those with absorption 
+all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
-#BALNICITY_INDEX_LIMIT = 2000 
+BALNICITY_INDEX_LIMIT = 1000 
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
 STARTS_FROM, ENDS_AT = 1, 40
-
-# wavelength restframe range
-WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -151,55 +149,43 @@ count_v = 0 # variable initialization to get into vmin/vmax loop
 if __name__ == "__main__":
     clear_file(ABSORPTION_VALUES)
 
-# read list of normalized spectra, zem, and calculated snr
+# read list of normalized spectra, zem, and calculated snr from csv file (in this case good_normalization.csv)
+# and set variable name to each value
 #norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) # testing
 
-spectra_loop_count = 0
-
-# loops over each spectra
+# loops over each spectra from a specficied starting and ending point
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-    spectra_loop_count+= 1
-    
-
-    # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name
+    # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name from the csv
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
     current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
 
+    # from the norm spectra name retrieving it's wavelength, normalized flux, and normalized error (in this case from NORM_DRXQ)
     print(str(spectra_index), "current spectra file name:", current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-    # reading wavelength, normalized flux, and normalized error from NORM_DRXQ of that paticular spectra
+    # setting a variable for each of those values
     wavelength, normalized_flux, normalized_error = read_spectra(current_spectra_data)
 
-    # initializing observed wavelength values
-    wavelength_observed_from = (z + 1) * WAVELENGTH_RESTFRAME.start
-    wavelength_observed_to = (z + 1) * WAVELENGTH_RESTFRAME.end
-
-    # include if statement for smoothing and smooth spectrum.
+    # smoothing the spectra based on whether the user wants it or not
     if want_to_smooth == 'yes':
         normalized_flux = smooth(normalized_flux, boxcar_size)
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
-    # Initialize all variables for each spectrum
-    vmins=[]
-    vmaxs=[]
-    BI_mid=[]    
-    BI_individual=[]
-    EW_individual=[]
-    beta=[]
-    index_depth_final=[]
-    flux_depth=[]
-    
-    final_depth_individual = []
+    # re-nitialize all variables for each spectrum #####################
+    vmins, vmaxs = [], []
+    BI_mid, BI_individual = [], []
+    EW_individual = []
+    beta = []
+    index_depth_final, flux_depth, final_depth_individual = [], [], []
+
     non_trough_count = 100
   
     delta_v = 0 #change in velocity
-    sum_of_deltas = 0
-    bb = -1
-                       
-    count_v=0   # variable initialization to get into vmin/vmax loop
+    sum_of_deltas = 0               
+    count_v = 0   # variable initialization to get into vmin/vmax loop
+    ####################################################################
 
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
@@ -210,82 +196,60 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     if any(beta): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
         try:
             vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) # index value of VELOCITY_LIMIT.end or closest value
-       
         except:
-            vmaxindex_for_range = 0
-         
+            vmaxindex_for_range = 0  
     try:
         vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) # index value of VELOCITY_LIMIT.start or closest value
      
     except:
         vminindex_for_range = np.where(beta == np.min(beta)) 
        
-    
-   
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range) # from left to right
     velocity_range_index  = np.array(velocity_range_index[::-1])   # from right to left (reversed list)
                                                                    # ^^^^^^^^ 0 to -60000
 
-    loop_velocity_count = 0
     # looping through the velocity ranges
     for current_velocity_index in velocity_range_index:
         C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
-
-        loop_velocity_count += 1
-        
-
         # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
         # bracket is the things inside the bracket from the BI integral calculation 
         bracket = (1. - (normalized_flux[current_velocity_index] / 0.9))
         
-        # Handle 3-point spike limit #####################################################
+        # Handle 3-point spike limit ###################################################
         if bracket > 0:
-            non_trough_count = 0
-            
+            non_trough_count = 0    
         else:
             non_trough_count += 1
             bracket = 0
             
-
         if((bracket > 0) or (non_trough_count <= 3)):
             delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
             sum_of_deltas += delta_v
             brac_all.append(bracket)
             delta_v_all.append(delta_v)
 
-           
-
             EW = bracket * delta_v
             EW = np.round(EW, 5)
             EW_ind.append(EW)   
+        ################################################################################## 
 
-        
-
-
-        ################################################################################# 
-
-            # BI calculation
+            # BI calculation #################################################################################################
             if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
                 BI_ind.append(np.round(BI, 5)) 
 
-          
-             
-
                 # plotting the black line
                 if non_trough_count == 0: 
                     plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
                  
-
-                ############################# V MIN CALCULATION ######################################################
+                ############################# V MIN CALCULATION ##################################################
                 if count_v == 0 and non_trough_count == 0:  
                     vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) # vmins occurs current beta plus BALNICITY_INDEX_LIMIT
                     vmins.append(np.round(beta[vmins_index], 5))                    
-
-                   
-
+     
+                    # plotting notable vertical line of v min occurance
                     plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
 
                     # Calculate where CIV, CII and OI would be for each pair of VMIN *if* the EHVO absorption found were 
@@ -319,7 +283,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or (current_velocity_index == vmaxindex_for_range)):  
                     vmaxs_index = np.min(np.where (beta >= beta[current_velocity_index]))
                     vmaxs.append(np.round(beta[current_velocity_index], 4))
-
                  
                     plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
                     
@@ -357,24 +320,20 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     final_depth_individual.append(final_depth)
                     
                     count_v = 0 
-
-               
         
         else: #if the bracket value is not more than zero (so if we don't have absorption feature)
             sum_of_deltas = 0 # this is b/c we do not want to keep counting the width of the absorption feature if it is not wider than 2,000km/s
             count_v = 0 # this is b/c if the code encounters another absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 242
             EW_ind = []
           
-        
         if current_velocity_index == vmaxindex_for_range:
             BI_total = np.round(sum(BI_mid), 2)         
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-         
     ################################################ putting the information into a text file #######################################
-    if (len(vmaxs) != 0) or (plot_all == 'yes'):
+    if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
         text = [f"{spectra_index}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
@@ -383,43 +342,32 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 f"EW_individual: {EW_individual}",
                 f"Depth: {final_depth_individual}"]
         vlast.extend(['\n'.join(text), '\n'])
+
+        draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
     #################################################################################################################################
 
     final_depth_all_individual.append(final_depth_individual)
-
-
-    if (len(vmaxs) != 0) or (plot_all == 'yes'): 
-        draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
     
-
-    if (len(vmaxs) != 0) or (plot_all == 'yes'):
+    if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
         vmins_all.append(vmins)
         vmaxs_all.append(vmaxs)
       
-
 BI_all= np.array(BI_all)
 
 vmins = np.array(vmins)
 vmaxs = np.array(vmaxs)
 
-
 ABSORPTION_OUTPUT_PLOT_PDF.close()
 
 vmins_final, vmaxs_final = [], []
 
-
-
 for loop in range(0, len (vmaxs_all)):
     vmaxs_final.append(str(vmaxs_all[loop])+ ',' )
 
-
 for loop2 in range(0, len(vmins_all)):
-    vmins_final.append(str(vmins_all[loop2])+ ',' )
- 
+    vmins_final.append(str(vmins_all[loop2])+ ',' ) 
                     
 vmaxs_final = np.array(vmaxs_final)
 vmins_final = np.array(vmins_final)
-
-
 
 np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
