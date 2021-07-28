@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
+def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
     """ Draws the normalized spectra graph.
     
     Parameters
@@ -20,13 +20,13 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
     """
     plt.plot(velocity, flux_normalized, color = 'k')
     plt.plot(velocity, error, color = 'grey')
-    plt.title("Normalized Flux vs Velocity")
+    plt.title(str(spectra_index) + ':' + str(spectra_name))
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
     max_peak = (np.mean(flux_normalized) * 1.9)
     min_peak = (np.min(error) - .5) 
-    plt.text(-58000, (max_peak - .4), str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr), rotation = 0, fontsize = 8.5, backgroundcolor='1.00')
+    plt.text(-58000, (max_peak - .4), 'z=' + str(redshift) + ' snr=' + str(snr), rotation = 0, fontsize = 8.5, backgroundcolor='1.00')
     #plt.axvspan(sumdelta[0],sumdelta[-1], alpha=0.2, color='red')
     plt.axhline(y = 0.9, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
