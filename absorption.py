@@ -54,20 +54,13 @@ BALNICITY_INDEX_LIMIT = 1000
 # input which data release you are working with [input the number as a string i.e. '9']
 DR = '16'
 
-<<<<<<< HEAD
-# defining the config file
-=======
 '''
 #defining the config file
->>>>>>> 90bddbe09ff0836801c1c6b102491194bd09a6b7
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
-<<<<<<< HEAD
-=======
 '''
->>>>>>> 90bddbe09ff0836801c1c6b102491194bd09a6b7
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -87,11 +80,7 @@ plot_all = 'yes'
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-<<<<<<< HEAD
-STARTS_FROM, ENDS_AT = 39, 47
-=======
 STARTS_FROM, ENDS_AT = 1, 40
->>>>>>> 90bddbe09ff0836801c1c6b102491194bd09a6b7
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -431,4 +420,3 @@ vmins_final = np.array(vmins_final)
 
 
 np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
-    '''
