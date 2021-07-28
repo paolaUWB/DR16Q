@@ -46,7 +46,7 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorpt
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
-BALNICITY_INDEX_LIMIT = 600
+BALNICITY_INDEX_LIMIT = 1000
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
@@ -80,7 +80,7 @@ plot_all = 'yes'
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 10, 16
+STARTS_FROM, ENDS_AT = 1, 40
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -182,6 +182,25 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         normalized_flux = smooth(normalized_flux, boxcar_size)
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
+    # Initialize all variables for each spectrum
+    vmins=[]
+    vmaxs=[]
+    BI_mid=[]    
+    BI_individual=[]
+    EW_individual=[]
+    beta=[]
+    index_depth_final=[]
+    flux_depth=[]
+    
+    final_depth_individual = []
+    non_trough_count = 100
+  
+    delta_v = 0 #change in velocity
+    sum_of_deltas = 0
+    bb = -1
+                       
+    count_v=0   # variable initialization to get into vmin/vmax loop
+
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
 
@@ -225,6 +244,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             print("line 216: if spike")
             print("if line 217: non_trough_count", non_trough_count)
             print("if line 218 bracket", bracket)
+
+            print("current_velocity_index", current_velocity_index)
+            print("beta", beta[current_velocity_index])
 
         else:
             non_trough_count += 1
@@ -383,7 +405,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ################################################ putting the information into a text file #######################################
     if (len(vmaxs) != 0) or (plot_all == 'yes'):
         text = [f"{spectra_index}: {current_spectrum_file_name}",
-                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_all}",
+                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
                 f"vmaxs: {vmaxs}",
                 f"BI_individual: {BI_individual}",
