@@ -41,7 +41,7 @@ from abs_plot import draw_abs_figure
 
 ######################################## TESTING OUTPUT WITH DR9Q FILES #######################################################
 # defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorption/EHVOcases_updatedredshift.csv" # testing
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" # testing
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
@@ -80,7 +80,7 @@ plot_all = 'yes'
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 40
+STARTS_FROM, ENDS_AT = 1, 2
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)

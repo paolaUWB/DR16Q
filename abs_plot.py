@@ -42,4 +42,26 @@ def draw_abs_figure(velocity, flux_normalized, error, savefile_name, spectra_nam
     plt.ylim((min_peak, max_peak))
     savefile_name.savefig()
     plt.close() 
- 
+
+'''
+def obs_wavelength(velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, c0, c2, o1, vminz, vmaxz):
+    """ Draws the normalized spectra graph.
+    
+    Parameters
+    ----------
+    flux_normalized: array
+        The normalized flux to be graphed.
+    velocity: array
+        The value of the velocity calculated using the normalized flux.
+    Returns
+    -------
+    None.
+    
+    Notes
+    -----
+    Creates a graph of the spectra and saves to the ``absorption_BI2000_test.pdf``
+    """
+
+    max_peak = (np.mean(flux_normalized) * 1.9)
+    min_peak = (np.min(error) - .5)
+'''
