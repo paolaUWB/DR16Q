@@ -68,11 +68,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-<<<<<<< HEAD
 STARTS_FROM, ENDS_AT = 39, 47
-=======
-STARTS_FROM, ENDS_AT = 11, 16
->>>>>>> 5f122fbb92d91f4e5e6d04a927346c09909b07db
 
 # wavelength restframe range
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
@@ -192,19 +188,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) #index value of the starting point (on the very left) -- index value of VELOCITY_LIMIT.end
         except:
             vmaxindex_for_range = 0
-<<<<<<< HEAD
-    if beta.any(): # delete if statement ?? OLD_absorption.py does not have it
-        try:
-            vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
-        except:
-            vminindex_for_range = np.where(beta == np.max(beta)) 
-=======
             print("V max not in range")
     try:
         vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) #index value of the ending point (on the very right) -- index value of VELOCITY_LIMIT.start
     except:
         vminindex_for_range = np.where(beta == np.min(beta)) 
->>>>>>> 5f122fbb92d91f4e5e6d04a927346c09909b07db
 
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range)
     velocity_range_index  = np.array(velocity_range_index[::-1])   # From right to left (reversed list)
@@ -327,9 +315,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-<<<<<<< HEAD
-        final_depth_all_individual.append(final_depth_individual)
-=======
     print("BI_all", BI_all)
     ################################################ putting the information into a text file #######################################
     if (len(vmaxs) != 0) or (plot_all == 'yes'):
@@ -344,28 +329,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     #################################################################################################################################
 
     final_depth_all_individual.append(final_depth_individual)
->>>>>>> 5f122fbb92d91f4e5e6d04a927346c09909b07db
 
     draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel, vmins, vmaxs)
     
     '''
     if (len(vmaxs) != 0) or (plot_all == 'yes'): 
-<<<<<<< HEAD
-        #plt.xlim(np.min(beta), 0) # this is just seting how wide the graph should be (so we are setting the domain)
-        plt.title('Normalized Flux vs Velocity')
-        plt.xlabel('Velocity (km/s)')
-        plt.ylabel('Normalized Flux')
-        plt.plot((np.min(beta), np.max(beta)), (1,1))
-        plt.plot((np.min(beta), np.max(beta)), (0.9,0.9), 'r--')
-        plt.plot(beta, normalized_flux, 'k-')
-        plt.plot (beta, normalized_error,'k--')
-        plt.ylim(0, 3)
-        plt.xlim(-70000, 0)
-        plt.text(-60000, 2, str(current_spectrum_file_name)+',     z='+str(z)+' snr='+ str(calc_snr), rotation = 0, fontsize = 9)
-    '''
-
-ABSORPTION_OUTPUT_PLOT_PDF.close()
-=======
         draw_abs_figure(beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
 
 BI_all= np.array(BI_all)
@@ -389,4 +357,4 @@ vmins_final = np.array(vmins_final)
 print("list: ", np.arange(-60000, -30000))
 
 np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
->>>>>>> 5f122fbb92d91f4e5e6d04a927346c09909b07db
+    '''
