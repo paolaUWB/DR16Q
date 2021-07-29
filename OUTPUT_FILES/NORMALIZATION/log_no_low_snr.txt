@@ -1,0 +1,207 @@
+5: spec-9140-58039-0081-dered.dr16
+     Value: 0.15548834223402216
+max flux test - green = 1.0550039158221347 max flux test - pink = 1.0384013988118286
+min flux test - green = 0.1264983469999807 min flux test - pink = 0.08727791784267952
+avg flux test - green = 0.9784793308120538 avg flux test - pink = 0.9888463696716794
+percent green test below = 0.172
+percent pink test below = 0.118
+percent green above = 0.174
+percent pink above = 0.111
+16: spec-7671-57360-0092-dered.dr16
+     Value: 0.16228169770166065
+     flagged_by_pink_region: True
+max flux test - green = 1.0557666955327571 max flux test - pink = 0.9682587786152765
+min flux test - green = 0.1011347774495138 min flux test - pink = 0.08855484882184428
+avg flux test - green = 0.985533368503239 avg flux test - pink = 0.918396224005883
+percent green test below = 0.137
+percent pink test below = 0.129
+percent green above = 0.158
+percent pink above = 0.121
+18: spec-8823-57446-0393-dered.dr16
+     Value: 0.14729801951485538
+     flagged_by_pink_region: True
+max flux test - green = 1.124537826543898 max flux test - pink = 1.118174123720824
+min flux test - green = 0.0867732407940163 min flux test - pink = 0.09983205459420239
+avg flux test - green = 1.0389655918862435 avg flux test - pink = 1.0750292964102397
+percent green test below = 0.111
+percent pink test below = 0.124
+percent green above = 0.183
+percent pink above = 0.089
+20: spec-4421-55858-0894-dered.dr16
+     Value: 0.15421937049080087
+     flagged_by_green_region: True
+max flux test - green = 1.1528715160367142 max flux test - pink = 1.0701527975130076
+min flux test - green = 0.17485839187944832 min flux test - pink = 0.11500721077378631
+avg flux test - green = 1.0715634431100916 avg flux test - pink = 0.9956052883600894
+percent green test below = 0.218
+percent pink test below = 0.154
+percent green above = 0.169
+percent pink above = 0.166
+21: spec-5297-55913-0686-dered.dr16
+     Value: 0.15811612565490868
+     flagged_by_pink_region: True
+max flux test - green = 1.0461718121194932 max flux test - pink = 0.9653325710779951
+min flux test - green = 0.07860765983638843 min flux test - pink = 0.11193741821450687
+avg flux test - green = 0.9923210188797683 avg flux test - pink = 0.936353845183522
+percent green test below = 0.106
+percent pink test below = 0.159
+percent green above = 0.121
+percent pink above = 0.069
+39: spec-9155-58043-0456-dered.dr16
+     Value: 0.15338762699495392
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #39, file name: spec-9155-58043-0456-dered.dr16
+max flux test - green = 1.0004031269018174 max flux test - pink = 1.0189542758649417
+min flux test - green = 0.16124816753808394 min flux test - pink = 0.11325402450739078
+avg flux test - green = 0.9197286365680426 avg flux test - pink = 0.9473699569840627
+percent green test below = 0.234
+percent pink test below = 0.159
+percent green above = 0.195
+percent pink above = 0.168
+     Failed Test 3 [green], percentage: 0.234
+     Failed Test 3 [pink], percentage: 0.159
+40: spec-9411-58070-0290-dered.dr16
+     Value: 0.1566703329302353
+     flagged_by_green_region: True
+max flux test - green = 1.1331902751505138 max flux test - pink = 1.0453157706609515
+min flux test - green = 0.09559060042344136 min flux test - pink = 0.13908516648050612
+avg flux test - green = 1.068997571519532 avg flux test - pink = 0.9982753619407272
+percent green test below = 0.119
+percent pink test below = 0.186
+percent green above = 0.133
+percent pink above = 0.105
+44: spec-7732-58108-0100-dered.dr16
+     Value: 0.16962346555161348
+max flux test - green = 1.1195254422724341 max flux test - pink = 1.0023021090844981
+min flux test - green = 0.10220669724091574 min flux test - pink = 0.16424499151337604
+avg flux test - green = 1.0287484628463641 avg flux test - pink = 0.9581159420643411
+percent green test below = 0.132
+percent pink test below = 0.229
+percent green above = 0.196
+percent pink above = 0.102
+47: spec-7743-58107-0994-dered.dr16
+     Value: 0.15592094943555854
+max flux test - green = 1.0842691547693755 max flux test - pink = 1.0129841407485647
+min flux test - green = 0.17679640319899947 min flux test - pink = 0.10263435170439339
+avg flux test - green = 0.9725786146265423 avg flux test - pink = 0.9630298484389103
+percent green test below = 0.242
+percent pink test below = 0.142
+percent green above = 0.255
+percent pink above = 0.115
+53: spec-7644-57327-0353-dered.dr16
+     Value: 0.1563100233007888
+max flux test - green = 1.056717403681845 max flux test - pink = 0.9988485202107862
+min flux test - green = 0.12542592124330607 min flux test - pink = 0.11791843610226849
+avg flux test - green = 1.0215941087297828 avg flux test - pink = 0.9637578461090534
+percent green test below = 0.164
+percent pink test below = 0.163
+percent green above = 0.076
+percent pink above = 0.081
+58: spec-5326-56002-0370-dered.dr16
+     Value: 0.15112035153146564
+     flagged_by_pink_region: True
+max flux test - green = 1.063391880742018 max flux test - pink = 1.019376023357445
+min flux test - green = 0.18747064345115383 min flux test - pink = 0.11721736309364944
+avg flux test - green = 0.9597384414597969 avg flux test - pink = 0.9394145669429816
+percent green test below = 0.26
+percent pink test below = 0.166
+percent green above = 0.24
+percent pink above = 0.189
+59: spec-5406-55955-0486-dered.dr16
+     Value: 0.16341387927734843
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #59, file name: spec-5406-55955-0486-dered.dr16
+max flux test - green = 0.9702492198022994 max flux test - pink = 0.9554623720746428
+min flux test - green = 0.10542122180328173 min flux test - pink = 0.19213245575797666
+avg flux test - green = 0.862745286833257 avg flux test - pink = 0.9005545777235534
+percent green test below = 0.163
+percent pink test below = 0.284
+percent green above = 0.277
+percent pink above = 0.135
+60: spec-5438-56002-0285-dered.dr16
+     Value: 0.1515385795048986
+     flagged_by_pink_region: True
+max flux test - green = 1.0903213853614941 max flux test - pink = 0.9868364125365111
+min flux test - green = 0.16278663225136478 min flux test - pink = 0.26805837663523513
+avg flux test - green = 1.01947971890573 avg flux test - pink = 0.9325263684066684
+percent green test below = 0.213
+percent pink test below = 0.383
+percent green above = 0.154
+percent pink above = 0.129
+62: spec-5862-56045-0724-dered.dr16
+     Value: 0.16002243988864842
+     flagged_by_green_region: True
+max flux test - green = 1.155433696752883 max flux test - pink = 1.0102153996491594
+min flux test - green = 0.10069084887548124 min flux test - pink = 0.06794847167441051
+avg flux test - green = 1.0544003520199932 avg flux test - pink = 0.967436575224283
+percent green test below = 0.127
+percent pink test below = 0.094
+percent green above = 0.213
+percent pink above = 0.098
+63: spec-5994-56101-0196-dered.dr16
+     Value: 0.15514801841101092
+max flux test - green = 1.058994039516503 max flux test - pink = 1.0078757712583764
+min flux test - green = 0.09026225247851175 min flux test - pink = 0.2538679440045351
+avg flux test - green = 0.9853698510722755 avg flux test - pink = 0.965259567285307
+percent green test below = 0.122
+percent pink test below = 0.351
+percent green above = 0.166
+percent pink above = 0.098
+87: spec-5450-55986-0680-dered.dr16
+     Value: 0.15298355782897877
+     flagged_by_pink_region: True
+max flux test - green = 1.088863617226685 max flux test - pink = 0.9683065702139745
+min flux test - green = 0.09519859733943481 min flux test - pink = 0.09530771270805788
+avg flux test - green = 1.004371882838821 avg flux test - pink = 0.9127886261261005
+percent green test below = 0.126
+percent pink test below = 0.139
+percent green above = 0.187
+percent pink above = 0.135
+89: spec-5469-56037-0689-dered.dr16
+     Value: 0.15271695148018144
+     flagged_by_pink_region: True
+max flux test - green = 1.1269833655687524 max flux test - pink = 1.0373633961557465
+min flux test - green = 0.14288624550588833 min flux test - pink = 0.1899813240989758
+avg flux test - green = 1.0140976420593493 avg flux test - pink = 0.9576145395526091
+percent green test below = 0.188
+percent pink test below = 0.265
+percent green above = 0.247
+percent pink above = 0.185
+91: spec-6428-56279-0192-dered.dr16
+     Value: 0.1546280800524288
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #91, file name: spec-6428-56279-0192-dered.dr16
+max flux test - green = 1.069731521734835 max flux test - pink = 1.010548734391681
+min flux test - green = 0.1589644097492274 min flux test - pink = 0.1686555517969972
+avg flux test - green = 0.9486317680996602 avg flux test - pink = 0.9220049525889907
+percent green test below = 0.223
+percent pink test below = 0.244
+percent green above = 0.284
+percent pink above = 0.213
+     Failed Test 3 [green], percentage: 0.223
+     Failed Test 3 [pink], percentage: 0.244
+96: spec-7118-56686-0018-dered.dr16
+     Value: 0.14770518878796884
+max flux test - green = 1.0356324005270658 max flux test - pink = 1.031737109939763
+min flux test - green = 0.12791451055100292 min flux test - pink = 0.07299912210330678
+avg flux test - green = 0.9704135434670216 avg flux test - pink = 0.9805533135790668
+percent green test below = 0.176
+percent pink test below = 0.099
+percent green above = 0.149
+percent pink above = 0.116
+97: spec-7235-56603-0711-dered.dr16
+     Value: 0.16442913769439602
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #97, file name: spec-7235-56603-0711-dered.dr16
+max flux test - green = 0.9880864055488351 max flux test - pink = 0.9465719124777301
+min flux test - green = 0.09150899861547435 min flux test - pink = 0.06454839404196508
+avg flux test - green = 0.9385391419451831 avg flux test - pink = 0.9197165308911587
+percent green test below = 0.13
+percent pink test below = 0.094
+percent green above = 0.117
+percent pink above = 0.065
+     Failed Test 4 [pink]
