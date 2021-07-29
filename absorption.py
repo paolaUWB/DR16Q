@@ -252,8 +252,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
      
                     # plotting notable vertical line of v min occurance
                     plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
-                    
-                    vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
 
                     wavelist = vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
                     carbon_0 = wavelist[0]

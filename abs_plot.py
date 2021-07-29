@@ -35,12 +35,12 @@ def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_na
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
-    max_peak = (np.mean(flux_normalized) * 1.9)
+    max_peak = (np.mean(flux_normalized) * 2)
     min_peak = (np.min(error) - .5) 
     plt.title(str(spectra_index) + ': ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
     plt.axhline(y = 0.9, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
-    plt.ylim((min_peak, max_peak))
+    plt.ylim(min_peak, max_peak)
     savefile_name.savefig()
     plt.close()
 
@@ -80,7 +80,7 @@ def vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT):
     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
     plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
 
-    return [obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel];
+    return [obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel]
 
 
 def vmax_plot(beta, wavelength, vmaxs_index, obs_wavelength_C_vel, obs_wavelength_CII_vel, obs_wavelength_OI_vel):
