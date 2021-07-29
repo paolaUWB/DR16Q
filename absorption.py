@@ -32,11 +32,12 @@ import math
 from matplotlib import pyplot as plt
 from scipy import signal
 from numpy.lib.function_base import append
+from scipy.linalg.decomp import cdf2rdf
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range
-from abs_plot import draw_abs_figure 
+from abs_plot import draw_abs_figure, vmin_plot, vmax_plot 
 #import basic_absorption_parameters
 
 ######################################## TESTING OUTPUT WITH DR9Q FILES #######################################################
@@ -251,25 +252,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
      
                     # plotting notable vertical line of v min occurance
                     plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
+                    
+                    vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
 
-                    # Calculate where CIV, CII and OI would be for each pair of VMIN *if* the EHVO absorption found were 
-                    # instead not EHVO and due to SiIV: 
-                    z_absSiIV = (wavelength[current_velocity_index] / AVERAGE_SiIV_DOUBLET) - 1
-                     
-                    obs_wavelength_C = (z_absSiIV + 1) * (AVERAGE_CIV_DOUBLET)
-                    obs_wavelength_C_index = np.min(np.where(wavelength > obs_wavelength_C))
-                    obs_wavelength_C_vel = beta[obs_wavelength_C_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
+                    wavelist = vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
+                    carbon_0 = wavelist[0]
+                    carbon_ii = wavelist[1]
+                    oxygen_i = wavelist[2]
 
-                    obs_wavelength_CII = (z_absSiIV + 1) * (CII_EMITTED)
-                    obs_wavelength_CII_index = np.min(np.where(wavelength > obs_wavelength_CII))                  
-                    obs_wavelength_CII_vel = beta[obs_wavelength_CII_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
-
-                    obs_wavelength_OI = (z_absSiIV + 1) * (OI_EMITTED)
-                    obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
-                    obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
                 ############################################################################################
 
                     count_v = 1
@@ -286,25 +276,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                  
                     plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
                     
-                    # Calculate where CIV, CII and OI would be for each pair of VMAX *if* the EHVO absorption found were 
-                    # instead not EHVO and due to SiIV: 
-                    # if the absorption is SiIV, this finds and plots where CIV, CII and OI would be ###########
-                    z_absSiIV_final = (wavelength[vmaxs_index] / AVERAGE_SiIV_DOUBLET) - 1.
+                    vmax_plot(beta, wavelength, vmaxs_index, carbon_0, carbon_ii, oxygen_i)
 
-                    obs_wavelength_Cfinal = (z_absSiIV_final + 1.) * (AVERAGE_CIV_DOUBLET)
-                    obs_wavelength_Cfinal_index = np.min(np.where(wavelength > obs_wavelength_Cfinal))
-                    obs_wavelength_C_final_vel = beta[obs_wavelength_Cfinal_index]
-                    plt.axvspan(obs_wavelength_C_vel, obs_wavelength_C_final_vel, alpha = 0.2, color = 'grey')
-
-                    obs_wavelength_CIIfinal = (z_absSiIV_final + 1.) * (CII_EMITTED)
-                    obs_wavelength_CIIfinal_index = np.min (np.where (wavelength > obs_wavelength_CIIfinal))
-                    obs_wavelength_CII_final_vel = beta[obs_wavelength_CIIfinal_index]
-                    plt.axvspan(obs_wavelength_CII_vel,obs_wavelength_CII_final_vel, alpha = 0.2, color = 'blue')
-
-                    obs_wavelength_OIfinal = (z_absSiIV_final + 1.) * (OI_EMITTED)
-                    obs_wavelength_OIfinal_index = np.min(np.where (wavelength > obs_wavelength_OIfinal))
-                    obs_wavelength_OI_final_vel = beta[obs_wavelength_OIfinal_index]
-                    plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
                     ############################################################################################
 
                     BI_ind_sum = np.round(sum(BI_ind), 2)
