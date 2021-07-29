@@ -59,7 +59,7 @@ def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wave
     plt.ylabel("Flux[10^[-17]]cgs")
     subtitle_text = f"z={z} snr={snr} snr_mean_in_ehvo={snr_mean_in_ehvo}"
     plt.text(((wavelength_observed_from + wavelength_observed_to)/2.7), max_peak - 0.25, subtitle_text)
-    plt.plot(wavelength, flux, color = "midnightblue") #xkcd:ultramarine")
+    plt.plot(wavelength, flux, color = "midnightblue") #"xkcd:ultramarine")
     plt.plot(test1.wavelength, test1.flux, color = "xkcd:green apple", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "xkcd:bubblegum", linestyle = "-")
     for i in number_of_anchor_points:
@@ -71,7 +71,7 @@ def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wave
     plt.show()
 
 def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, max_peak):
-    plt.plot(wavelength, flux, color = "midnightblue") #"xkcd:ultramarine")
+    plt.plot(wavelength, flux, color = "midnightblue")
     plt.plot(test1.wavelength, test1.flux, color = "xkcd:green apple", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "xkcd:bubblegum", linestyle = "-")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
@@ -124,7 +124,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     Returns nothing, but draws the original spectra of the graph.
     """
 
-    main_color = "midnightblue" #"xkcd:ultramarine")
+    main_color = "midnightblue" 
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
     plt.figure(figure_index)
@@ -173,7 +173,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     Creates a graph of the spectra and saves to the original_graphs.pdf
     """
 
-    main_color = "midnightblue" #"xkcd:ultramarine")
+    main_color = "midnightblue"
     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index) 
