@@ -32,10 +32,15 @@ import math
 from matplotlib import pyplot as plt
 from scipy import signal
 from numpy.lib.function_base import append
+<<<<<<< HEAD
+=======
+from scipy.linalg.decomp import cdf2rdf
+from scipy.optimize import curve_fit
+>>>>>>> abs_dev_plot
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range
-from abs_plot import draw_abs_figure 
+from abs_plot import draw_abs_figure, vmin_plot, vmax_plot 
 #import basic_absorption_parameters
 
 '''
@@ -255,6 +260,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     # plotting notable vertical line of v min occurance
                     #plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
 
+<<<<<<< HEAD
                     # Calculate where CIV, CII and OI would be for each pair of VMIN *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
                     z_absSiIV = (wavelength[current_velocity_index] / AVERAGE_SiIV_DOUBLET) - 1
@@ -273,6 +279,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
                     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
                     #plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
+=======
+                    wavelist = vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
+                    carbon_0 = wavelist[0]
+                    carbon_ii = wavelist[1]
+                    oxygen_i = wavelist[2]
+
+>>>>>>> abs_dev_plot
                 ############################################################################################
 
                     count_v = 1
@@ -289,6 +302,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                  
                     #plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
                     
+<<<<<<< HEAD
                     # Calculate where CIV, CII and OI would be for each pair of VMAX *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
                     # if the absorption is SiIV, this finds and plots where CIV, CII and OI would be ###########
@@ -308,6 +322,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_OIfinal_index = np.min(np.where (wavelength > obs_wavelength_OIfinal))
                     obs_wavelength_OI_final_vel = beta[obs_wavelength_OIfinal_index]
                     #plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
+=======
+                    vmax_plot(beta, wavelength, vmaxs_index, carbon_0, carbon_ii, oxygen_i)
+
+>>>>>>> abs_dev_plot
                     ############################################################################################
 
                     BI_ind_sum = np.round(np.sum(BI_ind), 2)
