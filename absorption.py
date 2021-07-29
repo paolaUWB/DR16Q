@@ -73,7 +73,8 @@ boxcar_size = 65
 
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
-all_plot_and_text = 'yes'
+# yes for everything, no for only absorption
+all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -82,7 +83,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 60
+STARTS_FROM, ENDS_AT = 1, 20
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -135,6 +136,7 @@ vmins, vmaxs, vmins_all, vmaxs_all, delta_v_all, vlast = [], [], [], [], [], [] 
 final_depth_individual, final_depth_all_individual = [], []
 BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind, BI_mid = [], [], [], [], [], [], []
 EW_individual, EW_ind, EW_all_individual = [], [], [] #EW = equivalent width
+found_absorption = []
 
 non_trough_count = 999 # arbitrary large number that we will never reach
 
@@ -324,6 +326,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     final_depth_individual.append(final_depth)
                     
                     count_v = 0 
+
+                    found_absorption.append(current_spectra_data)
         
         else: #if the bracket value is not more than zero (so if we don't have absorption feature)
             sum_of_deltas = 0 # this is b/c we do not want to keep counting the width of the absorption feature if it is not wider than 2,000km/s
@@ -337,8 +341,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             EW_all_individual.append(EW_individual)
 
     ################################################ putting the information into a text file #######################################
-    
-    if any(BI_all) == True or all_plot_and_text == 'no': # should be and ???
+
+    if (BI_total > 0) and all_plot_and_text == 'no': # should be and ???
+        print("found_absorption", found_absorption)
         text = [f"{spectra_index}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
@@ -350,22 +355,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
     else: 
-        draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-        text = [f"{spectra_index}: {current_spectrum_file_name}",
-                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
-                f"vmins: {vmins}",
-                f"vmaxs: {vmaxs}",
-                f"BI_individual: {BI_individual}",
-                f"EW_individual: {EW_individual}",
-                f"Depth: {final_depth_individual}"]
-        vlast.extend(['\n'.join(text), '\n'])
+        pass
 
     final_depth_all_individual.append(final_depth_individual)
     
     if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
         vmins_all.append(vmins)
         vmaxs_all.append(vmaxs)
-      
+
 BI_all= np.array(BI_all)
 
 vmins = np.array(vmins)
