@@ -7,7 +7,7 @@ absorption.py
 based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo
 
 Creates figure to visually inspect the absorption. Calculates absorption parameters 
-(BALnicity Index BI, vmin and vmax) for a list of spectra.
+(BALnicity Index [BI], vmin, vmax, equivalent width and depth) for a list of spectra.
 
 Notes
 -----
@@ -32,7 +32,6 @@ import math
 from matplotlib import pyplot as plt
 from scipy import signal
 from numpy.lib.function_base import append
-from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity
 from data_types import Range
@@ -68,7 +67,7 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
 want_to_smooth = 'no' 
-boxcar_size = 101 
+boxcar_size = 65
 
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
@@ -81,7 +80,7 @@ BALNICITY_INDEX_LIMIT = 1000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 40
+STARTS_FROM, ENDS_AT = 1, 5
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -221,7 +220,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         else:
             non_trough_count += 1
             bracket = 0
-            
+        
         if((bracket > 0) or (non_trough_count <= 3)):
             delta_v = beta[current_velocity_index] - beta[current_velocity_index - 1]
             sum_of_deltas += delta_v
@@ -237,8 +236,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
-                BI_mid.append(np.round(BI, 5)) #Append to intermediate results
-                BI_ind.append(np.round(BI, 5)) 
+                BI_mid.append(np.round(BI, 5)) # holds all BI values that have been calculated for all troughs
+                BI_ind.append(np.round(BI, 5)) # holds all BI values for a possible trough, will reset if the next 3 BI
+                                               #                                                    values are equal to 0
 
                 # plotting the black line
                 if non_trough_count == 0: 
@@ -307,11 +307,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
                     ############################################################################################
 
-                    BI_ind_sum = np.round(sum(BI_ind), 2)
-                    BI_individual.append(BI_ind_sum) # this array contains one single BI value of each absorption feature in a single spectrum
+                    BI_ind_sum = np.round(np.sum(BI_ind), 2)
+                    BI_individual.append(BI_ind_sum) 
+                    # BI_ind_sum is the total BI for that paticular trough (in the case that there are more than 1), it is BI_ind totaled up
+                    # BI_individual is all BI_ind_sum values in one array (i.e. 3 troughs 3 values, 2 troughs 2 values etc.)
+                    # BI_ind is every single one of the BI values that have been calculated
                     BI_ind = []
-                    
-                    EW_ind_sum = np.round(sum(EW_ind), 2)
+
+                    EW_ind_sum = np.round(np.sum(EW_ind), 2)
                     EW_individual.append(EW_ind_sum)
                     EW_ind = []
                     
@@ -323,13 +326,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         
         else: #if the bracket value is not more than zero (so if we don't have absorption feature)
             sum_of_deltas = 0 # this is b/c we do not want to keep counting the width of the absorption feature if it is not wider than 2,000km/s
-            count_v = 0 # this is b/c if the code encounters another absorption feature which is wider than 600km/s, the code is going to go through the if statement on line 242
+            count_v = 0 # this is b/c if the code encounters another absorption feature which is wider than 2,000km/s, the code is going to go through the if statement on line 242
             EW_ind = []
           
         if current_velocity_index == vmaxindex_for_range:
-            BI_total = np.round(sum(BI_mid), 2)         
-            BI_all.append(BI_total)    
-            BI_all_individual.append(BI_individual)
+            BI_total = np.round(np.sum(BI_mid), 2) # total BI for the whole spectra  
+            BI_all.append(BI_total) # ALL total BI for all spectra in the file
+            BI_all_individual.append(BI_individual) # all BI values for all spectra before they are summed up
             EW_all_individual.append(EW_individual)
 
     ################################################ putting the information into a text file #######################################
