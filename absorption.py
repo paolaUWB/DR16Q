@@ -38,6 +38,7 @@ from data_types import Range
 from abs_plot import draw_abs_figure 
 #import basic_absorption_parameters
 
+'''
 ######################################## TESTING OUTPUT WITH DR9Q FILES #######################################################
 # defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorption/EHVOcases_updatedredshift.csv" # testing
@@ -47,19 +48,20 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
 #BI_INDEX_LIMIT should be 1000 to get accurate results for testing
 
+# be sure to uncomment this and comment out CONFIG_FILE and SPEC_DIREC
+
 ###############################################################################################################################
+'''
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
 # input which data release you are working with [input the number as a string i.e. '9']
 DR = '16'
 
-'''
 #defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
-'''
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -74,13 +76,13 @@ boxcar_size = 65
 all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
-BALNICITY_INDEX_LIMIT = 1000 
+BALNICITY_INDEX_LIMIT = 2000
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 5
+STARTS_FROM, ENDS_AT = 1, 60
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -150,8 +152,7 @@ if __name__ == "__main__":
 
 # read list of normalized spectra, zem, and calculated snr from csv file (in this case good_normalization.csv)
 # and set variable name to each value
-#norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
-norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) # testing
+norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
 # loops over each spectra from a specficied starting and ending point
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
@@ -336,7 +337,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             EW_all_individual.append(EW_individual)
 
     ################################################ putting the information into a text file #######################################
-    if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
+    
+    if any(BI_all) == True or all_plot_and_text == 'no': # should be and ???
         text = [f"{spectra_index}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
@@ -347,7 +349,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         vlast.extend(['\n'.join(text), '\n'])
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    #################################################################################################################################
+    else: 
+        draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+        text = [f"{spectra_index}: {current_spectrum_file_name}",
+                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
+                f"vmins: {vmins}",
+                f"vmaxs: {vmaxs}",
+                f"BI_individual: {BI_individual}",
+                f"EW_individual: {EW_individual}",
+                f"Depth: {final_depth_individual}"]
+        vlast.extend(['\n'.join(text), '\n'])
 
     final_depth_all_individual.append(final_depth_individual)
     
@@ -364,9 +375,11 @@ ABSORPTION_OUTPUT_PLOT_PDF.close()
 
 vmins_final, vmaxs_final = [], []
 
-for loop in range(0, len (vmaxs_all)):
+# creating list of all vmaxs
+for loop in range(0, len(vmaxs_all)):
     vmaxs_final.append(str(vmaxs_all[loop])+ ',' )
 
+# creating list of all vins
 for loop2 in range(0, len(vmins_all)):
     vmins_final.append(str(vmins_all[loop2])+ ',' ) 
                     
