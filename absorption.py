@@ -74,7 +74,7 @@ boxcar_size = 65
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'no'
+all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -83,7 +83,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 20
+STARTS_FROM, ENDS_AT = 10, 18
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -231,7 +231,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             delta_v_all.append(delta_v)
 
             EW = bracket * delta_v
-            EW = np.round(EW, 5)
+            EW = np.round(EW, 2)
             EW_ind.append(EW)   
         ################################################################################## 
 
@@ -239,13 +239,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
-                BI_mid.append(np.round(BI, 5)) # holds all BI values that have been calculated for all troughs
-                BI_ind.append(np.round(BI, 5)) # holds all BI values for a possible trough, will reset if the next 3 BI
+                BI_mid.append(np.round(BI, 2)) # holds all BI values that have been calculated for all troughs
+                BI_ind.append(np.round(BI, 2)) # holds all BI values for a possible trough, will reset if the next 3 BI
                                                #                                                    values are equal to 0
 
                 # plotting the black line
-                if non_trough_count == 0: 
-                    plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
+                #if non_trough_count == 0: 
+                    #plt.plot((beta[current_velocity_index + 1], beta[current_velocity_index]), (1.5,1.5),'k-')
                  
                 ############################# V MIN CALCULATION ##################################################
                 if count_v == 0 and non_trough_count == 0:  
@@ -253,7 +253,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     vmins.append(np.round(beta[vmins_index], 5))                    
      
                     # plotting notable vertical line of v min occurance
-                    plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
+                    #plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
 
                     # Calculate where CIV, CII and OI would be for each pair of VMIN *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
@@ -262,17 +262,17 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_C = (z_absSiIV + 1) * (AVERAGE_CIV_DOUBLET)
                     obs_wavelength_C_index = np.min(np.where(wavelength > obs_wavelength_C))
                     obs_wavelength_C_vel = beta[obs_wavelength_C_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
+                    #plt.plot((obs_wavelength_C_vel, obs_wavelength_C_vel),(-1,10),'k-')
 
                     obs_wavelength_CII = (z_absSiIV + 1) * (CII_EMITTED)
                     obs_wavelength_CII_index = np.min(np.where(wavelength > obs_wavelength_CII))                  
                     obs_wavelength_CII_vel = beta[obs_wavelength_CII_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
+                    #plt.plot((obs_wavelength_CII_vel, obs_wavelength_CII_vel),(-1,10),'b-')
 
                     obs_wavelength_OI = (z_absSiIV + 1) * (OI_EMITTED)
                     obs_wavelength_OI_index = np.min(np.where(wavelength > obs_wavelength_OI))                  
                     obs_wavelength_OI_vel = beta[obs_wavelength_OI_index] + BALNICITY_INDEX_LIMIT
-                    plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
+                    #plt.plot((obs_wavelength_OI_vel, obs_wavelength_OI_vel),(-1,10),'y-')
                 ############################################################################################
 
                     count_v = 1
@@ -285,9 +285,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 ############################# V MAX CALCULATION ######################################################
                 if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or (current_velocity_index == vmaxindex_for_range)):  
                     vmaxs_index = np.min(np.where (beta >= beta[current_velocity_index]))
-                    vmaxs.append(np.round(beta[current_velocity_index], 4))
+                    vmaxs.append(np.round(beta[current_velocity_index], 5))
                  
-                    plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
+                    #plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
                     
                     # Calculate where CIV, CII and OI would be for each pair of VMAX *if* the EHVO absorption found were 
                     # instead not EHVO and due to SiIV: 
@@ -297,17 +297,17 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     obs_wavelength_Cfinal = (z_absSiIV_final + 1.) * (AVERAGE_CIV_DOUBLET)
                     obs_wavelength_Cfinal_index = np.min(np.where(wavelength > obs_wavelength_Cfinal))
                     obs_wavelength_C_final_vel = beta[obs_wavelength_Cfinal_index]
-                    plt.axvspan(obs_wavelength_C_vel, obs_wavelength_C_final_vel, alpha = 0.2, color = 'grey')
+                    #plt.axvspan(obs_wavelength_C_vel, obs_wavelength_C_final_vel, alpha = 0.2, color = 'grey')
 
                     obs_wavelength_CIIfinal = (z_absSiIV_final + 1.) * (CII_EMITTED)
                     obs_wavelength_CIIfinal_index = np.min (np.where (wavelength > obs_wavelength_CIIfinal))
                     obs_wavelength_CII_final_vel = beta[obs_wavelength_CIIfinal_index]
-                    plt.axvspan(obs_wavelength_CII_vel,obs_wavelength_CII_final_vel, alpha = 0.2, color = 'blue')
+                    #plt.axvspan(obs_wavelength_CII_vel,obs_wavelength_CII_final_vel, alpha = 0.2, color = 'blue')
 
                     obs_wavelength_OIfinal = (z_absSiIV_final + 1.) * (OI_EMITTED)
                     obs_wavelength_OIfinal_index = np.min(np.where (wavelength > obs_wavelength_OIfinal))
                     obs_wavelength_OI_final_vel = beta[obs_wavelength_OIfinal_index]
-                    plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
+                    #plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
                     ############################################################################################
 
                     BI_ind_sum = np.round(np.sum(BI_ind), 2)
@@ -322,7 +322,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     EW_ind = []
                     
                     # calculating the depth of each individual absorption trough
-                    final_depth = np.round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
+                    final_depth = np.round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 5)
                     final_depth_individual.append(final_depth)
                     
                     count_v = 0 
@@ -342,8 +342,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     ################################################ putting the information into a text file #######################################
 
-    if (BI_total > 0) and all_plot_and_text == 'no': # should be and ???
-        print("found_absorption", found_absorption)
+    if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
         text = [f"{spectra_index}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
@@ -354,8 +353,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         vlast.extend(['\n'.join(text), '\n'])
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    else: 
-        pass
 
     final_depth_all_individual.append(final_depth_individual)
     
