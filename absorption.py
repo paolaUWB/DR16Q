@@ -30,12 +30,9 @@ import sys
 import numpy as np 
 import math
 from matplotlib import pyplot as plt
-from scipy import signal
 from numpy.lib.function_base import append
-from scipy.linalg.decomp import cdf2rdf
-from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from utility_functions import print_to_file, clear_file, read_list_spectra, read_spectra, wavelength_to_velocity, smooth
+from utility_functions import clear_file, read_list_spectra, read_spectra, wavelength_to_velocity, smooth
 from data_types import Range
 from abs_plot import draw_abs_figure, vmin_plot, vmax_plot 
 #import basic_absorption_parameters
@@ -77,7 +74,7 @@ boxcar_size = 3
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'yes'
+all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000

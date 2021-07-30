@@ -1,13 +1,15 @@
 ########################################### IMPORTS ############################################################################
 from matplotlib import pyplot as plt
 import numpy as np
+from data_types import Range
 
 ######################################## VERNER TABLE CONSTANTS ################################################################
 # verner table data
+WAVELENGTH_CIV_EMIT_LIMIT = Range(1548.1950, 1550.7700)                                    #never used?
 AVERAGE_CIV_DOUBLET = 1549.0524 #weighted average
 AVERAGE_SiIV_DOUBLET = 1396.747 # weighted average; individuals: 1402.770, 1393.755
-AVERAGE_NV_DOUBLET = 1240.15 # weighted average; individuals: 1242.80, 1238.82
-AVERAGE_OVI_DOUBLET=1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261
+AVERAGE_NV_DOUBLET = 1240.15 # weighted average; individuals: 1242.80, 1238.82             # not used
+AVERAGE_OVI_DOUBLET=1033.8160 # weighted average; individuals: 1037.6167, 1031. 9261        # also not used
 CII_EMITTED = 1335.313 # (weighted average); individuals:
 OI_EMITTED = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 ###############################################################################################################################
