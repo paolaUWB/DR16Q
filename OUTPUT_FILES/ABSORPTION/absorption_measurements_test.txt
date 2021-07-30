@@ -1,0 +1,18 @@
+12: spec-5406-55955-0486norm.dr16
+BI (-30000 > v > -60000.0): 0.37
+vmins: [-46603.08575]
+vmaxs: [-48621.74816]
+BI_individual: [0.37]
+EW_individual: [128.9]
+Depth: [0.27782]
+
+
+16: spec-5450-55986-0680norm.dr16
+BI (-30000 > v > -60000.0): 1.25
+vmins: [-36822.25051]
+vmaxs: [-38860.11323]
+BI_individual: [1.25]
+EW_individual: [56.7]
+Depth: [0.18554]
+
+

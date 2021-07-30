@@ -3,6 +3,7 @@ import numpy as np
 from data_types import ColumnIndexes, RangesData, PointData
 import pandas as pd
 import scipy.constants as sc
+from scipy import signal
 
 ######################################### sphinx ######################################### 
 """
@@ -145,11 +146,11 @@ def wavelength_to_velocity(redshift, wavelength):
     avr_CIV_doublet = 1549.0524
 
     # Transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
-    c_in_km = sc.speed_of_light**-3
+    c_in_km = sc.speed_of_light * (10**-3) # speed_of_light is in m/s
     z_absC = (wavelength / avr_CIV_doublet) - 1.
     RC = (1. + redshift) / (1. + z_absC)
     betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.) # betaC is in units of c (speed of light)
-    betakm = -betaC * c_in_km #betakm is in km/s
+    betakm = -betaC * c_in_km # betakm is in km/s
     beta = []
 
     for velocity in betakm:
@@ -158,3 +159,24 @@ def wavelength_to_velocity(redshift, wavelength):
     beta = np.array(beta)
 
     return beta
+
+def smooth(norm_flux, box_size):   
+    """Function: 
+
+    Parameters:
+    -----------
+    norm_flux : 
+        Normalized flux to be smoothed.
+
+    box_size: int
+        This is the number of points that are smoothed into one. Always be sure to use an odd 
+        number, because we need the same amount of points on each side of the data point to be
+        smoothed.
+
+    Returns:
+    --------
+    y_smooth
+    """   
+
+    y_smooth = signal.savgol_filter(norm_flux,box_size,2)
+    return y_smooth
