@@ -154,7 +154,7 @@ if __name__ == "__main__":
 #norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"])
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) # testing
 
-# loops over each spectra from a specficied starting and ending point
+# loops over each spectra from a specified starting and ending point
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name from the csv
     z = round(redshift_list[spectra_index - 1], 5)
