@@ -146,11 +146,11 @@ def wavelength_to_velocity(redshift, wavelength):
     avr_CIV_doublet = 1549.0524
 
     # Transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
-    c_in_km = sc.speed_of_light * (10**-3)
+    c_in_km = sc.speed_of_light * (10**-3) # speed_of_light is in m/s
     z_absC = (wavelength / avr_CIV_doublet) - 1.
     RC = (1. + redshift) / (1. + z_absC)
     betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.) # betaC is in units of c (speed of light)
-    betakm = -betaC * c_in_km #betakm is in km/s
+    betakm = -betaC * c_in_km # betakm is in km/s
     beta = []
 
     for velocity in betakm:
