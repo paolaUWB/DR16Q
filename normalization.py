@@ -52,14 +52,14 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 100  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
+STARTS_FROM, ENDS_AT = 1, 21823  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
 
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
 save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
-save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
+save_figures = 'no' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
@@ -251,7 +251,7 @@ if (__name__ == "__main__"):
     field = ["SPECTRA INDEX", "SPECTRA FILE NAME", "CHI SQUARED"]
     fields_snr = ["SPECTRA INDEX", "SPECTRA FILE NAME", "SDSS SNR", "CALCULATED SNR"]
     fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
-
+    
     if save_new_output_file == 'yes':
         clear_file(FLAGGED_ABSORPTION_FILE)
         clear_file(FLAGGED_BAD_FIT_FILE)
@@ -266,11 +266,11 @@ if (__name__ == "__main__"):
         append_row_to_csv(GOOD_FIT_FILE, fields)
         append_row_to_csv(ORIGINAL_FILE, field)
         append_row_to_csv(UNFLAGGED_FILE, fields)
-        
-
+    
+    
     clear_file(LOG_FILE)
     clear_file(LOG_NO_LOW_SNR_FILE)
-
+    
 redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)
 
 indices, spectra_indices, processed_spectra_file_names, powerlaw_final_b_values, powerlaw_final_c_values = [], [], [], [], []
@@ -444,6 +444,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     norm_spectra_data = np.loadtxt(NORM_DIREC + norm_spectrum_file_name)
     norm_anchor_pts = define_three_anchor_points(z, norm_spectra_data)
 
+    fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
+
     ## INDICES OF WAVELENGTHS AT EACH ANCHOR POINT
     #point_A_wavelength_index = np.max(np.where(wavelength <= norm_anchor_pts[2][0]))
     #point_B_wavelength_index = np.max(np.where(wavelength <= norm_anchor_pts[1][0]))
@@ -540,6 +542,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
         if flagged_fit_too_high_green and flagged_fit_too_high_pink:
             flagged = False
+            append_row_to_csv(UNFLAGGED_FILE, fields)
 
         ## TEST 4
         if 1 > maximum_flux_green_region:

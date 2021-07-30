@@ -27,7 +27,7 @@ Steps to contribute to this project:
 
 -The file currently named "DRX_sorted_norm.csv" contains all the necessary information (data) to read [X being the current data release; i.e. 9].
 
--The "data_types" and "utility_functions" files must be in your directory for import
+-The "data_types," "draw_figures," "useful_wavelenght_flux_error_modules," and "utility_functions" files must be in your directory for import
 
 -At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by Astrophysicist. Any change of these constants SHOULD be discussed with the client.
 
@@ -38,40 +38,76 @@ Steps to contribute to this project:
   -For DR16 the current range that works is 1, 21000 (high redshift cases are currently throwing errors in the code)
 
 -After you run this code, all your graphs will be added to a pdf file in your directory. None of these files contain graphs for spectra with SNR less than 10 
-  -There are currently 4 pdf files containing graphs:
-    -flagged_spectra.pdf contains all of the graphs that have been flagged by the code for a poor fit through the pink and green test regions
-    -normalized_graphs.pdf contains graphs of all of the normalized spectra
+  -There are currently 6 pdf files containing graphs:
+    -flagged_absorption_graphs.pdf contains all of the graphs that have been flagged for the green or pink test region being completely under the powerlaw (likely absorption in those regions). [TEST #4]
+    -flagged_bad_fit_graphs.pdf contains all of the graphs that have been flagged by the code for a poor fit through the pink and green test regions. [TEST #1 & TEST #2]
+    -good_fit_graphs.pdf contains all of the graphs that have been fit well. Includes unflagged cases. ****CHECK THIS****
+    -normalized_graphs.pdf contains graphs of all of the normalized spectra [contains good_fit and unflagged]
     -original_graphs.pdf contains graphs of all of the spectra run in the range defined
-    -powerlaw_test_graphs.pdf contains graphs of all of the spectra that were previously flagged but have been deemed good fits based on a secondary test
+    -unflagged_graphs.pdf contains graphs of all of the spectra that were previously flagged but have been deemed good fits based on a secondary test. [TEST #3]
 
 -There is a test file in the directory. If you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output. If changes are correct then update the test file with new results for future tests.
 
 OUTPUT FILES:
 
--chi_sq_values.csv
-    -spectra index, spectra file name, chi_sq
-    -contains the chi squared values for all spectra run in the range defined
-
 -flagged_absorption.csv
-    -spectra index, spectra file name, bf, cf
-    -contains the spectra that have been flagged as having possible absorption in the green and pink test regions along with the initial parameters that are used for the powerlaw curve fitting (bf, cf)
-
+    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
+    -if the green OR pink test region is completely below the powerlaw, the spectra is added to this file
+    - TEST #4 determines this
+    
 -flagged_bad_fit.csv
-    -spectra index, spectra file name, bf, cf
-    -contains spectra that have been flagged as a bad fit by the green and pink test regions along with the initial parameters that are used for the powerlaw curve fitting (bf, cf)
-
--flagged_snr_in_ehvo_graphs.txt
-    -spectra index, spectra file name, SNR
-    -contains spectra that have SNR less than 10
-    -these spectra are not used in the code
-    ** sorted by SNR **
-
--good_normalization.csv
-    -spectra index, spectra file name, bf, cf
-    -contains spectra that have a good fit and will be normalized along with the initial parameters that are used for the powerlaw curve fitting (bf, cf)
+    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
+    -if the powerlaw does not go close enough through the anchor points, the spectra is added to this file
+    -if the powerlaw is not close enough through the center of the green and pink test regions, the spectra is added to this file
+    -the spectra in this file are NOT NORMALIZED
+    
+-flagged_snr_in_ehvo.csv
+    -spectra index, spectra file name, SDSS SNR, calculated SNR
+    -any spectra with SNR<10 in the region we care about are added to this file
+    -spectra are essentially ignored once they are flagged for low SNR
+    
+-good_fit.csv
+    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
+    -any spectra deemed to be a good fit originally are added to this file
+    -any spectra that has been unflagged by TEST #3 are added to this file
+    -the spectra in this file ARE NORMALIZED
 
 -log.txt
-    -keeps a log of the output
+    -a log of the printed outputs for all spectra in the current run
+    
+-log_no_low_snr.txt
+    -same outputs as log.txt but only for spectra with SNR>10
+
+-original.csv
+    -spectra index, spectra file name, chi squared
+    -the chi squared values for all spectra with SNR>10 are added to this file
+    
+-unflagged.csv
+    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
+    -spectra that were flagged by TEST #2 but have been deemed ok fits when the upper and lower limits of 'closeness' are increased slightly
+    -the spectra in this file ARE NORMALIZED [since they are added to the good_fit file]
+
+NORMALIZATION TESTS:
+
+-TEST #1
+    -checks whether the fit of the powerlaw is going closely through the anchor points
+        -if the powerlaw goes through all three anchor points well, it proceeds to the other three tests
+        -if the powerlaw is too far off of the anchor points they are flagged and moved to the flagged_bad_fit file
+
+-TEST #2
+    -checks whether the powerlaw goes through close to the center of the green and pink test regions
+        -if the fit is good, it proceeds to TEST #4 (and skips TEST #3)
+        -if the fit is bad, the spectra is flagged but continues on to TEST #3
+    
+-TEST #3
+    -checks if the powerlaw is generally in the center of the pink and green test regions
+        -if the fit is good enough in BOTH regions, this test unflags the spectra and adds it to the unflagged file as well as the good_fit file
+        -if the fit is still not good, the spectra remains flagged and is added to the flagged_bad_fit file
+    
+-TEST #4
+    -checks if the green or pink test region is completely below the powerlaw (a check for possible absorption in these regions)
+        -if either the green or pink region is completely below the powerlaw, the spectra is added to the flagged absorption file
+        -if neither region are completely below the powerlaw, nothing is done
 
 
 ### Absorption File
