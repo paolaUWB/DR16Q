@@ -3,6 +3,7 @@ import numpy as np
 from data_types import ColumnIndexes, RangesData, PointData
 import pandas as pd
 import scipy.constants as sc
+from scipy import signal
 
 ######################################### sphinx ######################################### 
 """
@@ -158,3 +159,24 @@ def wavelength_to_velocity(redshift, wavelength):
     beta = np.array(beta)
 
     return beta
+
+def smooth(norm_flux, box_size):   
+    """Function: 
+
+    Parameters:
+    -----------
+    norm_flux : 
+        Normalized flux to be smoothed.
+
+    box_size: int
+        This is the number of points that are smoothed into one. Always be sure to use an odd 
+        number, because we need the same amount of points on each side of the data point to be
+        smoothed.
+
+    Returns:
+    --------
+    y_smooth
+    """   
+
+    y_smooth = signal.savgol_filter(norm_flux,box_size,2)
+    return y_smooth
