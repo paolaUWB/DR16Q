@@ -28,23 +28,18 @@ from data_types import Range
 ##import smooth from utility_functions        or just copy and paste
 
 ###############################################################################################################################
-######################################### Start Functions ###########################################################################
+######################################### Functions ###########################################################################
 
 # read list of normalized spectra, zem, and calculated snr from csv file (in this case good_normalization.csv)
 # and set variable name to each value
 
-def find_absorption_parameters(norm_spectra_list, redshift_list, SPEC_DIREC, STARTS_FROM, ENDS_AT, want_to_smooth='no', boxcar_size=101, BALNICITY_INDEX_LIMIT = 1000, VELOCITY_LIMIT = Range(-30000, -60000.)):
+
+def find_absorption_parameters(spectrum_name, want_to_smooth='no', boxcar_size=101, BALNICITY_INDEX_LIMIT = 1000, VELOCITY_LIMIT = Range(-30000, -60000.)):
     """
     Parameters
     ----------
-    norm_spectra_list
-    list of normalized spectra that will be looped over
-
-    redshift_list
-    list of redshifts (z) that will be accessed
-
-    SPEC_DIREC
-    directory of spectra that will be accessed (already normalized)
+    spectrum_name (contains wavelength, flux, error)
+    The list of wavelengths and fluxes to be analyzed
 
     do you want to use smoothed norm flux/error
     want_to_smooth = 'no' 
@@ -58,11 +53,9 @@ def find_absorption_parameters(norm_spectra_list, redshift_list, SPEC_DIREC, STA
     limits on velocity     min,   max
     suggested: VELOCITY_LIMIT = Range(-30000, -60000.)
 
-    range of spectra you are working with from the good_normalization.csv file
-    STARTS_FROM, ENDS_AT
-
     Returns
     -------
+
     BI_all 
         Is the array of all the total BALnicity indices for all the spectra (not to be confused with BI_total, which doesn't contain *all* the BI values)
     BI_all_individual
@@ -90,39 +83,11 @@ def find_absorption_parameters(norm_spectra_list, redshift_list, SPEC_DIREC, STA
     sum_of_deltas = 0        
 
     count_v = 0 # variable initialization to get into vmin/vmax loop
+
     ################################################################################################################################
 
 
-    # loops over each spectra from a specified starting and ending point
-    for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-        # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name from the csv
-        z = round(redshift_list[spectra_index - 1], 5)
-        current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
 
-        # from the norm spectra name retrieving it's wavelength, normalized flux, and normalized error (in this case from NORM_DRXQ)
-        print(str(spectra_index), "current spectra file name:", current_spectrum_file_name)
-        current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
-
-        # setting a variable for each of those values
-        wavelength, normalized_flux, normalized_error = read_spectra(current_spectra_data)
-
-        # smoothing the spectra based on whether the user wants it or not
-        if want_to_smooth == 'yes':
-            normalized_flux = smooth(normalized_flux, boxcar_size)
-            normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
-
-        # re-nitialize all variables for each spectrum #####################
-        vmins, vmaxs = [], []
-        BI_mid, BI_individual = [], []
-        EW_individual = []
-        beta = []
-        final_depth_individual = [], [], []
-
-        non_trough_count = 100
-    
-        delta_v = 0 #change in velocity
-        sum_of_deltas = 0               
-        count_v = 0   # variable initialization to get into vmin/vmax loop
         ####################################################################
 
         # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
@@ -238,8 +203,6 @@ def find_absorption_parameters(norm_spectra_list, redshift_list, SPEC_DIREC, STA
     vmins = np.array(vmins)
     vmaxs = np.array(vmaxs)
 
-
-                        
 
     return BI_all, BI_all_individual, vmins, vmaxs, EW_all_individual, final_depth_all_individual
 
