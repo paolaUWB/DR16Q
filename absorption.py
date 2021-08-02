@@ -277,7 +277,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             EW_all_individual.append(EW_individual)
 
     ############################# plot all function for text file and plotting #######################################
-    if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
+    if (len(vmaxs) != 0):
         text = [f"{spectra_index}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
@@ -289,6 +289,20 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
     #####################################################################################################################
+
+    else: 
+        if (len(vmaxs) != 0):
+            text = [f"{spectra_index}: {current_spectrum_file_name}",
+                    f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
+                    f"vmins: {vmins}",
+                    f"vmaxs: {vmaxs}",
+                    f"BI_individual: {BI_individual}",
+                    f"EW_individual: {EW_individual}",
+                    f"Depth: {final_depth_individual}"]
+            vlast.extend(['\n'.join(text), '\n'])
+    
+        draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+    
     final_depth_all_individual.append(final_depth_individual)
     
     if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
