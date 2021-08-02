@@ -58,7 +58,7 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 DR = '16'
 
 #defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit.csv" 
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
@@ -74,7 +74,7 @@ boxcar_size = 3
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'no'
+all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -83,7 +83,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT =11, 20
+STARTS_FROM, ENDS_AT =1, 10
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -288,7 +288,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         vlast.extend(['\n'.join(text), '\n'])
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-
+    #####################################################################################################################
     final_depth_all_individual.append(final_depth_individual)
     
     if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
