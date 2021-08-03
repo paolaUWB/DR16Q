@@ -74,7 +74,7 @@ boxcar_size = 3
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'yes'
+all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -174,7 +174,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range) # from left to right
     velocity_range_index  = np.array(velocity_range_index[::-1])   # from right to left (reversed list)
                                                                    # ^^^^^^^^ 0 to -60000
-
+    allcount = 0
+    abscount = 0
     # looping through the velocity ranges
     for current_velocity_index in velocity_range_index:
         C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
@@ -278,7 +279,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     ############################# plot all function for text file and plotting #######################################
     if (len(vmaxs) != 0):
-        text = [f"{spectra_index}: {current_spectrum_file_name}",
+        abscount += 1
+        text = [f"{str(abscount)}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
                 f"vmaxs: {vmaxs}",
@@ -288,11 +290,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         vlast.extend(['\n'.join(text), '\n'])
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    #####################################################################################################################
+    
 
     else: 
         if (len(vmaxs) != 0):
-            text = [f"{spectra_index}: {current_spectrum_file_name}",
+            allcount += 1
+            text = [f"{str(allcount)}: {current_spectrum_file_name}",
                     f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                     f"vmins: {vmins}",
                     f"vmaxs: {vmaxs}",
@@ -300,9 +303,10 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"EW_individual: {EW_individual}",
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
-    
-        draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    
+
+        if all_plot_and_text == 'yes':
+            draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+    #####################################################################################################################
     final_depth_all_individual.append(final_depth_individual)
     
     if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
