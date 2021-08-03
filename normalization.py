@@ -52,18 +52,18 @@ NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 21823  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
+STARTS_FROM, ENDS_AT = 12000, 12002  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
 
 save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
+save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 ## VALUE USED IN TEST 1
 val1 = 0.075
@@ -212,7 +212,7 @@ def dynamic_find_anchor_points(spectra_data, number_of_anchor_points):
     """
     anchor_pts = []
     for i in number_of_anchor_points:
-        spec_point = wavelength_flux_error_for_points(spectra_data[0], wavelength_range[i-1][0], wavelength_range[i-1][1], z, spectra_data)
+        spec_point = wavelength_flux_error_for_points(wavelength_range[i-1][0], wavelength_range[i-1][1], z, spectra_data)
         anchor_pts.append(spec_point)
     print("User Requested Point: ", anchor_pts)
     return anchor_pts
@@ -297,8 +297,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## DYNAMIC PLOTTING - USER INPUT PROVIDES NUMBER OF ANCHOR POINTS TO USE, THEIR LOCATION, AND HOW MUCH OF A RANGE THE ANCHOR POINT CAN BE PLACED IN
     if dynamic == 'yes':
         ### is there a better way to define these? using redshift maybe? 
-        wavelength_observed_from = 3000
-        wavelength_observed_to = 6500
+        wavelength_observed_from = 3000 #z * 1800
+        wavelength_observed_to = 6000 #z * 3000 
 
         test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
         test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
@@ -314,7 +314,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             user_input_wavelength = []
             wavelength_range = []
             anchor_pts = []
-            powerlaw_wavelength = [] ## curve_fit_wavelength?? 
+            powerlaw_wavelength = [] 
             powerlaw_flux = []
 
             range_value = int(input("Specify a range of wavelengths you would like used to find an anchor point? (plus or minus this value from your wavelength): "))
@@ -349,13 +349,17 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             norm_w_f_e = (wavelength, flux_normalized, error_normalized) 
             norm_w_f_e = (np.transpose(norm_w_f_e))  
             if save_new_norm_file == 'yes': np.savetxt(NORM_DIREC + current_spectrum_file_name[0:len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION, norm_w_f_e)
+            norm_spectrum_file_name = current_spectrum_file_name[0: len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION
 
-            draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, ORIGINAL_PDF) ## can we change this so it doesn't save to a file? 
+
+            draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, 'null') #ORIGINAL_PDF) 
 
             try_again = str(input("Are you happy with the fit? 'yes'/'no': "))
 
+            fields = [spectra_index, current_spectrum_file_name, norm_spectrum_file_name, z, snr_mean_in_ehvo, snr, bf, cf]
+            
         if try_again == 'yes':
-            draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, GOOD_FIT_FILE)
+            draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, GOOD_FIT_PDF)
             if save_new_output_file == 'yes':    
                 append_row_to_csv(GOOD_FIT_FILE, fields)
 
@@ -388,6 +392,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         norm_w_f_e = (np.transpose(norm_w_f_e))  
 
         if save_new_norm_file == 'yes': np.savetxt(NORM_DIREC + current_spectrum_file_name[0:len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION, norm_w_f_e)
+        norm_spectrum_file_name = current_spectrum_file_name[0: len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION
+
 
     ## FLAGGING LOW SNR
     flagged_snr_mean_in_ehvo = False
@@ -440,7 +446,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     if not flagged_snr_mean_in_ehvo:
         print_to_file("     Value: " + str(val), LOG_NO_LOW_SNR_FILE)
 
-    norm_spectrum_file_name = current_spectrum_file_name[0: len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION
+    #norm_spectrum_file_name = current_spectrum_file_name[0: len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION
     norm_spectra_data = np.loadtxt(NORM_DIREC + norm_spectrum_file_name)
     norm_anchor_pts = define_three_anchor_points(z, norm_spectra_data)
 
@@ -587,7 +593,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     field = [spectra_index, current_spectrum_file_name, chi_sq]
     fields_snr = [spectra_index, current_spectrum_file_name, snr, snr_mean_in_ehvo]
-    fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:20] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
+    fields=[spectra_index, current_spectrum_file_name, norm_spectrum_file_name, z, snr_mean_in_ehvo, snr, bf, cf]
 
     if save_new_output_file == 'yes' and flagged_snr_mean_in_ehvo: append_row_to_csv(FLAGGED_SNR_FILE, fields_snr)
     
@@ -613,7 +619,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## DRAWING FIGURES
     if flagged_snr_mean_in_ehvo:
         flaggedSNRdata = FlaggedSNRData(figure_data, bf, cf, power_law_data_x, power_law_data_y)
-    elif save_figures == 'yes':
+    elif save_figures == 'yes' and dynamic == 'no':
         original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
         draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF, flags)
         if flagged:

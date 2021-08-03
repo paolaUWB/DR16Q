@@ -48,44 +48,73 @@ Steps to contribute to this project:
 
 -There is a test file in the directory. If you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output. If changes are correct then update the test file with new results for future tests.
 
-OUTPUT FILES:
+OUTPUT FILES (csv):
 
--flagged_absorption.csv
-    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
-    -if the green OR pink test region is completely below the powerlaw, the spectra is added to this file
-    - TEST #4 determines this
-    
--flagged_bad_fit.csv
-    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
-    -if the powerlaw does not go close enough through the anchor points, the spectra is added to this file
-    -if the powerlaw is not close enough through the center of the green and pink test regions, the spectra is added to this file
-    -the spectra in this file are NOT NORMALIZED
-    
--flagged_snr_in_ehvo.csv
-    -spectra index, spectra file name, SDSS SNR, calculated SNR
-    -any spectra with SNR<10 in the region we care about are added to this file
-    -spectra are essentially ignored once they are flagged for low SNR
+-original.csv
+    -spectra index, spectra file name, chi squared
+    -the chi squared values for all spectra with SNR>10 are added to this file
     
 -good_fit.csv
     -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
     -any spectra deemed to be a good fit originally are added to this file
     -any spectra that has been unflagged by TEST #3 are added to this file
     -the spectra in this file ARE NORMALIZED
-
--log.txt
-    -a log of the printed outputs for all spectra in the current run
-    
--log_no_low_snr.txt
-    -same outputs as log.txt but only for spectra with SNR>10
-
--original.csv
-    -spectra index, spectra file name, chi squared
-    -the chi squared values for all spectra with SNR>10 are added to this file
     
 -unflagged.csv
     -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
     -spectra that were flagged by TEST #2 but have been deemed ok fits when the upper and lower limits of 'closeness' are increased slightly
     -the spectra in this file ARE NORMALIZED [since they are added to the good_fit file]
+
+-flagged_bad_fit.csv
+    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
+    -if the powerlaw does not go close enough through the anchor points, the spectra is added to this file
+    -if the powerlaw is not close enough through the center of the green and pink test regions, the spectra is added to this file
+    -the spectra in this file are NOT NORMALIZED
+    
+-flagged_absorption.csv
+    -spectra index, spectra file name, norm spectra file name, redshift, calculated SNR, SDSS SNR, bf, cf
+    -if the green OR pink test region is completely below the powerlaw, the spectra is added to this file
+    - TEST #4 determines this
+    -NOTE: these spectra are sorted into either good_fit.csv or flagged_bad_fit.csv. These are not included in final count to check.
+
+-flagged_snr_in_ehvo.csv
+    -spectra index, spectra file name, SDSS SNR, calculated SNR
+    -any spectra with SNR<10 in the region we care about are added to this file
+    -spectra are essentially ignored once they are flagged for low SNR
+
+-log.txt
+    -a log of the printed outputs for ALL spectra in the current run (including those with SNR<10)
+    
+-log_no_low_snr.txt
+    -same outputs as log.txt but only for spectra with SNR>10
+    
+original.csv + flagged_snr_in_ehvo.csv = total # spectra in run 
+good_fit.csv + flagged_bad_fit.csv = original.csv
+    
+OUTPUT FILES (plots):
+
+-original_graphs.pdf
+    -all spectra that have SNR>10 are plotted and added to this file
+    
+-normalized_graphs.pdf
+    -all spefctra that have been deemed good fits are normalized and the normalized spectra are plotted and added to this file
+    
+-good_fit_graphs.pdf
+    -all spectra that have SNR>10 that have been deemed to be a good fit originally are plotted and added to this file
+    -all spectra that have been unflagged have been plotted and added to this file
+
+-unflagged_graphs.pdf
+    -any spectra that were previously flagged that have been deemed a good fit are unflagged, plotted and added to this file
+    
+-flagged_bad_fit_graphs.pdf
+    -all spectra that have been deemed a bad fit by the tests are flagged, plotted, and added to this file
+    
+-flagged_absorption_graphs.pdf
+    -any spectra that is flagged for test#4 are added to this file due to possible absorption in the test regions
+
+original_graphs.pdf = original.csv
+good_fit_graphs.pdf + flagged_bad_fit_graphs.pdf = original_graphs.pdf
+good_fit_graphs.pdf = normalized_graphs.pdf
 
 NORMALIZATION TESTS:
 
