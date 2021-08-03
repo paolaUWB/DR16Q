@@ -58,7 +58,7 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 DR = '16'
 
 #defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_normalization.csv" 
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
@@ -83,7 +83,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT =1, 10
+STARTS_FROM, ENDS_AT =11, 20
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -174,8 +174,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     velocity_range_index = np.arange(vmaxindex_for_range, vminindex_for_range) # from left to right
     velocity_range_index  = np.array(velocity_range_index[::-1])   # from right to left (reversed list)
                                                                    # ^^^^^^^^ 0 to -60000
-    allcount = 0
-    abscount = 0
+
     # looping through the velocity ranges
     for current_velocity_index in velocity_range_index:
         C = 0 # C will be 0 or 1 and is the C used in the integral for the calculation of BI
@@ -278,9 +277,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             EW_all_individual.append(EW_individual)
 
     ############################# plot all function for text file and plotting #######################################
-    if (len(vmaxs) != 0):
-        abscount += 1
-        text = [f"{str(abscount)}: {current_spectrum_file_name}",
+    if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
+        text = [f"{spectra_index}: {current_spectrum_file_name}",
                 f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                 f"vmins: {vmins}",
                 f"vmaxs: {vmaxs}",
@@ -290,23 +288,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         vlast.extend(['\n'.join(text), '\n'])
 
         draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    
 
-    else: 
-        if (len(vmaxs) != 0):
-            allcount += 1
-            text = [f"{str(allcount)}: {current_spectrum_file_name}",
-                    f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
-                    f"vmins: {vmins}",
-                    f"vmaxs: {vmaxs}",
-                    f"BI_individual: {BI_individual}",
-                    f"EW_individual: {EW_individual}",
-                    f"Depth: {final_depth_individual}"]
-            vlast.extend(['\n'.join(text), '\n'])
-
-        if all_plot_and_text == 'yes':
-            draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    #####################################################################################################################
     final_depth_all_individual.append(final_depth_individual)
     
     if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
