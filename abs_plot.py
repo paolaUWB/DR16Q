@@ -122,3 +122,9 @@ def vmax_plot(beta, wavelength, vmaxs_index, obs_wavelength_C_vel, obs_wavelengt
     obs_wavelength_OIfinal_index = np.min(np.where (wavelength > obs_wavelength_OIfinal))
     obs_wavelength_OI_final_vel = beta[obs_wavelength_OIfinal_index]
     plt.axvspan(obs_wavelength_OI_vel,obs_wavelength_OI_final_vel, alpha = 0.2, color = 'yellow')
+
+def vmin_line(beta, index):
+    plt.plot((beta[index], beta[index]), (-1,10),'r-')
+
+def span_vmin_vmax(beta, vmins, vmaxs):
+    plt.axvspan(beta[vmins], beta[vmaxs], alpha = 0.2, color = 'red')

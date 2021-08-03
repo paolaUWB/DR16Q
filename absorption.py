@@ -34,10 +34,10 @@ from numpy.lib.function_base import append
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import clear_file, read_list_spectra, read_spectra, wavelength_to_velocity, smooth
 from data_types import Range
-from abs_plot import draw_abs_figure, vmin_plot, vmax_plot 
+from abs_plot import draw_abs_figure, vmin_plot, vmax_plot, vmin_line, span_vmin_vmax
 #import basic_absorption_parameters
 
-'''
+
 ######################################## TESTING OUTPUT WITH DR9Q FILES #######################################################
 # defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorption/EHVOcases_updatedredshift.csv" # testing
@@ -50,10 +50,10 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 # be sure to uncomment this and comment out CONFIG_FILE and SPEC_DIREC
 
 ###############################################################################################################################
-'''
+
 
 ############################## CHANGEABLE VARIABLES ###########################################################################
-
+'''
 # input which data release you are working with [input the number as a string i.e. '9']
 DR = '16'
 
@@ -62,6 +62,7 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
+'''
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -77,13 +78,13 @@ boxcar_size = 3
 all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
-BALNICITY_INDEX_LIMIT = 2000
+BALNICITY_INDEX_LIMIT = 1000
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT =1, 10
+STARTS_FROM, ENDS_AT =1, 40
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -220,7 +221,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     vmins.append(np.round(beta[vmins_index], 5))                    
      
                     # plotting notable vertical line of v min occurance in absorption found
-                    plt.plot((beta[vmins_index], beta[vmins_index]), (-1,10),'r-')
+                    vmin_line(beta, vmins_index)
 
                     # plotting notable vertical line of v min occurance of where CIV would be *if* the EHVO absorption found was due to SiIV
                     wavelist = vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
@@ -243,7 +244,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     vmaxs.append(np.round(beta[current_velocity_index], 5))
 
                     # plotting notable vertical line of v min occurance in absorption found
-                    plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
+                    #plt.axvspan(beta[vmins_index], beta[vmaxs_index], alpha = 0.2, color = 'red')
+                    span_vmin_vmax(beta, vmins_index, vmaxs_index)
 
                     # plotting notable vertical line of v max occurance of where CIV, CII, and OI would be *if* the EHVO absorption found was due to SiIV
                     vmax_plot(beta, wavelength, vmaxs_index, carbon_0, carbon_ii, oxygen_i)
