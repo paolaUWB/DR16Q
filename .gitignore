@@ -1,3 +1,4 @@
-.DS_Store
+# ignore .DS_Store because everyone's will be different
+*.DS_Store
 ## IGNORES ALL PDF FILES - TOO LARGE TO CONSISTENTLY PUSH
 *.pdf
