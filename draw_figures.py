@@ -67,8 +67,11 @@ def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wave
     plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(-2, max_peak)
-    FILE.savefig()
-    plt.show()
+    if FILE == 'null':
+        plt.show()
+    else:
+        FILE.savefig()
+        plt.show()
 
 def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, max_peak):
     plt.plot(wavelength, flux, color = "midnightblue")

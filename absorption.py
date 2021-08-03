@@ -34,7 +34,7 @@ from utility_functions import clear_file, read_list_spectra, read_spectra
 from data_types import Range
 from abs_plot import draw_abs_figure
 from basic_absorption_parameters import smooth, absorption_parameters_with_plot
-
+'''
 ###############################################################################################################################
 ################################ IGONORE: TESTING OUTPUT WITH DR9Q FILES ######################################################
 # defining the config file
@@ -49,18 +49,15 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
-
+'''
 # input which data release you are working with [input the number as a string i.e. '9']
 DR = '16'
-'''
+
 #defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit.csv" 
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
-'''
-# testing SPEC_DIREC
-#SPEC_DIREC = "/Users/wendygarcia/Documents/GitHub/DATA/NORM_DR16Q_HIDE/"
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
