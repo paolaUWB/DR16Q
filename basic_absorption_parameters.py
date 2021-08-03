@@ -36,7 +36,7 @@ def wavelength_to_velocity(redshift, wavelength):
     Returns
     -------
     beta: array
-        The values of velocity that were converted from wavelength.
+        The values of velocity that were converted from the wavelength provided.
     """
     # CIV doublet data from verner table
     avr_CIV_doublet = 1549.0524
@@ -56,13 +56,16 @@ def wavelength_to_velocity(redshift, wavelength):
 
     return beta
 
-def smooth(norm_flux, box_size):   
-    """Function: 
+#############################################################################################################################################
+#############################################################################################################################################
+
+def smooth(smooth_this, box_size):   
+    """Smooths out values entered.
 
     Parameters:
     -----------
-    norm_flux : 
-        Normalized flux to be smoothed.
+    smooth_this: list
+        The value(s) of whatever is going to get smoothed.
 
     box_size: int
         This is the number of points that are smoothed into one. Always be sure to use an odd 
@@ -71,30 +74,51 @@ def smooth(norm_flux, box_size):
 
     Returns:
     --------
-    y_smooth
+    now_smooth: list
+        The values that are now smoothed.
     """   
 
-    y_smooth = signal.savgol_filter(norm_flux, box_size, 2)
-    return y_smooth
+    now_smooth = signal.savgol_filter(smooth_this, box_size, 2)
+    return now_smooth
 
-def find_absorption_parameters(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT = 1000, VELOCITY_LIMIT = Range(-30000, -60000.)):
-    """ read list of normalized spectra, zem, and calculated snr from csv file and set variable name to each value.
+#############################################################################################################################################
+#############################################################################################################################################
 
+def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocity_limits):
+    """ Reads in a list of redshift, wavelength, velocity limit (your integral bounds) and broad absorption width to calculate BI.
+    Returns BI for each indivdual trough, the total BI from all troughs, vmin/vmaxs of the trough found if there, the equivalent 
+    width and the depth.
+    
     Parameters
     ----------
+    z: list
+        The redshift values.
+    
+    wavelength: list
+        The wavelength values.
+
+    normalized_flux: list
+        The normalized flux values.
+
+    BI_width: int
+        The minimum value of broad absorption width that we are looking for. 
+
+    velocity_limits: namedtuple
+        The velocity limits that we will be searching for absorption, aka the integral limits of BI calculation.
 
     Returns
     -------
-    BI_all 
-        Is the array of all the total BALnicity indices for all the spectra (not to be confused with BI_total, which doesn't contain *all* the BI values)
-    BI_all_individual
-        Is the list containing all BI values with some spectra having sublists of multiple BI (due to multiple BALs in a single spectrum)
-    vmins and vmaxs 
-        Are the arrays of lower and upper bounds for each trough (same number of elements and subelements as BI_all_individual, EW_all individual, and final_depth_all_individual)
-    EW_all_individual
-        Is the list of all equivalent widths for each BAL (sublists for multiple BALs)
-    final_depth_all_individual 
-        Is the list of all the depths (and sublists for multiple BALs)
+    BI_total
+    vmins
+    vmaxs
+    BI_individual
+    EW_individual
+    final_depth_individual
+
+    Notes
+    -----
+    ``velocity_limits`` is a namedtuple, in the main code when you call the function make sure you either create your own or manually
+    change the velocity limits into ``int``s. An example for how to create a namedtuple (for this specific code) is in ``data_types.py``.
     """
     ######################################### VARIABLES ###########################################################################
     brac_all = []
@@ -116,11 +140,11 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BALNICITY_INDEX_L
                                                         #   min,  max
     if any(beta): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
         try:
-            vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) # index value of VELOCITY_LIMIT.end or closest value
+            vmaxindex_for_range = np.max(np.where(beta <= velocity_limits.end)) # index value of velocity_limits.end or closest value
         except:
             vmaxindex_for_range = 0  
     try:
-        vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) # index value of VELOCITY_LIMIT.start or closest value
+        vminindex_for_range = np.min(np.where(beta >= velocity_limits.start)) # index value of velocity_limits.start or closest value
     
     except:
         vminindex_for_range = np.where(beta == np.min(beta)) 
@@ -154,7 +178,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BALNICITY_INDEX_L
             EW_ind.append(EW)   
         ################################################################################## 
             # BI calculation #################################################################################################
-            if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
+            if sum_of_deltas >= BI_width: # passing the BI_width (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
@@ -162,7 +186,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BALNICITY_INDEX_L
                     
                 ############################# V MIN CALCULATION ############################################
                 if count_v == 0 and non_trough_count == 0:  
-                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) # vmins occurs current beta plus BALNICITY_INDEX_LIMIT
+                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BI_width))) # vmins occurs current beta plus BI_width
                     vmins.append(np.round(beta[vmins_index], 5))                    
                     
                     count_v = 1
@@ -203,17 +227,20 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BALNICITY_INDEX_L
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
-
+  
     final_depth_all_individual.append(final_depth_individual)   
     BI_all= np.array(BI_all)
     vmins = np.array(vmins)
     vmaxs = np.array(vmaxs)
 
-    return BI_all, BI_all_individual, vmins, vmaxs, EW_all_individual, final_depth_all_individual
+    return BI_total, vmins, vmaxs, BI_individual, EW_individual, final_depth_individual
 
-def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT = 1000, VELOCITY_LIMIT = Range(-30000, -60000.), percent = 0.9):
+#############################################################################################################################################
+#############################################################################################################################################
 
-    ######################################### VARIABLES ###########################################################################
+def absorption_parameters_with_plot(z, wavelength, normalized_flux, BI_width, velocity_limits, percent):
+
+    # VARIABLES 
     brac_all = []
     vmins, vmaxs, vmins_all, vmaxs_all, delta_v_all = [], [], [], [], [] # v = velocity
     final_depth_individual, final_depth_all_individual = [], []
@@ -223,7 +250,6 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
     delta_v = 0 #change in velocity
     sum_of_deltas = 0        
     count_v = 0 # variable initialization to get into vmin/vmax loop
-    ################################################################################################################################
 
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     beta = wavelength_to_velocity(z, wavelength)
@@ -233,11 +259,11 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
                                                         #   min,  max
     if any(beta): # for reference VELOCITY_LIMIT = Range(-30000, -60000.))
         try:
-            vmaxindex_for_range = np.max(np.where(beta <= VELOCITY_LIMIT.end)) # index value of VELOCITY_LIMIT.end or closest value
+            vmaxindex_for_range = np.max(np.where(beta <= velocity_limits.end)) # index value of velocity_limits.end or closest value
         except:
             vmaxindex_for_range = 0  
     try:
-        vminindex_for_range = np.min(np.where(beta >= VELOCITY_LIMIT.start)) # index value of VELOCITY_LIMIT.start or closest value
+        vminindex_for_range = np.min(np.where(beta >= velocity_limits.start)) # index value of velocity_limits.start or closest value
     
     except:
         vminindex_for_range = np.where(beta == np.min(beta)) 
@@ -272,7 +298,7 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
         ################################################################################## 
 
             # BI calculation #################################################################################################
-            if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
+            if sum_of_deltas >= BI_width: # passing the BI_width (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(np.round(BI, 5)) #Append to intermediate results
@@ -284,14 +310,14 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
 
                 ############################# V MIN CALCULATION ##################################################
                 if count_v == 0 and non_trough_count == 0:  
-                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) # vmins occurs current beta plus BALNICITY_INDEX_LIMIT
+                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BI_width))) # vmins occurs current beta plus BI_width
                     vmins.append(np.round(beta[vmins_index], 5))     
 
                     # plotting notable vertical line of v min occurance in absorption found
                     vmin_line(beta, vmins_index)
 
                     # plotting notable vertical line of v min occurance of where CIV would be *if* the EHVO absorption found was due to SiIV
-                    wavelist = vmin_plot(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
+                    wavelist = vmin_plot(beta, wavelength, current_velocity_index, BI_width)
                     carbon_0 = wavelist[0] # the vmin value of where CIV would be *if* the EHVO absorption found was due to SiIV
                     carbon_ii = wavelist[1] # the vmin value of where CII should be *if* the EHVO absorption found was due to SiIV
                     oxygen_i = wavelist[2] # the vmin value of where OI should be *if* the EHVO absorption found was due to SiIV               

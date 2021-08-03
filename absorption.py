@@ -28,7 +28,6 @@ import os
 import sys
 import numpy as np 
 import math
-from matplotlib import pyplot as plt
 from numpy.lib.function_base import append
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import clear_file, read_list_spectra, read_spectra
@@ -37,7 +36,7 @@ from abs_plot import draw_abs_figure
 from basic_absorption_parameters import smooth, absorption_parameters_with_plot
 
 ###############################################################################################################################
-######################################## TESTING OUTPUT WITH DR9Q FILES #######################################################
+################################ IGONORE: TESTING OUTPUT WITH DR9Q FILES ######################################################
 # defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/test_absorption/EHVOcases_updatedredshift.csv" # testing
 
@@ -50,16 +49,18 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
-'''
+
 # input which data release you are working with [input the number as a string i.e. '9']
 DR = '16'
-
+'''
 #defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit.csv" 
 
 # sets the directory to find the normalized data files
 SPEC_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/" 
 '''
+# testing SPEC_DIREC
+#SPEC_DIREC = "/Users/wendygarcia/Documents/GitHub/DATA/NORM_DR16Q_HIDE/"
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -81,12 +82,14 @@ BALNICITY_INDEX_LIMIT = 1000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT =1, 40
+STARTS_FROM, ENDS_AT = 1, 10
 
+# what percentage value you want to go below the continuum
 percent = 0.9
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
+
 # set name of output .txt file with absorption values
 ABSORPTION_VALUES = OUT_DIREC + "/" + "absorption_measurements_test.txt"
 
@@ -104,9 +107,13 @@ if __name__ == "__main__":
 # and set variable name to each value
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 vlast = []
+abs_count = 0
+abs_count_all = 0
+all_count = 0
 
 # loops over each spectra from a specified starting and ending point
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
+
     # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name from the csv
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
@@ -124,24 +131,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         normalized_flux = smooth(normalized_flux, boxcar_size)
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
-    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta = absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT = BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT = VELOCITY_LIMIT, percent = percent)
+    # getting various BI-related values from the absorption_parameters_with_plot function
+    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta = absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
 
-    ############################# plot all function for text file and plotting #######################################
-    if (len(vmaxs) != 0):
-        text = [f"{spectra_index}: {current_spectrum_file_name}",
-                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
-                f"vmins: {vmins}",
-                f"vmaxs: {vmaxs}",
-                f"BI_individual: {BI_individual}",
-                f"EW_individual: {EW_individual}",
-                f"Depth: {final_depth_individual}"]
-        vlast.extend(['\n'.join(text), '\n'])
-
-        draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
-    
-    else: 
+    ############################# putting things into a text file or plot #######################################
+    if (all_plot_and_text == 'yes'):
+        all_count += 1
         if (len(vmaxs) != 0):
-            text = [f"{str(spectra_index)}: {current_spectrum_file_name}",
+            text = [f"{str(all_count)}: {current_spectrum_file_name}",
                     f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                     f"vmins: {vmins}",
                     f"vmaxs: {vmaxs}",
@@ -150,8 +147,21 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
 
-        if all_plot_and_text == 'yes':
-            draw_abs_figure(spectra_index, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+        draw_abs_figure(all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+    
+    else: 
+        if (len(vmaxs) != 0):
+            abs_count += 1
+            text = [f"{str(abs_count)}: {current_spectrum_file_name}",
+                    f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
+                    f"vmins: {vmins}",
+                    f"vmaxs: {vmaxs}",
+                    f"BI_individual: {BI_individual}",
+                    f"EW_individual: {EW_individual}",
+                    f"Depth: {final_depth_individual}"]
+            vlast.extend(['\n'.join(text), '\n'])
+            draw_abs_figure(abs_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+
     #####################################################################################################################
     
     final_depth_all_individual.append(final_depth_individual)
