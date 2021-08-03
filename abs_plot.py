@@ -128,3 +128,6 @@ def vmin_line(beta, index):
 
 def span_vmin_vmax(beta, vmins, vmaxs):
     plt.axvspan(beta[vmins], beta[vmaxs], alpha = 0.2, color = 'red')
+
+def black_line(beta, index):
+    plt.plot((beta[index + 1], beta[index]), (1.5,1.5),'k-')
