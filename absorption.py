@@ -3,23 +3,21 @@
 absorption.py
 =============
 
-@author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker
+@author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker 
 based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo
 
-Creates figure to visually inspect the absorption. Calculates absorption parameters 
-(BALnicity Index [BI], vmin, vmax, equivalent width and depth) for a list of spectra.
+Short description:
+    Creates text file and plot for BI.
 
-Notes
------
-Usage:
-    python absorption_code.py spectra_data_list.csv (the default is ...).
+Extended description:
+    Loops through a list of spectra and uses absorption_parameters_with_plot from basic_absorption_parameters.py to receive: 
+    BI_total, vmins, vmaxs, BI_individual, EW_individual, final_depth_individual values and a plot is created to show where 
+    CIV, CII, and OI would be *if* the EHVO absorption found was due to SiIV. From those values a plot and text file 
+    are created and saved.
 
 Input file:
-    This program takes a CSV file with the format ``spectrum_name``, ``z``, ``snr``.
-
-Parameters
-----------
-    Spectra base path (path to where spectra are stored on disk).
+    This program takes a CSV file with the format ``spectrum_name``, ``z``, ``snr``. In this paticular case it is good_fit.csv. 
+    From those spectra names it reads in the wavelength, flux, and error from NORM_DR16Q.
 """
 
 ###############################################################################################################################
@@ -34,6 +32,7 @@ from utility_functions import clear_file, read_list_spectra, read_spectra
 from data_types import Range
 from abs_plot import draw_abs_figure
 from basic_absorption_parameters import smooth, absorption_parameters_with_plot
+from abs_plot import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
 '''
 ###############################################################################################################################
 ################################ IGONORE: TESTING OUTPUT WITH DR9Q FILES ######################################################
@@ -46,10 +45,10 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 #BI_INDEX_LIMIT should be 1000 to get accurate results for testing
 
 # be sure to uncomment this and comment out CONFIG_FILE and SPEC_DIREC
-
+'''
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
-'''
+
 # input which data release you are working with [input the number as a string i.e. '9']
 DR = '16'
 
@@ -70,16 +69,16 @@ boxcar_size = 3
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'yes'
+all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
-BALNICITY_INDEX_LIMIT = 1000
+BALNICITY_INDEX_LIMIT = 2000
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_normalization.csv file
-STARTS_FROM, ENDS_AT = 1, 10
+STARTS_FROM, ENDS_AT = 1, 100
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -104,9 +103,9 @@ if __name__ == "__main__":
 # and set variable name to each value
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 vlast = []
-abs_count = 0
-abs_count_all = 0
-all_count = 0
+# whether abs_count or all_count is used is based on the value of all_plot_and_text
+abs_count = 0 # counter for amount of spectra that have absorption when all_plot_and_text = no and for text files
+all_count = 0 # counter for all spectra ran when all_plot_and_text = yes
 
 # loops over each spectra from a specified starting and ending point
 for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
@@ -120,16 +119,17 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index), "current spectra file name:", current_spectrum_file_name)
     current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
 
-    # setting a variable for each of those values
+    # setting a variable for each of those values from the spectra
     wavelength, normalized_flux, normalized_error = read_spectra(current_spectra_data)
 
-    # smoothing the spectra based on whether the user wants it or not
+    # smoothing the flux and error based on what the user wants (yes or no)
     if want_to_smooth == 'yes':
         normalized_flux = smooth(normalized_flux, boxcar_size)
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
     # getting various BI-related values from the absorption_parameters_with_plot function
-    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta = absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
+    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta = absorption_parameters_with_plot(
+        z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
 
     ############################# putting things into a text file or plot #######################################
     if (all_plot_and_text == 'yes'):
@@ -144,7 +144,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
 
-        draw_abs_figure(all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+        draw_abs_figure(
+            all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
     
     else: 
         if (len(vmaxs) != 0):
@@ -157,7 +158,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"EW_individual: {EW_individual}",
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
-            draw_abs_figure(abs_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+            draw_abs_figure(
+                abs_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
 
     #####################################################################################################################
     
