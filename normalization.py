@@ -57,13 +57,13 @@ STARTS_FROM, ENDS_AT = 12000, 12002  ## [1-10, 899-1527 for dr9] [1-18056, 18058
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
 
-save_new_output_file = 'no' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
-save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
+save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
+save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
+save_figures = 'no' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 ## VALUE USED IN TEST 1
 val1 = 0.075
@@ -297,8 +297,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## DYNAMIC PLOTTING - USER INPUT PROVIDES NUMBER OF ANCHOR POINTS TO USE, THEIR LOCATION, AND HOW MUCH OF A RANGE THE ANCHOR POINT CAN BE PLACED IN
     if dynamic == 'yes':
         ### is there a better way to define these? using redshift maybe? 
-        wavelength_observed_from = 3000 #z * 1800
-        wavelength_observed_to = 6000 #z * 3000 
+        wavelength_observed_from = 3000 #(1 + z) * 1800
+        wavelength_observed_to = 6000 #(1 + z) * 3000 
 
         test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
         test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
@@ -574,12 +574,19 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print_to_file('     Failed Test 1 [anchor points]', LOG_FILE)
         print_to_file('     Failed Test 1 [anchor points]', LOG_NO_LOW_SNR_FILE)
     
+    #### CHECK THIS CHECK THIS CHECK THIS
     if flagged:
         flags = ' - FLAGGED BAD FIT'
+    elif flagged and unflagged:
+        flags = ' - UNFLAGGED'
     elif unflagged:
         flags = ' - UNFLAGGED'
-    elif absorption: 
-        flags = ' - ABSORPTION'
+    elif flagged and absorption: 
+        flags = ' - ABSORPTION / FLAGGED'
+    elif unflagged and absorption: 
+        flags = ' - ABSORPTION / UNFLAGGED'
+    elif absorption:
+        flags = ' - ABSORPTION / GOOD FIT'
     else:
         flags = ' - GOOD FIT'
         
