@@ -52,18 +52,20 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 21823  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
+STARTS_FROM, ENDS_AT = 1, 305  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
 
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
 save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
-save_figures = 'no' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
+save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
 dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+
+flag_spectra = 'yes' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no'
 
 ## VALUE USED IN TEST 1
 val1 = 0.075
@@ -467,7 +469,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     flagged_B = abs(1 - np.median(point_B_flux_norm)) >= val
     flagged_C = abs(1 - np.median(point_C_flux_norm)) >= val
 
-    if flagged_A and flagged_B and flagged_C:
+    if flagged_A and flagged_B and flagged_C and flag_spectra == 'yes':
         flagged_anchor_point_bad_fit = True 
 
     ## GREEN TEST REGION
@@ -478,7 +480,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
     normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 
-    if not flagged_anchor_point_bad_fit and not flagged_snr_mean_in_ehvo:  
+    if not flagged_anchor_point_bad_fit and not flagged_snr_mean_in_ehvo and flag_spectra == 'yes':  
         ## TEST 2 
         flagged_by_green_region = abs(np.median(normalized_flux_test_1) - 1) >= val2
         if flagged_by_green_region:
@@ -568,7 +570,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         if (not flagged_snr_mean_in_ehvo) and (flagged_completely_below_green or flagged_completely_below_pink) and save_new_output_file == 'yes':
             append_row_to_csv(FLAGGED_ABSORPTION_FILE, fields)
 
-    elif not flagged_snr_mean_in_ehvo:
+    elif not flagged_snr_mean_in_ehvo and flag_spectra == 'yes':
         flagged = True
         append_row_to_csv(FLAGGED_BAD_FIT_FILE, fields)
         print_to_file('     Failed Test 1 [anchor points]', LOG_FILE)
