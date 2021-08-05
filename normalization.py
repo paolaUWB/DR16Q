@@ -45,14 +45,14 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.cs
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
 
-## SETS THE DIRECTORY TO STORE NORMALIZED FILES
-NORM_DIREC = os.getcwd() + "/DATA/NORM_DR" + DR + "Q/"
-
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
+## SETS THE DIRECTORY TO STORE NORMALIZED FILES
+NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
+
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 12000, 12002  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
+STARTS_FROM, ENDS_AT = 1, 21823  ## [1-10, 899-1527 for dr9] [1-18056, 18058-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
