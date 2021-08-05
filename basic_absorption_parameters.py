@@ -87,7 +87,7 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocity_limits):
+def find_absorption_parameters(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits):
     """Reads in a list of redshift, wavelength, velocity limit (your integral bounds) and broad absorption width to calculate BI.
     Returns BI for each indivdual trough, the total BI from all troughs, vmin(s)/vmax(s) of twhere he trough was found if there are more 
     than one, the equivalent width and the depth of the trough.
@@ -103,7 +103,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocit
     normalized_flux: list
         The normalized flux values.
 
-    BI_width: int
+    BALNICITY_INDEX_LIMIT: int
         The minimum value of broad absorption width that we are looking for. 
 
     velocity_limits: namedtuple
@@ -193,7 +193,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocit
             EW_ind.append(EW)   
  
             # BI CALCULATION ######################################################################################################
-            if sum_of_deltas >= BI_width: # passing the BI_width (in this case 2,000 km/s) threshold
+            if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(round(BI, 5)) #Append to intermediate results
@@ -201,7 +201,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocit
                     
                 # V MIN CALCULATION ###############################################################################################
                 if count_v == 0 and non_trough_count == 0:  
-                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BI_width))) # vmins occurs current beta plus BI_width
+                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) # vmins occurs current beta plus BALNICITY_INDEX_LIMIT
                     vmins.append(round(beta[vmins_index], 5))                    
                     count_v = 1
                 
@@ -214,7 +214,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocit
                 if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or 
                     (current_velocity_index == vmaxindex_for_range)):  
                     vmaxs_index = np.min(np.where (beta >= beta[current_velocity_index]))
-                    vmaxs.append(round(beta[current_velocity_index], 4))
+                    vmaxs.append(round(beta[current_velocity_index], 5))
 
                     BI_ind_sum = round(sum(BI_ind), 2)
                     BI_individual.append(BI_ind_sum) # one single BI value of each absorption feature in a single spectrum
@@ -251,7 +251,7 @@ def find_absorption_parameters(z, wavelength, normalized_flux, BI_width, velocit
 #############################################################################################################################################
 #############################################################################################################################################
 
-def absorption_parameters_with_plot(z, wavelength, normalized_flux, BI_width, velocity_limits, percent):
+def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, percent, plots = 'yes'):
     """Based off and does what find_absorption_parameters does, but also includes plotting.
 
     Reads in a list of redshift, wavelength, velocity limit (your integral bounds), broad absorption width, and percentage value 
@@ -271,7 +271,7 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BI_width, ve
     normalized_flux: list
         The normalized flux values.
 
-    BI_width: int
+    BALNICITY_INDEX_LIMIT: int
         The minimum value of broad absorption width that we are looking for. 
 
     velocity_limits: namedtuple
@@ -279,6 +279,9 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BI_width, ve
 
     percent: float
         The percentage value you want to go below the continuum.
+
+    plots: string, default = 'yes'
+        Whether you want to plot the values or just want the values, the default is to plot. 
 
     Returns
     -------
@@ -372,31 +375,37 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BI_width, ve
             EW_ind.append(EW)   
          
             # BI calculation ###########################################################################################
-            if sum_of_deltas >= BI_width: # passing the BI_width (in this case 2,000 km/s) threshold
+            if sum_of_deltas >= BALNICITY_INDEX_LIMIT: # passing the BALNICITY_INDEX_LIMIT (in this case 2,000 km/s) threshold
                 C = 1  #set to 1 only if square bracket is continuously positive over a velocity interval            
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(round(BI, 5)) #Append to intermediate results
                 BI_ind.append(round(BI, 5)) 
 
-                # plotting the black line inside the absorption found
-                if non_trough_count == 0: 
-                    black_line(beta, current_velocity_index)
+                if plots == 'yes':
+                    # plotting the black line inside the absorption found
+                    if non_trough_count == 0: 
+                        black_line(beta, current_velocity_index)
+                    else: 
+                        pass
 
                 # vMIN calculation + plotting ###############################################################################
                 if count_v == 0 and non_trough_count == 0:  
-                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BI_width))) 
+                    vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) 
                     vmins.append(round(beta[vmins_index], 5))     
 
-                    # plotting notable vertical line of v min occurance in absorption found
-                    vmin_line(beta, vmins_index)
+                    if plots == 'yes':
+                        # plotting notable vertical line of v min occurance in absorption found
+                        vmin_line(beta, vmins_index)
 
-                    # plotting notable vertical line of v min occurance of where CIV would be *if* the EHVO 
-                    # absorption found was due to SiIV
-                    wavelist = vmin_plot_IF(beta, wavelength, current_velocity_index, BI_width)
-                    carbon_iv = wavelist[0] # the vmin value of where CIV would be *if* the EHVO absorption found was due to SiIV
-                    carbon_ii = wavelist[1] # the vmin value of where CII should be *if* the EHVO absorption found was due to SiIV
-                    oxygen_i = wavelist[2] # the vmin value of where OI should be *if* the EHVO absorption found was due to SiIV               
-                    
+                        # plotting notable vertical line of v min occurance of where CIV would be *if* the EHVO 
+                        # absorption found was due to SiIV
+                        wavelist = vmin_plot_IF(beta, wavelength, current_velocity_index, BALNICITY_INDEX_LIMIT)
+                        carbon_iv = wavelist[0] # the vmin value of where CIV would be *if* the EHVO absorption found was due to SiIV
+                        carbon_ii = wavelist[1] # the vmin value of where CII should be *if* the EHVO absorption found was due to SiIV
+                        oxygen_i = wavelist[2] # the vmin value of where OI should be *if* the EHVO absorption found was due to SiIV               
+                    else: 
+                        pass
+
                     count_v = 1
                 
                 bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / 0.9))
@@ -409,15 +418,17 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BI_width, ve
                     (current_velocity_index == vmaxindex_for_range)):  
 
                     vmaxs_index = np.min(np.where(beta >= beta[current_velocity_index]))
-                    vmaxs.append(round(beta[current_velocity_index], 4))
+                    vmaxs.append(round(beta[current_velocity_index], 5))
 
-                    # plotting the red bar between vmins and vmaxs index
-                    span_vmin_vmax(beta, vmins_index, vmaxs_index)
+                    if plots == 'yes':
+                        # plotting the red bar between vmins and vmaxs index
+                        span_vmin_vmax(beta, vmins_index, vmaxs_index)
+                        # plotting different colored bars based on where CIV, CII, and OI would be *if* the 
+                        # EHVO absorption found was due to SiIV
+                        vmax_plot_span_IF(beta, wavelength, vmaxs_index, carbon_iv, carbon_ii, oxygen_i)
+                    else: 
+                        pass
 
-                    # plotting different colored bars based on where CIV, CII, and OI would be *if* the 
-                    # EHVO absorption found was due to SiIV
-                    vmax_plot_span_IF(beta, wavelength, vmaxs_index, carbon_iv, carbon_ii, oxygen_i)
-                    
                     BI_ind_sum = round(sum(BI_ind), 2)
                     BI_individual.append(BI_ind_sum) # this array contains one single BI value of each absorption feature in a single spectrum
                     BI_ind = []

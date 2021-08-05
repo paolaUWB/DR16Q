@@ -113,14 +113,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name from the csv
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
-    current_spectrum_file_name = norm_spectra_list[spectra_index - 1]
+    norm_spectrum_file_name = norm_spectra_list[spectra_index - 1]
 
     # from the norm spectra name retrieving it's wavelength, normalized flux, and normalized error (in this case from NORM_DRXQ)
-    print(str(spectra_index), "current spectra file name:", current_spectrum_file_name)
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+    print(str(spectra_index), "current spectra file name:", norm_spectrum_file_name)
+    norm_spectra_data = np.loadtxt(SPEC_DIREC + norm_spectrum_file_name)
 
     # setting a variable for each of those values from the spectra
-    wavelength, normalized_flux, normalized_error = read_spectra(current_spectra_data)
+    wavelength, normalized_flux, normalized_error = read_spectra(norm_spectra_data)
 
     # smoothing the flux and error based on what the user wants (yes or no)
     if want_to_smooth == 'yes':
@@ -135,7 +135,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     if (all_plot_and_text == 'yes'):
         all_count += 1
         if (len(vmaxs) != 0):
-            text = [f"{str(all_count)}: {current_spectrum_file_name}",
+            text = [f"{str(all_count)}: {norm_spectrum_file_name}",
                     f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                     f"vmins: {vmins}",
                     f"vmaxs: {vmaxs}",
@@ -145,12 +145,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             vlast.extend(['\n'.join(text), '\n'])
 
         draw_abs_figure(
-            all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+            all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr)
     
     else: 
         if (len(vmaxs) != 0):
             abs_count += 1
-            text = [f"{str(abs_count)}: {current_spectrum_file_name}",
+            text = [f"{str(abs_count)}: {norm_spectrum_file_name}",
                     f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
                     f"vmins: {vmins}",
                     f"vmaxs: {vmaxs}",
@@ -159,7 +159,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
             draw_abs_figure(
-                abs_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, current_spectrum_file_name, z, calc_snr)
+                abs_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr)
 
     #####################################################################################################################
     
