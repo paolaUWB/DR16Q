@@ -14,14 +14,18 @@ OI_EMITTED = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 ###############################################################################################################################
 
 
-def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
+def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
     """ Makes a flux vs velocity graph, that also has the error vs velocity on the same graph. Has text that identifies 
     what the graph number is, what the spectra name is, the signal to noise ratio, and the redshift value used.
     
     Parameters
     ----------
+    spectra_count_abs: int or list
+        Keeping record of how many absorption plots have been found.
+
     spectra_index: int or list
         The index number of the graph you are plotting.
+
     velocity: array or list
         The velocity values to plot on the x-axis.
 
@@ -52,9 +56,10 @@ def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_na
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
-    max_peak = (np.mean(flux_normalized) * 2)
-    min_peak = (np.min(error) - .5) 
-    plt.title(str(spectra_index) + ': ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
+    max_peak = np.max(flux_normalized) + 0.3 #(np.mean(flux_normalized) * 2)
+    snr = round(snr, 2)
+    min_peak = -.1 #(np.min(error) - .1) 
+    plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
     plt.axhline(y = 0.9, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
     plt.ylim(min_peak, max_peak)

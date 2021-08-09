@@ -356,7 +356,7 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
         # ([1 - f(v)/0.9] = bracket) > 0 when there is an absorption feature 
         # bracket is the things inside the bracket from the BI integral calculation 
         bracket = (1. - (normalized_flux[current_velocity_index] / percent))
-        
+
         # handle 3-point spike limit ###################################################################################
         if bracket > 0:
             non_trough_count = 0    
@@ -385,8 +385,8 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
                     # plotting the black line inside the absorption found
                     if non_trough_count == 0: 
                         black_line(beta, current_velocity_index)
-                    else: 
-                        pass
+                else: 
+                    pass
 
                 # vMIN calculation + plotting ###############################################################################
                 if count_v == 0 and non_trough_count == 0:  
