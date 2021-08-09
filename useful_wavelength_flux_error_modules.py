@@ -70,58 +70,6 @@ def wavelength_flux_error_for_points( starting_point: float, ending_point: float
 
     return point
 
-'''
-def wavelength_flux_error_for_points(starting_point: float, ending_point: float, z: float, spectra_data) -> PointData: 
-    """Returns one point of wavelength, flux and error based on a range of values in a good defined range.
-
-    Uses the red shift to find the observed wavelengths, and between those two wavelengths records: all of 
-    the wavelengths, all of the flux, and all the error. Using the observed wavelengths, it finds the average 
-    wavelength, median flux and median error for the right, left and middle point.
-
-    Parameters
-    ----------
-    starting_point : float
-        Uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT, 
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.
-    ending_point: float
-        Also, uses the range defined by the following variables: WAVELENGTH_RESTFRAME_FOR_LEFT_POINT
-        WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT.
-    z: float
-        Values from the data base of the redshift, DR16Q (for now..)
-    spectra_data: list
-        Current spectra data from files, DR16Q (for now...)
-
-    Returns
-    -------
-    PointData.
-
-    Examples
-    --------
-    wavelength, flux, and error would be replaced with data points.
-    [(wavelength, flux, error),
-    (wavelength, flux, error),
-    (wavelength, flux, error)]
-    """
-    wavelength_column = spectra_data[:, column_index.wavelength]
-
-    wavelength_observed_start = (z + 1) * starting_point
-    wavelength_observed_end = (z + 1) * ending_point
-
-    point_from = np.max(np.where(wavelength_column < wavelength_observed_start))
-    point_to = np.min(np.where(wavelength_column > wavelength_observed_end))
-
-    wavelength = spectra_data[point_from:point_to, column_index.wavelength]
-    flux = spectra_data[point_from:point_to, column_index.flux] 
-    error = spectra_data[point_from:point_to, column_index.error] 
-
-    point = PointData(
-        np.average(wavelength),
-        np.median(flux),
-        np.median(error))
-
-    return point
-'''
-
 def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z: float, spectra_data) -> RangesData:
     """Returns a range of a wavelength, flux and error defined by starting and ending points.
 
