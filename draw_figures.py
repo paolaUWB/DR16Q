@@ -2,6 +2,7 @@
 
 import numpy as np 
 from matplotlib import pyplot as plt
+from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 from data_types import RangesData, FigureData, FigureDataOriginal
 
 def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, spectrum_file_name, FILE):
@@ -67,14 +68,25 @@ def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wave
     plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(-2, max_peak)
-    FILE.savefig()
-    plt.show()
+    if FILE == 'null':
+        plt.show()
+    else:
+        FILE.savefig()
+        plt.show()
 
 def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, max_peak):
+    fig = plt.figure()
+    ax = fig.gca()
     plt.plot(wavelength, flux, color = "midnightblue")
     plt.plot(test1.wavelength, test1.flux, color = "xkcd:green apple", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "xkcd:bubblegum", linestyle = "-")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
+    np.arange(wavelength_observed_from, wavelength_observed_to, 100)
+    ax.xaxis.set_major_locator(MultipleLocator(1000))
+    ax.xaxis.set_major_formatter('{x:.0f}')
+    ax.xaxis.set_minor_locator(MultipleLocator(100))
+    ax.grid(which='minor', alpha=0.2)
+    ax.grid(which='major', alpha=1)
     plt.ylim(-2, max_peak)
     plt.show()
 
