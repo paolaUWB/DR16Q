@@ -1,0 +1,50 @@
+1 abs | 15 tot
+spec-5450-55986-0680norm.dr16
+BI (-30000 > v > -60000.0): 1.25
+vmins: [-36822.25051]
+vmaxs: [-38860.11323]
+BI_individual: [1.25]
+EW_individual: [56.7]
+Depth: [0.19]
+
+
+2 abs | 25 tot
+spec-5973-56067-0856norm.dr16
+BI (-30000 > v > -60000.0): 0.94
+vmins: [-38893.68567]
+vmaxs: [-40927.84704]
+BI_individual: [0.94]
+EW_individual: [59.5]
+Depth: [0.2]
+
+
+3 abs | 33 tot
+spec-7390-57130-0961norm.dr16
+BI (-30000 > v > -60000.0): 454.91
+vmins: [-34896.0227]
+vmaxs: [-41008.88103]
+BI_individual: [454.91]
+EW_individual: [504.69]
+Depth: [0.43]
+
+
+4 abs | 37 tot
+spec-6709-56429-0316norm.dr16
+BI (-30000 > v > -60000.0): 728.72
+vmins: [-33826.37399]
+vmaxs: [-38248.42601]
+BI_individual: [728.72]
+EW_individual: [1139.09]
+Depth: [0.78]
+
+
+5 abs | 39 tot
+spec-7878-57340-0670norm.dr16
+BI (-30000 > v > -60000.0): 9.23
+vmins: [-38258.57769]
+vmaxs: [-40497.34523]
+BI_individual: [9.23]
+EW_individual: [71.61]
+Depth: [0.19]
+
+
