@@ -312,6 +312,12 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
     beta: array
         The velocity values that were converted from wavelength.
 
+    vminindex_for_range: int
+        The index of where the minimum velocity is located. This is created with the intent to help scale the y-axis of grahing.
+
+    vmaxindex_for_range: int
+        The index of where the maximum velocity is located. This is created with the intent to help scale the y-axis of grahing.
+
     Note
     -----
     ``velocity_limits`` is a namedtuple, in the main code when you call the function make sure you either create your own or manually
@@ -319,7 +325,7 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
     """
     # variables #########################################################################################################
     brac_all = []
-    vmins, vmaxs, vmins_all, vmaxs_all, delta_v_all = [], [], [], [], [] # v = velocity
+    vmins, vmaxs, vmins_all, vmaxs_all, delta_v_all, vmins_all_index, vmaxs_all_index = [], [], [], [], [], [], [] # v = velocity
     final_depth_individual, final_depth_all_individual = [], []
     BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind, BI_mid = [], [], [], [], [], [], []
     EW_individual, EW_ind, EW_all_individual = [], [], [] #EW = equivalent width
@@ -458,5 +464,11 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
     BI_all= np.array(BI_all)
     vmins = np.array(vmins)
     vmaxs = np.array(vmaxs)
+    '''
+    vmins_index = np.array(vmins_index)
+    vmaxs_index = np.array(vmaxs_index)
 
-    return BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta
+    vmins_all_index.append(vmins_index)
+    vmaxs_all_index.append(vmaxs_index)
+    '''
+    return BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range

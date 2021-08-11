@@ -14,7 +14,7 @@ OI_EMITTED = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 ###############################################################################################################################
 
 
-def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
+def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak):
     """ Makes a flux vs velocity graph, that also has the error vs velocity on the same graph. Has text that identifies 
     what the graph number is, what the spectra name is, the signal to noise ratio, and the redshift value used.
     
@@ -47,6 +47,9 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
     snr: int or list or array
         The signal to noise ratio value.
 
+    max_peak: int or array
+        The max peak value which is used to scale the y-axis. 
+
     Returns
     -------
     None.
@@ -56,13 +59,12 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
-    max_peak = np.max(flux_normalized) + 0.3 #(np.mean(flux_normalized) * 2)
     snr = round(snr, 2)
-    min_peak = -.1 #(np.min(error) - .1) 
+    min_peak = -0.1
     plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
     plt.axhline(y = 0.9, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
-    plt.ylim(min_peak, max_peak)
+    plt.ylim(min_peak, max_peak + (max_peak / 4))
     savefile_name.savefig()
     plt.close()
 
