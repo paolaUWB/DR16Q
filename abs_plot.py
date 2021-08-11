@@ -225,4 +225,4 @@ def black_line(beta, index):
     -------
     None.
     """
-    plt.plot((beta[index + 1], beta[index]), (1.5,1.5),'k-')
+    plt.plot((beta[index + 1], beta[index]), (1.37,1.37),'k-')
