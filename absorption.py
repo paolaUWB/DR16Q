@@ -61,7 +61,7 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
-want_to_smooth = 'yes' 
+want_to_smooth = 'no' 
 boxcar_size = 11
 
 # plot all cases or only those with absorption
@@ -76,7 +76,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 100
+STARTS_FROM, ENDS_AT = 14, 55
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -134,7 +134,6 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ############################# putting things into a text file or plot #######################################
     if (all_plot_and_text == 'yes'): # plot all is yes, graph everything but only text file for when abs is found
         all_count += 1
-        count = -1
         if (len(vmaxs) != 0): # text file created only when absorption is found
             abs_count += 1
             text = [f"{str(abs_count)} abs | {str(all_count)} tot",
@@ -146,14 +145,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"EW_individual: {EW_individual}",
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
-            count = abs_count
-        if count - abs_count < 0: # when no absorption found state 'no abs' on graph
+            abs = abs_count
+        else: # create graph no matter what
             abs = 'no'
-            draw_abs_figure(
-                abs, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
-        else: # else print the number of absorption occurance
-           draw_abs_figure(
-               abs_count, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
+        draw_abs_figure(
+            abs, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
     else: # plot all is no and only create text file and graph of cases where absorption is found
         all_count += 1
         if (len(vmaxs) != 0):
@@ -167,6 +163,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                     f"EW_individual: {EW_individual}",
                     f"Depth: {final_depth_individual}"]
             vlast.extend(['\n'.join(text), '\n'])
+            abs = abs_count
             draw_abs_figure(
                 abs_count, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
 
