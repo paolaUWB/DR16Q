@@ -61,13 +61,13 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
-want_to_smooth = 'no' 
+want_to_smooth = 'yes' 
 boxcar_size = 11
 
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'yes'
+all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -76,7 +76,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 14, 55
+STARTS_FROM, ENDS_AT = 53, 53
 
 # what percentage value you want to go below the continuum
 percent = 0.9
