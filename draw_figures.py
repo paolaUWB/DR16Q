@@ -204,6 +204,7 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
     #plt.ylim(0, np.max(flux_normalized) + 1)
-    plt.ylim(0, max_peak + (max_peak / 4))
+    #plt.ylim(0, max_peak + (max_peak / 4))
+    plt.ylim(0, 6)
     FILE.savefig()
     plt.close(figure_index)
