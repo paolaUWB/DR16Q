@@ -53,8 +53,8 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit.csv" 
 
 # directory of where normalized data files are
-# data not on github but local computer
-NORM_DIREC = os.getcwd() + '/../' + "DATA/NORM_DR16Q/"
+# data NOT on github but local computer
+NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
@@ -67,7 +67,7 @@ boxcar_size = 11
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'no'
+all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -76,7 +76,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 53, 53
+STARTS_FROM, ENDS_AT = 1, 158
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -85,10 +85,10 @@ percent = 0.9
 ######################################## OUTPUT FILES #########################################################################
 
 # set name of output .txt file with absorption values
-ABSORPTION_VALUES = OUT_DIREC + "/" + "absorption_test.txt"
+ABSORPTION_VALUES = OUT_DIREC + "/" + "NEWabsorption_test.txt"
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('absorption_BI' + str(BALNICITY_INDEX_LIMIT) + '_test.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('NEWabsorption_BI' + str(BALNICITY_INDEX_LIMIT) + '_test.pdf') 
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
