@@ -22,7 +22,7 @@ from scipy import signal
 from matplotlib import pyplot as plt
 from numpy.lib.function_base import append
 from data_types import Range
-from abs_plot import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
+from abs_plot import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line, presentation
 ###############################################################################################################################
 ######################################### Functions ###########################################################################
 
@@ -386,19 +386,19 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
                 BI = (bracket * C) * (delta_v) #Calculate BAL for this delta_v
                 BI_mid.append(round(BI, 5)) #Append to intermediate results
                 BI_ind.append(round(BI, 5)) 
-
+                
                 if plots == 'yes':
                     # plotting the black line inside the absorption found
                     if non_trough_count == 0: 
                         black_line(beta, current_velocity_index)
                 else: 
                     pass
-
+                
                 # vMIN calculation + plotting ###############################################################################
                 if count_v == 0 and non_trough_count == 0:  
                     vmins_index = np.min(np.where(beta >= (beta[current_velocity_index] + BALNICITY_INDEX_LIMIT))) 
                     vmins.append(round(beta[vmins_index], 5))     
-
+                    
                     if plots == 'yes':
                         # plotting notable vertical line of v min occurance in absorption found
                         vmin_line(beta, vmins_index)
@@ -411,7 +411,7 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
                         oxygen_i = wavelist[2] # the vmin value of where OI should be *if* the EHVO absorption found was due to SiIV               
                     else: 
                         pass
-
+                    
                     count_v = 1
                 
                 bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / 0.9))
@@ -432,6 +432,8 @@ def absorption_parameters_with_plot(z, wavelength, normalized_flux, BALNICITY_IN
                         # plotting different colored bars based on where CIV, CII, and OI would be *if* the 
                         # EHVO absorption found was due to SiIV
                         vmax_plot_span_IF(beta, wavelength, vmaxs_index, carbon_iv, carbon_ii, oxygen_i)
+
+                        #presentation(beta, normalized_flux, vmins_index, vmaxs_index) made just to create figure for slides
                     else: 
                         pass
 

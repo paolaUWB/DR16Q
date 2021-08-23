@@ -67,7 +67,7 @@ boxcar_size = 11
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'yes'
+all_plot_and_text = 'no'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -76,7 +76,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 158
+STARTS_FROM, ENDS_AT = 397, 397
 
 # what percentage value you want to go below the continuum
 percent = 0.9

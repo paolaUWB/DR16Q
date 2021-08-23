@@ -2,6 +2,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from data_types import Range
+import random as ran
 
 ######################################## VERNER TABLE CONSTANTS ################################################################
 WAVELENGTH_CIV_EMIT_LIMIT = Range(1548.1950, 1550.7700)                                    #never used?
@@ -224,5 +225,38 @@ def black_line(beta, index):
     Returns
     -------
     None.
+
     """
     plt.plot((beta[index + 1], beta[index]), (1.37,1.37),'k-')
+
+def presentation(beta, flux, vmins_i, vmaxs_i, continuum = 1):
+    """ This function was specifically made to use the spectra to create a figure for the presentation
+        slides we created. 
+
+    Parameters
+    ----------
+    beta: array
+        The velocity values you are looping through.
+    
+    flux: list or array
+        The normalized flux values used.
+    vmins_i: int
+        Index value of where the minimum velocity occurs.
+    vmaxs_i: int
+        Index value of where the maximum velocity occurs.
+    continuum: int, default = 1
+        Value of where we want the continuum to be 1. We normally use 1 so the default is set to 1.
+
+    Note
+    ----
+    The values in the ``where`` (currently -33918 and -42744) are values we picked for one specific spectra.
+    These values are the vmins and vmaxs of it's BI. 
+
+    Returns
+    -------
+    None.
+
+    """
+    plt.axvspan(beta[vmins_i], beta[vmaxs_i], edgecolor = 'c', fill= False, linewidth=1)
+    plt.axvspan(beta[vmins_i]-2000, beta[vmaxs_i], facecolor = 'c', alpha=0.5) #alpha is how translucent it is
+    plt.fill_between(beta, continuum, flux, where = (flux<continuum) & (beta < -33918) & (beta > -42744), interpolate=True, facecolor='r')
