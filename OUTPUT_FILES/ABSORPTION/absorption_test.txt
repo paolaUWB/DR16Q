@@ -1,0 +1,10 @@
+1 abs | 1 tot
+spec-9203-57692-0186norm.dr16
+BI (-30000 > v > -60000.0): 142.57
+vmins: [-39418.68606]
+vmaxs: [-43481.25985]
+BI_individual: [142.57]
+EW_individual: [249.8]
+Depth: [0.33]
+
+
