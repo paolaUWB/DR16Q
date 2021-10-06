@@ -9,7 +9,9 @@
 __pycache__/
 
 # ignores all .swp files that vim creates if you are using Linux
-.*.swp
+*~
+*.swp
+*.swo
 
 # Windows thumbnail cache files
 Thumbs.db

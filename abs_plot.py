@@ -2,6 +2,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from data_types import Range
+import random as ran
 
 ######################################## VERNER TABLE CONSTANTS ################################################################
 WAVELENGTH_CIV_EMIT_LIMIT = Range(1548.1950, 1550.7700)                                    #never used?
@@ -14,14 +15,18 @@ OI_EMITTED = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 ###############################################################################################################################
 
 
-def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr):
+def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak):
     """ Makes a flux vs velocity graph, that also has the error vs velocity on the same graph. Has text that identifies 
     what the graph number is, what the spectra name is, the signal to noise ratio, and the redshift value used.
     
     Parameters
     ----------
+    spectra_count_abs: int or list
+        Keeping record of how many absorption plots have been found.
+
     spectra_index: int or list
         The index number of the graph you are plotting.
+
     velocity: array or list
         The velocity values to plot on the x-axis.
 
@@ -43,6 +48,9 @@ def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_na
     snr: int or list or array
         The signal to noise ratio value.
 
+    max_peak: int or array
+        The max peak value which is used to scale the y-axis. 
+
     Returns
     -------
     None.
@@ -52,12 +60,12 @@ def draw_abs_figure(spectra_index, velocity, flux_normalized, error, savefile_na
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     plt.xlim(-70000, 0)
-    max_peak = (np.mean(flux_normalized) * 2)
-    min_peak = (np.min(error) - .5) 
-    plt.title(str(spectra_index) + ': ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
+    snr = round(snr, 2)
+    min_peak = -0.1
+    plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
     plt.axhline(y = 0.9, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
-    plt.ylim(min_peak, max_peak)
+    plt.ylim(min_peak, max_peak + (max_peak / 4))
     savefile_name.savefig()
     plt.close()
 
@@ -217,5 +225,38 @@ def black_line(beta, index):
     Returns
     -------
     None.
+
     """
-    plt.plot((beta[index + 1], beta[index]), (1.5,1.5),'k-')
+    plt.plot((beta[index + 1], beta[index]), (1.37,1.37),'k-')
+
+def presentation(beta, flux, vmins_i, vmaxs_i, continuum = 1):
+    """ This function was specifically made to use the spectra to create a figure for the presentation
+        slides we created. 
+
+    Parameters
+    ----------
+    beta: array
+        The velocity values you are looping through.
+    
+    flux: list or array
+        The normalized flux values used.
+    vmins_i: int
+        Index value of where the minimum velocity occurs.
+    vmaxs_i: int
+        Index value of where the maximum velocity occurs.
+    continuum: int, default = 1
+        Value of where we want the continuum to be 1. We normally use 1 so the default is set to 1.
+
+    Note
+    ----
+    The values in the ``where`` (currently -33918 and -42744) are values we picked for one specific spectra.
+    These values are the vmins and vmaxs of it's BI. 
+
+    Returns
+    -------
+    None.
+
+    """
+    plt.axvspan(beta[vmins_i], beta[vmaxs_i], edgecolor = 'c', fill= False, linewidth=1)
+    plt.axvspan(beta[vmins_i]-2000, beta[vmaxs_i], facecolor = 'c', alpha=0.5) #alpha is how translucent it is
+    plt.fill_between(beta, continuum, flux, where = (flux<continuum) & (beta < -33918) & (beta > -42744), interpolate=True, facecolor='r')
