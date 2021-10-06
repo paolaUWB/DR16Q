@@ -40,7 +40,7 @@ DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
 ## DEFINES THE CONFIG FILE
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm_flagged_but_ok.csv"
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm_manual_fit.csv"
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
@@ -52,7 +52,7 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 227  ## [1-10, 899-1527 for dr9] [1-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
+STARTS_FROM, ENDS_AT = 61, 66  ## [1-10, 899-1527 for dr9] [1-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
@@ -63,7 +63,7 @@ save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
 flag_spectra = 'no' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING]
 
@@ -106,7 +106,7 @@ FLAGGED_ABSORPTION_FILE = OUT_DIREC + "/" + "flagged_absorption.csv"
 FLAGGED_BAD_FIT_FILE = OUT_DIREC + "/" + "flagged_bad_fit.csv"
 UNFLAGGED_FILE = OUT_DIREC + "/" + "unflagged.csv"
     
-GOOD_FIT_FILE = OUT_DIREC + "/" + "good_fit_flagged_but_ok.csv"
+GOOD_FIT_FILE = OUT_DIREC + "/" + "good_fit_manual_fit_61-66.csv"
 ORIGINAL_FILE = OUT_DIREC + "/" + "original.csv"
 
 ## CREATES PDF FOR GRAPHS
@@ -303,8 +303,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     ## DYNAMIC PLOTTING - USER INPUT PROVIDES NUMBER OF ANCHOR POINTS TO USE, THEIR LOCATION, AND HOW MUCH OF A RANGE THE ANCHOR POINT CAN BE PLACED IN
     if dynamic == 'yes':
         ### is there a better way to define these? using redshift maybe? 
-        wavelength_observed_from = np.min(wavelength) #3000 #(1 + z) * 1800
-        wavelength_observed_to = np.max(wavelength) #6000 #(1 + z) * 3000 
+        wavelength_observed_from = (1 + z) * WAVELENGTH_RESTFRAME.start #np.min(wavelength) #3000 #(1 + z) * 1800
+        wavelength_observed_to = (1 + z) * WAVELENGTH_RESTFRAME.end #np.max(wavelength) #6000 #(1 + z) * 3000 
 
         test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, z, current_spectra_data)
         test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, z, current_spectra_data)
@@ -526,8 +526,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         diff_flux_above_green_region = abs(maximum_flux_green_region - median_flux_green_region)
         diff_flux_above_pink_region = abs(maximum_flux_pink_region - median_flux_pink_region)
 
-        min_flux_green_region = diff_flux_below_green_region * 0.75
-        min_flux_pink_region = diff_flux_below_pink_region * 0.75
+        min_flux_green_region = median_flux_green_region - diff_flux_below_green_region * 0.75
+        min_flux_pink_region = median_flux_pink_region - diff_flux_below_pink_region * 0.75
         max_flux_green_region = median_flux_green_region + (diff_flux_above_green_region * 0.45)
         max_flux_pink_region = median_flux_pink_region + (diff_flux_above_pink_region * 0.45)
 
@@ -654,7 +654,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 append_row_to_csv(GOOD_FIT_FILE, fields)
 
     if dynamic == 'yes':
-        draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, GOOD_FIT_PDF, flags)
+        original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
+        #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF, flags)
         draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
 
     if save_new_norm_file == 'yes' and not flagged_snr_mean_in_ehvo and not flagged: np.savetxt(NORM_DIREC + current_spectrum_file_name[0:len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION, norm_w_f_e)
