@@ -1,1 +1,101 @@
-1: spec-7878-57340-0670-dered.dr16
+1: spec-10901-58397-0466-dered.dr16
+     Flagged - low SNR
+2: spec-7634-56935-0762-dered.dr16
+     Flagged - low SNR
+3: spec-8214-57867-0380-dered.dr16
+     Flagged - low SNR
+4: spec-8302-57389-0164-dered.dr16
+     Flagged - low SNR
+5: spec-9140-58039-0081-dered.dr16
+6: spec-7663-57328-0626-dered.dr16
+     Flagged - low SNR
+7: spec-11309-58428-0826-dered.dr16
+     Flagged - low SNR
+8: spec-8055-57187-0792-dered.dr16
+     Flagged - low SNR
+9: spec-8162-56993-0726-dered.dr16
+     Flagged - low SNR
+10: spec-8744-58124-0859-dered.dr16
+     Flagged - low SNR
+11: spec-7764-58042-0059-dered.dr16
+     Flagged - low SNR
+12: spec-11059-58515-0558-dered.dr16
+     Flagged - low SNR
+13: spec-8530-58016-0383-dered.dr16
+     Flagged - low SNR
+14: spec-9153-58022-0045-dered.dr16
+     Flagged - low SNR
+15: spec-7318-56990-0380-dered.dr16
+     Flagged - low SNR
+16: spec-7671-57360-0092-dered.dr16
+     flagged_by_pink_region: True
+17: spec-7685-57062-0023-dered.dr16
+     Flagged - low SNR
+18: spec-8823-57446-0393-dered.dr16
+     flagged_by_pink_region: True
+19: spec-10732-58253-0784-dered.dr16
+     Flagged - low SNR
+20: spec-4421-55858-0894-dered.dr16
+     flagged_by_green_region: True
+21: spec-5297-55913-0686-dered.dr16
+     flagged_by_pink_region: True
+22: spec-5304-55925-0798-dered.dr16
+     Flagged - low SNR
+23: spec-5363-55956-0084-dered.dr16
+     Flagged - low SNR
+24: spec-5723-56597-0996-dered.dr16
+     Flagged - low SNR
+25: spec-5863-56042-0078-dered.dr16
+     Flagged - low SNR
+26: spec-5899-56038-0507-dered.dr16
+     Flagged - low SNR
+27: spec-6138-56598-0594-dered.dr16
+     Flagged - low SNR
+28: spec-6442-56369-0726-dered.dr16
+     Flagged - low SNR
+29: spec-6482-56358-0618-dered.dr16
+     Flagged - low SNR
+30: spec-6662-56364-0712-dered.dr16
+     Flagged - low SNR
+31: spec-6669-56413-0946-dered.dr16
+     Flagged - low SNR
+32: spec-6692-56390-0940-dered.dr16
+     Flagged - low SNR
+33: spec-6783-56284-0672-dered.dr16
+     Flagged - low SNR
+34: spec-7339-56768-0119-dered.dr16
+     Flagged - low SNR
+35: spec-7759-58401-0124-dered.dr16
+     Flagged - low SNR
+36: spec-10917-58252-0046-dered.dr16
+     Flagged - low SNR
+37: spec-11347-58440-0354-dered.dr16
+     Flagged - low SNR
+38: spec-8865-57426-0726-dered.dr16
+     Flagged - low SNR
+39: spec-9155-58043-0456-dered.dr16
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #39, file name: spec-9155-58043-0456-dered.dr16
+     Failed Test 3 [green], percentage: 0.234
+     Failed Test 3 [pink], percentage: 0.159
+40: spec-9411-58070-0290-dered.dr16
+     flagged_by_green_region: True
+41: spec-11340-58433-0826-dered.dr16
+     Flagged - low SNR
+42: spec-7584-56957-0256-dered.dr16
+     Flagged - low SNR
+43: spec-7725-58158-0762-dered.dr16
+     Flagged - low SNR
+44: spec-7732-58108-0100-dered.dr16
+45: spec-7857-57278-0834-dered.dr16
+     Flagged - low SNR
+46: spec-11109-58523-0138-dered.dr16
+     Flagged - low SNR
+47: spec-7743-58107-0994-dered.dr16
+48: spec-7375-56981-0683-dered.dr16
+     Flagged - low SNR
+49: spec-7913-57333-0686-dered.dr16
+     Flagged - low SNR
+50: spec-10665-58456-0918-dered.dr16
+     Flagged - low SNR
