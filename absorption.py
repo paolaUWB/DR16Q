@@ -76,7 +76,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 397, 397
+STARTS_FROM, ENDS_AT = 1017, 1017
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -171,6 +171,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
     final_depth_all_individual.append(final_depth_individual)
 
+    # testing
     #if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
         #vmins_all.append(vmins)
         #vmaxs_all.append(vmaxs)
