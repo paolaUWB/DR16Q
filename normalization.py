@@ -13,18 +13,16 @@
 import os
 import sys
 import numpy as np 
-import pandas as pd
-from matplotlib import pyplot as plt
-from numpy.lib.function_base import append
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
-from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData, ColumnIndexes
+from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
 from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_original_figure, draw_normalized_figure
 from scipy import signal
 import time 
 start_time = time.time()
+
 ########################################## SPHINX ###########################################
 """
 normalization
@@ -85,8 +83,8 @@ c = -0.5
 ## RANGES OF WAVELENGTHS IN THE SPECTRA
 WAVELENGTH_RESTFRAME = Range(1200., 1800.)
 WAVELENGTH_FOR_SNR = Range(1250., 1400.) #
-WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
-WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1420., 1430.)
+WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1300., 1310.)
+WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1440., 1450.)
 WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
 WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
@@ -159,8 +157,8 @@ def define_three_anchor_points(z: float, spectra_data):
         left_point, middle_point, right_point for wavelength_flux_error_for_points.
     """
     ## check these
-    WAVELENGTH_OBSERVED_FOR_LEFT_POINT = Range(1280. * (1 + z), 1290. * (1+ z)) #1280. * (1 + z), 1290. * (1 + z))
-    WAVELENGTH_OBSERVED_FOR_MIDDLE_POINT = Range(1420. * (1 + z), 1430. * (1 + z))
+    WAVELENGTH_OBSERVED_FOR_LEFT_POINT = Range(1300. * (1 + z), 1310. * (1+ z)) #1280. * (1 + z), 1290. * (1 + z))
+    WAVELENGTH_OBSERVED_FOR_MIDDLE_POINT = Range(1440. * (1 + z), 1450. * (1 + z))
     WAVELENGTH_OBSERVED_FOR_RIGHT_POINT = Range(1690. * (1 + z), 1710. * (1 + z))
 
     left_point = wavelength_flux_error_for_points(
@@ -641,19 +639,14 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     ## DRAWING FIGURES
     if flagged_snr_mean_in_ehvo:
-        original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
         flaggedSNRdata = FlaggedSNRData(figure_data, bf, cf, power_law_data_x, power_law_data_y)
-        draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, FLAGGED_SNR_PDF, flags)
     elif dynamic == 'no':
         original_figure_data = FigureDataOriginal(figure_data, bf, cf, power_law_data_x, power_law_data_y)
         draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, ORIGINAL_PDF, flags)
         if absorption:
             if save_figures == 'yes':
                 draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, FLAGGED_ABSORPTION_PDF, flags)
-                #draw_original_figure(spectra_index, original_ranges, original_figure_data, test1, test2, wavelength_observed_from, wavelength_observed_to, max_peak, GOOD_FIT_PDF, flags)
-                #draw_normalized_figure(spectra_index, original_ranges, figure_data, flux_normalized, error_normalized, test1, test2, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak_norm, NORMALIZED_PDF)
             if save_new_output_file == 'yes':
-                #append_row_to_csv(GOOD_FIT_FILE, fields)
                 append_row_to_csv(FLAGGED_ABSORPTION_FILE, fields)
         if flagged:
             if save_figures == 'yes':
@@ -710,7 +703,6 @@ FLAGGED_BAD_FIT_PDF.close()
 UNFLAGGED_PDF.close()
 GOOD_FIT_PDF.close()
 FLAGGED_ABSORPTION_PDF.close()
-FLAGGED_SNR_PDF.close()
 
 print("--- %s seconds" %(time.time()-start_time))
    
