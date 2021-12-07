@@ -30,9 +30,9 @@ from numpy.lib.function_base import append
 from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import clear_file, read_list_spectra, read_spectra
 from data_types import Range
-from abs_plot import draw_abs_figure
-from basic_absorption_parameters import smooth, absorption_parameters_with_plot
-from abs_plot import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
+from abs_function_module import smooth, abs_parameters_plot_optional
+from abs_plot_module import draw_abs_figure
+
 '''
 ###############################################################################################################################
 ################################ IGONORE: TESTING OUTPUT WITH DR9Q FILES ######################################################
@@ -46,6 +46,7 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 
 # be sure to uncomment this and comment out CONFIG_FILE and SPEC_DIREC
 '''
+
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
@@ -61,8 +62,8 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
-want_to_smooth = 'yes' 
-boxcar_size = 11
+want_to_smooth = 'no' 
+boxcar_size = 1
 
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
@@ -76,7 +77,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1017, 1017
+STARTS_FROM, ENDS_AT = 1, 300
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -85,10 +86,10 @@ percent = 0.9
 ######################################## OUTPUT FILES #########################################################################
 
 # set name of output .txt file with absorption values
-ABSORPTION_VALUES = OUT_DIREC + "/" + "NEWabsorption_test.txt"
+ABSORPTION_VALUES = OUT_DIREC + "/" + "NEW_SCALE_BI2000_SMOOTH11.txt"
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('NEWabsorption_BI' + str(BALNICITY_INDEX_LIMIT) + '_test.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('NEW_SCALE_BI' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
@@ -126,7 +127,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
     # getting various BI-related values from the absorption_parameters_with_plot function
-    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = absorption_parameters_with_plot(
+    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
         z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
 
     max_peak = np.max(normalized_flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])

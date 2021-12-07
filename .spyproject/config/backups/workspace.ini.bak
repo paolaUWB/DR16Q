@@ -8,5 +8,5 @@ recent_files = ['DR16_sorted_norm_manual_fit.csv', 'draw_figures.py']
 
 [main]
 version = 0.2.0
-recent_files = []
+recent_files = ['normalization.py', '../../../.spyder-py3/autosave/normalization.py']
 
