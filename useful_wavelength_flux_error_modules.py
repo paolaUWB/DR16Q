@@ -108,7 +108,8 @@ def wavelength_flux_error_in_range(starting_point: float, ending_point: float, z
     
     return RangesData(wavelength, flux, error)
  
-def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normalized):
+#def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normalized):
+def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, flux, error):
     """ Calculates the snr (signal to noise ratio). [Want a high SNR value].
 
     Parameters
@@ -130,5 +131,6 @@ def calculate_snr(wavelength, z: float, WAVELENGTH_FOR_SNR: range, error_normali
     """
     wavelengths_for_snr_lower = np.where (wavelength/(z + 1.) < WAVELENGTH_FOR_SNR.start)
     wavelengths_for_snr_upper = np.where (wavelength/(z + 1.) > WAVELENGTH_FOR_SNR.end)
-    snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
+    snr_mean_in_ehvo = round(np.mean(flux[np.max(wavelengths_for_snr_lower):np.min(wavelengths_for_snr_upper)]/error[np.max(wavelengths_for_snr_lower):np.min(wavelengths_for_snr_upper)]), 5)
+    #snr_mean_in_ehvo = round(np.mean(1./error_normalized[np.max(wavelengths_for_snr_lower[0]):np.min(wavelengths_for_snr_upper)]), 5)
     return snr_mean_in_ehvo 
