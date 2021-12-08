@@ -156,7 +156,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.close(figure_index)
 
 def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized,
-                            test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):
+                            test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):#, min_flux_green_region, min_flux_pink_region, max_flux_green_region, max_flux_pink_region):
     """ Draws the normalized spectra graph.
 
     Parameters
@@ -202,6 +202,12 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.plot(test1.wavelength, normalized_flux_test_1, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, normalized_flux_test_2, color = test_2_color, linestyle = "-")
     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
+
+    #plt.hlines(y=min_flux_green_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:green apple')
+    #plt.hlines(y=max_flux_green_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:green apple')
+    #plt.hlines(y=min_flux_pink_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:bubblegum')
+    #plt.hlines(y=max_flux_pink_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:bubblegum')
+    
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
     #plt.ylim(0, np.max(flux_normalized) + 1)
     #plt.ylim(0, max_peak + (max_peak / 4))

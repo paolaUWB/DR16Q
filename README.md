@@ -1,18 +1,24 @@
-# Normalized-Spectra
+# DR16Q 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Welcome to Github!
 
 Steps to contribute to this project:
 
-1. Create a Github account. Once the account is created, the owner of the repository will need to give you access.
+1. Look through the GitHub Welcome Packet in the Google Drive
 
-2. Once you have access to the repository, Press on the "Pull requests" on the top left tabs of the repository, and press the green button "New pull request on the top right, this allows any changes that you make to be on a separate branch that will not affect the master file until it has been approved. 
+2. Create a Github account. Once the account is created, the owner of the repository will need to give you access.
 
-3. To make changes, you can choose to use other programs like Git Desktop for an easy interface or use Github itself by clicking on the file you want to make changes to in your branch, click the pencil at the top right, and paste the changed contents into the textbox.
-  - Another way of doing this is pressing the "Push" button and it will allow you to paste the updated files into the branch.
+3. Once you have access to the repository, Press on the "Pull requests" on the top left tabs of the repository, and press the green button 
+    "New pull request on the top right, this allows any changes that you make to be on a separate branch that will not affect the master file until it has been approved. 
 
+4. To make changes, you can choose to use other programs like Git Desktop for an easy interface or use Github itself by clicking on the file you want to make changes to in your branch, 
+    click the pencil at the top right, and paste the changed contents into the textbox.
+    
+    - Another way of doing this is pressing the "Push" button and it will allow you to paste the updated files into the branch.
 
-## General Notes
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### GENERAL NOTES
 
 -We run this code under Spyder IDE, because Spyder is a powerful scientific environment written in Python. It's designed by and for scientists, engineers, and data analysts. https://www.spyder-ide.org/
 
@@ -20,8 +26,8 @@ Steps to contribute to this project:
 
 -Any major change should be added to the README file.
 
-
-### Normalization File
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### NORMALIZATION FILE
 
 -Follow the GitHub steps above and open the file "normalization.py" using Spyder IDE or Visual Studio Code.
 
@@ -29,26 +35,47 @@ Steps to contribute to this project:
 
 -The "data_types," "draw_figures," "useful_wavelenght_flux_error_modules," and "utility_functions" files must be in your directory for import
 
--At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by Astrophysicist. Any change of these constants SHOULD be discussed with the client.
+-At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by Astrophysicist. 
+  Any change of these constants SHOULD be discussed with the client.
 
--The first variable defined is where you state which Data Release you would like to work with. There are currently files for the DR9 and DR16. To run the code, make sure the DR variable is set to the proper Data Release number (i.e. '16' for DR16). 
+-The first variable defined is where you state which Data Release you would like to work with. There are currently files for the DR9 and DR16. 
+  To run the code, make sure the DR variable is set to the proper Data Release number (i.e. '16' for DR16). 
 
 -The range you choose for STARTS_FROM, ENDS_AT will depend on the Data Release you are working with. We currently have 6760 files for DR9 and 21859 files for DR16. 
+  
   -For DR9 the current range that works is either 1, 10 or 899, 1527
+  
   -For DR16 the current range that works is 1, 21000 (high redshift cases are currently throwing errors in the code)
+  
+# To download and save the NORM files:
 
--After you run this code, all your graphs will be added to a pdf file in your directory. None of these files contain graphs for spectra with SNR less than 10 
-  -There are currently 6 pdf files containing graphs:
-    -flagged_absorption_graphs.pdf contains all of the graphs that have been flagged for the green or pink test region being completely under the powerlaw (likely absorption in those regions). [TEST #4]
-    -flagged_bad_fit_graphs.pdf contains all of the graphs that have been flagged by the code for a poor fit through the pink and green test regions. [TEST #1 & TEST #2]
-    -good_fit_graphs.pdf contains all of the graphs that have been fit well. Includes unflagged cases. ****CHECK THIS****
-    -normalized_graphs.pdf contains graphs of all of the normalized spectra [contains good_fit and unflagged]
-    -original_graphs.pdf contains graphs of all of the spectra run in the range defined
-    -unflagged_graphs.pdf contains graphs of all of the spectra that were previously flagged but have been deemed good fits based on a secondary test. [TEST #3]
+1. In the STUDENT WORK DRQ16 EHVO PROJECT drive open Normalization DR16Q
 
--There is a test file in the directory. If you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output. If changes are correct then update the test file with new results for future tests.
+2. Open Norm Files
 
-OUTPUT FILES (csv):
+3. Right click on NORM_DR16Q.zip and download to your computer
+
+4. The DR16Q repository should be saved in a folder called “GitHub” on your computer. Save the NORM_DR16Q.zip file in the GitHub folder (not in the DR16Q repository)
+
+5. Saving the NORM files in the repository causes issues when pushing to GitHub since there are so many files. 
+
+6. Confirm that the version of the code you are working with has the proper path for the NORM_DIREC:  NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
+
+# Variables to change
+
+-save_new_output_file should be set to 'yes' for the csv output files to be created
+
+-save_new_norm_file should be set to 'yes' for new norm.drX files to be created
+
+-save_figures should be set to 'yes' for the pdf plots to be created
+
+-sm should be set to 'yes' for the plots to be smoothed. NOTE: for smoothing, the variable BOXCAR_SIZE must be set to an odd values
+
+-dynamic should be set to 'yes' for manual fitting - this allows for manual choosing of anchor points for the plotting
+
+-flag_spectra should be set to 'yes' for the plots to be flagged (good fit/bad fit)
+
+# OUTPUT FILES (csv):
 
 -original.csv
     -spectra index, spectra file name, chi squared
@@ -91,32 +118,34 @@ OUTPUT FILES (csv):
 original.csv + flagged_snr_in_ehvo.csv = total # spectra in run 
 good_fit.csv + flagged_bad_fit.csv = original.csv
     
-OUTPUT FILES (plots):
+# PLOTS (pdf files):
 
--original_graphs.pdf
-    -all spectra that have SNR>10 are plotted and added to this file
+-After you run this code, all your graphs will be added to a pdf file in your directory. None of these files contain graphs for spectra with SNR less than 10 
+          
+    -original_graphs.pdf
+        -all spectra in the range provided that have SNR>10 are plotted and added to this file
+        
+    -normalized_graphs.pdf
+        -all spefctra that have been deemed good fits are normalized and the normalized spectra are plotted and added to this file [contains good_fit and unflagged]
+        
+    -good_fit_graphs.pdf
+        -all spectra that have SNR>10 that have been deemed to be a good fit originally are plotted and added to this file
+        -all spectra that have been unflagged have been plotted and added to this file
     
--normalized_graphs.pdf
-    -all spefctra that have been deemed good fits are normalized and the normalized spectra are plotted and added to this file
-    
--good_fit_graphs.pdf
-    -all spectra that have SNR>10 that have been deemed to be a good fit originally are plotted and added to this file
-    -all spectra that have been unflagged have been plotted and added to this file
-
--unflagged_graphs.pdf
-    -any spectra that were previously flagged that have been deemed a good fit are unflagged, plotted and added to this file
-    
--flagged_bad_fit_graphs.pdf
-    -all spectra that have been deemed a bad fit by the tests are flagged, plotted, and added to this file
-    
--flagged_absorption_graphs.pdf
-    -any spectra that is flagged for test#4 are added to this file due to possible absorption in the test regions
+    -unflagged_graphs.pdf
+        -any spectra that were previously flagged that have been deemed a good fit are unflagged, plotted and added to this file [TEST #3]
+        
+    -flagged_bad_fit_graphs.pdf
+        -all spectra that have been deemed a bad fit by the tests are flagged, plotted, and added to this file [TEST #1 & TEST #2]
+        
+    -flagged_absorption_graphs.pdf
+        -any spectra that is flagged for TEST #4 are added to this file due to possible absorption in the test regions [TEST #4]
 
 original_graphs.pdf = original.csv
 good_fit_graphs.pdf + flagged_bad_fit_graphs.pdf = original_graphs.pdf
 good_fit_graphs.pdf = normalized_graphs.pdf
 
-NORMALIZATION TESTS:
+# Normalization Tests:
 
 -TEST #1
     -checks whether the fit of the powerlaw is going closely through the anchor points
@@ -138,20 +167,25 @@ NORMALIZATION TESTS:
         -if either the green or pink region is completely below the powerlaw, the spectra is added to the flagged absorption file
         -if neither region are completely below the powerlaw, nothing is done
 
+-There is a test file in the directory. If you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output. 
+  If changes are correct then update the test file with new results for future tests.
 
-### Absorption File
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### ABSORPTION FILE
 
 -Follow the GitHub steps above and open the file "absorption.py" using Spyder IDE or Visual Studio Code.
 
 -File currently has DR9 "Data Release 9" extension. In the future, it will be changed to the recent Data Release from SDSS Database
  
--The Absorption file reads the Normalization files. After you generate the normalization file for each spectra, the Absorption file will read that and generate necessary graphs and information. Currently the format of the processed Normalization file is : "spectra name + norm + .dr9"
+-The Absorption file reads the Normalization files. After you generate the normalization file for each spectra, the Absorption file will read that and generate necessary graphs and information. 
+  Currently the format of the processed Normalization file is : "spectra name + norm + .dr9"
 
--Based on "BALNICITY_INDEX_LIMIT", the file will import different results. You can see the results in the same directory under the "Absortion_cleaning" document. Also the same "BALNICITY_INDEX_LIMIT" constant will generate different graph output because it is defining the narrowness of the output.
+-Based on "BALNICITY_INDEX_LIMIT", the file will import different results. You can see the results in the same directory under the "Absortion_cleaning" document. 
+  Also the same "BALNICITY_INDEX_LIMIT" constant will generate different graph output because it is defining the narrowness of the output.
 
 - At the top of the file, the constant variables are defined by Astrophysicist. Any change of these constants SHOULD discuss with the client.
 
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### .gitignore
 
 -Any files that you would like to be ignored when pushing should be recorded in this file.
