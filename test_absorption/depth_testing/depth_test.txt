@@ -5,7 +5,9 @@ vmins: [-34101.58013]
 vmaxs: [-43467.35551]
 BI_individual: [2129.97]
 EW_individual: [2405.44]
-Depth: [0.75]
+Original Graph Depth: [0.75]
+Smooth Graph Depth: [0.59]
+Depth Seven point average: [array([0.58])]
 
 
 2 tot
@@ -15,7 +17,9 @@ vmins: [-35884.48748]
 vmaxs: [-38059.84582]
 BI_individual: [19.15]
 EW_individual: [142.89]
-Depth: [0.32]
+Original Graph Depth: [0.32]
+Smooth Graph Depth: []
+Depth Seven point average: [array([0.25])]
 
 
 3 tot
@@ -25,7 +29,9 @@ vmins: [-31734.8173]
 vmaxs: [-35279.39917]
 BI_individual: [95.95]
 EW_individual: [208.04]
-Depth: [0.23]
+Original Graph Depth: [0.23]
+Smooth Graph Depth: [0.18]
+Depth Seven point average: [array([0.18])]
 
 
 4 tot
@@ -35,7 +41,9 @@ vmins: [-33503.91814]
 vmaxs: [-43212.56383]
 BI_individual: [1099.9]
 EW_individual: [1250.09]
-Depth: [0.37]
+Original Graph Depth: [0.37]
+Smooth Graph Depth: [0.3]
+Depth Seven point average: [array([0.3])]
 
 
 5 tot
@@ -45,7 +53,9 @@ vmins: [-38509.80759 -48308.25749]
 vmaxs: [-42913.91859 -50457.26406]
 BI_individual: [123.46, 5.46]
 EW_individual: [326.67, 123.71]
-Depth: [0.44, 0.32]
+Original Graph Depth: [0.44, 0.32]
+Smooth Graph Depth: [0.25]
+Depth Seven point average: [array([0.24])]
 
 
 6 tot
@@ -55,7 +65,9 @@ vmins: [-45632.67722]
 vmaxs: [-49669.76075]
 BI_individual: [142.83]
 EW_individual: [271.12]
-Depth: [0.29]
+Original Graph Depth: [0.29]
+Smooth Graph Depth: [0.2]
+Depth Seven point average: [array([0.2])]
 
 
 7 tot
@@ -65,7 +77,9 @@ vmins: [-33051.684]
 vmaxs: [-44318.46271]
 BI_individual: [2087.9]
 EW_individual: [2279.68]
-Depth: [0.56]
+Original Graph Depth: [0.56]
+Smooth Graph Depth: [0.46]
+Depth Seven point average: [array([0.45])]
 
 
 8 tot
@@ -75,7 +89,9 @@ vmins: [-33342.6593]
 vmaxs: [-49185.56721]
 BI_individual: [2272.66]
 EW_individual: [2446.49]
-Depth: [0.54]
+Original Graph Depth: [0.54]
+Smooth Graph Depth: [0.42]
+Depth Seven point average: [array([0.42])]
 
 
 9 tot
@@ -85,7 +101,9 @@ vmins: [-40521.58468]
 vmaxs: [-43499.24779]
 BI_individual: [121.68]
 EW_individual: [335.98]
-Depth: [0.37]
+Original Graph Depth: [0.37]
+Smooth Graph Depth: [0.31]
+Depth Seven point average: [array([0.31])]
 
 
 10 tot
@@ -95,6 +113,8 @@ vmins: [-45470.37182]
 vmaxs: [-48029.63571]
 BI_individual: [33.71]
 EW_individual: [218.55]
-Depth: [0.36]
+Original Graph Depth: [0.36]
+Smooth Graph Depth: [0.22]
+Depth Seven point average: [array([0.22])]
 
 

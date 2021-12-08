@@ -22,7 +22,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from utility_functions import clear_file, read_list_spectra, read_spectra
 from data_types import Range
 from abs_function_module import abs_parameters_plot_optional
-from depth_graph_test import depth_figure, depth_testing_calculation
+from depth_test_calc_graph import depth_figure, depth_testing_calculation, new_smooth_normalzied_flux_value
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
@@ -96,7 +96,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
         z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
 
-    #final_depth_individual = depth_testing_calculation(normalized_flux,vminindex_for_range, vminindex_for_range)
+    # getting the smoothed normalized flux value based on the snr ratio
+    smooth_norm_flux_value, number = new_smooth_normalzied_flux_value(normalized_flux, calc_snr, boxcar_size_all_values)
+
+    ################################################# SMOOTH SPECTRA ##########################################
+    BI_total_sm, BI_individual_sm, BI_all_sm, vmins_sm, vmaxs_sm, EW_individual_sm, final_depth_individual_sm, final_depth_all_individual_sm, beta_sm, vminindex_for_range_sm, vmaxindex_for_range_sm = abs_parameters_plot_optional(
+        z, wavelength, smooth_norm_flux_value, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent, plots = "no")
+    ##########################################################################################################
+
+    # calculating seven point avergae using smoothed normalized flux value chosen from new_smooth_normalzied_flux_value function
+    final_depth_seven_point_average = depth_testing_calculation(smooth_norm_flux_value, vminindex_for_range_sm, vmaxindex_for_range_sm,)
 
     max_peak = np.max(normalized_flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])
 
@@ -109,9 +118,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             f"vmaxs: {vmaxs}",
             f"BI_individual: {BI_individual}",
             f"EW_individual: {EW_individual}",
-            f"Depth: {final_depth_individual}"]
+            f"Original Graph Depth: {final_depth_individual}",
+            f"Smooth Graph Depth: {final_depth_individual_sm}",
+            f"Depth Seven point average: {final_depth_seven_point_average}"]
     vlast.extend(['\n'.join(text), '\n'])
-    depth_figure(all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak, boxcar_size_all_values)
+    depth_figure(all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak, smooth_norm_flux_value, number)
 
     #####################################################################################################################
 
