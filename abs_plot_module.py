@@ -1,3 +1,17 @@
+"""
+==============================
+abs_plot_module.py
+==============================
+
+@author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker 
+based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo
+
+Notes
+-----
+    All the functions made to plot the spectra and indicate where CIV, CII, and OI would be *if* the EHVO absorption found was 
+    due to SiIV.
+"""
+
 ########################################### IMPORTS ############################################################################
 from matplotlib import pyplot as plt
 import numpy as np
