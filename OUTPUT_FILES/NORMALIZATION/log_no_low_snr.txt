@@ -1,14 +1,47 @@
-2140: spec-7597-56973-0699-dered.dr16
-     Value: 0.10233495110088076
-difference between 1 and point A: -0.036635325778464845
-difference between 1 and point B: 0.07354892599372664
-difference between 1 and point C: -0.03887783796257782
+1: spec-10901-58397-0466-dered.dr16
+5: spec-9140-58039-0081-dered.dr16
+16: spec-7671-57360-0092-dered.dr16
      flagged_by_pink_region: True
-max flux test - green = 1.1208143694843407 max flux test - pink = 0.8082990759907467
-min flux test - green = 0.9510545148464717 min flux test - pink = 0.7311993001859687
-avg flux test - green = 1.0259285187706846 avg flux test - pink = 0.7811984491342953
-percent green test below = 0.122
-percent pink test below = 0.107
-percent green above = 0.264
-percent pink above = 0.099
+18: spec-8823-57446-0393-dered.dr16
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #18, file name: spec-8823-57446-0393-dered.dr16
+     Failed Test 3 [green], percentage: 0.111
+20: spec-4421-55858-0894-dered.dr16
+     flagged_by_green_region: True
+21: spec-5297-55913-0686-dered.dr16
+27: spec-6138-56598-0594-dered.dr16
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #27, file name: spec-6138-56598-0594-dered.dr16
+     Failed Test 3 [green], percentage: 0.228
+     Failed Test 3 [pink], percentage: 0.18
+33: spec-6783-56284-0672-dered.dr16
+     flagged_by_green_region: True
+39: spec-9155-58043-0456-dered.dr16
+     flagged_by_green_region: True
+40: spec-9411-58070-0290-dered.dr16
+     flagged_by_green_region: True
+44: spec-7732-58108-0100-dered.dr16
+47: spec-7743-58107-0994-dered.dr16
+53: spec-7644-57327-0353-dered.dr16
+58: spec-5326-56002-0370-dered.dr16
+59: spec-5406-55955-0486-dered.dr16
+     flagged_by_green_region: True
+     flagged_by_pink_region: True
+       Flagging figure #59, file name: spec-5406-55955-0486-dered.dr16
+60: spec-5438-56002-0285-dered.dr16
+     flagged_by_pink_region: True
+62: spec-5862-56045-0724-dered.dr16
+     flagged_by_green_region: True
+63: spec-5994-56101-0196-dered.dr16
+87: spec-5450-55986-0680-dered.dr16
+     flagged_by_pink_region: True
+89: spec-5469-56037-0689-dered.dr16
+     flagged_by_pink_region: True
+91: spec-6428-56279-0192-dered.dr16
+     flagged_by_pink_region: True
+96: spec-7118-56686-0018-dered.dr16
+97: spec-7235-56603-0711-dered.dr16
+     flagged_by_pink_region: True
      Failed Test 4 [pink]

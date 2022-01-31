@@ -89,7 +89,7 @@ def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, f
     ax.xaxis.set_minor_locator(MultipleLocator(100))
     ax.grid(which='minor', alpha=0.2)
     ax.grid(which='major', alpha=1)
-    plt.ylim(-2, max_peak)
+    plt.ylim(-2, max_peak + (max_peak / 1.5))
     plt.show()
 
 def powerlaw(wavelength, b, c):
@@ -140,24 +140,24 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
 
     main_color = "midnightblue" 
     test_1_color, test_2_color = "mediumspringgreen", "deeppink" #"xkcd:green apple", "xkcd:bubblegum"
-    #subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
+    subtitle_text = f"z={data.FigureData.z} snr={data.FigureData.snr} snr_mean_in_ehvo={data.FigureData.snr_mean_in_ehvo}"
     plt.figure(figure_index)
     
-    #plt.title(data.FigureData.spectrum_file_name + flags)
+    plt.title(data.FigureData.spectrum_file_name + flags)
     
     plt.xlabel("Wavelength[$\AA$]")
     plt.ylabel("Flux[10$^{-17}$ erg/cm$^2$/$\AA$]")
-    #plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), max_peak + 1, subtitle_text)
+    plt.text(((data.FigureData.wavelength_from + data.FigureData.wavelength_to)/2.3), max_peak + 1, subtitle_text)
     plt.plot(original_ranges.wavelength, original_ranges.flux, color = main_color, linestyle = "-")
-    # plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
+    plt.plot(data.power_law_data_x, data.power_law_data_y, 'ro')
     plt.plot(anchor_pts[0][0], anchor_pts[0][1], 'ro')
     plt.plot(anchor_pts[1][0], anchor_pts[1][1], 'ro')
     plt.plot(anchor_pts[2][0], anchor_pts[2][1], 'ro')
 
-    #plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
+    plt.plot(original_ranges.wavelength, original_ranges.error, color = "black", linestyle = "-")
     plt.plot(test1.wavelength, test1.flux, color = test_1_color, linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = test_2_color, linestyle = "-")
-    # plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
+    plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", linestyle = "--")
     plt.plot(original_ranges.wavelength, powerlaw(original_ranges.wavelength, data.bf, data.cf), color = "red", zorder = 3, linestyle = "--")    
 
     
@@ -223,16 +223,16 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     main_color = "midnightblue"
     test_1_color, test_2_color = "mediumspringgreen", "deeppink" #"xkcd:green apple", "xkcd:bubblegum"
     
-    #subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
+    subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.figure(figure_index) 
-    #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.25, figure_data.spectrum_file_name)
-    #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
-    #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
-    #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
-    #plt.title(figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.25, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
+    plt.title(figure_data.spectrum_file_name)
     plt.plot(original_ranges.wavelength, flux_normalized, color = main_color, zorder = 1, linestyle = "-")
-    #plt.plot(original_ranges.wavelength, error_normalized, color = "black", linestyle = "-")
-    #plt.title("Normalized Data vs. Normalized Error")
+    plt.plot(original_ranges.wavelength, error_normalized, color = "black", linestyle = "-")
+    plt.title("Normalized Data vs. Normalized Error")
     plt.xlabel("Wavelength [$\AA$]")
     plt.ylabel("Normalized Flux")
     plt.plot(test1.wavelength, normalized_flux_test_1, color = test_1_color, zorder = 1, linestyle = "-")

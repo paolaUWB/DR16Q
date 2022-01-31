@@ -31,9 +31,9 @@ Steps to contribute to this project:
 
 -Follow the GitHub steps above and open the file "normalization.py" using Spyder IDE or Visual Studio Code.
 
--The file currently named "DRX_sorted_norm.csv" contains all the necessary information (data) to read [X being the current data release; i.e. 9].
+-The file currently named "DRX_sorted_norm.csv" contains all the necessary information/data to run the code [X being the current data release; i.e. 9].
 
--The "data_types," "draw_figures," "useful_wavelenght_flux_error_modules," and "utility_functions" files must be in your directory for import
+-The "data_types," "draw_figures," "useful_wavelenght_flux_error_modules," and "utility_functions" files must also be in your directory for import
 
 -At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by Astrophysicist. 
   Any change of these constants SHOULD be discussed with the client.
@@ -45,8 +45,7 @@ Steps to contribute to this project:
   
   -For DR9 the current range that works is either 1, 10 or 899, 1527
   
-  -For DR16 the current range that works is 1, 21000 (high redshift cases are currently throwing errors in the code)
-  
+  -For DR16 the current range that works is 1, 21823. To run through the range 21824, 21859 set the variable: dynamic = 'yes'. This puts the code into a manual plotting mode where you specify the locations for the anchor points. 
 # To download and save the NORM files:
 
 1. In the STUDENT WORK DRQ16 EHVO PROJECT drive open Normalization DR16Q
@@ -71,7 +70,7 @@ Steps to contribute to this project:
 
 -sm should be set to 'yes' for the plots to be smoothed. NOTE: for smoothing, the variable BOXCAR_SIZE must be set to an odd values
 
--dynamic should be set to 'yes' for manual fitting - this allows for manual choosing of anchor points for the plotting
+-dynamic should be set to 'yes' for manual fitting - this allows for manual choosing of anchor points for the plotting (typically needs to be set to 'yes' for redshift >= 5.11 or the code may throw errors)
 
 -flag_spectra should be set to 'yes' for the plots to be flagged (good fit/bad fit)
 
@@ -121,36 +120,30 @@ good_fit.csv + flagged_bad_fit.csv = original.csv
 # PLOTS (pdf files):
 
 -After you run this code, all your graphs will be added to a pdf file in your directory. None of these files contain graphs for spectra with SNR less than 10 
-          
     -original_graphs.pdf
         -all spectra in the range provided that have SNR>10 are plotted and added to this file
-        
     -normalized_graphs.pdf
         -all spefctra that have been deemed good fits are normalized and the normalized spectra are plotted and added to this file [contains good_fit and unflagged]
-        
     -good_fit_graphs.pdf
         -all spectra that have SNR>10 that have been deemed to be a good fit originally are plotted and added to this file
         -all spectra that have been unflagged have been plotted and added to this file
-    
     -unflagged_graphs.pdf
-        -any spectra that were previously flagged that have been deemed a good fit are unflagged, plotted and added to this file [TEST #3]
-        
+        -any spectra that were previously flagged that have been deemed a good fit are unflagged, plotted and added to this file [TEST #3] 
     -flagged_bad_fit_graphs.pdf
-        -all spectra that have been deemed a bad fit by the tests are flagged, plotted, and added to this file [TEST #1 & TEST #2]
-        
+        -all spectra that have been deemed a bad fit by the tests are flagged, plotted, and added to this file [TEST #1 & TEST #2]   
     -flagged_absorption_graphs.pdf
         -any spectra that is flagged for TEST #4 are added to this file due to possible absorption in the test regions [TEST #4]
 
-original_graphs.pdf = original.csv
-good_fit_graphs.pdf + flagged_bad_fit_graphs.pdf = original_graphs.pdf
-good_fit_graphs.pdf = normalized_graphs.pdf
+original_graphs.pdf ~ original.csv
+good_fit_graphs.pdf ~ flagged_bad_fit_graphs.pdf ~ original_graphs.pdf
+good_fit_graphs.pdf ~ normalized_graphs.pdf
 
 # Normalization Tests:
 
 -TEST #1
     -checks whether the fit of the powerlaw is going closely through the anchor points
         -if the powerlaw goes through all three anchor points well, it proceeds to the other three tests
-        -if the powerlaw is too far off of the anchor points they are flagged and moved to the flagged_bad_fit file
+        -if the powerlaw is too far from the anchor points, two other locations for the middle anchor point are attempted. if the powerlaw is still too far, the spectra is flagged and moved to the flagged_bad_fit file. 
 
 -TEST #2
     -checks whether the powerlaw goes through close to the center of the green and pink test regions
