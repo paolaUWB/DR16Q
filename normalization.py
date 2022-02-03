@@ -38,32 +38,34 @@ DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
 ## DEFINES THE CONFIG FILE
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv"
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm_newSNR_manual_fit.csv"
+#CONFIG_FILE = "mostlum_sorted_norm.csv"
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
+#SPEC_DIREC = os.getcwd() + "/DATA/"
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
 
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
-NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q"
+NORM_DIREC = os.getcwd() + '/../' + "/NORM_DR16Q/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 100  ## [1-10, 899-1527 for dr9] [1-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
+STARTS_FROM, ENDS_AT = 1, 50  ## [1-10, 899-1527 for dr9] [1-21823 [21851 for dr16 (21852-21859 are high redshift cases - must set dynamic = yes to run)] 
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS
 SNR_CUTOFF = 10. 
 
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
+save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no'
 save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
+dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no'
 
-flag_spectra = 'yes' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
+flag_spectra = 'no' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
 
 ## VALUE USED IN TEST 1
 val1 = 0.10
@@ -94,6 +96,7 @@ WAVELENGTH_RESTFRAME_TESTS = Range(1650., 1700.)
 
 #############################################################################################
 ######################################## OUTPUT FILES #######################################
+### Add in STARTS_FROM and ENDS_AT to files?? e.g. "log_" + STARTS_FROM + "-" + ENDS_AT + ".txt"
 
 ## TEXT OUTPUT FILES
 LOG_FILE = OUT_DIREC + "/" + "log.txt"
@@ -378,7 +381,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     
         if try_again == 'yes':
             draw_dynamic_points(spectra_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1, test2, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, current_spectrum_file_name, GOOD_FIT_PDF)
-            if save_new_output_file == 'yes':    
+            if save_new_output_file == 'yes':   
+                fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
                 append_row_to_csv(GOOD_FIT_FILE, fields)
 
         power_law_data_x = powerlaw_wavelength
