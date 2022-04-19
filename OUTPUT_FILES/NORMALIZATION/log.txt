@@ -1,5 +1,0 @@
-18: spec-8823-57446-0393-dered.dr16
-     flagged_by_green_region: True
-     flagged_by_pink_region: True
-       Flagging figure #18, file name: spec-8823-57446-0393-dered.dr16
- - FLAGGED BAD FIT

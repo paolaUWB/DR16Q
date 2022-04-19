@@ -92,7 +92,7 @@ def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, f
     plt.plot(wavelength, flux, color = "black")
     plt.plot(test1.wavelength, test1.flux, color = "blue", linestyle = "-")
     plt.plot(test2.wavelength, test2.flux, color = "deeppink", linestyle = "-")
-    plt.xlim(np.min(wavelength), np.max(wavelength)) #(wavelength_observed_from, wavelength_observed_to)
+    plt.xlim(wavelength_observed_from, wavelength_observed_to)
     np.arange(wavelength_observed_from, wavelength_observed_to, 100)
     ax.xaxis.set_major_locator(MultipleLocator(1000))
     ax.xaxis.set_major_formatter('{x:.0f}')
@@ -217,7 +217,7 @@ def draw_original_figure(figure_index: int, original_ranges: RangesData, data: F
     plt.close(figure_index)
 
 def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized,
-                            test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE, min_flux_green_region, min_flux_pink_region, max_flux_green_region, max_flux_pink_region, z, val):
+                            test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE, z):#, min_flux_green_region, min_flux_pink_region, max_flux_green_region, max_flux_pink_region, z, val):
     """ Draws the normalized spectra graph.
 
     Parameters
@@ -255,9 +255,9 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     plt.title("Normalized Data vs. Normalized Error")
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.25, figure_data.spectrum_file_name)
-    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
+    # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
     # SHOULD WE USE THE LINES BELOW OR ABOVE TO PLACE THESE SUBTITLE_TEXTS ??
-    # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
+    plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
     # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
     ########
 
@@ -313,10 +313,10 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     
     ##########################################################################################
     
-    plt.xlim(1250 * (1 + z), 1400 * (1 + z))
-    #plt.xlim(wavelength_observed_from, wavelength_observed_to)
+    # plt.xlim(1250 * (1 + z), 1400 * (1 + z))
+    plt.xlim(wavelength_observed_from, wavelength_observed_to)
     #plt.ylim(0, np.max(flux_normalized) + 1)
-    #plt.ylim(0, max_peak + (max_peak / 4))
+    plt.ylim(0, max_peak + (max_peak / 4))
     plt.ylim(0,2)# max_peak)# + (max_peak / 1.5))
     FILE.savefig(bbox_inches='tight')
     plt.close(figure_index)

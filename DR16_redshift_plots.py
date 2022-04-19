@@ -10,7 +10,7 @@ from scipy.stats import ks_2samp
 import matplotlib.pyplot as plt
 from utility_functions import read_file, read_list_spectra
 
-specnum1=21859 ## NUMBER OF SPECTRA IN PARENT SAMPLE  # data=6760
+specnum1=18181 ## NUMBER OF SPECTRA IN PARENT SAMPLE  # data=6760
 #specnum2=105783
 specnum3=40  ## NUMBER OF EHVOS
 
@@ -21,8 +21,8 @@ specnum3=40  ## NUMBER OF EHVOS
 # infoDR16_all = sys.argv[1] if len(sys.argv) > 1 else "DR16_sorted_norm.csv"
 # infoDR16_snr = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/parent_sample.csv" ### ALL CASES WITH SNR > 10
 infoDR16_parent = sys.argv[1] if len(sys.argv) > 1 else "DR16_parent_sample.csv"
-infoDR16_BAL = sys.argv[1] if len(sys.argv) > 1 else "DR16_BAL.csv"
-infoDR16_EHVO = sys.argv[1] if len(sys.argv) > 1 else "DR16_EHVO.csv"
+#infoDR16_BAL = sys.argv[1] if len(sys.argv) > 1 else "DR16_BAL.csv"
+#infoDR16_EHVO = sys.argv[1] if len(sys.argv) > 1 else "DR16_EHVO.csv"
 
 #spectra_list, zem, calc_snr_list = read_list_spectra(infoDR16_snr, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 # zem_orig, snr, spectra_name = read_file(infoDR16)
@@ -33,8 +33,8 @@ zem_BAL=[] ## BAL Redshift
 # zem, snr, spectra_list = read_file(infoDR16_snr)
 # zem_all, snr_all, spectra_list_all = read_file(infoDR16_all)
 zem, snr, spectra_list = read_file(infoDR16_parent)
-zem_BAL, snr_BAL, spectra_list_BAL = read_file(infoDR16_BAL)
-zem_EHVO, snr_EHVO, spectra_list_EHVO = read_file(infoDR16_EHVO)
+#zem_BAL, snr_BAL, spectra_list_BAL = read_file(infoDR16_BAL)
+#zem_EHVO, snr_EHVO, spectra_list_EHVO = read_file(infoDR16_EHVO)
 
 
 ## Read EHVO
@@ -134,21 +134,21 @@ zem_EHVO, snr_EHVO, spectra_list_EHVO = read_file(infoDR16_EHVO)
 # ----- plot zem ------------------------  4444444444444444
 
 zem=np.hstack(zem)
-zem_BAL=np.hstack(zem_BAL)
-zem_EHVO=np.hstack(zem_EHVO)
+#zem_BAL=np.hstack(zem_BAL)
+#zem_EHVO=np.hstack(zem_EHVO)
 
-zem_BAL_toplot=[zem_BAL,zem_BAL] 
-zem_BAL_toplot=np.hstack(zem_BAL_toplot)
+#zem_BAL_toplot=[zem_BAL,zem_BAL] 
+#zem_BAL_toplot=np.hstack(zem_BAL_toplot)
 
-zem_EHVO_toplot=[zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO]
-zem_EHVO_toplot=np.hstack(zem_EHVO_toplot)
+#zem_EHVO_toplot=[zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO,zem_EHVO]
+#zem_EHVO_toplot=np.hstack(zem_EHVO_toplot)
 
 fig=plt.figure(1) #### 4  
 
 iqr = np.subtract(*np.percentile(zem, [75, 25]))
 nhist=(max(zem)-min(zem))/(2*iqr*(len(zem)**(-1/3))) 
 
-bins=np.linspace(min(zem),max(zem),int(nhist*1.5))
+bins=np.linspace(min(zem),max(zem),int(nhist*0.75))#1.5))
 
 # Original figure (Fig 12) without weighing, just multiplying by 2 and 10 the frequency of BALQSOs and EHVO
 #plt.hist([zem,zem_BAL_toplot,zem_EHVO_toplot],bins,color=['black','blue','red'],label=['parent','BAL','EHVO'],histtype='step')
