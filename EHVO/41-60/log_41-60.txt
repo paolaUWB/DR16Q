@@ -1,0 +1,57 @@
+41: spec-5144-55829-0475-dered.dr16
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+42: spec-6035-56076-0813-dered.dr16
+ - GOOD FIT
+43: spec-5438-56002-0100-dered.dr16
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+44: spec-5338-56002-0726-dered.dr16
+ - GOOD FIT
+45: spec-5483-56017-0061-dered.dr16
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+46: spec-6754-56414-0561-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+47: spec-5189-56074-0414-dered.dr16
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+48: spec-8875-57779-0073-dered.dr16
+ - GOOD FIT
+49: spec-5127-55889-0820-dered.dr16
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+50: spec-8059-57895-0912-dered.dr16
+ - GOOD FIT
+51: spec-5374-55947-0608-dered.dr16
+ - GOOD FIT
+52: spec-6412-56358-0454-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+53: spec-4663-55893-0854-dered.dr16
+ - GOOD FIT
+54: spec-6402-56334-0966-dered.dr16
+     Failed Test 4 [green]
+ - ABSORPTION / GOOD FIT
+55: spec-6456-56339-0894-dered.dr16
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+56: spec-6405-56342-0814-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+57: spec-5288-55865-0958-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+ - ABSORPTION / GOOD FIT
+58: spec-5868-56045-0372-dered.dr16
+     Failed Test 4 [green]
+ - ABSORPTION / GOOD FIT
+59: spec-7622-56987-0113-dered.dr16
+ - GOOD FIT
+60: spec-6122-56246-0696-dered.dr16
+     Failed Test 4 [green]
+ - ABSORPTION / GOOD FIT

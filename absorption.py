@@ -51,24 +51,26 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
 #defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/good_fit_EHVO_renormalizations.csv" ##_newSNR_flagged_but_ok.csv #_EHVO.csv" 
 
 # directory of where normalized data files are
 # data NOT on github but local computer
 NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
-
+# NORM_DIREC = os.getcwd() + '/../../../../../' + "/Volumes/MIKEL/NORM_DR16Q_newSNR_01.17.22/"
+#NORM_DIREC = os.getcwd() + '/../' + "/NORM_DR16Q_newSNR_01.17.22/" #EHVO/"
+#NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q_mostlum/"
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/ABSORPTION/"
 
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
 want_to_smooth = 'no' 
-boxcar_size = 1
+boxcar_size = 11
 
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'no'
+all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
@@ -77,7 +79,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 300
+STARTS_FROM, ENDS_AT = 1, 71
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -86,10 +88,10 @@ percent = 0.9
 ######################################## OUTPUT FILES #########################################################################
 
 # set name of output .txt file with absorption values
-ABSORPTION_VALUES = OUT_DIREC + "/" + "NEW_SCALE_BI2000_SMOOTH11.txt"
+ABSORPTION_VALUES = OUT_DIREC + "/" + 'EHVO_Renormalizations_BI' + str(BALNICITY_INDEX_LIMIT) + '.txt'
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('NEW_SCALE_BI' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages('EHVO_Renormalizations_BI' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
