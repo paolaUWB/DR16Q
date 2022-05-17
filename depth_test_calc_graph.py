@@ -1,6 +1,6 @@
 """
 =============
-depth_graph_test.py
+depth_test_calc_graph.py
 =============
 
 @author Wendy Garcia Naranjo  
@@ -18,7 +18,7 @@ from data_types import Range
 from abs_function_module import smooth
 ################################################################################################################################
 
-def depth_figure(spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak, smooth_values):
+def depth_figure(spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak, new_flux, number):
     """ Makes a flux vs velocity graph, that also has the error vs velocity on the same graph. Has text that identifies 
     what the graph number is, what the spectra name is, the signal to noise ratio, and the redshift value used.
     
@@ -58,20 +58,10 @@ def depth_figure(spectra_index, velocity, flux_normalized, error, savefile_name,
     -------
     None.
     """
+
     plt.plot(velocity, flux_normalized, color = 'k', linewidth = 0.7) # original spectra
 
-    if snr < 20:
-        new_flux = smooth(flux_normalized, smooth_values[0])
-        number = smooth_values[0]
-        plt.plot(velocity, new_flux, color = 'b', label = 'smooth value = ' + str(number))
-    elif snr < 30:
-        new_flux = smooth(flux_normalized, smooth_values[1])
-        number = smooth_values[1]
-        plt.plot(velocity, new_flux, color = 'g', label = 'smooth value = ' + str(number))
-    else: 
-        new_flux = smooth(flux_normalized, smooth_values[1])
-        number = smooth_values[2]
-        plt.plot(velocity, new_flux, color = 'r', label = 'smooth value = ' + str(number))
+    plt.plot(velocity, new_flux, color = 'r', label = 'smooth value = ' + str(number))
 
     #plt.plot(velocity, flux_normalized, color = 'k', linestyle = '-', linewidth = 0.7) # original spectra over top
 
@@ -89,32 +79,49 @@ def depth_figure(spectra_index, velocity, flux_normalized, error, savefile_name,
     savefile_name.savefig()
     plt.close()
 
+def new_smooth_normalzied_flux_value(flux_normalized, snr, smooth_values):
+    if snr < 20:
+        new_smooth_normalzied_flux_value = smooth(flux_normalized, smooth_values[0])
+        number = smooth_values[0]
+    elif snr < 30:
+        new_smooth_normalzied_flux_value = smooth(flux_normalized, smooth_values[1])
+        number = smooth_values[1]
+    else: 
+        new_smooth_normalzied_flux_value = smooth(flux_normalized, smooth_values[2])
+        number = smooth_values[2]
+
+    return new_smooth_normalzied_flux_value, number
+
 def depth_testing_calculation(normalized_flux,vmins_index, vmaxs_index):
 
+    # using 7 pixel average method to calculate depth value ###########################################
     final_depth = np.min(normalized_flux[vmaxs_index:vmins_index])
-    final_depth_index = np.where(normalized_flux == final_depth)
-    final_depth_index = final_depth_index.astype(int)
+    final_depth_index = list(np.where(normalized_flux == final_depth))
+    
+    for i in range(len(final_depth_index)):
 
-    number1 = final_depth_index - 3
-    number2 = final_depth_index - 2
-    number3 = final_depth_index - 1
+        number_minus_range = []
+        appx_minus_values = []
+        for j in range(2): 
+            number_minus = final_depth_index[i] - (j + 1)
+            number_minus_range.append(number_minus)
 
-    number5 = final_depth_index + 3
-    number6 = final_depth_index + 2
-    number7 = final_depth_index + 1
+            appx_minus = normalized_flux[number_minus]
+            appx_minus_values.append(appx_minus)
 
-    seven_value_apprx_1 = normalized_flux[number1]
-    seven_value_apprx_2 = normalized_flux[number2]
-    seven_value_apprx_3 = normalized_flux[number3]
+        number_plus_range = []
+        appx_plus_values = []
+        for k in reversed(range(0, 2)):
+            number_plus = final_depth_index[i] + (k + 1)
+            number_plus_range.append(number_plus)
 
-    seven_value_apprx_5 = normalized_flux[number5]
-    seven_value_apprx_6 = normalized_flux[number6]
-    seven_value_apprx_7 = normalized_flux[number7]
+            appx_plus = normalized_flux[number_plus]
+            appx_plus_values.append(appx_plus)
 
-    average = (seven_value_apprx_1 + seven_value_apprx_2 + seven_value_apprx_3 + final_depth + seven_value_apprx_5 + seven_value_apprx_6 + seven_value_apprx_7) / 7
+        average = (sum(appx_minus_values) + sum(appx_plus_values) + final_depth) / (1 + len(appx_minus_values) + len(appx_plus_values))
 
-    final_depth = round((1. - average), 2)
-    final_depth_individual = []     
-    final_depth_individual.append(average)
+        final_depth = np.round((1. - average), 2)
+        final_depth_individual = []     
+        final_depth_individual.append(final_depth)
 
     return final_depth_individual
