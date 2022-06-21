@@ -1,51 +1,90 @@
 # DR16Q 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Welcome to Github!
+Welcome to the DR16Q EHVO Github!
 
 Steps to contribute to this project:
 
-1. Look through the GitHub Welcome Packet in the Google Drive
+1. Look through the "Welcome! First steps for PHYS students" document on in the Google Drive. This document contains information about the research project [how to register for credits, general resources about quasars & quasar outflows, some of the posters/presentations we have made, etc.].
 
-2. Create a Github account. Once the account is created, the owner of the repository will need to give you access.
-
-3. Once you have access to the repository, Press on the "Pull requests" on the top left tabs of the repository, and press the green button 
-    "New pull request on the top right, this allows any changes that you make to be on a separate branch that will not affect the master file until it has been approved. 
-
-4. To make changes, you can choose to use other programs like Git Desktop for an easy interface or use Github itself by clicking on the file you want to make changes to in your branch, 
-    click the pencil at the top right, and paste the changed contents into the textbox.
-    
-    - Another way of doing this is pressing the "Push" button and it will allow you to paste the updated files into the branch.
+2. Look through the GitHub Welcome Packet in the Google Drive. This document contains information about how GitHub works [how to get the repository on your own computer, how to push changes, etc.]. 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### GENERAL NOTES
 
--We run this code under Spyder IDE, because Spyder is a powerful scientific environment written in Python. It's designed by and for scientists, engineers, and data analysts. https://www.spyder-ide.org/
-
--Running on Visual Studio Code: Download Anaconda Navigator and launch the VS Code via Anaconda. This will you give a conda base interpreter.
+-In this repository, all code is written in Python. To run the code, you can use either Spyder IDE or Visual Studio Code (VS Code). Regardless of which you choose, be sure to launch the app through Anaconda.
 
 -Any major change should be added to the README file.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### NORMALIZATION FILE
+### FILES IN DIRECTORY
+-abs_function_module.py **WFGN**
+-abs_plot_module.py **WFGN**
+-absorption.py **WFGN**
+-data_types.py
+    This file contains definitions of tuples that are used in the normalization.py code. 
+-depth_graph_test.py **WFGN**
+-depth_testing.py **WFGN**
+-DR9_redshift.py
+    This code creates the redshift histogram plots for the DR9 data. 
+-DR9_sorted_norm.csv
+    File that contains all necessary information/data to run normalization.py. This is NOT the parent sample - all spectra we have downloaded from the SDSS are included in this file. 
+    **Columns:** Spectra Name, Redshift, SDSS SNR
+-DR9Q_selection_minus17.dat
+    File that contains DR9 data used to make redshift histogram plots in the DR9_redshift.py code.
+-DR16_BAL_parent_sample.csv
+    File that contains the DR16 BALQSOs --> these are the BALQSOs that meet our criteria AND are in our parent sample
+-DR16_EHVO_sorted_norm.csv
+    File that contains the final DR16 EHVO list
+-DR16_parent_sample.csv
+    File that contains the final DR16 parent sample
+-DR16_redshift.py
+    This code creates the redshift histogram plots for the DR16 data.
+-DR16_sorted_norm.csv
+    File that contains all necessary information/data to run normalization.py. This is NOT the parent sample - all spectra we have downloaded from the SDSS are included in this file. 
+    **Columns:** Spectra Name, Redshift, SDSS SNR
+-draw_figures.py
+    This code contains the functions used by the normalization.py code to plot spectra. 
+-draw_histogram.py
+    This code contains the functions used by the DRX_redshift.py codes to plot the histograms to analyze redshifts of our samples.
+-EHVO_DR9.dat
+    File that contains the DR9 EHVO data for the DR9_redshift.py code
+-normalization.py
+    This code normalizes SDSS quasar spectra: fits each spectrum with a power law, performs tests to check the fit of the power law, and normalizes the spectrum if the fit is good. 
+-plotindividualspectrum_Figof20.py
+    Pretty plots for posters/presentations/etc. --> plots CIV absorption on normalized plot (includes normalized line)
+-plotindividualspectrum.py
+    Pretty plots for posters/presentations/etc. --> plots all absorption in the plot (must be done manually)
+-useful_wavelength_flux_error_modules.py
+    Contains the functions used to calculate the location of the anchor points, calculate SNR, etc.
+-utility_functions.py
+    Contains the functions to read/open/print to files and other general functions. 
 
--Follow the GitHub steps above and open the file "normalization.py" using Spyder IDE or Visual Studio Code.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### NORMALIZATION FILE [normalization.py]
 
--The file currently named "DRX_sorted_norm.csv" contains all the necessary information/data to run the code [X being the current data release; i.e. 9].
+-Files needed to run normalization.py: 
+    -data_types.py
+    -DRX_sorted_norm.csv [X being the current data release; i.e. DR9_sorted_norm.csv]
+    -draw_figures.py
+        This file contains the functions to plot the spectra when you run the normalization code.
+    -useful_wavelength_flux_error_modules.py 
+        This file contains functions that calculate SNR and calculate anchor point locations.
+    -utility_functions.py
+        This file contains basic functions for opening files, printing to files, etc. 
 
--The "data_types," "draw_figures," "useful_wavelenght_flux_error_modules," and "utility_functions" files must also be in your directory for import
 
--At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by Astrophysicist. 
-  Any change of these constants SHOULD be discussed with the client.
+-At the top of the file there is a section containing ranges of wavelengths under the "DO NOT CHANGE" heading. These constant variables are defined by PRH - ask before changing these values. 
 
 -The first variable defined is where you state which Data Release you would like to work with. There are currently files for the DR9 and DR16. 
-  To run the code, make sure the DR variable is set to the proper Data Release number (i.e. '16' for DR16). 
+    To run the code, make sure the DR variable is set to the proper Data Release number (i.e. '16' for DR16). 
 
 -The range you choose for STARTS_FROM, ENDS_AT will depend on the Data Release you are working with. We currently have 6760 files for DR9 and 21859 files for DR16. 
   
-  -For DR9 the current range that works is either 1, 10 or 899, 1527
+  -For DR9 the current range that works is either 1, 10 or 899, 1527 <-- this is because of the data we currently have in the repository. If you would like to run the DR9 data, you will need to get the full data from PRH.
   
   -For DR16 the current range that works is 1, 21823. To run through the range 21824, 21859 set the variable: dynamic = 'yes'. This puts the code into a manual plotting mode where you specify the locations for the anchor points. 
+
 # To download and save the NORM files:
 
 1. In the STUDENT WORK DRQ16 EHVO PROJECT drive open Normalization DR16Q
@@ -54,23 +93,25 @@ Steps to contribute to this project:
 
 3. Right click on NORM_DR16Q.zip and download to your computer
 
-4. The DR16Q repository should be saved in a folder called “GitHub” on your computer. Save the NORM_DR16Q.zip file in the GitHub folder (not in the DR16Q repository)
-
-5. Saving the NORM files in the repository causes issues when pushing to GitHub since there are so many files. 
+4. The DR16Q repository should be saved in a folder called “GitHub” on your computer. Save the NORM_DR16Q.zip file in the GitHub folder (NOT in the DR16Q repository)
+    --> Saving the NORM files in the repository causes issues when pushing to GitHub since there are so many files. 
 
 6. Confirm that the version of the code you are working with has the proper path for the NORM_DIREC:  NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
 # Variables to change
 
--save_new_output_file should be set to 'yes' for the csv output files to be created
+-save_new_output_file should be set to 'yes' for the csv output files to be created 
+    these save in OUTPUT_FILES --> NORMALIZATION
 
 -save_new_norm_file should be set to 'yes' for new norm.drX files to be created
 
 -save_figures should be set to 'yes' for the pdf plots to be created
+    these are the plots of the spectra - the code runs faster when it does not plot them, so if you don't need the plots this is a way to speed things up.
 
 -sm should be set to 'yes' for the plots to be smoothed. NOTE: for smoothing, the variable BOXCAR_SIZE must be set to an odd values
 
 -dynamic should be set to 'yes' for manual fitting - this allows for manual choosing of anchor points for the plotting (typically needs to be set to 'yes' for redshift >= 5.11 or the code may throw errors)
+    when using manual/dynamic fitting, make sure flag_spectra is set to 'no'
 
 -flag_spectra should be set to 'yes' for the plots to be flagged (good fit/bad fit)
 
@@ -179,6 +220,9 @@ good_fit_graphs.pdf ~ normalized_graphs.pdf
 - At the top of the file, the constant variables are defined by Astrophysicist. Any change of these constants SHOULD discuss with the client.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+BAL_PARENT_SAMPLE.txt:
+- Columns: SPECTRA NAME, Redshift, BI Value, BI ERROR, SNR
 ### .gitignore
 
 -Any files that you would like to be ignored when pushing should be recorded in this file.

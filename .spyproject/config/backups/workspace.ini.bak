@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = empty-project-type
-recent_files = ['normalization.py', 'draw_figures.py', 'DR16_EHVO_updated.csv', '../../../opt/anaconda3/lib/python3.8/site-packages/IPython/core/pylabtools.py', '../../../opt/anaconda3/lib/python3.8/site-packages/numpy/core/fromnumeric.py']
+recent_files = ['DR16_redshift.py', 'draw_histogram.py', 'BAL_parent_sample_final.csv', 'DR16_EHVO_sorted_norm.csv', 'DR9_redshift.py']
 
 [main]
 version = 0.2.0
