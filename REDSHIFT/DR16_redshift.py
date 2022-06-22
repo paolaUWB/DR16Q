@@ -6,13 +6,13 @@ from scipy.stats import ks_2samp, norm
 from draw_histogram import plot_zem_histograms
 from utility_functions import read_file
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 
 ##---------- inputs/outputs to change
-PARENT_SAMPLE = 18171  ## number of spectra in parent sample (previously specnum1)
-EHVO_SAMPLE = 98 ## number of EHVO spectra (previously specnum3)
-BAL_SAMPLE_DR16 = 1913
+PARENT_SAMPLE = 18171  ## number of spectra in parent sample
+EHVO_SAMPLE = 98 ## number of EHVO spectra
+BAL_SAMPLE = 1913
 
 specnum1 = 6743
 specnum3 = 40
@@ -22,8 +22,7 @@ specnum3 = 40
 # DR16 ---
 info_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/DR16_parent_sample.csv"
 info_EHVO_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/DR16_EHVO_sorted_norm.csv"
-info_BAL_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/BAL_parent_sample_final.csv"
-# info_BAL_DR16Q = np.loadtxt('/Users/mikelcharles/Documents/GitHub/DR16Q/BAL_PARENT_SAMPLE.txt', dtype=bytes, delimiter="\n").astype(str)
+info_BAL_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/BAL_parent_sample.csv"
 
 # DR9 ---
 infoDR9 = np.loadtxt('/Users/mikelcharles/Documents/GitHub/DR16Q/DR9Q_selection_minus17.dat',dtype=bytes, delimiter="\n").astype(str)
@@ -83,7 +82,7 @@ zem_BAL, bi_ratio_BAL, spectra_list_BAL = read_file(info_BAL_DR16Q) # BAL
 
 
 ##------ read BAL data
-# for m in range(0, BAL_SAMPLE_DR16):
+# for m in range(0, BAL_SAMPLE):
 #     DR16_BAL_row = info_BAL_DR16Q[m]
 #     DR16_BAL_columns = DR16_BAL_row.split()
     
