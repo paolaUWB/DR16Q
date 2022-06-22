@@ -10,8 +10,8 @@ EHVO_SAMPLE_DR9 = 40 ## number of EHVO spectra (previously specnum3)
 
 
 ##------ data files: DR9Q
-info_DR9Q = np.loadtxt(os.getcwd() + '/DR9Q_selection_minus17.dat',dtype=bytes, delimiter="\n").astype(str)
-info_EHVO_DR9Q = np.loadtxt(os.getcwd() + '/EHVO_DR9.dat',dtype=bytes,delimiter="\n").astype(str)
+info_DR9Q = np.loadtxt(os.getcwd() + '/DR9Q_EHVO/DR9Q_selection_minus17.dat',dtype=bytes, delimiter="\n").astype(str)
+info_EHVO_DR9Q = np.loadtxt(os.getcwd() + '/DR9Q_EHVO/EHVO_DR9.dat',dtype=bytes,delimiter="\n").astype(str)
 
 
 ##------ output file location
