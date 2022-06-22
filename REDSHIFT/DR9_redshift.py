@@ -4,19 +4,17 @@ import numpy as np
 from scipy.stats import ks_2samp
 from draw_histogram import plot_zem_histograms
 
-##---------- inputs/outputs to change
+##------ number of spectra in sample
 PARENT_SAMPLE_DR9 = 6743  ## number of spectra in parent sample (previously specnum1)
 EHVO_SAMPLE_DR9 = 40 ## number of EHVO spectra (previously specnum3)
 
 
-##------ data files
-
-# DR9 ---
+##------ data files: DR9Q
 info_DR9Q = np.loadtxt(os.getcwd() + '/DR9Q_selection_minus17.dat',dtype=bytes, delimiter="\n").astype(str)
 info_EHVO_DR9Q = np.loadtxt(os.getcwd() + '/EHVO_DR9.dat',dtype=bytes,delimiter="\n").astype(str)
 
 
-##------ output locations
+##------ output file location
 OUT_CONFIG = os.getcwd() + '/REDSHIFT/OUTPUT_FILES/'
 
 
@@ -59,7 +57,7 @@ EW_BAL_DR9 = []
 DEPTH_BAL_DR9 = []
 
 
-##------ read DR9 EHVO 
+##------ read DR9 data: EHVO 
 for m in range(0, EHVO_SAMPLE_DR9):
     DR9_EHVO_row = info_EHVO_DR9Q[m]
     DR9_EHVO_columns = DR9_EHVO_row.split()
@@ -75,7 +73,7 @@ for m in range(0, EHVO_SAMPLE_DR9):
     EW_EHVO_DR9.append(int(DR9_EHVO_columns[7]))
     DEPTH_EHVO_DR9.append(float(DR9_EHVO_columns[8]))
 
-##------ read DR9 data
+##------ read DR9 data: parent, BAL
 countBALinEHVO=0
 
 for i in range(0, PARENT_SAMPLE_DR9):
@@ -124,7 +122,6 @@ bins = np.linspace(min(zem_DR9), max(zem_DR9), int(nhist)) # bin edges
 #-- inputs for plotting function
 x_vals = [zem_EHVO_DR9, zem_DR9, zem_BAL_DR9]
 color = ['xkcd:shocking pink', 'black', 'xkcd:purpleish blue']
-
 label = ['EHVO', 'parent', 'BAL']
 
 #-- scaling values for plotting 'zem' 
@@ -139,7 +136,7 @@ plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_l
 plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'cdf', 'left', OUT_CONFIG + '/zem_DR9_cdf.png') # plots cumulative histogram of redshifts for each population (parent, EHVO, BAL)
 
 
-#------ ks 2 sample statistical test - DR9
+##------ ks 2 sample statistical test: DR9Q
 KS_EHVOall_zem=ks_2samp(zem_DR9, zem_EHVO_DR9)
 KS_BALall_zem=ks_2samp(zem_DR9, zem_BAL_DR9)
 KS_EHVOBAL_zem=ks_2samp(zem_BAL_DR9, zem_EHVO_DR9)
@@ -149,7 +146,7 @@ print('zem: p-value BAL parent= '+str(KS_BALall_zem))
 print('zem: p-value BAL EHVO= '+str(KS_EHVOBAL_zem))
 
 
-#------ to compare number of EHVOs in different zem ranges
+##------ to compare number of EHVOs in different zem ranges
 '''
 # this prints out spectra less than, greater than, or between certain redshift ranges and the percentage of EHVOs in the parent sample within that range
 
@@ -198,13 +195,4 @@ for i in np.arange(2.0,5.0,0.5):
         print('% EHVO in parent sample for ', i-0.5, ' =< zem < ', i, '=', len(zem_EHVO_DR9_between)/len(zem_DR9_between))
         zem_EHVO_DR9_between = []
         zem_DR9_between = []
-    
-
-
-print("number of BI: ", len(BI_EHVO_DR9))
-print("zem BAL mean: ", np.mean(zem_BAL_DR9))
-print("zem BAL median: ", np.median(zem_BAL_DR9))
-print("zem BAL range: ", np.max(zem_BAL_DR9)-np.min(zem_BAL_DR9))
-print("zem BI min: ", np.min(BI_EHVO_DR9))
-print("zem BI max: ", np.max(BI_EHVO_DR9))
 '''

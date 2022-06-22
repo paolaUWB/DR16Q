@@ -28,7 +28,7 @@ def plot_zem_histograms(x, bins, color, label, zem_BAL_size, zem_EHVO_size, x_la
     FILE: file name?
 
     '''
-    #------ DR16
+    ##------ data
     zem_EHVO = x[0] # EHVO redshift
     zem_EHVO = np.hstack(zem_EHVO)
     zem = x[1] # parent sample redshift
@@ -37,27 +37,25 @@ def plot_zem_histograms(x, bins, color, label, zem_BAL_size, zem_EHVO_size, x_la
     zem_BAL = np.hstack(zem_BAL)
 
 
-
-    #------ plots redshift histograms w/ option of scaling BAL & EHVO to be able to see on plot
+    ##------ plots redshift histograms w/ option of scaling BAL & EHVO to be able to see on plot
     if plot == 'zem': 
         fig = plt.figure(1) 
 
-        # if zem_BAL_size > 1:
-            # zem_BAL = [zem_BAL] * zem_BAL_size
+        if zem_BAL_size > 1:
+            zem_BAL = [zem_BAL] * zem_BAL_size
 
         if zem_EHVO_size > 1:
             zem_EHVO = [zem_EHVO] * zem_EHVO_size 
         
-        x_data = np.array([zem_EHVO, zem, zem_BAL], dtype=object)
-        # x_data = np.array([zem_EHVO, zem],dtype=object) ## check to see if there is a solution to using this
+        x_data = np.array([zem_EHVO, zem, zem_BAL], dtype=object) # check to see if there is a solution to not do this
 
         #--plots histograms w/ same bin size (uses parent sample bin size)
-        plt.hist(x_data, bins=bins, color=color, label=label, histtype='step')
+        plt.hist(x_data, bins=bins, color=color, label=label, histtype='step', linewidth=1.5)
 
         #-- plots histograms w/ different bin sizes for each class [bins input needs to be array of bin sizes]
-        # plt.hist(x_data[0], bins=bins[0], color=color[0], label=label[0], histtype='step') # EHVO 
-        # plt.hist(x_data[1], bins=bins[1], color=color[1], label=label[1], histtype='step') # parent sample
-        # plt.hist(x_data[2], bins=bins[2], color=color[2], label=label[2], histtype='step') # BAL
+        # plt.hist(x_data[0], bins=bins[0], color=color[0], label=label[0], histtype='step', linewidth=1.5) # EHVO 
+        # plt.hist(x_data[1], bins=bins[1], color=color[1], label=label[1], histtype='step', linewidth=1.5) # parent sample
+        # plt.hist(x_data[2], bins=bins[2], color=color[2], label=label[2], histtype='step', linewidth=1.5) # BAL
 
         plt.legend(loc='upper ' + legend_location)
         plt.xlabel(x_label)
@@ -66,33 +64,20 @@ def plot_zem_histograms(x, bins, color, label, zem_BAL_size, zem_EHVO_size, x_la
         fig.savefig(FILE, dpi=200)
 
 
-    #------ plots redshift histograms --> scaled by dividing each class by itself
+    ##------ plots redshift histograms --> scaled by dividing each class by itself
     elif plot == 'zem/class': 
         fig = plt.figure(2) 
         x = np.array([zem_EHVO, zem, zem_BAL],dtype=object)
-        # x = np.array([zem_EHVO, zem], dtype=object)
 
         weights = [np.ones_like(zem_EHVO)/float(len(zem_EHVO)), np.ones_like(zem)/float(len(zem)), np.ones_like(zem_BAL)/float(len(zem_BAL))]
-        # weights = [np.ones_like(zem_EHVO)/float(len(zem_EHVO)), np.ones_like(zem)/float(len(zem))]
 
         #------ plots histograms w/ same bin size (uses parent sample bin size)
         plt.hist(x, bins, color=color, label=label, histtype='step', weights=weights, linewidth=1.5)
         
-        #------ to check how many are in each bin & to determine which bin has most quasars: 
-        # counts, edges, plot = plt.hist(x, bins, color=color, label=label, histtype='step', weights=weights, linewidth=1.5)
-        # print("zem/class EHVO: ", counts[0])
-        # max_zemclass_EHVO = np.argmax(counts[0])
-        # print('zem/class EHVO max index: ', max_zemclass_EHVO)
-        
-        
-        # plt.hist(x[0], bins, color=color[0], label=label[0], histtype='step', weights=weights[0], linewidth=1.5)
-        # plt.hist(x[1], bins, color=color[1], label=label[1], histtype='step', weights=weights[1], linewidth=1.5)
-        # plt.hist(x[2], bins, color=color[2], label=label[2], histtype='step', weights=weights[2], linewidth=1.5)
-
         #------ plots histograms w/ different bin sizes for each class [bins input needs to be array of bin sizes]
-        # plt.hist(x[0], bins=bins[0], color=color[0], label=label[0], histtype='step', weights=weights[0])
-        # plt.hist(x[1], bins=bins[1], color=color[1], label=label[1], histtype='step', weights=weights[1])
-        # plt.hist(x[2], bins=bins[2], color=color[2], label=label[2], histtype='step', weights=weights[2])
+        # plt.hist(x[0], bins=bins[0], color=color[0], label=label[0], histtype='step', weights=weights[0], linewidth=1.5)
+        # plt.hist(x[1], bins=bins[1], color=color[1], label=label[1], histtype='step', weights=weights[1], linewidth=1.5)
+        # plt.hist(x[2], bins=bins[2], color=color[2], label=label[2], histtype='step', weights=weights[2], linewidth=1.5)
 
         plt.legend(loc='upper ' + legend_location)
         plt.xlabel(x_label)
@@ -107,18 +92,9 @@ def plot_zem_histograms(x, bins, color, label, zem_BAL_size, zem_EHVO_size, x_la
         fig.savefig(FILE, dpi=200)
         
     elif plot == 'zem/parent': 
-        # hist_vals_PARENT, bins_PARENT, patches_PARENT = plt.hist(x[1], bins, color=color[1], label=label[1], histtype='step') 
-        # hist_vals_EHVO, bin_edges_EHVO, patchesEHVO = plt.hist(x[1], bins, color=color[2], label=label[2], histtype='step')
-        # hist_vals_BALS, bin_edges_BALS, patchesBALS = plt.hist(x[2], bins, color=color[1], label=label[1], histtype='step')
-        hist_vals_EHVO, bin_edges_EHVO, patchesEHVO = plt.hist(x[0], bins=bins, color=color[0], label=label[0], histtype='step')
-        hist_vals_PARENT, bins_PARENT, patches_PARENT = plt.hist(x[1], bins=bins, color=color[1], label=label[1], histtype='step') 
-        hist_vals_BALS, bin_edges_BALS, patchesBALS = plt.hist(x[2], bins=bins, color=color[2], label=label[2], histtype='step')
-
-        print("zem/parent EHVO: ", hist_vals_EHVO)
-        print('zem/parent EHVO max index: ', np.argmax(hist_vals_EHVO))
-        
-        # print("zem/parent BALs: ", hist_vals_BALS)
-        # print('zem/parent BALs max index: ', np.argmax(hist_vals_BALS))
+        hist_vals_EHVO, bin_edges_EHVO, patchesEHVO = plt.hist(x[0], bins=bins, color=color[0], label=label[0], histtype='step', linewidth=1.5)
+        hist_vals_PARENT, bins_PARENT, patches_PARENT = plt.hist(x[1], bins=bins, color=color[1], label=label[1], histtype='step', linewidth=1.5) 
+        hist_vals_BALS, bin_edges_BALS, patchesBALS = plt.hist(x[2], bins=bins, color=color[2], label=label[2], histtype='step', linewidth=1.5)
 
         hist_EHVO = hist_vals_EHVO
         hist_BALS = hist_vals_BALS  
@@ -145,21 +121,12 @@ def plot_zem_histograms(x, bins, color, label, zem_BAL_size, zem_EHVO_size, x_la
 
         weights = [ np.ones_like(zem_EHVO)/float(len(zem)), np.ones_like(zem_BAL)/float(len(zem))]
 
-        # plt.plot([bin_edges_BALS[0],bin_edges_BALS[0]],[0,hist_BALS[0]], color='blue')
-        # plt.plot([bin_edges_BALS[0],bin_edges_BALS[1]],[hist_BALS[0],hist_BALS[0]], color='blue')
-        # plt.plot([bin_edges_EHVO[33],bin_edges_EHVO[33]],[0,hist_EHVO[32]], color='red')
-        # plt.plot([bin_edges_EHVO[len(hist_EHVO)-1],bin_edges_EHVO[len(hist_EHVO)-1]],[0,hist_EHVO[len(hist_EHVO)-2]], color='red')
-        # plt.plot([bin_edges_EHVO[len(hist_EHVO)],bin_edges_EHVO[len(hist_EHVO)]],[0,hist_EHVO[len(hist_EHVO)-1]], color='red') ## Comment out when old nhist used
-        # plt.plot([bin_edges_BALS[0],bin_edges_BALS[1]],[hist_EHVO[0],hist_EHVO[0]], color='red')
-
-        #-- works for DR9 (check for DR16)
         plt.plot([bin_edges_BALS[0],bin_edges_BALS[0]],[0,hist_BALS[0]], color=color[2], linewidth=1.5)
         plt.plot([bin_edges_BALS[0],bin_edges_BALS[1]],[hist_BALS[0],hist_BALS[0]], color=color[2], linewidth=1.5)
         plt.plot([bin_edges_EHVO[len(hist_EHVO)-1],bin_edges_EHVO[len(hist_EHVO)-1]],[0,hist_EHVO[len(hist_EHVO)-2]], color=color[0], linewidth=1.5)
         plt.plot([bin_edges_EHVO[len(hist_EHVO)],bin_edges_EHVO[len(hist_EHVO)]],[0,hist_EHVO[len(hist_EHVO)-1]], color=color[0], linewidth=1.5) ## Comment out when old nhist used
         plt.plot([bin_edges_BALS[0],bin_edges_BALS[1]],[hist_EHVO[0],hist_EHVO[0]], color=color[0], linewidth=1.5)
         plt.plot([bin_edges_BALS[0],bin_edges_BALS[0]],[0,hist_EHVO[0]], color=color[0], linewidth=1.5)
-
 
         plt.xlabel('$z_{em}$')
         plt.ylabel('$n/N_{parent}$')
@@ -168,37 +135,23 @@ def plot_zem_histograms(x, bins, color, label, zem_BAL_size, zem_EHVO_size, x_la
         order = [1, 0]
         plt.legend([handles[idx] for idx in order], [labels[idx] for idx in order], loc = 'upper left')
         
-        # plt.legend(loc='upper left')
         plt.tight_layout()
 
         fig.savefig(FILE, dpi=200)
     
     elif plot=='cdf': 
         fig = plt.figure(4)
-
-        # color = ['xkcd:purpleish blue', 'xkcd:shocking pink']
         
         plt.hist(zem_EHVO, bins, density=True, histtype='step', cumulative=True, label='EHVO', color=color[0], linewidth=1.5)
         plt.hist(zem, bins, density=True, histtype='step', cumulative=True, label='parent', color=color[1], linewidth=1.5)
         plt.hist(zem_BAL, bins, density=True, histtype='step', cumulative=True, label='BAL', color=color[2], linewidth=1.5)
-
-        # zem_EHVO_sorted = np.sort(zem_EHVO)
-        # zem_sorted = np.sort(zem)
-        # zem_BAL_sorted = np.sort(zem_BAL)
-
-        # cdf_zemEHVO = np.arange(len(zem_EHVO_sorted))/(len(zem_EHVO_sorted)-1)
-        # cdf_zem = np.arange(len(zem_sorted))/(len(zem_sorted)-1)
-        # cdf_zemBAL = np.arange(len(zem_BAL_sorted))/(len(zem_BAL_sorted)-1)
-
-        # plt.plot(zem_EHVO_sorted, cdf_zemEHVO, color=color[0], linewidth=1.5, label='EHVO')
-        # plt.plot(zem_sorted, cdf_zem, color=color[1], linewidth=1.5, label='Parent')
-        # plt.plot(zem_BAL_sorted, cdf_zemBAL, color=color[2],linewidth=1.5, label='BAL')
         
         plt.xlabel('$z_{em}$')
 
         handles, labels = plt.gca().get_legend_handles_labels()
         order = [1, 0, 2]
-        # order = [0,1,2,3,4,5]
         plt.legend([handles[idx] for idx in order], [labels[idx] for idx in order], loc = 'upper left')
+       
         plt.tight_layout()
+       
         fig.savefig(FILE, dpi=200)
