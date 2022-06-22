@@ -1,3 +1,4 @@
+import os
 import math
 import numpy as np
 from scipy.stats import ks_2samp
@@ -11,8 +12,13 @@ EHVO_SAMPLE_DR9 = 40 ## number of EHVO spectra (previously specnum3)
 ##------ data files
 
 # DR9 ---
-info_DR9Q = np.loadtxt('/Users/mikelcharles/Documents/GitHub/DR16Q/DR9Q_selection_minus17.dat',dtype=bytes, delimiter="\n").astype(str)
-info_EHVO_DR9Q = np.loadtxt('/Users/mikelcharles/Documents/GitHub/DR16Q/EHVO_DR9.dat',dtype=bytes,delimiter="\n").astype(str)
+info_DR9Q = np.loadtxt(os.getcwd() + '/DR9Q_selection_minus17.dat',dtype=bytes, delimiter="\n").astype(str)
+info_EHVO_DR9Q = np.loadtxt(os.getcwd() + '/EHVO_DR9.dat',dtype=bytes,delimiter="\n").astype(str)
+
+
+##------ output locations
+OUT_CONFIG = os.getcwd() + '/REDSHIFT/OUTPUT_FILES/'
+
 
 ##------ arrays: DR9 parent
 zem_DR9 = np.zeros(PARENT_SAMPLE_DR9) - 1
@@ -127,27 +133,73 @@ zem_EHVO_size = 1
 
 x_label = '$z_{em}$'
 
-# plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'zem', 'right', 'zem_DR9_zem.png') # plots redshifts for each population (parent, EHVO, BAL)
-# plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'zem/class', 'right', 'zem_DR9_zem-class.png') # plots redshifts for each population, scaled per bin by number in each population/class per bin
-# plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'zem/parent', 'left', 'zem_DR9_zem-parent.png') # plots redshifts for each population, scaled per bin by number of parent sample per bin
-# plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'cdf', 'left', 'zem_DR9_cdf.png') # plots cumulative histogram of redshifts for each population (parent, EHVO, BAL)
+plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'zem', 'right', OUT_CONFIG + '/zem_DR9_zem.png') # plots redshifts for each population (parent, EHVO, BAL)
+plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'zem/class', 'right', OUT_CONFIG + '/zem_DR9_zem-class.png') # plots redshifts for each population, scaled per bin by number in each population/class per bin
+plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'zem/parent', 'left', OUT_CONFIG + '/zem_DR9_zem-parent.png') # plots redshifts for each population, scaled per bin by number of parent sample per bin
+plot_zem_histograms(x_vals, bins, color, label, zem_BAL_size, zem_EHVO_size, x_label, 'cdf', 'left', OUT_CONFIG + '/zem_DR9_cdf.png') # plots cumulative histogram of redshifts for each population (parent, EHVO, BAL)
 
 
-#------ to compare # of quasars/ehvos with redshift above/below a certain value
-zem_compare = 2.0
-zem_compare_2 = 4.5
-zem_EHVO_DR9_highredshift = []
-zem_DR9_highredshift = []
-for i in range(len(zem_EHVO_DR9)): 
-    if (zem_EHVO_DR9[i] < zem_compare): # and (zem_EHVO_DR9[i] < zem_compare_2):
-        zem_EHVO_DR9_highredshift.append(zem_EHVO_DR9[i])
+#------ ks 2 sample statistical test - DR9
+KS_EHVOall_zem=ks_2samp(zem_DR9, zem_EHVO_DR9)
+KS_BALall_zem=ks_2samp(zem_DR9, zem_BAL_DR9)
+KS_EHVOBAL_zem=ks_2samp(zem_BAL_DR9, zem_EHVO_DR9)
 
-for i in range(len(zem_DR9)):
-    if (zem_DR9[i] < zem_compare): # and (zem_DR9[i] < zem_compare_2): 
-        zem_DR9_highredshift.append(zem_DR9[i])
+print('zem : p-value parent EHVO= '+str(KS_EHVOall_zem))
+print('zem: p-value BAL parent= '+str(KS_BALall_zem))
+print('zem: p-value BAL EHVO= '+str(KS_EHVOBAL_zem))
 
-print('zem EHVO < ', zem_compare, '=', len(zem_EHVO_DR9_highredshift))
-print('zem < ', zem_compare, '=', len(zem_DR9_highredshift))
+
+#------ to compare number of EHVOs in different zem ranges
+'''
+# this prints out spectra less than, greater than, or between certain redshift ranges and the percentage of EHVOs in the parent sample within that range
+
+zem_EHVO_DR9_less = []
+zem_DR9_less = []
+
+zem_EHVO_DR9_more = []
+zem_DR9_more = []
+
+zem_EHVO_DR9_between = []
+zem_DR9_between = []
+
+
+for i in np.arange(2.0,5.0,0.5):
+    for j in range(len(zem_EHVO_DR9)): 
+        if (zem_EHVO_DR9[j] < i): 
+            zem_EHVO_DR9_less.append(zem_EHVO_DR9[j])
+    print('zem EHVO < ', i, '=', len(zem_EHVO_DR9_less))
+    for k in range(len(zem_DR9)):
+        if (zem_DR9[k] < i): 
+            zem_DR9_less.append(zem_DR9[k])
+    print('zem < ', i, '=', len(zem_DR9_less))
+    print('% EHVO in parent sample for zem < ', i, '=', len(zem_EHVO_DR9_less)/len(zem_DR9_less))
+    zem_EHVO_DR9_less = []
+    zem_DR9_less=[]
+    for l in range(len(zem_EHVO_DR9)): 
+        if (zem_EHVO_DR9[l] >= i):
+            zem_EHVO_DR9_more.append(zem_EHVO_DR9[l])
+    print('zem EHVO >= ', i, '=', len(zem_EHVO_DR9_more))
+    for m in range(len(zem_DR9)):
+        if (zem_DR9[m] >= i):
+            zem_DR9_more.append(zem_DR9[m])
+    print('zem >= ', i, '=', len(zem_DR9_more))
+    print('% EHVO in parent sample for zem >= ', i, '=', len(zem_EHVO_DR9_more)/len(zem_DR9_more))
+    zem_EHVO_DR9_more = []
+    zem_DR9_more = []
+    if (i != 2.0):
+        for n in range(len(zem_EHVO_DR9)): 
+            if (zem_EHVO_DR9[n] < i) and (zem_EHVO_DR9[n] >= i-0.5):
+                zem_EHVO_DR9_between.append(zem_EHVO_DR9[n])
+        print(i-0.5, '=< zem EHVO < ', i, '=', len(zem_EHVO_DR9_between))
+        for r in range(len(zem_DR9)):
+            if (zem_DR9[r] < i) and (zem_DR9[r] >= i-0.5): 
+                zem_DR9_between.append(zem_DR9[r])
+        print(i-0.5, '=< zem < ', i, '=', len(zem_DR9_between))
+        print('% EHVO in parent sample for ', i-0.5, ' =< zem < ', i, '=', len(zem_EHVO_DR9_between)/len(zem_DR9_between))
+        zem_EHVO_DR9_between = []
+        zem_DR9_between = []
+    
+
 
 print("number of BI: ", len(BI_EHVO_DR9))
 print("zem BAL mean: ", np.mean(zem_BAL_DR9))
@@ -155,12 +207,4 @@ print("zem BAL median: ", np.median(zem_BAL_DR9))
 print("zem BAL range: ", np.max(zem_BAL_DR9)-np.min(zem_BAL_DR9))
 print("zem BI min: ", np.min(BI_EHVO_DR9))
 print("zem BI max: ", np.max(BI_EHVO_DR9))
-
-
-#------ ks 2 sample statistical test - DR9
-KS_EHVOall_zem=ks_2samp(zem_DR9, zem_EHVO_DR9)
-KS_BALall_zem=ks_2samp(zem_DR9, zem_BAL_DR9)
-KS_EHVOBAL_zem=ks_2samp(zem_BAL_DR9, zem_EHVO_DR9)
-print('zem : p-value parent EHVO= '+str(KS_EHVOall_zem))
-print('zem: p-value BAL parent= '+str(KS_BALall_zem))
-print('zem: p-value BAL EHVO= '+str(KS_EHVOBAL_zem))
+'''

@@ -17,6 +17,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
 from sqlalchemy import false
+sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
@@ -46,7 +47,10 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.cs
 SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/NORMALIZATION/"
+OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
+
+## CREATES DIRECTORY FOR PLOTS
+PLOT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/pdfFILES/"
 
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/../" + "NORM_DR16Q/"
@@ -58,7 +62,7 @@ STARTS_FROM, ENDS_AT = 1, 5 ## Currently able to be run, based on data we have: 
 SNR_CUTOFF = 10. 
 
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no' 
+save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no' 
 save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 save_by_range = 'no' ## DO YOU WANT TO SAVE FILES BY RANGE OF SPECTRA RUN? 'yes'/'no' -- this will prevent overwriting files every time you run the code.
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
@@ -100,59 +104,59 @@ WAVELENGTH_RESTFRAME_TESTS = Range(1650., 1700.)
 
 if save_by_range == 'yes': 
     ## TEXT OUTPUT FILES
-    LOG_FILE = OUT_DIREC + "/" + "log_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".txt"
-    LOG_NO_LOW_SNR_FILE = OUT_DIREC + "/" + "log_no_low_snr_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".txt"
+    LOG_FILE = OUT_DIREC + "log_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".txt"
+    LOG_NO_LOW_SNR_FILE = OUT_DIREC + "log_no_low_snr_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".txt"
 
-    GOOD_FIT_FILE = OUT_DIREC + "/" + "good_fit_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
-    ORIGINAL_FILE = OUT_DIREC + "/" + "original_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    GOOD_FIT_FILE = OUT_DIREC + "good_fit_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    ORIGINAL_FILE = OUT_DIREC + "original_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
 
-    FLAGGED_SNR_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
-    FLAGGED_ABSORPTION_FILE = OUT_DIREC + "/" + "flagged_absorption_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
-    FLAGGED_BAD_FIT_FILE = OUT_DIREC + "/" + "flagged_bad_fit_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
-    UNFLAGGED_FILE = OUT_DIREC + "/" + "unflagged_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    FLAGGED_SNR_FILE = OUT_DIREC + "flagged_snr_in_ehvo_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    FLAGGED_ABSORPTION_FILE = OUT_DIREC + "flagged_absorption_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    FLAGGED_BAD_FIT_FILE = OUT_DIREC + "flagged_bad_fit_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    UNFLAGGED_FILE = OUT_DIREC + "unflagged_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
 
-    ANCHOR_PT_FILE = OUT_DIREC + "/" + "anchor_pts_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
+    ANCHOR_PT_FILE = OUT_DIREC + "anchor_pts_" + str(STARTS_FROM) + "-" + str(ENDS_AT) + ".csv"
 
     ## CREATES PDF FOR GRAPHS
-    FLAGGED_ABSORPTION_PDF = PdfPages('flagged_absorption_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
-    FLAGGED_BAD_FIT_PDF = PdfPages('flagged_bad_fit_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
-    UNFLAGGED_PDF = PdfPages('unflagged_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
+    FLAGGED_ABSORPTION_PDF = PdfPages(PLOT_DIREC + 'flagged_absorption_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
+    FLAGGED_BAD_FIT_PDF = PdfPages(PLOT_DIREC + 'flagged_bad_fit_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
+    UNFLAGGED_PDF = PdfPages(PLOT_DIREC + 'unflagged_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
 
-    GOOD_FIT_PDF = PdfPages('good_fit_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
-    ORIGINAL_PDF = PdfPages('original_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf') 
-    ANCHOR_PT_PDF = PdfPages('anchor_pt_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
+    GOOD_FIT_PDF = PdfPages(PLOT_DIREC + 'good_fit_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
+    ORIGINAL_PDF = PdfPages(PLOT_DIREC + 'original_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf') 
+    ANCHOR_PT_PDF = PdfPages(PLOT_DIREC + 'anchor_pt_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
 
-    NORMALIZED_PDF = PdfPages('normalized_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf') 
+    NORMALIZED_PDF = PdfPages(PLOT_DIREC + 'normalized_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf') 
 
-    FLAGGED_SNR_PDF = PdfPages('flagged_snr_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
+    FLAGGED_SNR_PDF = PdfPages(PLOT_DIREC + 'flagged_snr_graphs_' + str(STARTS_FROM) + '-' + str(ENDS_AT) + '.pdf')
     
 else: 
     ## TEXT OUTPUT FILES
-    LOG_FILE = OUT_DIREC + "/" + "log.txt"
-    LOG_NO_LOW_SNR_FILE = OUT_DIREC + "/" + "log_no_low_snr.txt"
+    LOG_FILE = OUT_DIREC + "log.txt"
+    LOG_NO_LOW_SNR_FILE = OUT_DIREC + "log_no_low_snr.txt"
 
-    GOOD_FIT_FILE = OUT_DIREC + "/" + "good_fit.csv"
-    ORIGINAL_FILE = OUT_DIREC + "/" + "original.csv"
+    GOOD_FIT_FILE = OUT_DIREC + "good_fit.csv"
+    ORIGINAL_FILE = OUT_DIREC + "original.csv"
 
-    FLAGGED_SNR_FILE = OUT_DIREC + "/" + "flagged_snr_in_ehvo.csv"
-    FLAGGED_ABSORPTION_FILE = OUT_DIREC + "/" + "flagged_absorption.csv"
-    FLAGGED_BAD_FIT_FILE = OUT_DIREC + "/" + "flagged_bad_fit.csv"
-    UNFLAGGED_FILE = OUT_DIREC + "/" + "unflagged.csv"
+    FLAGGED_SNR_FILE = OUT_DIREC + "flagged_snr_in_ehvo.csv"
+    FLAGGED_ABSORPTION_FILE = OUT_DIREC + "flagged_absorption.csv"
+    FLAGGED_BAD_FIT_FILE = OUT_DIREC + "flagged_bad_fit.csv"
+    UNFLAGGED_FILE = OUT_DIREC + "unflagged.csv"
 
-    ANCHOR_PT_FILE = OUT_DIREC + "/" + "anchor_pts.csv"
+    ANCHOR_PT_FILE = OUT_DIREC + "anchor_pts.csv"
 
     ## CREATES PDF FOR GRAPHS
-    FLAGGED_ABSORPTION_PDF = PdfPages('flagged_absorption_graphs.pdf')
-    FLAGGED_BAD_FIT_PDF = PdfPages('flagged_bad_fit_graphs.pdf')
-    UNFLAGGED_PDF = PdfPages('unflagged_graphs.pdf')
+    FLAGGED_ABSORPTION_PDF = PdfPages(PLOT_DIREC + 'flagged_absorption_graphs.pdf')
+    FLAGGED_BAD_FIT_PDF = PdfPages(PLOT_DIREC + 'flagged_bad_fit_graphs.pdf')
+    UNFLAGGED_PDF = PdfPages(PLOT_DIREC + 'unflagged_graphs.pdf')
 
-    GOOD_FIT_PDF = PdfPages('good_fit_graphs.pdf')
-    ORIGINAL_PDF = PdfPages('original_graphs.pdf') 
-    ANCHOR_PT_PDF = PdfPages('anchor_pt_graphs.pdf')
+    GOOD_FIT_PDF = PdfPages(PLOT_DIREC + 'good_fit_graphs.pdf')
+    ORIGINAL_PDF = PdfPages(PLOT_DIREC + 'original_graphs.pdf') 
+    ANCHOR_PT_PDF = PdfPages(PLOT_DIREC + 'anchor_pt_graphs.pdf')
 
-    NORMALIZED_PDF = PdfPages('normalized_graphs.pdf') 
+    NORMALIZED_PDF = PdfPages(PLOT_DIREC + 'normalized_graphs.pdf') 
 
-    FLAGGED_SNR_PDF = PdfPages('flagged_snr_graphs.pdf')
+    FLAGGED_SNR_PDF = PdfPages(PLOT_DIREC + 'flagged_snr_graphs.pdf')
 
 
 
