@@ -7,13 +7,17 @@ Created on Tue Mar  1 12:00:53 2022
 
 import os
 import numpy as np
+from scipy.optimize import curve_fit
+from utility_functions import read_file
+sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_original_figure, draw_normalized_figure
 import normalization_module as norm
 import matplotlib.pyplot as plt
 # from spec_pca_module import plot_sdss_lines
-from scipy.optimize import curve_fit
-from utility_functions import read_file
 
-config_path = "C:/Users/Dakota/Documents/GitHub/DR16Q/DR9_sorted_norm.csv"
+
+config_path = os.cwd() + '/DR9_sorted_norm.csv' #"C:/Users/Dakota/Documents/GitHub/DR16Q/DR9_sorted_norm.csv"
 fontsize = 20
 figsize = (12,6)
 
@@ -112,8 +116,8 @@ def normalize_spec(wave, flux, err, z=0):
     c = -0.5 # initial PL slope
     
     current_spectra_data = np.array((wave, flux, err)).T
-    anchor_pts = norm.dynamic_find_anchor_points(current_spectra_data, z, \
-                                                 user_anchors, user_delta, verbose=False)
+    anchor_pts = dynamic_find_anchor_points(current_spectra_data, z, \
+                                                 user_anchors, user_delta, verbose=False) 
 
     power_law_wave = []
     power_law_flux = []

@@ -11,7 +11,7 @@ from astropy.io import fits
 import shutil
 
 directory = os.getcwd()
-fits_file = 'C:/Users/Dakota/Desktop/DR16Q_v4.fits'
+fits_file = os.getcwd() + '/../ + VARIABILITY_DATA/DR16Q_v4.fits' ## may change this?? 
 
 hdu = fits.open(fits_file)
 data = hdu[1].data
@@ -71,7 +71,7 @@ for file in os.listdir(directory):
         foldernames.append('J' + fits_objid[loc])
 
 og_names = np.array(fits_names)[indexs]
-data_dir = 'C:/Users/Dakota/Documents/GitHub/DR16Q/DATA/DR9Q_SNR10'
+data_dir = os.cwd() + '/DATA/DR9Q_SNR10' #possibly: /../ + /DATA/DR9Q_SNR10 #'C:/Users/Dakota/Documents/GitHub/DR16Q/DATA/DR9Q_SNR10'
 
 for i in range(len(filenames)):
     try:

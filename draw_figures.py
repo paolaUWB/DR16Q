@@ -524,6 +524,49 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     FILE.savefig(bbox_inches='tight')
     plt.close(figure_index)
 
+def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, verbose=True):
+    """
+    Function based on 'define_three_anchor_points'. Defines a user-specified 
+        number of anchor points. This function makes use of the function
+        'wavelength_flux_error_for_points' to find the closest wavelength bin
+        to the user-requested anchor point values.
+    Parameters
+    ----------
+    spectra_data : tuple
+        (wavelength, flux, error).
+    z : float
+        redshift.
+    user_anchors : list
+        User-defined desired anchor points.
+    user_delta : float
+        Wavelength range to search for anchor points.
+    verbose : bool
+        Print found wavelength bins for each user-defined anchor point.
+    Returns
+    -------
+    anchor_pts : arr
+        List of PointData objects.
+    """
+
+    anchor_pts = []
+    
+    
+    
+    for i, point in enumerate(user_anchors):
+        
+        llim = point - user_delta
+        ulim = point + user_delta
+        
+        spec_point = wavelength_flux_error_for_points(llim, ulim, z, spectra_data)
+        
+        anchor_pts.append(spec_point)
+        
+        if verbose:
+            print('Matched user requested point', np.round(point, 2))
+            print('        with restframe point', np.round(spec_point[0]/(1+z), 2))
+
+    return anchor_pts
+
 # def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized,
 #                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):#, min_flux_green_region, min_flux_pink_region, max_flux_green_region, max_flux_pink_region):
 #     """ Draws the normalized spectra graph.
