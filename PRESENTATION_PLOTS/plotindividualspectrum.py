@@ -11,7 +11,6 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import os
 from matplotlib.backends.backend_pdf import PdfPages
-from abs_function_module import wavelength_to_velocity
 
 
 
@@ -22,13 +21,13 @@ specnum=1
 # specdirec = '/Users/Paola/QUASAR/Work_EHVO/ROUTINES/'
 specdirec = os.getcwd() + '/../' + "EHVO_NORM_DR16Q/"
 # pp2= PdfPages('spec_021_b.pdf') # normalized pdf
-pp2 = 'spec_021_test.png' ##########
+pp2 = 'spec_022_final.png' ##########
 
-spectra='spec-8374-57783-0919norm.dr16'
+spectra='spec-5421-55980-0918norm.dr16'
 
-zem=z=3.3 #<---
-topy=2.0
-topemlabel=1.97 # This is the location where you want to place the ion labels
+zem=z=4.479 #<---
+topy=2.7
+topemlabel=2.67 # This is the location where you want to place the ion labels
 
 zem_label_x = 1450
 zem_label_y = 1.9
@@ -40,14 +39,14 @@ wavelength_emit2_initial=1600.  # in restframe
 
 # vmin= [-37000] #this is for the colored lines
 # vmax= [-49000]
-vmin = [-35136, -42601] # make smaller to move right line right
-vmax = [-40500, -47000] # make bigger to move left line left
+vmin = [-53800] # make smaller to move right line right
+vmax = [-58200] # make bigger to move left line left
 
 NVabs='yes'
 OVIabs='no'
 SiIVabs='yes'
 OVIem='yes'
-Lyaabs='yes'
+Lyaabs='no'
 
 #-------------------
 
@@ -152,7 +151,7 @@ fig, ay1 = plt.subplots()
 
 #plt.title(spectrum)
 ay1.set_xlabel(r"Observed Wavelength [$\rm \AA$]")
-ay1.set_ylabel(r"Flux [10$^{-17}$ erg/cm$^2$/$\rm \AA$]")
+ay1.set_ylabel(r"Normalized Flux")
      
 ay1.plot (wavelength, smooth(normflux,n),'k-')
 ay1.plot (wavelength, error_normflux,'k--') 
@@ -165,16 +164,16 @@ for k in range(0,len(vmin)):
 
     # plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color='red')
     # plt.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color='red',fontname='serif',weight='bold')
-    # plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color='xkcd:shocking pink')
-    plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color='xkcd:bright magenta')
-    plt.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color='xkcd:bright magenta',fontname='serif',weight='bold')
+    plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color='xkcd:shocking pink')
+    # plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color=color[0])
+    plt.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color=color[0],fontname='serif',weight='bold')
 
     if NVabs == 'yes':
         # plt.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color='green')
         # plt.text(NVll*(1.+zabs_min[k]),1.3-0.1*k,'NV',color='green',fontname='serif',weight='bold')
+        plt.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color='xkcd:azure')
         # plt.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color='xkcd:azure')
-        plt.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color='xkcd:strong blue')
-        plt.text(NVll*(1.+zabs_min[k]),1.3-0.1*k+0.5,'NV?',color='xkcd:strong blue',fontname='serif',weight='bold')
+        plt.text(NVll*(1.+zabs_min[k]),1.3-0.1*k+0.5,'NV?',color='xkcd:azure',fontname='serif',weight='bold')
     
     if OVIabs == 'yes':
         # plt.axvspan(OVIllblue*(1.+zabs_max[k]),OVIllred*(1.+zabs_min[k]), alpha=0.2, color='blue')
@@ -185,9 +184,9 @@ for k in range(0,len(vmin)):
     if SiIVabs == 'yes':
         # plt.axvspan(SiIVllblue*(1.+zabs_max[k]),SiIVllred*(1.+zabs_min[k]), alpha=0.2, color='orange')
         # plt.text(SiIVll*(1.+zabs_min[k]),0.25,'SiIV',color='orange',fontname='serif',weight='bold')
-        plt.axvspan(SiIVllblue*(1.+zabs_max[k]),SiIVllred*(1.+zabs_min[k]), alpha=0.2, color='xkcd:aqua green')# 'xkcd:purpleish blue')
-        plt.text(SiIVll*(1.+zabs_min[k]),0.25*k+2,'SiIV?',color='xkcd:aqua green',fontname='serif',weight='bold')
-        
+        plt.axvspan(SiIVllblue*(1.+zabs_max[k]),SiIVllred*(1.+zabs_min[k]), alpha=0.2, color='xkcd:purpleish blue')# 'xkcd:purpleish blue')
+        plt.text(SiIVll*(1.+zabs_min[k]),0.25*k+2,'SiIV?',color='xkcd:purpleish blue',fontname='serif',weight='bold')
+        #0.25*k+2
     if Lyaabs == 'yes':
         # plt.axvspan(Lya*(1.+zabs_max[k]),Lya*(1.+zabs_min[k]), alpha=0.2, color='purple')
         # plt.text(Lya*(1.+zabs_min[k])-20.,1.45-0.1*k,'Lya',color='purple',fontname='serif',weight='bold')
@@ -256,6 +255,6 @@ fig.tight_layout() ############
 #text(1037.616*(1+zabs)+10.,topemlabel,'OVI',color='magenta')
 
 # pp2.savefig() ########
-plt.savefig(pp2)
+plt.savefig(os.getcwd() + '/PRESENTATION_PLOTS/OUTPUT_FILES/' + pp2)
 # plt.savefig(pp2, dpi=100) ##########
 # pp2.close() ##########
