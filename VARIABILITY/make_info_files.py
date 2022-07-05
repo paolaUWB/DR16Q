@@ -8,8 +8,8 @@ Created on Wed Apr  6 18:45:19 2022
 import numpy as np
 import os
 
-parent_data_raw = np.loadtxt("DR9Q_selection_minus17.dat", dtype='str', delimiter='\n').T
-directory = 'DATA_VARIABILITY/'
+parent_data_raw = np.loadtxt(os.getcwd() + "/DR9Q_EHVO/DR9Q_selection_minus17.dat", dtype='str', delimiter='\n').T
+directory = os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/'
 
 ###Choose which data release the data is from
 

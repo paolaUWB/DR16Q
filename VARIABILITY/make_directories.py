@@ -7,8 +7,11 @@ Created on Sun May  8 12:14:27 2022
 
 import numpy as np
 import os
+import sys
 from astropy.io import fits
 import shutil
+sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
+from utility_functions import print_to_file
 
 directory = os.getcwd()
 print(directory)
@@ -46,6 +49,11 @@ for i in range(len(fits_plate)):
 
     else:
         fits_duplicates.append('-1')
+    
+    print_to_file(fits_duplicates[i], directory + '/fits_duplicates.txt')
+    print_to_file(fits_names[i], directory + '/fits_names.txt')
+
+
 #%%    
 filenames = []
 foldernames = []
@@ -76,11 +84,11 @@ data_dir = os.getcwd() + '/DATA/DR9Q_SNR10' #possibly: /../ + /DATA/DR9Q_SNR10 #
 
 for i in range(len(filenames)):
     try:
-        os.mkdir(directory + '/DATA_VARIABILITY/' + foldernames[i])
+        os.mkdir(directory + '/VARIABILITY/DATA_VARIABILITY/' + foldernames[i])
     except FileExistsError:
         pass
     os.replace(directory + '/' + filenames[i], directory + \
-               '/DATA_VARIABILITY/' + foldernames[i] + '/' + filenames[i])
+               '/VARIABILITY/DATA_VARIABILITY/' + foldernames[i] + '/' + filenames[i])
 #%%
 for i in range(len(og_names)):
     try:
@@ -89,3 +97,4 @@ for i in range(len(og_names)):
         
     except IndexError:
         pass
+
