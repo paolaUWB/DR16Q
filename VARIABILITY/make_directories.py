@@ -15,7 +15,7 @@ from utility_functions import print_to_file
 
 directory = os.getcwd()
 print(directory)
-fits_file = os.getcwd() + '/../' + 'DR16Q_v4.fits' ## may change this?? 
+fits_file = os.getcwd() + '/../' + 'DR16Q_v4.fits'
 
 hdu = fits.open(fits_file)
 data = hdu[1].data
@@ -50,8 +50,8 @@ for i in range(len(fits_plate)):
     else:
         fits_duplicates.append('-1')
     
-    print_to_file(fits_duplicates[i], directory + '/fits_duplicates.txt')
-    print_to_file(fits_names[i], directory + '/fits_names.txt')
+    # print_to_file(fits_duplicates[i], directory + '/fits_duplicates.txt')
+    # print_to_file(fits_names[i], directory + '/fits_names.txt')
 
 
 #%%    
@@ -80,7 +80,7 @@ for file in os.listdir(directory):
         foldernames.append('J' + fits_objid[loc])
 
 og_names = np.array(fits_names)[indexs]
-data_dir = os.getcwd() + '/DATA/DR9Q_SNR10' #possibly: /../ + /DATA/DR9Q_SNR10 #'C:/Users/Dakota/Documents/GitHub/DR16Q/DATA/DR9Q_SNR10'
+data_dir = os.getcwd() + '/DATA/DR16Q_EHVO/DR16Q_EHVO_FILES/' #possibly: /../ + /DATA/DR9Q_SNR10 #'C:/Users/Dakota/Documents/GitHub/DR16Q/DATA/DR9Q_SNR10'
 
 for i in range(len(filenames)):
     try:
