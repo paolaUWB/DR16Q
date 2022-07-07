@@ -6,13 +6,13 @@
 - Contains a way to run multiple spectra through the functions necessary to calculate BI, vmin, vmax, EW, and depth. Also, outputs graphs of the spectra when absorption is found.
 
 ### `abs_plot_module.py`
-- Modules that contriute to plotting spectra in terms of velocities and explicitly plotting various absorption features. 
+- Modules that contribute to plotting spectra in terms of velocities and explicitly plotting various absorption features. 
 
 ### `abs_function_module.py`
 - Contains various functions to run absorption code.
 
 ### `OUTPUT_FILES`
-- What in this folder will vary but from absorption.py the output files will be placed here, that includes the text file and pdf-graphs.
+- What is in this folder will vary but from absorption.py the output files will be placed here, that includes the text file and pdf-graphs.
 - If the user changes the name of the files multiple graphs and text files will be created. 
 
 ### `README.md`
