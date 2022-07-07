@@ -1,5 +1,5 @@
 # DR16Q --> ABSORPTION
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->
 ## QUICK OVERVIEW OF ABSORPTION FOLDER
 
 ### `absorption.py`
@@ -17,7 +17,7 @@
 
 ### `README.md`
 - this file.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->
 ## RUNNING ABSORPTION FILE
 
 - Files needed to run `absorption.py`:
@@ -25,10 +25,10 @@
 
 <!--- add "instructions" and/or important things to know about running the code pending, might delete this seciton in general. --->
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->
 ## FILES IN ABSORPTION DIRECTORY
 
-### absorption.py
+### `absorption.py`
 - Searches for absorption based on the parameters listed below. It outputs pdf-graphs of the spectra and also with various absorption characteristics. It also outputs a text file with the values of various absorption characteristics which are listed below.   
 - Default is it searches for non-shallow absorption, we have this as being 10% below the continuum. 
     - We have the contiuum set to a value of 1 from the normalization, so 0.9 would be 10% below the continuum, this is where it flags.  
@@ -40,11 +40,11 @@
 - When the pdf-graphs of spectra are produced the user can state if they would like to plot all of the spectra even if there are no absorption features or only spectra that contain absorption features based on the prerequistes entered above (i.e. the range of speed, non-shallow value, and broad absorption value).
 - The user can also state whether to 'smooth' the spectra and can set a value for the amount of smoothness.
       
-### OUTPUT_FILES --> textFILES
+### `OUTPUT_FILES` --> textFILES
 - Text file with :BI, v mins, v maxs, BI individual, equivalent width individual and depth.
     - If there are multiple troughs found the text file will have multiple values for everything except the total BI value. 
         
-### OUTPUT_FILES --> pdfFILES
+### `OUTPUT_FILES` --> pdfFILES
 - pdf graph of spectra which shows normalized flux vs velociity.
 - There is a horizontal black line that plots at a value of 1.37 to indicate where the broad absorption value is met.
 - Visually shows where where CIV, CII and OI would be _if_ the EHVO absorption found were instead not EHVO and due to SiIV, plots a vertical line for that value and creates a colored bar that spans from the minimum velocity previously found to the maximum velocity. 
