@@ -1,7 +1,6 @@
 """
-==============================
-abs_function_module.py
-==============================
+abs_function_module
+===================
 
 @author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker 
 based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo
@@ -64,18 +63,17 @@ def wavelength_to_velocity(redshift, wavelength):
 def smooth(smooth_this, box_size):   
     """Smooths out values entered.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     smooth_this: list
         The value(s) of whatever is going to get smoothed.
-
     box_size: int
         This is the number of points that are smoothed into one. Always be sure to use an odd 
         number, because we need the same amount of points on each side of the data point to be
         smoothed.
 
-    Returns:
-    --------
+    Returns
+    -------
     now_smooth: list
         The values that are now smoothed.
     """   
@@ -99,57 +97,41 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     ----------
     z: list
         The redshift values.
-    
     wavelength: list
         The wavelength values.
-
     normalized_flux: list
         The normalized flux values.
-
     BALNICITY_INDEX_LIMIT: int
         The minimum value of broad absorption width that we are looking for. 
-
     velocity_limits: namedtuple
         The velocity limits that we will be searching for absorption, aka the integral limits of BI calculation.
-
     percent: float
         The percentage value you want to go below the continuum.
-
     plots: string, default = 'yes'
         Whether you want to plot the values or just want the values, the default is to plot. 
 
     Returns
     -------
     BI_total: list
-        The total BI for the entire figure added up together.
-    
+        The total BI for the entire figure added up together. 
     BI_individual: list
         The individual BI value for 1 trough, if there is only 1 trough then ``BI_individual = BI_total``.
-
     BI_all: list
         Contains ALL of the total BI_total values for all the spectra ran.
-
     vmins: array
         The value of where the minimum velocity occurs for a trough.
-
     vmaxs: array
         The value of where the maximum velocity occurs for a trough.
-
     EW_individual: list
         The value of the equivalent width for each individual trough.
-
     final_depth_individual: list
         The value of the depth of each individual trough.
-    
     final_depth_all_individual: list
         ALL of the final_depth_individual values for all of the spectra that were ran.
-
     beta: array
         The velocity values that were converted from wavelength.
-
     vminindex_for_range: int
         The index of where the minimum velocity is located. This is created with the intent to help scale the y-axis of grahing.
-
     vmaxindex_for_range: int
         The index of where the maximum velocity is located. This is created with the intent to help scale the y-axis of grahing.
 

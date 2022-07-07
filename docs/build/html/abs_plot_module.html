@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>abs_plot_module module &#8212; DR16Q 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ABSORPTION.abs_plot_module">
+<span id="abs-plot-module-module"></span><h1>abs_plot_module module<a class="headerlink" href="#module-ABSORPTION.abs_plot_module" title="Permalink to this headline">¶</a></h1>
+<section id="abs-plot-module">
+<h2>abs_plot_module<a class="headerlink" href="#abs-plot-module" title="Permalink to this headline">¶</a></h2>
+<p>&#64;author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker
+based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo</p>
+<p class="rubric">Notes</p>
+<p>All the functions made to plot the spectra and indicate where CIV, CII, and OI would be <em>if</em> the EHVO absorption found was
+due to SiIV.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.black_line">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">black_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#black_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.black_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a notable black horizontal line of when the minimum broad absorption width value has
+passed if absorption found. This line is inside of span_vmin_vmax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>array</em>) – The velocity values you are looping through.</p></li>
+<li><p><strong>index</strong> (<em>list</em><em> or </em><em>array</em>) – The current index you are on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.draw_abs_figure">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">draw_abs_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectra_count_abs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectra_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefile_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectra_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redshift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_peak</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#draw_abs_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.draw_abs_figure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a flux vs velocity graph, that also has the error vs velocity on the same graph. Has text that identifies
+what the graph number is, what the spectra name is, the signal to noise ratio, and the redshift value used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spectra_count_abs</strong> (<em>int</em><em> or </em><em>list</em>) – Keeping record of how many absorption plots have been found.</p></li>
+<li><p><strong>spectra_index</strong> (<em>int</em><em> or </em><em>list</em>) – The index number of the graph you are plotting.</p></li>
+<li><p><strong>velocity</strong> (<em>array</em><em> or </em><em>list</em>) – The velocity values to plot on the x-axis.</p></li>
+<li><p><strong>flux_normalized</strong> (<em>array</em><em> or </em><em>list</em>) – The flux values that will be plotted on the y-axis.</p></li>
+<li><p><strong>error</strong> (<em>array</em><em> or </em><em>list</em>) – The error values to be plotted.</p></li>
+<li><p><strong>savefile_name</strong> (<em>string</em>) – The name that you want the plot to be saved as.</p></li>
+<li><p><strong>spectra_name</strong> (<em>string</em>) – The full name of the spectra.</p></li>
+<li><p><strong>redshift</strong> (<em>int</em><em> or </em><em>list</em><em> or </em><em>array</em>) – The redshift value used for calculations.</p></li>
+<li><p><strong>snr</strong> (<em>int</em><em> or </em><em>list</em><em> or </em><em>array</em>) – The signal to noise ratio value.</p></li>
+<li><p><strong>max_peak</strong> (<em>int</em><em> or </em><em>array</em>) – The max peak value which is used to scale the y-axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.presentation">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">presentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmins_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmaxs_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continuum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#presentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.presentation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This function was specifically made to use the spectra to create a figure for the presentation</dt><dd><p>slides we created.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>array</em>) – The velocity values you are looping through.</p></li>
+<li><p><strong>flux</strong> (<em>list</em><em> or </em><em>array</em>) – The normalized flux values used.</p></li>
+<li><p><strong>vmins_i</strong> (<em>int</em>) – Index value of where the minimum velocity occurs.</p></li>
+<li><p><strong>vmaxs_i</strong> (<em>int</em>) – Index value of where the maximum velocity occurs.</p></li>
+<li><p><strong>continuum</strong> (<em>int</em><em>, </em><em>default = 1</em>) – Value of where we want the continuum to be 1. We normally use 1 so the default is set to 1.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The values in the <code class="docutils literal notranslate"><span class="pre">where</span></code> (currently -33918 and -42744) are values we picked for one specific spectra.
+These values are the vmins and vmaxs of it’s BI.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.span_vmin_vmax">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">span_vmin_vmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmaxs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#span_vmin_vmax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.span_vmin_vmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a red bar that spans from the minimum velocity occurance and the maximum velocity
+occurance if absorption found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>array</em>) – The velocity values you are looping through.</p></li>
+<li><p><strong>vmins</strong> – The minimum velocity point you want to span.</p></li>
+<li><p><strong>vmaxs</strong> – The maximum velocity point you want to span.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.vmax_plot_span_IF">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">vmax_plot_span_IF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmaxs_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_wavelength_C_vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_wavelength_CII_vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_wavelength_OI_vel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#vmax_plot_span_IF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.vmax_plot_span_IF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the maximum velocity index and value of where CIV, CII and OI would be <em>if</em> the EHVO absorption
+found were instead not EHVO and due to SiIV, plots a vertical line for that value and creates a colored bar
+that spans from the minimum velocity previously found to this maximum velocity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>array</em><em> or </em><em>list</em>) – The list velocity values to be used.</p></li>
+<li><p><strong>wavelength</strong> (<em>list</em>) – A list of wavelength values to be used.</p></li>
+<li><p><strong>vmaxs_index</strong> (<em>int</em><em> or </em><em>list</em>) – The index value of the maximum velocity found from the beta list to be used as a reference point to find
+the index value of the maximum velocity for where CIV, CII, OI would be <em>if</em> the EHVO absorption found
+were instead not EHVO and due to SiIV.</p></li>
+<li><p><strong>obs_wavelength_C_vel</strong> (<em>array</em><em> or </em><em>list</em>) – The minimum value of the velocity for where CIV would be for each pair of VMIN  <em>if</em> the EHVO absorption
+found were instead not EHVO and due to SiIV.</p></li>
+<li><p><strong>obs_wavelength_CII_vel</strong> (<em>array</em><em> or </em><em>list</em>) – The minimum value of the velocity for where CII would be for each pair of VMIN <em>if</em> the EHVO absorption
+found were instead not EHVO and due to SiIV.</p></li>
+<li><p><strong>obs_wavelength_OI_vel</strong> (<em>array</em><em> or </em><em>list</em>) – The minimum value of the velocity for where OI would be for each pair of VMIN <em>if</em> the EHVO absorption
+found were instead not EHVO and due to SiIV.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.vmin_line">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">vmin_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#vmin_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.vmin_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a red notable vertical line of the minimum velocity occurance if absorption found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>array</em>) – The velocity values you are looping through, should specifically be the minimum value of where
+absorption is found.</p></li>
+<li><p><strong>index</strong> (<em>list</em>) – The value of the index of where the minimum value(s) of absorption is found.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ABSORPTION.abs_plot_module.vmin_plot_IF">
+<span class="sig-prename descclassname"><span class="pre">ABSORPTION.abs_plot_module.</span></span><span class="sig-name descname"><span class="pre">vmin_plot_IF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_velocity_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BALNICITY_INDEX_LIMIT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ABSORPTION/abs_plot_module.html#vmin_plot_IF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ABSORPTION.abs_plot_module.vmin_plot_IF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the minimum velocity index and value of where CIV, CII and OI would be <em>if</em> the EHVO absorption
+found were instead not EHVO and due to SiIV, and plots a vertical line for that value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>array</em><em> or </em><em>list</em>) – The velocity value(s) to be used.</p></li>
+<li><p><strong>wavelength</strong> (<em>array</em><em> or </em><em>list</em><em> or </em><em>int</em>) – The wavelength values to be used.</p></li>
+<li><p><strong>current_velocity_index</strong> (<em>list</em><em> or </em><em>int</em>) – When looping through a velocity, the specific velocity index that you are on.</p></li>
+<li><p><strong>BALNICITY_INDEX_LIMIT</strong> (<em>int</em>) – The minimum value of broad absorption width that we are looking for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>obs_wavelength_C_vel</strong> (<em>array or list</em>) – The minimum value of the velocity for where CIV would be for each pair of VMIN
+<em>if</em> the EHVO absorption found were instead not EHVO and due to SiIV.</p></li>
+<li><p><strong>obs_wavelength_CII_vel</strong> (<em>array or list</em>) – The minimum value of the velocity for where CII would be for each pair of VMIN
+<em>if</em> the EHVO absorption found were instead not EHVO and due to SiIV.</p></li>
+<li><p><strong>obs_wavelength_OI_vel</strong> (<em>array or list</em>) – The minimum value of the velocity for where OI would be for each pair of VMIN
+<em>if</em> the EHVO absorption found were instead not EHVO and due to SiIV.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">DR16Q</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">modules</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, wen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/abs_plot_module.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
