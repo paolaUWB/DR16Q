@@ -3,15 +3,44 @@
 % You can adapt this file completely to your liking, but it should at least
 % contain the root `toctree` directive.
 
-# Welcome to Extremely High Velocity Ouflow Quasar Research Group's documentation!
+# Extremely High Velocity Ouflow Quasar Research Group's documentation
+
+```{warning}
+This library is under heavy development.
+```
+
+```{include} ../../README.md
+```
+
+```{include} ../../NORMALIZATION/README.md
+```
+
+```{include} ../../ABSORPTION/README.md
+```
+
+```{include} ../../DR16Q_EHVO/README.md
+```
+
+```{include} ../../DATA/README.md
+```
+
+```{include} ../../CROSS_CORRELATION/README.md
+```
+
+```{include} ../../REDSHIFT/README.md
+```
+
+```{include} ../../VARIABILITY/README.md
+```
+
+```{include} ../../PRESENTATION_PLOTS/README.md
+```
+
+```{include} ../../DR9Q_EHVO/README.md
+```
 
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
 ```
 
-# Indices and tables
-
-- {ref}`genindex`
-- {ref}`modindex`
-- {ref}`search`

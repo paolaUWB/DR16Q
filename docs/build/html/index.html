@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Welcome to Extremely High Velocity Ouflow Quasar Research Group’s documentation! &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
+    <title>Extremely High Velocity Ouflow Quasar Research Group’s documentation &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -31,18 +31,469 @@
 
           <div class="body" role="main">
             
-  <section id="welcome-to-extremely-high-velocity-ouflow-quasar-research-group-s-documentation">
-<h1>Welcome to Extremely High Velocity Ouflow Quasar Research Group’s documentation!<a class="headerlink" href="#welcome-to-extremely-high-velocity-ouflow-quasar-research-group-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="extremely-high-velocity-ouflow-quasar-research-group-s-documentation">
+<h1>Extremely High Velocity Ouflow Quasar Research Group’s documentation<a class="headerlink" href="#extremely-high-velocity-ouflow-quasar-research-group-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This library is under heavy development.</p>
+</div>
+</section>
+<section id="dr16q">
+<h1>DR16Q<a class="headerlink" href="#dr16q" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>Welcome to the DR16Q EHVO Github!</p>
+<p>Steps to contribute to this project:</p>
+<ol class="arabic simple">
+<li><p>Look through the “Welcome! First steps for PHYS students” document on in the Google Drive. This document contains information about the research project [how to register for credits, general resources about quasars &amp; quasar outflows, some of the posters/presentations we have made, etc.].</p></li>
+<li><p>Look through the GitHub Welcome Packet in the Google Drive. This document contains information about how GitHub works [how to get the repository on your own computer, how to push changes, etc.].</p></li>
+</ol>
+<hr class="docutils" />
+<section id="general-notes">
+<h2>GENERAL NOTES<a class="headerlink" href="#general-notes" title="Permalink to this headline">¶</a></h2>
+<p>-In this repository, all code is written in Python. To run the code, you can use either Spyder IDE or Visual Studio Code (VS Code). Regardless of which you choose, be sure to launch the app through Anaconda.</p>
+<p>-Any major change should be added to the README file.</p>
+<hr class="docutils" />
+</section>
+<section id="directories-in-repository-see-the-readme-in-each-directory-for-more-detailed-info">
+<h2>DIRECTORIES IN REPOSITORY [see the README in each directory for more detailed info]<a class="headerlink" href="#directories-in-repository-see-the-readme-in-each-directory-for-more-detailed-info" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>ABSORPTION
+-contains all files/codes necessary to run the code that searches each normalized quasar spectrum for absorption</p></li>
+<li><p>CROSS_CORRELATION
+-??</p></li>
+<li><p>DATA
+-contains all .drX files; these are the data for each individual spectrum that is downloaded from the SDSS</p></li>
+<li><p>DR9Q_EHVO
+-contains all files relevant to the 40 DR9 EHVO cases</p></li>
+<li><p>DR16Q_EHVO
+-contains all files relevant to the 98 DR16 EHVO cases (&amp; possibly the candidates later on??? TBD)</p></li>
+<li><p>NORMALIZATION
+-contains all files/codes necessary to run the code that fits &amp; normalizes each quasar spectrum
+-this code also contributes to creating our parent sample (flags spectra for SNR, etc.)</p></li>
+<li><p>OLD
+-old files/versions of code that we are scared to delete :)</p></li>
+<li><p>PRESENTATION_PLOTS
+-codes to make pretty plots for posters/presentations/papers/fun wallpaper/etc.</p></li>
+<li><p>REDSHIFT
+-codes/files to create histogram plots to compare redshifts of different populations for both the DR9 and DR16</p></li>
+<li><p>VARIABILITY
+-??</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="files-in-directory">
+<h2>FILES IN DIRECTORY<a class="headerlink" href="#files-in-directory" title="Permalink to this headline">¶</a></h2>
+<p>-data_types.py
+This file contains definitions of tuples that are used in the normalization.py code.<br />
+-DR9_sorted_norm.csv
+File that contains all necessary information/data to run normalization.py. This is NOT the parent sample - all spectra we have downloaded from the SDSS are included in this file.
+<strong>Columns:</strong> Spectra Name, Redshift, SDSS SNR
+-DR16_BAL_parent_sample.csv
+File that contains the DR16 BALQSOs –&gt; these are the BALQSOs that meet our criteria AND are in our parent sample
+-<strong>Columns:</strong> Spectra File Name, Redshift, BI Value, BI Error, SNR
+-DR16_parent_sample.csv
+File that contains the final DR16 parent sample
+-DR16_sorted_norm.csv
+File that contains all necessary information/data to run normalization.py. This is NOT the parent sample - all spectra we have downloaded from the SDSS are included in this file.
+<strong>Columns:</strong> Spectra Name, Redshift, SDSS SNR
+-draw_figures.py
+This code contains the functions used by the normalization.py code to plot spectra.
+-useful_wavelength_flux_error_modules.py
+Contains the functions used to calculate the location of the anchor points, calculate SNR, etc.
+-utility_functions.py
+Contains the functions to read/open/print to files and other general functions.</p>
+<hr class="docutils" />
+</section>
+<section id="gitignore">
+<h2>.gitignore<a class="headerlink" href="#gitignore" title="Permalink to this headline">¶</a></h2>
+<p>-Any files that you would like to be ignored when pushing should be recorded in this file.
+** ADD MORE DETAILS **</p>
+</section>
+</section>
+<section id="dr16q-normalization">
+<h1>DR16Q –&gt; NORMALIZATION<a class="headerlink" href="#dr16q-normalization" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>The normalization code works by first calculating the SNR of each spectrum between 1250-1400 A to determine if any spectra have a lot of noise in the region we are searching for CIV absorption to identify EHVO quasars. Any cases with SNR&lt;10 are flagged and ignored for the remainder of the project. Cases with SNR&gt;10 are fit with a power law using three anchor points in regions of the spectrum that typically lack emission and absorption to best attempt to fit the spectrum through the continuum. A series of tests are performed (described below) to check that the fit goes through the continuum. Any spectrum that is deemed a “good fit” (fit through continuum) is normalized by dividing the flux by the power law and is saved in a file to be run through the absorption.py code to search for absorption.</p>
+<hr class="docutils" />
+<section id="files-in-normalization-directory">
+<h2>FILES IN NORMALIZATION DIRECTORY<a class="headerlink" href="#files-in-normalization-directory" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>normalization.py
+-This is the code that normalizes quasar spectra to analyze and helps to define our parent sample (flags low SNR cases). This is the first step in the project and creates the files that the absorption code uses.</p></li>
+<li><p>OUTPUT_FILES –&gt; pdfFILES
+After you run this code, all your graphs will be added to a pdf file in your directory. None of these files contain graphs for spectra with SNR less than 10 (other than flagged_snr_graphs.pdf)</p>
+<ul class="simple">
+<li><p>anchor_pt_graphs.pdf
+-saved only when dynamic=’yes’
+-these plots contain the full wavelength plot of the spectrum as well as three plots that are zoomed in on the anchor point locations to assist in plotting points
+-the user input anchor points are on these plots which can be nice to reference if you need to redo or recreate the normalization</p></li>
+<li><p>flagged_absorption_graphs.pdf
+-any spectra that is flagged for TEST #4 are added to this file due to possible absorption in the test regions [TEST #4]</p></li>
+<li><p>flagged_bad_fit_graphs.pdf
+-all spectra that have been deemed a bad fit by the tests are flagged, plotted, and added to this file [TEST #1 &amp; TEST #2]</p></li>
+<li><p>flagged_snr_graphs.pdf
+-all spectra that have been flagged for SNR&lt;10 have been added to this file –&gt; this file has little purpose, it was used for symposium presentations to find examples of noisy vs. high SNR spectra</p></li>
+<li><p>good_fit_graphs.pdf
+-all spectra that have SNR&gt;10 that have been deemed to be a good fit originally are plotted and added to this file
+-all spectra that have been unflagged have been plotted and added to this file</p></li>
+<li><p>normalized_graphs.pdf
+-all spefctra that have been deemed good fits are normalized and the normalized spectra are plotted and added to this file [contains good_fit and unflagged]</p></li>
+<li><p>original_graphs.pdf
+-all spectra in the range provided that have SNR&gt;10 are plotted and added to this file</p></li>
+<li><p>unflagged_graphs.pdf
+-any spectra that were previously flagged that have been deemed a good fit are unflagged, plotted and added to this file [TEST #3]</p></li>
+</ul>
+<p>–&gt; original_graphs.pdf ~ original.csv
+–&gt; good_fit_graphs.pdf ~ flagged_bad_fit_graphs.pdf ~ original_graphs.pdf
+–&gt; good_fit_graphs.pdf ~ normalized_graphs.pdf</p>
+</li>
+<li><p>OUTPUT_FILES –&gt; textFILES</p>
+<ul class="simple">
+<li><p>anchor_pts.csv
+-saves file with user input anchor points when dynamic=’yes’</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="normalization-tests">
+<h1>Normalization Tests:<a class="headerlink" href="#normalization-tests" title="Permalink to this headline">¶</a></h1>
+<p>-TEST #1
+-checks whether the fit of the powerlaw is going closely through the anchor points
+-if the powerlaw goes through all three anchor points well, it proceeds to the other three tests
+-if the powerlaw is too far from the anchor points, two other locations for the middle anchor point are attempted. if the powerlaw is still too far, the spectra is flagged and moved to the flagged_bad_fit file.</p>
+<p>-TEST #2
+-checks whether the powerlaw goes through close to the center of the green and pink test regions
+-if the fit is good, it proceeds to TEST #4 (and skips TEST #3)
+-if the fit is bad, the spectra is flagged but continues on to TEST #3</p>
+<p>-TEST #3
+-checks if the powerlaw is generally in the center of the pink and green test regions
+-if the fit is good enough in BOTH regions, this test unflags the spectra and adds it to the unflagged file as well as the good_fit file
+-if the fit is still not good, the spectra remains flagged and is added to the flagged_bad_fit file</p>
+<p>-TEST #4
+-checks if the green or pink test region is completely below the powerlaw (a check for possible absorption in these regions)
+-if either the green or pink region is completely below the powerlaw, the spectra is added to the flagged absorption file
+-if neither region are completely below the powerlaw, nothing is done</p>
+<p>-There is a test file in the directory. If you change something wrong, the test file will catch the different results. If you change constant variables, this will cause different output.
+If changes are correct then update the test file with new results for future tests.</p>
+</section>
+<hr class="docutils" />
+<section id="dr16q-absorption">
+<h1>DR16Q –&gt; ABSORPTION<a class="headerlink" href="#dr16q-absorption" title="Permalink to this headline">¶</a></h1>
+<!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->
+<section id="quick-overview-of-absorption-folder">
+<h2>QUICK OVERVIEW OF ABSORPTION FOLDER<a class="headerlink" href="#quick-overview-of-absorption-folder" title="Permalink to this headline">¶</a></h2>
+<section id="absorption-py">
+<h3><code class="docutils literal notranslate"><span class="pre">absorption.py</span></code><a class="headerlink" href="#absorption-py" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Contains a way to run multiple spectra through the functions necessary to calculate BI, vmin, vmax, EW, and depth. Also, outputs graphs of the spectra when absorption is found.</p></li>
+</ul>
+</section>
+<section id="abs-plot-module-py">
+<h3><code class="docutils literal notranslate"><span class="pre">abs_plot_module.py</span></code><a class="headerlink" href="#abs-plot-module-py" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Modules that contribute to plotting spectra in terms of velocities and explicitly plotting various absorption features.</p></li>
+</ul>
+</section>
+<section id="abs-function-module-py">
+<h3><code class="docutils literal notranslate"><span class="pre">abs_function_module.py</span></code><a class="headerlink" href="#abs-function-module-py" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Contains various functions to run absorption code.</p></li>
+</ul>
+</section>
+<section id="output-files">
+<h3><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code><a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>What is in this folder will vary but from absorption.py the output files will be placed here, that includes the text file and pdf-graphs.</p></li>
+<li><p>If the user changes the name of the files multiple graphs and text files will be created.</p></li>
+</ul>
+</section>
+<section id="readme-md">
+<h3><code class="docutils literal notranslate"><span class="pre">README.md</span></code><a class="headerlink" href="#readme-md" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>this file.</p></li>
+</ul>
+<!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->
+</section>
+</section>
+<section id="running-absorption-file">
+<h2>RUNNING ABSORPTION FILE<a class="headerlink" href="#running-absorption-file" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Files needed to run <code class="docutils literal notranslate"><span class="pre">absorption.py</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">good_fit.csv</span></code> from <strong>NORMALIZATION</strong> folder</p></li>
+</ul>
+</li>
+</ul>
+<!--- add "instructions" and/or important things to know about running the code pending, might delete this seciton in general. --->
+<!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->
+</section>
+<section id="files-in-absorption-directory">
+<h2>FILES IN ABSORPTION DIRECTORY<a class="headerlink" href="#files-in-absorption-directory" title="Permalink to this headline">¶</a></h2>
+<section id="id1">
+<h3><code class="docutils literal notranslate"><span class="pre">absorption.py</span></code><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Searches for absorption based on the parameters listed below. It outputs pdf-graphs of the spectra and also with various absorption characteristics. It also outputs a text file with the values of various absorption characteristics which are listed below.</p></li>
+<li><p>Default is it searches for non-shallow absorption, we have this as being 10% below the continuum.</p>
+<ul>
+<li><p>We have the contiuum set to a value of 1 from the normalization, so 0.9 would be 10% below the continuum, this is where it flags.</p></li>
+<li><p>Has a 3-spike limit, so after the spectrum crosses the 0.9 threshold three times it stops counting.</p></li>
+</ul>
+</li>
+<li><p>Looking for broad absorption which we characterized at 2,000 km/s.</p></li>
+<li><p>BI value will start being counted after that braod absorption is met.</p></li>
+<li><p>Searches between 30,000 km/s and 60,000 km/s.</p></li>
+<li><p>These defaults can be changed to other values.</p></li>
+<li><p>When the pdf-graphs of spectra are produced the user can state if they would like to plot all of the spectra even if there are no absorption features or only spectra that contain absorption features based on the prerequistes entered above (i.e. the range of speed, non-shallow value, and broad absorption value).</p></li>
+<li><p>The user can also state whether to ‘smooth’ the spectra and can set a value for the amount of smoothness.</p></li>
+</ul>
+</section>
+<section id="output-files-textfiles">
+<h3><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code> –&gt; textFILES<a class="headerlink" href="#output-files-textfiles" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Text file with :BI, v mins, v maxs, BI individual, equivalent width individual and depth.</p>
+<ul>
+<li><p>If there are multiple troughs found the text file will have multiple values for everything except the total BI value.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="output-files-pdffiles">
+<h3><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code> –&gt; pdfFILES<a class="headerlink" href="#output-files-pdffiles" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>pdf graph of spectra which shows normalized flux vs velociity.</p></li>
+<li><p>There is a horizontal black line that plots at a value of 1.37 to indicate where the broad absorption value is met.</p></li>
+<li><p>Visually shows where where CIV, CII and OI would be <em>if</em> the EHVO absorption found were instead not EHVO and due to SiIV, plots a vertical line for that value and creates a colored bar that spans from the minimum velocity previously found to the maximum velocity.</p>
+<ul>
+<li><p>red is used for SiIV</p></li>
+<li><p>gray is used for CIV</p></li>
+<li><p>blue is used for CII</p></li>
+<li><p>yellow is used for OI</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id2">
+<h3><code class="docutils literal notranslate"><span class="pre">abs_function_module.py</span></code><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>This is the meat of <code class="docutils literal notranslate"><span class="pre">absorption.py</span></code>, most of the code is in here. <code class="docutils literal notranslate"><span class="pre">absorption.py</span></code> uses this module to run it over many spectra.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">wavelength_to_velocity</span> <span class="pre">function</span></code> is in here.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">smooth</span></code> function is in here.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3><code class="docutils literal notranslate"><span class="pre">abs_plot_module.py</span></code><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Contains all of the code necessary to plot spectra and various absorption characteristics.</p></li>
+<li><p>Also contains a function for plots we utilize only for presentation purposes.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="dr16q-dr16q-ehvo">
+<h1>DR16Q –&gt; DR16Q_EHVO<a class="headerlink" href="#dr16q-dr16q-ehvo" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>All information &amp; files for the DR16Q EHVOs.</p>
+<hr class="docutils" />
+<section id="files-in-dr16q-ehvo-directory">
+<h2>FILES IN DR16Q_EHVO DIRECTORY<a class="headerlink" href="#files-in-dr16q-ehvo-directory" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>NORM_DR16Q_EHVO
+-Contains the normalized files for the EHVOs in the DR16Q</p></li>
+<li><p>pdfFILES_abs</p>
+<ul>
+<li><p>EHVO_BI2000_smooth11.pdf
+-This file contains all EHVO spectra after they have been run through the absorption code that searches for absorption troughs that dip at least 10% below the continuum for at least 2000km/s when the spectra is smoothed (boxcar=11).</p></li>
+<li><p>EHVO_BI2000.pdf
+-This file contains all EHVO spectra after they have been run through the absorption code that searches for absorption troughs that dip at least 10% below the continuum for at least 2000km/s when the spectra is not smoothed.</p></li>
+</ul>
+</li>
+<li><p>pdfFILES_norm</p>
+<ul>
+<li><p>anchor_pt_graphs_EHVO.pdf
+-This file contains the original plots of all of the EHVO spectra.
+-These have all been manually normalized and includes the full wavelength range with the power law fit and 3 anchor points.
+-It also contains three zoomed in plots of where the anchor points were chosen to be and has the user input wavelength for each anchor point.</p></li>
+<li><p>good_fit_graphs_EHVO.pdf
+-This file contains plots of all of the EHVO spectra after they have been fit with a power law, shows the range between 1200-1800A in rest frame.</p></li>
+<li><p>normalized_graphs_EHVO.pdf
+-This file contains the plots of all EHVO spectra after they have been normalized.</p></li>
+</ul>
+</li>
+<li><p>DR16_EHVO_sorted_norm.csv
+-This file contains the list of EHVO spectra that is run through the normalization code.
+-<strong>Columns:</strong> Spectra File Name, Redshift, SNR, Plate, MJD, Fiber</p></li>
+<li><p>EHVO_BI2000_smooth11.txt
+-This file contains the outputs for the EHVO spectra after they have been run through the absorption code (for smoothed spectra, boxcar=11).
+-Contains count of spectra that have been flagged for having absorption (and total spectra that have been run through code), the norm spectra file name, the calculated Balnicity Index (BI), vmin and vmax of the CIV trough, individual BI measurement, Equivalent Width (EW) of the CIV trough, and Depth of the CIV trough.
+-NOTE: normally we cannot immediately assume that the absorption in the red column is CIV, but these have all been visually inspected to confirm this is true in this case.</p></li>
+<li><p>EHVO_BI2000.txt
+-This file contains the outputs for the EHVO spectra after they have been run through the absorption code (for non smoothed spectra).
+-Contains count of spectra that have been flagged for having absorption (and total spectra that have been run through code), the norm spectra file name, the calculated Balnicity Index (BI), vmin and vmax of the CIV trough, individual BI measurement, Equivalent Width (EW) of the CIV trough, and Depth of the CIV trough.
+-NOTE: normally we cannot immediately assume that the absorption in the red column is CIV, but these have all been visually inspected to confirm this is true in this case.</p></li>
+<li><p>good_fit_EHVO.csv
+-This file contains the outputs for the EHVO spectra after they have been run through the normalization code. This is the file that is used to run the absorption code.
+-<strong>Columns:</strong> Spectra Index, Spectra File Name, Norm Spectra File Name, Redshift, Calculated SNR, SDSS SNR, BF, CF</p></li>
+</ul>
+</section>
+</section>
+<section id="dr16q-data">
+<h1>DR16Q –&gt; DATA<a class="headerlink" href="#dr16q-data" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>Contains the DR9Q and DR16Q data that has been downloaded from the SDSS. Each spectrum has been dereddened and contains the data needed to plot the spectrum.</p>
+<hr class="docutils" />
+<section id="files-in-data-directory">
+<h2>FILES IN DATA DIRECTORY<a class="headerlink" href="#files-in-data-directory" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>DR9Q_SNR10
+-contains the DR9Q data from the SDSS
+-all data has SDSS calculated SNR &gt; 10
+-currently (June 2022) this does not contain the entire DR9Q sample, there are only ~600 spectra</p></li>
+<li><p>DR16Q_SNR10
+-contains the DR16Q data from the SDSS
+-all data has SDSS calculated SNR &gt; 10
+-contains 21859 spectra</p></li>
+<li><p>NORM_DR9Q
+-contains the normalized files for the DR9Q data that we currently have in the repository (~600 spectra)</p></li>
+</ul>
+</section>
+</section>
+<section id="dr16q-cross-correlation">
+<h1>DR16Q –&gt; CROSS_CORRELATION<a class="headerlink" href="#dr16q-cross-correlation" title="Permalink to this headline">¶</a></h1>
+</section>
+<hr class="docutils" />
+<section id="put-some-kind-of-overview-intro-to-what-the-code-does-its-importance-here">
+<h1>put some kind of overview/intro to what the code does &amp; its “importance” here<a class="headerlink" href="#put-some-kind-of-overview-intro-to-what-the-code-does-its-importance-here" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<section id="running-cross-correlation-file-cross-correlation-py">
+<h2>RUNNING CROSS_CORRELATION FILE [cross_correlation.py]<a class="headerlink" href="#running-cross-correlation-file-cross-correlation-py" title="Permalink to this headline">¶</a></h2>
+<p>-Files needed to run cross_correlation.py:
+-</p>
+<hr class="docutils" />
+</section>
+<section id="files-in-cross-correlation-directory">
+<h2>FILES IN CROSS_CORRELATION DIRECTORY<a class="headerlink" href="#files-in-cross-correlation-directory" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="dr16q-redshift">
+<h1>DR16Q –&gt; REDSHIFT<a class="headerlink" href="#dr16q-redshift" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>This directory contains files that plot histograms to analyze the redshifts of the samples. Four histograms in total can be made from this code, one being a cumulative histogram. These histograms show a comparison of the redshifts in the parent sample, EHVO sample, and BAL sample for each DR.</p>
+<hr class="docutils" />
+<section id="running-redshift-file-drx-redshift-py">
+<h2>RUNNING REDSHIFT FILE [DRX_redshift.py]<a class="headerlink" href="#running-redshift-file-drx-redshift-py" title="Permalink to this headline">¶</a></h2>
+<p>NOTE: these were separated to account for the different types of files being read (to keep cleaner) - the DR9 provided .dat files and the DR16 was .csv files. The DR9 file has the BAL definition within it, the DR16 requires one of the input files to be a list of the BALs.</p>
+<p>For both the DR9 and DR16 Redshift programs, the number of spectra in the parent sample, EHVO sample, and BAL sample needs to be known and input at the top in the corresponding variables.</p>
+<p>-Files needed to run DR9_redshift.py:
+-DR9Q_selection_minus17.dat
+-EHVO_DR9.dat</p>
+<p>-Files needed to run DR16_redshift.py:
+-DR16_parent_sample.csv
+-DR16_EHVO_sorted_norm.csv
+-DR16_BAL_parent_sample</p>
+<hr class="docutils" />
+</section>
+<section id="files-in-redshift-directory">
+<h2>FILES IN REDSHIFT DIRECTORY<a class="headerlink" href="#files-in-redshift-directory" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>DR9_redshift.py
+-Code to plot histograms for the DR9 quasar redshift</p></li>
+<li><p>DR16_redshift.py
+-Code to plot histograms for the DR16 quasar redshift</p></li>
+<li><p>draw_histogram.py
+-Function that plots the histograms for the DRX_redshift.py codes</p></li>
+<li><p>OUTPUT_FILES –&gt; contains all plots created by the redshift codes
+-zem_DR9_cdf.png
+-This file contains the cumulative histogram plot for the parent, EHVOs &amp; BALs in the DR9
+-zem_DR9_DR16_cdf.png
+-This file contains the cumulative histogram plot for the parent, EHVOs, &amp; BALs in the DR9 &amp; DR16 to compare
+-zem_DR9_zem-class.png
+-This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the corresponding class for the DR9
+-zem_DR9_zem-parent.png
+-This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the parent sample per bin for the DR9
+-zem_DR9_zem.png
+-This file contains the histogram plots for the parent, EHVOs, &amp; BALs for the DR9 (with the option to scale the EHVOs and BALs so they appear on the plot better)
+-zem_DR16_cdf.png
+-This file contains the cumulative histogram plot for the parent, EHVOs &amp; BALs in the DR16
+-zem_DR16_zem-class.png
+-This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the corresponding class for the DR16
+-zem_DR16_zem-parent.png
+-This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the parent sample per bin for the DR16
+-zem_DR16_zem.png
+-This file contains the histogram plots for the parent, EHVOs, &amp; BALs for the DR16 (with the option to scale the EHVOs and BALs so they appear on the plot better)</p></li>
+</ul>
+</section>
+</section>
+<section id="dr16q-variability">
+<h1>DR16Q –&gt; VARIABILITY<a class="headerlink" href="#dr16q-variability" title="Permalink to this headline">¶</a></h1>
+</section>
+<hr class="docutils" />
+<section id="put-some-kind-of-overview-intro-to-what-the-code-directory-does-its-importance-here">
+<h1>put some kind of overview/intro to what the code/directory does &amp; its “importance” here<a class="headerlink" href="#put-some-kind-of-overview-intro-to-what-the-code-directory-does-its-importance-here" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<section id="running-variability-file-variability-py">
+<h2>RUNNING VARIABILITY FILE [variability???.py]<a class="headerlink" href="#running-variability-file-variability-py" title="Permalink to this headline">¶</a></h2>
+<p>-Files needed to run variability???.py:</p>
+<hr class="docutils" />
+</section>
+<section id="files-in-variability-directory">
+<h2>FILES IN VARIABILITY DIRECTORY<a class="headerlink" href="#files-in-variability-directory" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="dr16q-presentation-plots">
+<h1>DR16Q –&gt; PRESENTATION_PLOTS<a class="headerlink" href="#dr16q-presentation-plots" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>Tools/codes to make pretty plots for posters/presentations/papers/etc.</p>
+<hr class="docutils" />
+<section id="running-plotindividualspectrum-py-file">
+<h2>RUNNING [plotindividualspectrum.py] FILE<a class="headerlink" href="#running-plotindividualspectrum-py-file" title="Permalink to this headline">¶</a></h2>
+<p>-Files needed to run plotindividualspectrum.py:
+-norm.drX file</p>
+<ol class="arabic">
+<li><p>Make sure path to normalized files is correct (specdirec)</p></li>
+<li><p>Set the pp2 variable to be the name of the plot that is created &amp; saved</p></li>
+<li><p>Put the name of the file you want to plot as the spectra variable</p></li>
+<li><p>Fill in the following variables with the correct information for the spectra you would like to plot:
+-zem=z: redshift of the spectrum</p>
+<p>-topy: ylim of the plot (this is sometimes a trial &amp; error to determine)
+-topemlabel: this places the ion labels, typically 0.03 less than the value for topy works well</p>
+<p>-zem_label_x: x coordinate for the redshift label on plot (in rest frame)
+-zem_label_y: y coordinate for the redshift label on plot (in rest frame)</p>
+<p>-wavelength_emit1_initial: xlim for the left side of the plot (in rest frame) - somewhere between 850-1000 usually works well
+-wavelength_emit2_initial: xlim for the right side of the plot (in rest frame) - 1600 works well to include CIV emission</p>
+<p>-vmin: the minimum velocity of the CIV trough (get from BIXXXX.txt file that outputs from the absorption code - this is just a starting point, adjust as necessary)
+-vmax: the maximum velocity of the CIV trough (get from BIXXXX.txt file that outputs from the absorption code - this is just a starting point, adjust as necessary)</p>
+<p>-NVabs: ‘yes’ if you want to plot the shaded region for NV absorption
+-OVIabs: ‘yes’ if you want to plot the shaded region for OVI absorption
+-SiIVabs: ‘yes’ if you want to plot the shaded region for SiIV absorption
+-OVIem: ‘yes’ if you want to plot the label for OVI emission
+-Lyaabs: ‘yes’ if you want to plot the shaded region for Lya absorption</p>
+</li>
+<li><p>Run code and observe your beautiful plot! (and adjust where necessary)</p></li>
+</ol>
+<hr class="docutils" />
+</section>
+<section id="files-in-presentation-plots-directory">
+<h2>FILES IN PRESENTATION_PLOTS DIRECTORY<a class="headerlink" href="#files-in-presentation-plots-directory" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="dr16q-dr9q-ehvo">
+<h1>DR16Q –&gt; DR9Q_EHVO<a class="headerlink" href="#dr16q-dr9q-ehvo" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>All information &amp; files for the DR9Q EHVOs.</p>
+<hr class="docutils" />
+<section id="files-in-dr9q-ehvo-directory">
+<h2>FILES IN DR9Q_EHVO DIRECTORY<a class="headerlink" href="#files-in-dr9q-ehvo-directory" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>DR9Q_selection_minus17.dat
+-This file contains the DR9Q SDSS data for the parent sample (from Paris+2012 table)</p></li>
+<li><p>EHVO_DR9.dat
+-This file contains the SDSS data for the DR9Q EHVOs (from Paris+2012 table?)</p></li>
+</ul>
 <div class="toctree-wrapper compound">
 </div>
 </section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
 </section>
 
 
