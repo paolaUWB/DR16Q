@@ -22,7 +22,8 @@
 
 - Files needed to run `absorption.py`:
     - `good_fit.csv` from **NORMALIZATION** folder
-
+    - This is for the CONFIG_FILE so be sure your path is correct, it could also be a .csv file with a different name.
+    - test test 
 <!--- add "instructions" and/or important things to know about running the code pending, might delete this seciton in general. --->
 
 <!--- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --->

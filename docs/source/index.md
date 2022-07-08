@@ -3,7 +3,7 @@
 % You can adapt this file completely to your liking, but it should at least
 % contain the root `toctree` directive.
 
-# Extremely High Velocity Ouflow Quasar Research Group's documentation
+# Extremely High Velocity Ouflow Quasar Research Group's Documentation
 
 ```{warning}
 This library is under heavy development.
@@ -42,5 +42,8 @@ This library is under heavy development.
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
+
+ABSROPTION/abs_plot_module
+Test
 ```
 

@@ -6,33 +6,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Extremely High Velocity Ouflow Quasar Research Group’s documentation &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
+    <title>Extremely High Velocity Ouflow Quasar Research Group’s Documentation &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/celery.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="next" title="Test" href="Test.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Test.html" title="Test"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Extremely High Velocity Ouflow Quasar Research Group’s Documentation</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <section id="extremely-high-velocity-ouflow-quasar-research-group-s-documentation">
-<h1>Extremely High Velocity Ouflow Quasar Research Group’s documentation<a class="headerlink" href="#extremely-high-velocity-ouflow-quasar-research-group-s-documentation" title="Permalink to this headline">¶</a></h1>
+<h1>Extremely High Velocity Ouflow Quasar Research Group’s Documentation<a class="headerlink" href="#extremely-high-velocity-ouflow-quasar-research-group-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This library is under heavy development.</p>
@@ -223,6 +229,8 @@ If changes are correct then update the test file with new results for future tes
 <li><p>Files needed to run <code class="docutils literal notranslate"><span class="pre">absorption.py</span></code>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">good_fit.csv</span></code> from <strong>NORMALIZATION</strong> folder</p></li>
+<li><p>This is for the CONFIG_FILE so be sure your path is correct, it could also be a .csv file with a different name.</p></li>
+<li><p>test test</p></li>
 </ul>
 </li>
 </ul>
@@ -492,35 +500,102 @@ If changes are correct then update the test file with new results for future tes
 -This file contains the SDSS data for the DR9Q EHVOs (from Paris+2012 table?)</p></li>
 </ul>
 <div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Test.html">Test</a></li>
+</ul>
 </div>
 </section>
 </section>
 
 
+            <div class="clearer"></div>
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">Extremely High Velocity Ouflow Quasar Research Group</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-  </ul></li>
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Extremely High Velocity Ouflow Quasar Research Group’s Documentation</a></li>
+<li><a class="reference internal" href="#dr16q">DR16Q</a><ul>
+<li><a class="reference internal" href="#general-notes">GENERAL NOTES</a></li>
+<li><a class="reference internal" href="#directories-in-repository-see-the-readme-in-each-directory-for-more-detailed-info">DIRECTORIES IN REPOSITORY [see the README in each directory for more detailed info]</a></li>
+<li><a class="reference internal" href="#files-in-directory">FILES IN DIRECTORY</a></li>
+<li><a class="reference internal" href="#gitignore">.gitignore</a></li>
 </ul>
-</div>
+</li>
+<li><a class="reference internal" href="#dr16q-normalization">DR16Q –&gt; NORMALIZATION</a><ul>
+<li><a class="reference internal" href="#files-in-normalization-directory">FILES IN NORMALIZATION DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#normalization-tests">Normalization Tests:</a></li>
+<li><a class="reference internal" href="#dr16q-absorption">DR16Q –&gt; ABSORPTION</a><ul>
+<li><a class="reference internal" href="#quick-overview-of-absorption-folder">QUICK OVERVIEW OF ABSORPTION FOLDER</a><ul>
+<li><a class="reference internal" href="#absorption-py"><code class="docutils literal notranslate"><span class="pre">absorption.py</span></code></a></li>
+<li><a class="reference internal" href="#abs-plot-module-py"><code class="docutils literal notranslate"><span class="pre">abs_plot_module.py</span></code></a></li>
+<li><a class="reference internal" href="#abs-function-module-py"><code class="docutils literal notranslate"><span class="pre">abs_function_module.py</span></code></a></li>
+<li><a class="reference internal" href="#output-files"><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code></a></li>
+<li><a class="reference internal" href="#readme-md"><code class="docutils literal notranslate"><span class="pre">README.md</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-absorption-file">RUNNING ABSORPTION FILE</a></li>
+<li><a class="reference internal" href="#files-in-absorption-directory">FILES IN ABSORPTION DIRECTORY</a><ul>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">absorption.py</span></code></a></li>
+<li><a class="reference internal" href="#output-files-textfiles"><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code> –&gt; textFILES</a></li>
+<li><a class="reference internal" href="#output-files-pdffiles"><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code> –&gt; pdfFILES</a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">abs_function_module.py</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">abs_plot_module.py</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-dr16q-ehvo">DR16Q –&gt; DR16Q_EHVO</a><ul>
+<li><a class="reference internal" href="#files-in-dr16q-ehvo-directory">FILES IN DR16Q_EHVO DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-data">DR16Q –&gt; DATA</a><ul>
+<li><a class="reference internal" href="#files-in-data-directory">FILES IN DATA DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-cross-correlation">DR16Q –&gt; CROSS_CORRELATION</a></li>
+<li><a class="reference internal" href="#put-some-kind-of-overview-intro-to-what-the-code-does-its-importance-here">put some kind of overview/intro to what the code does &amp; its “importance” here</a><ul>
+<li><a class="reference internal" href="#running-cross-correlation-file-cross-correlation-py">RUNNING CROSS_CORRELATION FILE [cross_correlation.py]</a></li>
+<li><a class="reference internal" href="#files-in-cross-correlation-directory">FILES IN CROSS_CORRELATION DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-redshift">DR16Q –&gt; REDSHIFT</a><ul>
+<li><a class="reference internal" href="#running-redshift-file-drx-redshift-py">RUNNING REDSHIFT FILE [DRX_redshift.py]</a></li>
+<li><a class="reference internal" href="#files-in-redshift-directory">FILES IN REDSHIFT DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-variability">DR16Q –&gt; VARIABILITY</a></li>
+<li><a class="reference internal" href="#put-some-kind-of-overview-intro-to-what-the-code-directory-does-its-importance-here">put some kind of overview/intro to what the code/directory does &amp; its “importance” here</a><ul>
+<li><a class="reference internal" href="#running-variability-file-variability-py">RUNNING VARIABILITY FILE [variability???.py]</a></li>
+<li><a class="reference internal" href="#files-in-variability-directory">FILES IN VARIABILITY DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-presentation-plots">DR16Q –&gt; PRESENTATION_PLOTS</a><ul>
+<li><a class="reference internal" href="#running-plotindividualspectrum-py-file">RUNNING [plotindividualspectrum.py] FILE</a></li>
+<li><a class="reference internal" href="#files-in-presentation-plots-directory">FILES IN PRESENTATION_PLOTS DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-dr9q-ehvo">DR16Q –&gt; DR9Q_EHVO</a><ul>
+<li><a class="reference internal" href="#files-in-dr9q-ehvo-directory">FILES IN DR9Q_EHVO DIRECTORY</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Test.html"
+                        title="next chapter">Test</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -531,32 +606,26 @@ If changes are correct then update the test file with new results for future tes
     </div>
 </div>
 <script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2022, wen.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/index.md.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Test.html" title="Test"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Extremely High Velocity Ouflow Quasar Research Group’s Documentation</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, wen.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
   </body>
 </html>
