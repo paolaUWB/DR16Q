@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 # from spec_pca_module import plot_sdss_lines
 
 
-config_path = os.getcwd() + '/DR9_sorted_norm.csv' #"C:/Users/Dakota/Documents/GitHub/DR16Q/DR9_sorted_norm.csv"
+config_path = os.getcwd() + '/DR16_sorted_norm.csv' #"C:/Users/Dakota/Documents/GitHub/DR16Q/DR9_sorted_norm.csv"
 fontsize = 20
 figsize = (12,6)
 
@@ -85,12 +85,7 @@ def load_config(config_path, data_name):
     
     return(parent_z, parent_snr)
 
-
-
-
-
-
-def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
+def plot_norm_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
     """
     
     Parameters
@@ -118,12 +113,12 @@ def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500
         if f.startswith('J'):
             z = np.loadtxt(directory + f + '/info.txt', skiprows=1,delimiter = ',',dtype=str)[1].astype(np.float64)
             for i, file in enumerate(os.listdir(directory + f)):
-                if file.startswith('spec'):
-                    data = np.loadtxt(directory + f + '/' + file, dtype=np.float64).T
+                if file.startswith('spec') and file.endswith('norm.dr16' or 'norm.txt'):
+                    data = np.loadtxt(file, dtype=np.float64).T
                     wave = data[0]
                     flux = data[1]
                     err = data[2]
-                    name = f
+                    name = file
                     try:
                         wave = wave / (1 + z)
                     except UnboundLocalError:
@@ -148,7 +143,7 @@ def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500
                 # plot_sdss_lines(wavemin, wavemax)
             if error:
                 plt.plot(wave, err, 'grey')
-            plt.title(name)
+            plt.title(file)
             plt.xlabel("Restframe Wavelength (A)")
             plt.ylabel("Normalized Flux Density")
             plt.legend()
@@ -157,3 +152,82 @@ def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500
             plt.clf()
             
 plot_spectra(os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/', lines=False)
+
+def plot_norm_spectra(directory, lines=False, error=False):
+    """
+    
+    Parameters
+    ----------
+    spectra : str
+        Directory in which the files are contained, or in which the
+        directories are contained.
+    lines : bool, optional
+        Whether or not you want to plot common emission
+        lines. The default is False.
+
+    Returns
+    -------
+    None.
+
+    """
+
+    wave = []
+    flux = []
+    err = []
+    name = []
+    label = []
+    colors = ['b', 'darkgreen', 'purple', 'cyan', 'magenta']
+
+    z = np.loadtxt(directory + f + '/info.txt', skiprows=1,delimiter = ',',dtype=str)[1].astype(np.float64)
+    if file.startswith('spec') and file.endswith('norm.dr16' or 'norm.txt'):
+        if file.startswith('spec'):
+            data = np.loadtxt(directory + f + '/' + file, dtype=np.float64).T
+            wave = data[0]
+            flux = data[1]
+            err = data[2]
+            name = f
+                try:
+                    bf, cf, norm_flux = normalize_spec(wave, flux, err)
+                    flux = norm_flux
+                except ValueError:
+                    pass
+                label = 'SDSS-I'
+            if file[-3:] == 'dr9':
+                label = 'SDSS-II'
+            if file[-3:] == 'dr16':
+                label = 'SDSS-III/IV'
+
+            fig, ay1 = plt.subplots()
+
+            # ay1 = fig.add_subplot(1, 1, 1)
+
+            # plt.title(spectrum)
+            ay1.set_xlabel(r"Observed Wavelength [$\rm \AA$]")
+            ay1.set_ylabel(r"Normalized Flux")
+
+            ay1.plot (wavelength, smooth(normflux,n),'k-')
+            ay1.plot (wavelength, error_normflux,'k--') 
+
+            plt.plot([wavelength_observe1,wavelength_observe2],[1,1],'r--')
+            color = ['xkcd:shocking pink', 'black', 'xkcd:purpleish blue']
+            color = ['xkcd:shocking pink', 'xkcd:azure', 'blue', 'xkcd:purpleish blue', 'xkcd:slate']
+            # color = ['red', 'green', 'blue', 'orange', 'purple']
+
+                        # else:
+            #     label = '?'
+            # mask = np.where((wave > wavemin) & (wave < wavemax))
+            # plt.plot(wave[mask], flux[mask], label=label, alpha=0.75, color = colors[i])
+            # plt.axhline(1, color = 'r')
+    # if lines:
+        # plot_sdss_lines(wavemin, wavemax)
+    if error:
+        plt.plot(wave, err, 'grey')
+    plt.title(name)
+    plt.xlabel("Restframe Wavelength (A)")
+    plt.ylabel("Normalized Flux Density")
+    plt.legend()
+    # plt.ylim((0,2))
+    plt.show()
+    plt.clf()
+        
+plot_spectra(os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/', lines=False, wavemin=1200, wavemax=1600)
