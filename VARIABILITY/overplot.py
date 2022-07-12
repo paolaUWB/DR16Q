@@ -85,59 +85,10 @@ def load_config(config_path, data_name):
     
     return(parent_z, parent_snr)
 
-def normalize_spec(wave, flux, err, z=0):
-    """
-    Normalize a spectrum. Based on the normalization module. Just for purposes
-    of this script - not for general use. Anchor points, delta, and initial
-    powerlaw parameters are hardcoded.
-    
-    Parameters
-    ----------
-    wave : arr
-        Wavelenght bins.
-    flux : arr
-        Flux values.
-    err : arr
-        Error values.
-    z : float, optional
-        Redshift (0 for composite).
 
-    Returns
-    -------
-    bf : float
-        PL norm.
-    cf : float
-        PL slope.
-    normed_flux : arr
-        Normalized spectrum.
 
-    """
-    # user_anchors = [1285,1425,1680,1820] #anchor points (restframe) for fitting PL
-    user_anchors = [1285,1425,1680]
-    user_delta = 5 #distance (A) around points for fitting
-    b = 1200 # initial PL norm
-    c = -0.5 # initial PL slope
-    
-    current_spectra_data = np.array((wave, flux, err)).T
-    anchor_pts = norm.dynamic_find_anchor_points(current_spectra_data, z, \
-                                                 user_anchors, user_delta, verbose=False) 
 
-    power_law_wave = []
-    power_law_flux = []
-    
-    for point in anchor_pts:
-                
-        power_law_wave.append(point[0])
-        power_law_flux.append(point[1])
-    
-    
-    pars, covar = curve_fit(norm.powerlaw, power_law_wave, power_law_flux, p0=[b, c], maxfev=10000)
-        
-    bf, cf = pars[0], pars[1]
-    
-    normed_flux = flux / norm.powerlaw(wave, bf, cf)
-    
-    return(bf, cf, normed_flux)
+
 
 def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
     """
