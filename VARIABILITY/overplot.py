@@ -85,6 +85,11 @@ def load_config(config_path, data_name):
     
     return(parent_z, parent_snr)
 
+
+
+
+
+
 def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
     """
     
