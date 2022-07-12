@@ -1,11 +1,12 @@
-#####################################################################################################################################
-#   Normalization of the quasar spectra
-#
-# This code normalizes the DRQ spectra with a new algorithm.
+"""
+normalization
+=============
 
-# Authors: Paola Rodriguez Hidalgo, Mikel Charles, Wendy Garcia Naranjo, Cora DeFrancesco, Daria K, Can Tosun, David Nguyen, Sean Haas, Abdul Khatri
-#
-######################################################################################################################################
+This code normalizes the DRQ spectra with a new algorithm.
+
+@author Paola Rodriguez Hidalgo, Mikel Charles, Wendy Garcia Naranjo, Cora DeFrancesco, Daria K, Can Tosun, David Nguyen, Sean Haas, Abdul Khatri
+
+"""
 
 #############################################################################################
 ########################################## IMPORTS ##########################################
@@ -25,14 +26,6 @@ from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_origi
 from scipy import signal
 import time 
 start_time = time.time() 
-
-########################################## SPHINX ###########################################
-"""
-normalization
-=============
-Normalization module for this project
-"""
-#############################################################################################
 
 ######################################### VARIABLES ######################################### 
 

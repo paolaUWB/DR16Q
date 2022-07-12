@@ -1,7 +1,6 @@
 """
-=============
-absorption.py
-=============
+absorption
+==========
 
 @author Wendy Garcia Naranjo, Mikel Charles, Nathnael Kahassai, Michael Parker 
 based on code prepared by Abdul Khatri and Paola Rodriguez Hidalgo
