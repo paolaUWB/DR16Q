@@ -65,6 +65,7 @@ for file in os.listdir(directory):
     if file.endswith('dered.txt'):
         try:
             loc = np.where(file[:-10] == np.array(fits_names))[0][0]
+
         except IndexError:
             pass
         if loc == 0:
