@@ -20,8 +20,12 @@ def read_file(FILE: str):
         for line in f:
             each_row_in_file = line.split(",")
             spectra_list.append(each_row_in_file[0])
-            redshift_value_list.append(np.float(each_row_in_file[1]))
-            snr_value_list.append(np.float(each_row_in_file[2]))
+            # redshift_value_list.append(np.float(each_row_in_file[1]))
+            # snr_value_list.append(np.float(each_row_in_file[2]))
+            redshift_value_list.append((each_row_in_file[1]))
+            snr_value_list.append((each_row_in_file[2]))
+
+
     return(redshift_value_list, snr_value_list, spectra_list)
 
 def print_to_file(text: str, file_name: str):
