@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 # from spec_pca_module import plot_sdss_lines
 
 
-config_path = os.getcwd() + '/DR9_sorted_norm.csv' #"C:/Users/Dakota/Documents/GitHub/DR16Q/DR9_sorted_norm.csv"
+config_path = os.getcwd() + '/DR16_sorted_norm.csv' #"C:/Users/Dakota/Documents/GitHub/DR16Q/DR9_sorted_norm.csv"
 fontsize = 20
 figsize = (12,6)
 
@@ -87,10 +87,75 @@ def load_config(config_path, data_name):
 
 
 
+def plot_orig_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
+    """
+    
+    Parameters
+    ----------
+    spectra : str
+        Directory in which the files are contained, or in which the
+        directories are contained.
+    lines : bool, optional
+        Whether or not you want to plot common emission
+        lines. The default is False.
+
+    Returns
+    -------
+    None.
+
+    """
+   
+    wave = []
+    flux = []
+    err = []
+    name = []
+    label = []
+    colors = ['b', 'darkgreen', 'purple', 'cyan', 'magenta']
+    for f in os.listdir(directory):
+        if f.startswith('J'):
+            z = np.loadtxt(directory + f + '/info.txt', skiprows=1,delimiter = ',',dtype=str)[1].astype(np.float64)
+            for i, file in enumerate(os.listdir(directory + f)):
+                if file.startswith('spec'):
+                    data = np.loadtxt(directory + f + '/' + file, dtype=np.float64).T
+                    wave = data[0]
+                    flux = data[1]
+                    err = data[2]
+                    name = f
+                    try:
+                        wave = wave / (1 + z)
+                    except UnboundLocalError:
+                        pass
+                    if file[-3:] == 'txt':
+                        try:
+                            bf, cf, norm_flux = normalize_spec(wave, flux, err)
+                            flux = norm_flux
+                        except ValueError:
+                            pass
+                        label = 'SDSS-I'
+                    if file[-3:] == 'dr9':
+                        label = 'SDSS-II'
+                    if file[-3:] == 'r16':
+                        label = 'SDSS-III/IV'
+                    # else:
+                    #     label = '?'
+                    mask = np.where((wave > wavemin) & (wave < wavemax))
+                    plt.plot(wave[mask], flux[mask], label=label, alpha=0.75, color = colors[i])
+                    plt.axhline(1, color = 'r')
+            # if lines:
+                # plot_sdss_lines(wavemin, wavemax)
+            if error:
+                plt.plot(wave, err, 'grey')
+            plt.title(name)
+            plt.xlabel("Restframe Wavelength (A)")
+            plt.ylabel("Normalized Flux Density")
+            plt.legend()
+            # plt.ylim((0,2))
+            plt.show()
+            plt.clf()
+            
 
 
-
-def plot_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
+def plot_norm_spectra(directory, lines=False, error=False, wavemin=1200, wavemax=1500):
     """
     
     Parameters
