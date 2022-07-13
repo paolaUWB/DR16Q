@@ -2,90 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 from data_types import RangesData, FigureData, FigureDataOriginal
-# def draw_dynamic_points(figure_index, wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, spectrum_file_name, FILE, error):
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points
 
-# def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData, test2: RangesData, number_of_anchor_points, anchor_pts, max_peak, bf, cf, z, snr, snr_mean_in_ehvo, spectrum_file_name, FILE):
-#     """ Draws a plot containing a dynamic number of anchor points 
-
-#     Parameters:
-#     -----------
-#     figure_index: int
-#         Makes a separate graph for each spectra 
-#     wavelength: list
-#         List of data that is being plotted on the x axis
-#     wavelength_observed_from: int
-#         The minimum x value to be plotted (xlim)
-#     wavelength_observed_to: int
-#         The maximum x value to be plotted (xlim)
-#     flux: list
-#         List of the data that is being plotted on the y axis
-#     test1: RangesData
-#         Green highlighted test region on the graph
-#     test2: RangesData
-#         Pink highlighted test region on the graph 
-#     number_of_anchor_points: int
-#         Variable containing the number of anchor points to be plotted
-#     anchor_pts: list
-#         A list of the wavelength, flux, and error for each anchor point
-#     max_peak: float
-#         Scaling value in the y direction
-#     bf: float
-#         Initial parameter of powerlaw curve fit
-#     cf: float
-#         Initial parameter of powerlaw curve fit
-#     z: float
-#         Redshift
-#     snr: float
-#         Signal to noise ratio provided by SDSS
-#     snr_mean_in_ehvo: float 
-#         Signal to noise ratio calculated in region we care about
-#     spectrum_file_name: string
-#         The name of the spectra
-#     FILE: path
-#         Path to file you would like these graphs to save to
-    
-#     Returns
-#     -------
-#     None.
-
-#     Note:
-#     -----
-#     Returns nothing, but draws the spectra of the graph.
-
-#     """
-#     plt.figure(figure_index)
-    
-#     ## COMMENT OUT FOR PRESENTATION/PAPER FIGURES
-#     subtitle_text = f"z={z} snr={snr} snr_mean_in_ehvo={snr_mean_in_ehvo}"
-#     plt.title(spectrum_file_name + '\n' + subtitle_text)
-#     # plt.text(((wavelength_observed_from + wavelength_observed_to)/2.7), max_peak - 0.25, subtitle_text)
-#     ########
-
-
-
-#     plt.plot(wavelength, flux, color = "black") ## PLOTS SPECTRA
-#     plt.plot(wavelength, error, color = "black") ## PLOTS ERROR
-#     plt.plot(test1.wavelength, test1.flux, color = "blue", linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325) 
-#     plt.plot(test2.wavelength, test2.flux, color = "deeppink", linestyle = "-") ## PLOTS TEST REGION 2 (1350-1360)
-
-#     for i in number_of_anchor_points: ## PLOTS ANCHOR POINTS
-#         plt.plot(anchor_pts[i-1][0], anchor_pts[i-1][1], 'ro')
-#     plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--") ## PLOTS POWER LAW
-    
-#     plt.xlabel("Wavelength[$\AA$]")
-#     plt.ylabel("Flux[10$^{-17}$ erg/cm$^2$/$\AA$]")
-
-#     plt.xlim(wavelength_range[0], wavelength_range[1])
-#     plt.ylim(-2, max_peak + (max_peak / 1.5))
-#     # plt.ylim(-2, 50)
-    
-#     if FILE == 'null': ## SHOWS FIGURE BUT DOES NOT SAVE
-#         plt.show()
-#     else: ## SAVES FIGURES
-#         plt.tight_layout()
-#         FILE.savefig()
-#         plt.close(figure_index)
-#         # plt.show()
 
 def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData, test2: RangesData, anchor_pts_data, max_peak, initial_parameters, user_input_wavelength, FILE, FILE2):
     """ Draws a plot containing a dynamic number of anchor points 
@@ -184,7 +102,7 @@ def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData
 
     plt.xlim(wavelength_range[0], wavelength_range[1])
     plt.ylim(-2, max_peak + (max_peak / 1.5))
-    # plt.ylim(-2, 15)
+
     ## ---------------------------------------------------------------------
     graph_ylim = 10
     max_peak_pt1 = np.max(data[1][min_wavelength_pts[0] + graph_ylim : max_wavelength_pts[0] + graph_ylim])
@@ -215,11 +133,9 @@ def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData
     plt.ylabel("Flux[10$^{-17}$ erg/cm$^2$/$\AA$]", fontsize=8)
     plt.xlim(np.min(data[0]), np.max(data[0]))
     plt.ylim(-2, max_peak + (max_peak / 3.5))
-    # plt.ylim(-2,15)
     
     ## ZOOMED IN PLOT OF FIRST ANCHOR POINT LOCATION
-    # plt.subplot(234)
-    ax2 = fig2.add_subplot(234) #134
+    ax2 = fig2.add_subplot(234) 
     plt.title("Left Anchor Point", fontsize=8)
     plt.plot(data[0], data[1], color = "black") ## PLOTS SPECTRA
     plt.plot(test1.wavelength, test1.flux, color = "blue", linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325) 
@@ -237,8 +153,7 @@ def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData
     plt.ylim(min_peak_pt1, max_peak_pt1) #max_peak + (max_peak / 1.5))
     
     ## ZOOMED IN PLOT OF SECOND ANCHOR POINT LOCATION
-    # plt.subplot(235)
-    ax3 = fig2.add_subplot(235) #135
+    ax3 = fig2.add_subplot(235) 
     plt.title("Middle Anchor Point", fontsize=8)
     plt.plot(data[0], data[1], color = "black") ## PLOTS SPECTRA
     plt.plot(test1.wavelength, test1.flux, color = "blue", linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325) 
@@ -253,13 +168,10 @@ def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData
     plt.xlabel(xlabel_3, fontsize=8)
     plt.ylabel("Flux", fontsize=8) 
     plt.xlim(anchor_pts_wavelength[1]-100, anchor_pts_wavelength[1]+100)
-    # plt.xlabel(anchor_pts_data[0])
-    # plt.ylim(-2, max_peak + (max_peak / 1.5))
     plt.ylim(min_peak_pt2, max_peak_pt2) 
 
     ## ZOOMED IN PLOT OF THIRD ANCHOR POINT LOCATION
-    # plt.subplot(236)
-    ax4 = fig2.add_subplot(236) #136
+    ax4 = fig2.add_subplot(236) 
     plt.title("Right Anchor Point", fontsize=8)
     plt.plot(data[0], data[1], color = "black") ## PLOTS SPECTRA
     plt.plot(test1.wavelength, test1.flux, color = "blue", linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325) 
@@ -274,7 +186,6 @@ def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData
     plt.xlabel(xlabel_4, fontsize=8)
     plt.ylabel("Flux", fontsize=8) 
     plt.xlim(anchor_pts_wavelength[2]-100, anchor_pts_wavelength[2]+100)
-    # plt.ylim(-2, max_peak + (max_peak / 1.5))
     plt.ylim(min_peak_pt3, max_peak_pt3) 
 
     plt.subplots_adjust(hspace=0.65)
@@ -286,7 +197,6 @@ def draw_dynamic_points(figure_index, data,  wavelength_range, test1: RangesData
         FILE2.savefig(fig2)
         plt.close(figure_index)
         plt.close(figure_index+1)
-        # plt.show()
 
 
 def draw_dynamic(wavelength, wavelength_observed_from, wavelength_observed_to, flux, test1: RangesData, test2: RangesData, max_peak):
@@ -455,13 +365,6 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     ## COMMENT OUT FOR PRESENTATION/PAPER FIGURES
     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
     plt.title("$\mathbf{Normalized ~Data ~vs. ~Normalized ~Error}$" + '\n' + spectrum_file_name + '\n' + subtitle_text)
-    # plt.title("Normalized Data vs. Normalized Error")
-    # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.25, figure_data.spectrum_file_name)
-    # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
-    # SHOULD WE USE THE LINES BELOW OR ABOVE TO PLACE THESE SUBTITLE_TEXTS ??
-    # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
-    # plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
-    ########
 
     plt.xlabel("Wavelength [$\AA$]")
     plt.ylabel("Normalized Flux")
@@ -515,71 +418,51 @@ def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figur
     
     ##########################################################################################
     
-    # plt.xlim(1250 * (1 + z), 1400 * (1 + z))
     plt.xlim(wavelength_observed_from, wavelength_observed_to)
     plt.ylim(0, max_peak + (max_peak / 4))
-    # plt.ylim(0, 2)
     
-    # plt.ylim(0,2)# max_peak)# + (max_peak / 1.5))
     FILE.savefig(bbox_inches='tight')
     plt.close(figure_index)
 
-# def draw_normalized_figure(figure_index: int, original_ranges: RangesData, figure_data: FigureData, flux_normalized, error_normalized,
-#                             test1: RangesData, test2: RangesData, normalized_flux_test_1, normalized_flux_test_2, wavelength_observed_from, wavelength_observed_to, max_peak, FILE):#, min_flux_green_region, min_flux_pink_region, max_flux_green_region, max_flux_pink_region):
-#     """ Draws the normalized spectra graph.
+def dynamic_find_anchor_points(spectra_data, z, user_anchors:list, user_delta:float, verbose=True):
+    """
+    Function based on 'define_three_anchor_points'. Defines a user-specified 
+        number of anchor points. This function makes use of the function
+        'wavelength_flux_error_for_points' to find the closest wavelength bin
+        to the user-requested anchor point values.
+    Parameters
+    ----------
+    spectra_data : tuple
+        (wavelength, flux, error).
+    z : float
+        redshift.
+    user_anchors : list
+        User-defined desired anchor points.
+    user_delta : float
+        Wavelength range to search for anchor points.
+    verbose : bool
+        Print found wavelength bins for each user-defined anchor point.
+    Returns
+    -------
+    anchor_pts : arr
+        List of PointData objects.
+    """
 
-#     Parameters
-#     ----------
-#     figure_index: int
-#         Makes a separate graph for each spectra. 
-#     original_ranges: RangesData
-#         Ranges of values for the original data.
-#     figure_data: FigureData
-#         Data from DR9Q (for now...).
-#     flux_normalized: array
-#     error_normalized: array
-#     test1: RangesData
-#         Green highlighted area on graph. 
-#     test2: RangesData
-#         Pink highlighted area on graph.
-#     normalized_flux_test_1: any
-#     normalized_flux_test_2: any
-
-#     Returns
-#     -------
-#     None.
+    anchor_pts = []
     
-#     Notes
-#     -----
-#     Creates a graph of the spectra and saves to the original_graphs.pdf
-#     """
-
-#     main_color = "midnightblue"
-#     test_1_color, test_2_color = "xkcd:green apple", "xkcd:bubblegum"
-#     subtitle_text = f"z={figure_data.z} snr={figure_data.snr} snr_mean_in_ehvo={figure_data.snr_mean_in_ehvo}"
-#     plt.figure(figure_index) 
-#     plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak + 0.25, figure_data.spectrum_file_name)
-#     plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), max_peak, subtitle_text)
-#     #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized)/1.07, figure_data.spectrum_file_name)
-#     #plt.text(((figure_data.wavelength_from + figure_data.wavelength_to)/2.3), np.max(flux_normalized), subtitle_text)
-#     plt.title(figure_data.spectrum_file_name)
-#     plt.plot(original_ranges.wavelength, flux_normalized, color = main_color, linestyle = "-")
-#     plt.plot(original_ranges.wavelength, error_normalized, color = "black", linestyle = "-")
-#     plt.title("Normalized Data vs. Normalized Error")
-#     plt.xlabel("Wavelength [A]")
-#     plt.ylabel("Normalized Flux[10^[-17]]cgs")
-#     plt.plot(test1.wavelength, normalized_flux_test_1, color = test_1_color, linestyle = "-")
-#     plt.plot(test2.wavelength, normalized_flux_test_2, color = test_2_color, linestyle = "-")
-#     plt.plot((original_ranges.wavelength[0], original_ranges.wavelength[-1]), (1, 1), color = "red", linestyle = "-")
-
-#     #plt.hlines(y=min_flux_green_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:green apple')
-#     #plt.hlines(y=max_flux_green_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:green apple')
-#     #plt.hlines(y=min_flux_pink_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:bubblegum')
-#     #plt.hlines(y=max_flux_pink_region, xmin = np.min(wavelength_observed_from), xmax = np.max(wavelength_observed_to), zorder=1, linewidth = 0.5, color='xkcd:bubblegum')
     
-#     plt.xlim(wavelength_observed_from, wavelength_observed_to)
-#     #plt.ylim(0, np.max(flux_normalized) + 1)
-#     #plt.ylim(0, max_peak + (max_peak / 4))
-#     plt.ylim(0, 6)
-#     FILE.savefig()
-#     plt.close(figure_index)
+    
+    for i, point in enumerate(user_anchors):
+        
+        llim = point - user_delta
+        ulim = point + user_delta
+        
+        spec_point = wavelength_flux_error_for_points(llim, ulim, z, spectra_data)
+        
+        anchor_pts.append(spec_point)
+        
+        if verbose:
+            print('Matched user requested point', np.round(point, 2))
+            print('        with restframe point', np.round(spec_point[0]/(1+z), 2))
+
+    return anchor_pts
