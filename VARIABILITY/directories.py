@@ -1,3 +1,4 @@
+'''  '''
 #%%
 import os
 import sys
@@ -8,8 +9,11 @@ import shutil
 sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
 from utility_functions import print_to_file, read_file, clear_file
 
+#read EHVOs
+#open fits table
+#create directories
 
-DR = '9' # which data release are you working with? DRX (i.e. '9' or '16') 
+DR = '16' # which data release are you working with? DRX (i.e. '9' or '16') 
 
 save_txt_files = 'no' # do you want to save new output files? 'yes'/'no'
 save_ehvo_txt_files = 'yes'
@@ -27,15 +31,18 @@ EHVO_DUPLICATES_FILE = os.getcwd() + '/VARIABILITY/DR' + DR + '_ehvo_duplicates.
 
 #-- DR9 paths
 if DR == '9':
-    SPEC_DIREC = os.getcwd() + '/DR9Q_EHVO/NORM_DR9Q_EHVO/'
+    SPEC_DIREC = os.getcwd() + '/DR9Q_EHVO/DR9Q_EHVO_FILES/'
     EHVO_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + '/DR9Q_EHVO/DR9_EHVO_sorted_norm.csv'
     zem, snr, EHVO_spectra_list = read_file(EHVO_FILE)
 
 #-- DR16 paths
 if DR == '16':
     SPEC_DIREC = os.getcwd() + '/DR16Q_EHVO/DR16Q_EHVO_FILES/'
+    NORM_SPEC_DIREC = os.getcwd() + '/DR16Q_EHVO/NORM_DR16Q_EHVO/'
     EHVO_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + '/DR16Q_EHVO/DR16_EHVO_sorted_norm.csv'
     zem, snr, EHVO_spectra_list = read_file(EHVO_FILE)
+    # EHVO_NORM_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + '/DR16Q_EHVO/good_fit_EHVO.csv'
+    # EHVO_spectra_list, EHVO_norm_spectra_list, idx = read_file(EHVO_NORM_FILE)
 
 #%%
 #-- opens fits table and reads data
@@ -48,6 +55,7 @@ fits_PLATE = data['PLATE'].astype(str)
 fits_MJD = data['MJD'].astype(str)
 fits_FIBER = data['FIBERID'].astype(str)
 fits_OBJID = data['OBJID']
+fits_nspecBOSS = data['NSPEC_BOSS']
 fits_duplicate_PLATE = data['PLATE_DUPLICATE'].astype(str)
 fits_duplicate_MJD = data['MJD_DUPLICATE'].astype(str)
 fits_duplicate_FIBER = data['FIBERID_DUPLICATE'].astype(str)
@@ -67,6 +75,7 @@ if save_ehvo_txt_files == 'yes':
 #-- initializing variables to store spectra names & duplicates
 fits_names = []
 fits_duplicates = [] # any spectra with a duplicate
+
 fits_duplicates_ehvo = [] # duplicate spectra of EHVO
 ehvo_duplicates_index = [] # index of EHVO in original list
 ehvo_duplicates = [] # original EHVO names (that have a duplicate)
@@ -74,19 +83,32 @@ foldernames = []
 filenames = []
 full_filenames = []
 
+EHVO_norm_spectra = []
+
 index = []
 
 count = 0
 #%%
-for file in os.listdir(os.getcwd() + '/VARIABILITY/'):
-    if file.startswith('spec-'):
-        full_filenames.append(file)
-        if file.endswith('-dered.dr16'):
-            file_name = file[:-11]
-            filenames.append(file_name)
-        if file.endswith('-dered.txt'):
-            file_name = file[:-10]
-            filenames.append(file_name)
+# for file in os.listdir(os.getcwd() + '/VARIABILITY/'):
+#     if file.startswith('spec-'):
+#         full_filenames.append(file)
+#         if file.endswith('-dered.dr16'):
+#             file_name = file[:-11]
+#             filenames.append(file_name)
+#         if file.endswith('-dered.txt'):
+#             file_name = file[:-10]
+#             filenames.append(file_name)
+
+# for i in range(len(EHVO_norm_spectra_list)):
+#     EHVO_norm_spectra.append(EHVO_norm_spectra_list[i][:-9])
+    
+# for file in os.listdir(os.getcwd() + '/DR16Q_EHVO/NORM_DR16Q_EHVO/'):
+#     if file.startswith('spec-'):
+#         full_filenames.append(file)
+        
+#         if file.endswith('norm.dr16'):
+#             file_name = file[:-9]
+#             filenames.append(file_name)
             
 #%%
 
@@ -134,16 +156,18 @@ for i in range(len(fits_PLATE)): #750414 spectra total in DR16Q fits file
                 
                     if DR == '16':
                         shutil.copyfile(SPEC_DIREC + EHVO_spectra_list[k], MAKE_DIREC + foldernames[i] + '/' + EHVO_spectra_list[k])
-                    if DR == '9': 
-                        EHVO_spectra_list_norm = EHVO_spectra_list[k][:-4] + 'norm.dr9'
-                        shutil.copyfile(SPEC_DIREC + '/' + EHVO_spectra_list_norm, os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/' + foldernames[i] + '/' + EHVO_spectra_list_norm)
+                        # shutil.copyfile(NORM_SPEC_DIREC + EHVO_norm_spectra_list[k], MAKE_DIREC + foldernames[i] + '/' + EHVO_norm_spectra_list[k])
+
+                    # if DR == '9': 
+                        # EHVO_spectra_list_norm = EHVO_spectra_list[k][:-4] + 'norm.dr9'
+                        # shutil.copyfile(SPEC_DIREC + '/' + EHVO_spectra_list_norm, os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/' + foldernames[i] + '/' + EHVO_spectra_list_norm)
             
-                for x in range(len(full_filenames)):
-                    if (duplicates[p] == filenames[x]):
-                        try:
-                            shutil.move(os.getcwd() + '/VARIABILITY/' + full_filenames[x], MAKE_DIREC + foldernames[i] + '/' + full_filenames[x])
-                        except:
-                            pass
+                # for x in range(len(full_filenames)):
+                    # if (duplicates[p] == filenames[x]):
+                        # try:
+                        #     shutil.move(os.getcwd() + '/VARIABILITY/' + full_filenames[x], MAKE_DIREC + foldernames[i] + '/' + full_filenames[x])
+                        # except:
+                        #     pass
                         
             if (fits_names[i] == EHVO_spec):
                 ehvo_duplicates_index.append(i)
@@ -160,9 +184,10 @@ for i in range(len(fits_PLATE)): #750414 spectra total in DR16Q fits file
                 
                 if DR == '16':
                     shutil.copyfile(SPEC_DIREC + EHVO_spectra_list[k], MAKE_DIREC + foldernames[i] + '/' + EHVO_spectra_list[k])
-                if DR == '9': 
-                    EHVO_spectra_list_norm = EHVO_spectra_list[k][:-4] + 'norm.dr9'
-                    shutil.copyfile(SPEC_DIREC + '/' + EHVO_spectra_list_norm, os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/' + foldernames[i] + '/' + EHVO_spectra_list_norm)
+                    # shutil.copyfile(NORM_SPEC_DIREC + EHVO_norm_spectra_list[k], MAKE_DIREC + foldernames[i] + '/' + EHVO_norm_spectra_list[k])
+                # if DR == '9': 
+                #     EHVO_spectra_list_norm = EHVO_spectra_list[k][:-4] + 'norm.dr9'
+                #     shutil.copyfile(SPEC_DIREC + '/' + EHVO_spectra_list_norm, os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/' + foldernames[i] + '/' + EHVO_spectra_list_norm)
                 
     else:
         fits_duplicates.append('-1')
