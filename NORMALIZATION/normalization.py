@@ -1,5 +1,5 @@
 """
-normalization
+normalization.py
 =============
 
 This code normalizes the DRQ spectra with a new algorithm.
@@ -17,8 +17,7 @@ import sys
 import numpy as np 
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-from sqlalchemy import false
-sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
+# sys.path.insert(0, os.getcwd() + '/../DR16Q/') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
@@ -37,7 +36,7 @@ NORM_FILE_EXTENSION = "norm.dr" + DR
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv" 
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/DATA/DR" + DR + "Q_SNR10/" 
+SPEC_DIREC = os.getcwd() + "/../DR16Q_DATA/DR" + DR + "Q_SNR10/" 
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
@@ -46,10 +45,10 @@ OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
 PLOT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/pdfFILES/"
 
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
-NORM_DIREC = os.getcwd() + "/../" + "NORM_DR16Q/"
+NORM_DIREC = os.getcwd() + "/../DR16Q_DATA/" + "NORM_DR16Q/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 5 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
+STARTS_FROM, ENDS_AT = 1, 1 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS - DO NOT CHANGE 
 SNR_CUTOFF = 10. 
@@ -60,9 +59,9 @@ save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 save_by_range = 'no' ## DO YOU WANT TO SAVE FILES BY RANGE OF SPECTRA RUN? 'yes'/'no' -- this will prevent overwriting files every time you run the code.
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
+dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
 
-flag_spectra = 'yes' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
+flag_spectra = 'no' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
 
 ## VALUE USED IN TEST 1
 val1 = 0.10 
