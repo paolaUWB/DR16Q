@@ -32,7 +32,7 @@ infoDR16 = "/Volumes/MyPassport/Fits_Files/DR16Q_v4 .fits" #DR16 fits file
 infoDR14 = "/Volumes/MyPassport/Fits_Files/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
 
 infoEHVO = '/Volumes/MyPassport/DR16Q/DR16Q_EHVO' #the list of EHVOs (?? with more info or just the list)
-SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA INDEX', 'SPECTRA FILE NAME', 'NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR', 'SDSS SNR', 'BF', 'CF'])
+SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
 
 infoparent = '/Volumes/MyPassport/DR16Q' #the list of DR16 parent sample
 parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
@@ -50,6 +50,7 @@ hdu_16.close()
 
 hdu_14 = fits.open(infoDR14)
 data_14 = hdu_14[1].data
+SDSS_name_14 = data_16['SDSS_NAME']
 plate_14 = data_14['PLATE  ']
 mjd_14 = data_14['MJD     ']
 fiber_14 = data_14['FIBERID ']
@@ -72,9 +73,16 @@ hdu_14.close()
 # BAL_check_a_PDF = PdfPages('BAL_check_a.pdf')  *IGNORE*
 for i in range(len(plate_16)):
     spectra_name_16 = "spec-" + str(plate_16[i]).zfill(4) + "-" + str(mjd_16[i]) + "-" + str(fiber_16[i]).zfill(4) + "-dered.dr16"
-    print(spectra_name_16)
+  #  print(spectra_name_16)
 #print_to_file(spectra_name_a + ' ' + str(BI_CIV_a[i]) + ' '+ str(BI_CIV_err_a[i]) + ' '+ str(BI_ratio_a[i]), BAL_BI_FILE_A)  *IGNORE*
 
 # for i in range(len(plate_14)):
 #     spectra_name_14 = "spec-" + str(plate_14[i]).zfill(4) + "-" + str(mjd_14[i]) + "-" + str(fiber_14[i]).zfill(4) + "-dered.dr16"
 #     print(spectra_name_14)
+#%%
+for i in range(len(parent_spectra)):
+    SDSS_name_ALL_16 = []
+    if spectra_name_16 == parent_spectra[i]:
+        SDSS_name_ALL_16.append(SDSS_name_16)
+print(SDSS_name_ALL_16)
+        
