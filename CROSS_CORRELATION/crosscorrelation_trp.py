@@ -30,22 +30,20 @@ from os.path import exists
 #The inputs in this program should be:
 infoDR16 = "/Volumes/MyPassport/Fits_Files/DR16Q_v4 .fits" #DR16 fits file
 infoDR14 = "/Volumes/MyPassport/Fits_Files/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
+
 infoEHVO = '/Volumes/MyPassport/DR16Q/DR16Q_EHVO' #the list of EHVOs (?? with more info or just the list)
+SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA INDEX', 'SPECTRA FILE NAME', 'NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR', 'SDSS SNR', 'BF', 'CF'])
+
 infoparent = '/Volumes/MyPassport/DR16Q' #the list of DR16 parent sample
+parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
 
-
-data_spec = "/Volumes/MyPassport/DR16Q/DATA/DR16Q_SNR10"
 
 hdu_16 = fits.open(infoDR16)
 data_16 = hdu_16[1].data
-BI_CIV_16 = data_16['BI_CIV  ']
-AI_CIV_16 = data_16['AI_CIV  ']
-BAL_PROB_16 = data_16['BAL_PROB']
+SDSS_name_16 = data_16['SDSS_NAME']
 plate_16 = data_16['PLATE  ']
 mjd_16 = data_16['MJD     ']
 fiber_16 = data_16['FIBERID ']
-BI_CIV_err_16 = data_16['ERR_BI_CIV']
-AI_CIV_err_16 = data_16['ERR_AI_CIV']
 SNR_16 = data_16['SN_MEDIAN_ALL']
 redshift_16 = data_16['z']
 hdu_16.close()
@@ -67,17 +65,16 @@ bi_civ_err_14 = data_14['ERR_BI_CIV']
 bal_flag_14 = data_14['BAL_FLAG']
 hdu_14.close()
 
-SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA INDEX', 'SPECTRA FILE NAME', 'NORM SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR', 'SDSS SNR', 'BF', 'CF'])
 
 
-parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
+# DR16_spec_name = OUT_DIREC + "/" + "BAL_BI_A.txt" *IGNORE*
+# clear_file(BAL_BI_FILE_A)  *IGNORE*
+# BAL_check_a_PDF = PdfPages('BAL_check_a.pdf')  *IGNORE*
+for i in range(len(plate_16)):
+    spectra_name_16 = "spec-" + str(plate_16[i]).zfill(4) + "-" + str(mjd_16[i]) + "-" + str(fiber_16[i]).zfill(4) + "-dered.dr16"
+    print(spectra_name_16)
+#print_to_file(spectra_name_a + ' ' + str(BI_CIV_a[i]) + ' '+ str(BI_CIV_err_a[i]) + ' '+ str(BI_ratio_a[i]), BAL_BI_FILE_A)  *IGNORE*
 
-BAL_BI_FILE_A = OUT_DIREC + "/" + "BAL_BI_A.txt"
-
-clear_file(BAL_BI_FILE_A)
-BAL_check_a_PDF = PdfPages('BAL_check_a.pdf')
-for i in range(len(plate_a)):
-    spectra_name_a = "spec-" + str(plate_a[i]).zfill(4) + "-" + str(mjd_a[i]) + "-" + str(fiber_a[i]).zfill(4) + "-dered.dr16"
-    print(spectra_name_a + ' ' + str(BI_CIV_a[i]) + ' '+ str(BI_CIV_err_a[i]))
-    print_to_file(spectra_name_a + ' ' + str(BI_CIV_a[i]) + ' '+ str(BI_CIV_err_a[i]) + ' '+ str(BI_ratio_a[i]), BAL_BI_FILE_A)
-
+# for i in range(len(plate_14)):
+#     spectra_name_14 = "spec-" + str(plate_14[i]).zfill(4) + "-" + str(mjd_14[i]) + "-" + str(fiber_14[i]).zfill(4) + "-dered.dr16"
+#     print(spectra_name_14)
