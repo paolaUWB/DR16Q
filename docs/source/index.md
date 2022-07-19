@@ -43,7 +43,7 @@ This library is under heavy development.
 :caption: 'Contents:'
 :maxdepth: 2
 
-ABSROPTION/abs_plot_module
-Test
+abs_function_module
+abs_plot_module
 ```
 
