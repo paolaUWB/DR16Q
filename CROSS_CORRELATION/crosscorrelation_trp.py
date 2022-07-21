@@ -28,14 +28,14 @@ from os.path import exists
 #specnumEHVO=98 
 
 #The inputs in this program should be:
-infoDR16 = "/Volumes/MyPassport/Fits_Files/DR16Q_v4 .fits" #DR16 fits file
-infoDR14 = "/Volumes/MyPassport/Fits_Files/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
+infoDR16 = os.getcwd() + "/../DR16Q_v4.fits" #DR16 fits file
+infoDR14 = os.getcwd() + "/../dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
 
-infoEHVO = '/Volumes/MyPassport/DR16Q/DR16Q_EHVO' #the list of EHVOs (?? with more info or just the list)
-SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
+infoEHVO = os.getcwd() + "/../good_fit_EHVO.csv" #the list of EHVOs (?? with more info or just the list)
+SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO, ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
 
-infoparent = '/Volumes/MyPassport/DR16Q' #the list of DR16 parent sample
-parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
+infoparent = os.getcwd() + "/../DR16_parent_sample.csv" #the list of DR16 parent sample
+parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent, ['SPECTRA', 'z', 'SNR'])
 
 
 hdu_16 = fits.open(infoDR16)
@@ -66,7 +66,7 @@ bi_civ_err_14 = data_14['ERR_BI_CIV']
 bal_flag_14 = data_14['BAL_FLAG']
 hdu_14.close()
 
-
+#%%
 
 # DR16_spec_name = OUT_DIREC + "/" + "BAL_BI_A.txt" *IGNORE*
 # clear_file(BAL_BI_FILE_A)  *IGNORE*
@@ -85,4 +85,3 @@ for i in range(len(parent_spectra)):
     if spectra_name_16 == parent_spectra[i]:
         SDSS_name_ALL_16.append(SDSS_name_16)
 print(SDSS_name_ALL_16)
-        
