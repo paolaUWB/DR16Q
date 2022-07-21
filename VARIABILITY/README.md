@@ -6,7 +6,10 @@ make_directories.py
     To run this code, you will need the DR16Q_v4.fits file and the DRX_EHVO_sorted_norm.csv file.
     The code will output a file "data_request.csv" containing all necessary information for each duplicate observation of the spectra to request the data from Pat. 
     It will also output a file "ehvo_duplicate_file.csv" containing all the EHVO spectra and their corresponding duplicates to assist in sorting the spectra files within the directories. 
+    NOTE: this file only needs to be run once per variability project (i.e. for DR16 EHVOs we only ran once to create the directories)
     
+move_files_into_directories.py
+    This file will move files into the directories for each object that have been created by the make_directories.py code. Each directory should contain the original EHVO file, the normalized EHVO file, and both the original and normalized of any duplicate observations of the object. 
 
 make_info_files.py
     This file will make info files for all directories within another given directory.
