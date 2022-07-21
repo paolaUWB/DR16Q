@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Test &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
+    <title>abs_function_module &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/celery.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -15,8 +15,7 @@
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Extremely High Velocity Ouflow Quasar Research Group’s Documentation" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -24,11 +23,8 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="index.html" title="Extremely High Velocity Ouflow Quasar Research Group’s Documentation"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Test</a></li> 
+        <li class="nav-item nav-item-this"><a href=""><code class="docutils literal notranslate"><span class="pre">abs_function_module</span></code></a></li> 
       </ul>
     </div>  
 
@@ -37,23 +33,38 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="test">
-<h1>Test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h1>
+  <section id="abs-function-module">
+<h1><code class="docutils literal notranslate"><span class="pre">abs_function_module</span></code><a class="headerlink" href="#abs-function-module" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="abs_function_module.wavelength_to_velocity">
 <span class="sig-prename descclassname"><span class="pre">abs_function_module.</span></span><span class="sig-name descname"><span class="pre">wavelength_to_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#abs_function_module.wavelength_to_velocity" title="Permalink to this definition">¶</a></dt>
-<dd><p>converts wavelength to velocities</p>
+<dd><p>Reads in a list of wavelength values to be converted to velocity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kind</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – redshift</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kind</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – redshift</p></li>
+<li><p><strong>kind</strong> – wavelength</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>velocity</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[int]</p>
+<dd class="field-odd"><p>array[int]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abs_function_module.smooth">
+<span class="sig-prename descclassname"><span class="pre">abs_function_module.</span></span><span class="sig-name descname"><span class="pre">smooth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#abs_function_module.smooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smooths out values entered.
+:param kind: smooth_this
+:type kind: list[int]
+:param kind: box_size
+:type kind: int
+:returns: now_smooth
+:rtype: list[int]</p>
 </dd></dl>
 
 </section>
@@ -65,9 +76,6 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Extremely High Velocity Ouflow Quasar Research Group’s Documentation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -95,11 +103,8 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="index.html" title="Extremely High Velocity Ouflow Quasar Research Group’s Documentation"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Test</a></li> 
+        <li class="nav-item nav-item-this"><a href=""><code class="docutils literal notranslate"><span class="pre">abs_function_module</span></code></a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
