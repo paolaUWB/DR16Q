@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>REDSHIFT &#8212; Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/celery.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="abs_function_module" href="abs_function_module.html" />
+    <link rel="prev" title="VARIABILITY" href="VARIABILITY.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="abs_function_module.html" title="abs_function_module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="VARIABILITY.html" title="VARIABILITY"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="docutils literal notranslate"><span class="pre">REDSHIFT</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="redshift">
+<h1><code class="docutils literal notranslate"><span class="pre">REDSHIFT</span></code><a class="headerlink" href="#redshift" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="dr16q-redshift">
+<h1>DR16Q –&gt; REDSHIFT<a class="headerlink" href="#dr16q-redshift" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>This directory contains files that plot histograms to analyze the redshifts of the samples. Four histograms in total can be made from this code, one being a cumulative histogram. These histograms show a comparison of the redshifts in the parent sample, EHVO sample, and BAL sample for each DR.</p>
+<hr class="docutils" />
+<section id="running-redshift-file-drx-redshift-py">
+<h2>RUNNING REDSHIFT FILE <code class="docutils literal notranslate"><span class="pre">DRX_redshift.py</span></code><a class="headerlink" href="#running-redshift-file-drx-redshift-py" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>NOTE:</strong> these were separated to account for the different types of files being read (to keep cleaner) - the DR9 provided <code class="docutils literal notranslate"><span class="pre">.dat</span></code> files and the DR16 was <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files. The DR9 file has the BAL definition within it, the DR16 requires one of the input files to be a list of the BALs.</p>
+</div></blockquote>
+<p>For both the DR9 and DR16 Redshift programs, the number of spectra in the parent sample, EHVO sample, and BAL sample needs to be known and input at the top in the corresponding variables.</p>
+<p><strong>Files needed to run <code class="docutils literal notranslate"><span class="pre">DR9_redshift.py</span></code>:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DR9Q_selection_minus17.dat</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EHVO_DR9.dat</span></code></p></li>
+</ul>
+<p><strong>Files needed to run <code class="docutils literal notranslate"><span class="pre">DR16_redshift.py</span></code>:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DR16_parent_sample.csv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DR16_EHVO_sorted_norm.csv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DR16_BAL_parent_sample</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="files-in-redshift-directory">
+<h2>FILES IN REDSHIFT DIRECTORY<a class="headerlink" href="#files-in-redshift-directory" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DR9_redshift.py</span></code></p>
+<ul>
+<li><p>Code to plot histograms for the DR9 quasar redshift</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DR16_redshift.py</span></code></p>
+<ul>
+<li><p>Code to plot histograms for the DR16 quasar redshift</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draw_histogram.py</span></code></p>
+<ul>
+<li><p>Function that plots the histograms for the <code class="docutils literal notranslate"><span class="pre">DRX_redshift.py</span></code> codes</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>OUTPUT_FILES –&gt; contains all plots created by the redshift codes</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR9_cdf.png</span></code></p>
+<ul>
+<li><p>This file contains the cumulative histogram plot for the parent, EHVOs &amp; BALs in the DR9</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR9_DR16_cdf.png</span></code></p>
+<ul>
+<li><p>This file contains the cumulative histogram plot for the parent, EHVOs, &amp; BALs in the DR9 &amp; DR16 to compare</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR9_zem-class.png</span></code></p>
+<ul>
+<li><p>This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the corresponding class for the DR9</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR9_zem-parent.png</span></code></p>
+<ul>
+<li><p>This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the parent sample per bin for the DR9</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR9_zem.png</span></code></p>
+<ul>
+<li><p>This file contains the histogram plots for the parent, EHVOs, &amp; BALs for the DR9 (with the option to scale the EHVOs and BALs so they appear on the plot better)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR16_cdf.png</span></code></p>
+<ul>
+<li><p>This file contains the cumulative histogram plot for the parent, EHVOs &amp; BALs in the DR16</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR16_zem-class.png</span></code></p>
+<ul>
+<li><p>This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the corresponding class for the DR16</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR16_zem-parent.png</span></code></p>
+<ul>
+<li><p>This file contains the histogram plots for the parent, EHVOs, &amp; BALs, each divided by the total number of spectra in the parent sample per bin for the DR16</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zem_DR16_zem.png</span></code></p>
+<ul>
+<li><p>This file contains the histogram plots for the parent, EHVOs, &amp; BALs for the DR16 (with the option to scale the EHVOs and BALs so they appear on the plot better)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">REDSHIFT</span></code></a></li>
+<li><a class="reference internal" href="#dr16q-redshift">DR16Q –&gt; REDSHIFT</a><ul>
+<li><a class="reference internal" href="#running-redshift-file-drx-redshift-py">RUNNING REDSHIFT FILE <code class="docutils literal notranslate"><span class="pre">DRX_redshift.py</span></code></a></li>
+<li><a class="reference internal" href="#files-in-redshift-directory">FILES IN REDSHIFT DIRECTORY</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="VARIABILITY.html"
+                        title="previous chapter"><code class="docutils literal notranslate"><span class="pre">VARIABILITY</span></code></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="abs_function_module.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">abs_function_module</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/REDSHIFT.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="abs_function_module.html" title="abs_function_module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="VARIABILITY.html" title="VARIABILITY"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="docutils literal notranslate"><span class="pre">REDSHIFT</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, wen.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

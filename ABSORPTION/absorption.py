@@ -62,7 +62,7 @@ OUT_DIREC = os.getcwd() + "/ABSORPTION/OUTPUT_FILES/"
 
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
-want_to_smooth = 'no' 
+want_to_smooth = 'yes' 
 boxcar_size = 11
 
 # plot all cases or only those with absorption

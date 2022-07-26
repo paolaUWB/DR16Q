@@ -3,7 +3,7 @@
 % You can adapt this file completely to your liking, but it should at least
 % contain the root `toctree` directive.
 
-# Extremely High Velocity Ouflow Quasar Research Group's Documentation
+# Extremely High Velocity Outflow Quasar Research Group's Documentation
 
 ```{warning}
 This library is under heavy development.
@@ -12,38 +12,22 @@ This library is under heavy development.
 ```{include} ../../README.md
 ```
 
-```{include} ../../NORMALIZATION/README.md
-```
-
-```{include} ../../ABSORPTION/README.md
-```
-
-```{include} ../../DR16Q_EHVO/README.md
-```
-
-```{include} ../../DATA/README.md
-```
-
-```{include} ../../CROSS_CORRELATION/README.md
-```
-
-```{include} ../../REDSHIFT/README.md
-```
-
-```{include} ../../VARIABILITY/README.md
-```
-
-```{include} ../../PRESENTATION_PLOTS/README.md
-```
-
-```{include} ../../DR9Q_EHVO/README.md
-```
-
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
 
+DR16Q_EHVO
+NORMALIZATION_FOLDER
+ABSORPTION
+DATA
+DR9Q_EHVO
+CROSS_CORRELATION
+VARIABILITY
+REDSHIFT
+RESENTATION_PLOTS
 abs_function_module
 abs_plot_module
+normalization
+
 ```
 

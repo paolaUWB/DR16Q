@@ -2,13 +2,12 @@
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# put some kind of overview/intro to what the code does & its "importance" here
+> put some kind of overview/intro to what the code does & its "importance" here
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### RUNNING CROSS_CORRELATION FILE [cross_correlation.py]
+## RUNNING CROSS_CORRELATION FILE (`cross_correlation.py`)
 
--Files needed to run cross_correlation.py: 
-    -
+- Files needed to run `cross_correlation.py`: 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### FILES IN CROSS_CORRELATION DIRECTORY
+## FILES IN CROSS_CORRELATION DIRECTORY
