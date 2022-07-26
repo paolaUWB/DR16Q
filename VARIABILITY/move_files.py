@@ -93,6 +93,9 @@ for file in os.listdir(os.getcwd() + '/VARIABILITY/'):
         if file.endswith('-dered.txt'):
             file_name = file[:-10]
             filenames.append(file_name)
+
+# for i in range(len(EHVO_norm_spectra_list)):
+#     EHVO_norm_spectra.append(EHVO_norm_spectra_list[i][:-9])
             
 #%%
 
