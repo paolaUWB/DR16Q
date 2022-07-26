@@ -165,8 +165,15 @@
 <ul>
 <li><p>Contains the functions to read/open/print to files and other general functions.</p></li>
 </ul>
+<<<<<<< Updated upstream
 </li>
 </ul>
+=======
+</section>
+</section>
+<section id="dr16q-cross-correlation">
+<h1>DR16Q –&gt; CROSS_CORRELATION<a class="headerlink" href="#dr16q-cross-correlation" title="Permalink to this headline">¶</a></h1>
+>>>>>>> Stashed changes
 </section>
 <hr class="docutils" />
 <section id="gitignore">
@@ -175,7 +182,97 @@
 <li><p>Any files that you would like to be ignored when pushing should be recorded in this file.
 <em><strong>ADD MORE DETAILS</strong></em></p></li>
 </ul>
+<<<<<<< Updated upstream
 <hr class="docutils" />
+=======
+</section>
+</section>
+<section id="ehvo-variability">
+<h1>EHVO_Variability<a class="headerlink" href="#ehvo-variability" title="Permalink to this headline">¶</a></h1>
+<section id="work-on-ehvo-variability-for-dr16q-ehvo-quasars">
+<h2>Work on EHVO Variability for DR16Q EHVO quasars.<a class="headerlink" href="#work-on-ehvo-variability-for-dr16q-ehvo-quasars" title="Permalink to this headline">¶</a></h2>
+<p>make_directories.py
+This file will make directories for EHVO spectra that have duplicate observations. The directories are created for each object, and will eventually contain all duplicate spectra of that object (they are named by the SDSS name).
+To run this code, you will need the DR16Q_v4.fits file and the DRX_EHVO_sorted_norm.csv file.
+The code will output a file “data_request.csv” containing all necessary information for each duplicate observation of the spectra to request the data from Pat.
+It will also output a file “ehvo_duplicate_file.csv” containing all the EHVO spectra and their corresponding duplicates to assist in sorting the spectra files within the directories.
+NOTE: this file only needs to be run once per variability project (i.e. for DR16 EHVOs we only ran once to create the directories)</p>
+<p>move_files_into_directories.py
+This file will move files into the directories for each object that have been created by the make_directories.py code. Each directory should contain the original EHVO file, the normalized EHVO file, and both the original and normalized of any duplicate observations of the object.</p>
+<p>make_info_files.py
+This file will make info files for all directories within another given directory.</p>
+<p>overplot.py
+This file will go through a directory of directories and plot the spectra
+in each directory.</p>
+<hr class="docutils" />
+<p>Data File Organization
+In the “DATA_VARIABILITY” folder, there are other folders with object IDs
+for the names. These folders will contain the spectral data for all of the
+different epochs for each object, as well as a file called “info.txt”,
+which will have other information about the object, such as its redshift.</p>
+<p>MJD limits:
+between SDSSI/II and SDSS III/IV is 54663.
+BOSS DR9 started MJD 55171 2009 December 5 and ended mid July 2011 55752
+SDSS IV &gt; 55752</p>
+</section>
+</section>
+<section id="dr16q-presentation-plots">
+<h1>DR16Q –&gt; PRESENTATION_PLOTS<a class="headerlink" href="#dr16q-presentation-plots" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>Tools/codes to make pretty plots for posters/presentations/papers/etc.</p>
+<hr class="docutils" />
+<section id="running-plotindividualspectrum-py-file">
+<h2>RUNNING [plotindividualspectrum.py] FILE<a class="headerlink" href="#running-plotindividualspectrum-py-file" title="Permalink to this headline">¶</a></h2>
+<p>-Files needed to run plotindividualspectrum.py:
+-norm.drX file</p>
+<ol class="arabic">
+<li><p>Make sure path to normalized files is correct (specdirec)</p></li>
+<li><p>Set the pp2 variable to be the name of the plot that is created &amp; saved</p></li>
+<li><p>Put the name of the file you want to plot as the spectra variable</p></li>
+<li><p>Fill in the following variables with the correct information for the spectra you would like to plot:
+-zem=z: redshift of the spectrum</p>
+<p>-topy: ylim of the plot (this is sometimes a trial &amp; error to determine)
+-topemlabel: this places the ion labels, typically 0.03 less than the value for topy works well</p>
+<p>-zem_label_x: x coordinate for the redshift label on plot (in rest frame)
+-zem_label_y: y coordinate for the redshift label on plot (in rest frame)</p>
+<p>-wavelength_emit1_initial: xlim for the left side of the plot (in rest frame) - somewhere between 850-1000 usually works well
+-wavelength_emit2_initial: xlim for the right side of the plot (in rest frame) - 1600 works well to include CIV emission</p>
+<p>-vmin: the minimum velocity of the CIV trough (get from BIXXXX.txt file that outputs from the absorption code - this is just a starting point, adjust as necessary)
+-vmax: the maximum velocity of the CIV trough (get from BIXXXX.txt file that outputs from the absorption code - this is just a starting point, adjust as necessary)</p>
+<p>-NVabs: ‘yes’ if you want to plot the shaded region for NV absorption
+-OVIabs: ‘yes’ if you want to plot the shaded region for OVI absorption
+-SiIVabs: ‘yes’ if you want to plot the shaded region for SiIV absorption
+-OVIem: ‘yes’ if you want to plot the label for OVI emission
+-Lyaabs: ‘yes’ if you want to plot the shaded region for Lya absorption</p>
+</li>
+<li><p>Run code and observe your beautiful plot! (and adjust where necessary)</p></li>
+</ol>
+<hr class="docutils" />
+</section>
+<section id="files-in-presentation-plots-directory">
+<h2>FILES IN PRESENTATION_PLOTS DIRECTORY<a class="headerlink" href="#files-in-presentation-plots-directory" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="dr16q-dr9q-ehvo">
+<h1>DR16Q –&gt; DR9Q_EHVO<a class="headerlink" href="#dr16q-dr9q-ehvo" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>All information &amp; files for the DR9Q EHVOs.</p>
+<hr class="docutils" />
+<section id="files-in-dr9q-ehvo-directory">
+<h2>FILES IN DR9Q_EHVO DIRECTORY<a class="headerlink" href="#files-in-dr9q-ehvo-directory" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>NORM_DR9Q_EHVO –&gt;
+-This contains all the normalized DR9Q EHVO files</p></li>
+<li><p>DR9Q_selection_minus17.dat
+-This file contains the DR9Q SDSS data for the parent sample (from Paris+2012 table)</p></li>
+<li><p>EHVO_DR9_BI1000.txt
+-This file contains the output from the absorption code after running the DR9 EHVO sample through (flagging absorption with BI &gt;= 1000 km/s)</p></li>
+<li><p>EHVO_DR9.dat
+-This file contains the SDSS data for the DR9Q EHVOs (from Paris+2012 table?)</p></li>
+<li><p>EVHOcases_updatedredshift.csv
+-This file contains the DR9 EHVO cases with the updated redshifts from Hewitt &amp; Wild (2010)??</p></li>
+</ul>
+>>>>>>> Stashed changes
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -250,6 +347,62 @@
 <li><a class="reference internal" href="#gitignore">.gitignore</a></li>
 </ul>
 </li>
+<<<<<<< Updated upstream
+=======
+<li><a class="reference internal" href="#dr16q-normalization">DR16Q –&gt; NORMALIZATION</a><ul>
+<li><a class="reference internal" href="#files-in-normalization-directory">FILES IN NORMALIZATION DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#normalization-tests">Normalization Tests:</a></li>
+<li><a class="reference internal" href="#dr16q-absorption">DR16Q –&gt; ABSORPTION</a><ul>
+<li><a class="reference internal" href="#quick-overview-of-absorption-folder">QUICK OVERVIEW OF ABSORPTION FOLDER</a><ul>
+<li><a class="reference internal" href="#absorption-py"><code class="docutils literal notranslate"><span class="pre">absorption.py</span></code></a></li>
+<li><a class="reference internal" href="#abs-plot-module-py"><code class="docutils literal notranslate"><span class="pre">abs_plot_module.py</span></code></a></li>
+<li><a class="reference internal" href="#abs-function-module-py"><code class="docutils literal notranslate"><span class="pre">abs_function_module.py</span></code></a></li>
+<li><a class="reference internal" href="#output-files"><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code></a></li>
+<li><a class="reference internal" href="#readme-md"><code class="docutils literal notranslate"><span class="pre">README.md</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-absorption-file">RUNNING ABSORPTION FILE</a></li>
+<li><a class="reference internal" href="#files-in-absorption-directory">FILES IN ABSORPTION DIRECTORY</a><ul>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">absorption.py</span></code></a></li>
+<li><a class="reference internal" href="#output-files-textfiles"><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code> –&gt; textFILES</a></li>
+<li><a class="reference internal" href="#output-files-pdffiles"><code class="docutils literal notranslate"><span class="pre">OUTPUT_FILES</span></code> –&gt; pdfFILES</a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">abs_function_module.py</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">abs_plot_module.py</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-dr16q-ehvo">DR16Q –&gt; DR16Q_EHVO</a><ul>
+<li><a class="reference internal" href="#files-in-dr16q-ehvo-directory">FILES IN DR16Q_EHVO DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-cross-correlation">DR16Q –&gt; CROSS_CORRELATION</a></li>
+<li><a class="reference internal" href="#put-some-kind-of-overview-intro-to-what-the-code-does-its-importance-here">put some kind of overview/intro to what the code does &amp; its “importance” here</a><ul>
+<li><a class="reference internal" href="#running-cross-correlation-file-cross-correlation-py">RUNNING CROSS_CORRELATION FILE [cross_correlation.py]</a></li>
+<li><a class="reference internal" href="#files-in-cross-correlation-directory">FILES IN CROSS_CORRELATION DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-redshift">DR16Q –&gt; REDSHIFT</a><ul>
+<li><a class="reference internal" href="#running-redshift-file-drx-redshift-py">RUNNING REDSHIFT FILE [DRX_redshift.py]</a></li>
+<li><a class="reference internal" href="#files-in-redshift-directory">FILES IN REDSHIFT DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ehvo-variability">EHVO_Variability</a><ul>
+<li><a class="reference internal" href="#work-on-ehvo-variability-for-dr16q-ehvo-quasars">Work on EHVO Variability for DR16Q EHVO quasars.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-presentation-plots">DR16Q –&gt; PRESENTATION_PLOTS</a><ul>
+<li><a class="reference internal" href="#running-plotindividualspectrum-py-file">RUNNING [plotindividualspectrum.py] FILE</a></li>
+<li><a class="reference internal" href="#files-in-presentation-plots-directory">FILES IN PRESENTATION_PLOTS DIRECTORY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dr16q-dr9q-ehvo">DR16Q –&gt; DR9Q_EHVO</a><ul>
+<li><a class="reference internal" href="#files-in-dr9q-ehvo-directory">FILES IN DR9Q_EHVO DIRECTORY</a></li>
+</ul>
+</li>
+>>>>>>> Stashed changes
 </ul>
 
   <h4>Next topic</h4>
