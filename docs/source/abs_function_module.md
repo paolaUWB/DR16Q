@@ -7,10 +7,13 @@
     
     :param kind: redshift
     :type kind: list[int]
+    
     :param kind: wavelength
     :type kind: list[int]
+    
     :returns: velocity
     :rtype: array[int]
+    
     
 ```
 
@@ -21,10 +24,13 @@
      
     :param kind: smooth_this
     :type kind: list[int]
+    
     :param kind: box_size
     :type kind: int
+    
     :returns: now_smooth
     :rtype: list[int]
+    
     
 ```
 
