@@ -4,7 +4,11 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = empty-project-type
+<<<<<<< Updated upstream
 recent_files = ['VARIABILITY/directories.py', 'VARIABILITY/README.md', 'VARIABILITY/move_files.py', 'NORMALIZATION/normalization.py', 'utility_functions.py', 'DR16_sorted_norm.csv']
+=======
+recent_files = ['VARIABILITY\\directories.py', 'VARIABILITY\\directories 3.py', 'VARIABILITY\\make_directories.py']
+>>>>>>> Stashed changes
 
 [main]
 version = 0.2.0
