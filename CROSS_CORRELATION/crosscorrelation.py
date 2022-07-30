@@ -66,6 +66,7 @@ bi_civ_err_14 = data_14['ERR_BI_CIV']
 bal_flag_14 = data_14['BAL_FLAG']
 hdu_14.close()
 
+<<<<<<< Updated upstream:CROSS_CORRELATION/crosscorrelation_trp.py
 
 
 # DR16_spec_name = OUT_DIREC + "/" + "BAL_BI_A.txt" *IGNORE*
@@ -86,3 +87,85 @@ for i in range(len(parent_spectra)):
         SDSS_name_ALL_16.append(SDSS_name_16)
 print(SDSS_name_ALL_16)
         
+=======
+
+
+#%%
+df = pd.read_csv(infoPARENT, header=None)
+parent_first_col = df[df.columns[0]].to_numpy()
+spec_name_PARENT = parent_first_col.tolist()
+#print(spec_name_PARENT)
+
+FILE = os.getcwd() + "/CROSS_CORRELATION/DR16PA_DR14INFO.csv"
+clear_file(FILE)
+
+# save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
+
+
+# if save_new_output_file =='yes':
+#     DR16_DR14file = os.getcwd() + "/CROSS_CORRELATION/" + "DR1614infotest" + ".csv"
+
+# else:
+#     FILE = os.getcwd() + "/CROSS_CORRELATION/DR16PA_DR14INFO.csv"
+#     clear_file(FILE)
+
+MBH_parent=[]
+errMBH_parent=[]
+PAheaders = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14']
+
+with open(FILE, 'w') as file:
+    dw = csv.DictWriter(file, fieldnames = PAheaders)
+    dw.writeheader() 
+
+
+    
+# reader = csv.reader(file)
+# writer = csv.writer(csvfile, fmtparams)
+
+for ii in range(18165):
+    aa=spec_name_PARENT[ii]
+    #print(aa)
+    bb=aa.split('-')
+    #print(bb)
+    cc=bb[3].split('.')
+    #print(cc)
+    plate_PARENT = int (bb[1])
+   # print(plate_PARENT)
+    mjd_PARENT = int (bb[2])
+    fiber_PARENT = int (cc[0])
+    #print("pls run im gonna cry if it doesnt")
+    vv, = np.where((plate_14[:] == plate_PARENT) & (mjd_14[:] == mjd_PARENT) & (fiber_14[:] == fiber_PARENT))
+    #print(plate_14[:])
+    if (len(vv,) != 0):
+        MBH_parent.append(log_mbh_14[vv,])
+        # MBH_parent.append = log_mbh_14[vv,]
+        #print(vv)
+        #print(SDSS_name_14[vv,],plate_14[vv,],mjd_14[vv,],fiber_14[vv,],log_mbh_14[vv,],log_mbh_err_14[vv,],log_lbol_14[vv,], q_lbol_14[vv,], log_redd_14[vv,], q_redd_14[vv,])
+        SDSS_name0 = SDSS_name_14[vv,]
+        fields = [SDSS_name0[0], int(plate_14[vv,]), int(mjd_14[vv,]), int(fiber_14[vv,]), float(log_mbh_14[vv,]),float(log_mbh_err_14[vv,]), float(log_lbol_14[vv,]), int(q_lbol_14[vv,]), float(log_redd_14[vv,]), int(q_redd_14[vv,])]
+        append_row_to_csv(FILE, fields)
+        
+        
+
+
+#%%
+#Histogram codes:
+MBH_parent=np.hstack(MBH_parent)
+MBH_parent_toplot=MBH_parent[np.hstack(np.where(MBH_parent != 0.))]
+ 
+fig=plt.figure(1)
+ 
+iqr = np.subtract(*np.percentile(MBH_parent_toplot, [75, 25]))
+nhist=(max(MBH_parent_toplot)-min(MBH_parent_toplot))/(2*iqr*(len(MBH_parent_toplot)**(-1/3)))
+ 
+bins=np.linspace(min(MBH_parent_toplot),max(MBH_parent_toplot),int(nhist))
+ 
+plt.hist([MBH_parent_toplot],bins,color=['black'],label=['parent'],histtype='step')
+# This for later when you have the 3 samples: plt.hist([MBH,MBH_BAL_toplot,MBH_EHVO_toplot],bins,color=['black','blue','red'],label=['parent','BAL','EHVO'],histtype='step')
+ 
+plt.xlabel(r'log($M_{\mathrm{BH}}/M_{\odot})$')
+#plt.ylabel('$n/N_{tot}$')
+plt.ylabel('Number')
+plt.legend(loc='upper left')
+
+
