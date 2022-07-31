@@ -1,4 +1,12 @@
-'''  '''
+"""
+make_directories.py
+=============
+
+This code identifies duplicate observations of objects (EHVOs) and creates directories for each object.
+
+@author Mikel Charles, Dakota Bunger
+
+"""
 #%%
 import os
 import sys
@@ -9,9 +17,13 @@ from utility_functions import read_file, clear_file, append_row_to_csv#, print_t
 
 DR = '16' # data release you are working with (i.e. '9' or '16')
 
+#-- fits table
 fits_direc = os.getcwd() + '/../DR16Q_DATA/DR16Q_v4.fits'
+
+#-- location to create object directories
 make_direc = os.getcwd() + '/VARIABILITY/DATA_VARIABILITY/'
 
+#-- output files
 data_req_file = os.getcwd() + '/VARIABILITY/data_request.csv'
 ehvo_dup_file = os.getcwd() + '/VARIABILITY/ehvo_duplicate_file.csv'
 
@@ -93,6 +105,11 @@ for i in range(len(fits_duplicate_PLATE)):
                 ehvo_PLATE = fits_PLATE[i].zfill(4)
                 ehvo_MJD = fits_MJD[i].zfill(4)
                 ehvo_FIBER = fits_FIBER[i].zfill(4)
+                
+                try: 
+                    os.mkdir(make_direc + foldernames[i])
+                except FileExistsError:
+                    pass
                 
                 for j in range(fits_nspec[i]):
                     dup_spec_name = 'spec-' + fits_duplicate_PLATE[i][j].zfill(4) + '-' + fits_duplicate_MJD[i][j].zfill(4) + '-' + fits_duplicate_FIBER[i][j].zfill(4)
