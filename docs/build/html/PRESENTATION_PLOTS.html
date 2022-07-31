@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>`PRESENTATION_PLOTS &#8212; Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/celery.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">`PRESENTATION_PLOTS</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="presentation-plots">
+<h1>`PRESENTATION_PLOTS<a class="headerlink" href="#presentation-plots" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="dr16q-presentation-plots">
+<h1>DR16Q –&gt; PRESENTATION_PLOTS<a class="headerlink" href="#dr16q-presentation-plots" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>Tools/codes to make pretty plots for posters/presentations/papers/etc.</p>
+<hr class="docutils" />
+<section id="running-plotindividualspectrum-py-file">
+<h2>RUNNING [plotindividualspectrum.py] FILE<a class="headerlink" href="#running-plotindividualspectrum-py-file" title="Permalink to this headline">¶</a></h2>
+<p>-Files needed to run plotindividualspectrum.py:
+-norm.drX file</p>
+<ol class="arabic">
+<li><p>Make sure path to normalized files is correct (specdirec)</p></li>
+<li><p>Set the pp2 variable to be the name of the plot that is created &amp; saved</p></li>
+<li><p>Put the name of the file you want to plot as the spectra variable</p></li>
+<li><p>Fill in the following variables with the correct information for the spectra you would like to plot:
+-zem=z: redshift of the spectrum</p>
+<p>-topy: ylim of the plot (this is sometimes a trial &amp; error to determine)
+-topemlabel: this places the ion labels, typically 0.03 less than the value for topy works well</p>
+<p>-zem_label_x: x coordinate for the redshift label on plot (in rest frame)
+-zem_label_y: y coordinate for the redshift label on plot (in rest frame)</p>
+<p>-wavelength_emit1_initial: xlim for the left side of the plot (in rest frame) - somewhere between 850-1000 usually works well
+-wavelength_emit2_initial: xlim for the right side of the plot (in rest frame) - 1600 works well to include CIV emission</p>
+<p>-vmin: the minimum velocity of the CIV trough (get from BIXXXX.txt file that outputs from the absorption code - this is just a starting point, adjust as necessary)
+-vmax: the maximum velocity of the CIV trough (get from BIXXXX.txt file that outputs from the absorption code - this is just a starting point, adjust as necessary)</p>
+<p>-NVabs: ‘yes’ if you want to plot the shaded region for NV absorption
+-OVIabs: ‘yes’ if you want to plot the shaded region for OVI absorption
+-SiIVabs: ‘yes’ if you want to plot the shaded region for SiIV absorption
+-OVIem: ‘yes’ if you want to plot the label for OVI emission
+-Lyaabs: ‘yes’ if you want to plot the shaded region for Lya absorption</p>
+</li>
+<li><p>Run code and observe your beautiful plot! (and adjust where necessary)</p></li>
+</ol>
+<hr class="docutils" />
+</section>
+<section id="files-in-presentation-plots-directory">
+<h2>FILES IN PRESENTATION_PLOTS DIRECTORY<a class="headerlink" href="#files-in-presentation-plots-directory" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">`PRESENTATION_PLOTS</a></li>
+<li><a class="reference internal" href="#dr16q-presentation-plots">DR16Q –&gt; PRESENTATION_PLOTS</a><ul>
+<li><a class="reference internal" href="#running-plotindividualspectrum-py-file">RUNNING [plotindividualspectrum.py] FILE</a></li>
+<li><a class="reference internal" href="#files-in-presentation-plots-directory">FILES IN PRESENTATION_PLOTS DIRECTORY</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/PRESENTATION_PLOTS.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">`PRESENTATION_PLOTS</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, wen.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

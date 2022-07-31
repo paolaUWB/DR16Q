@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>abs_plot_module &#8212; Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</title>
+    <title>abs_plot_module &#8212; Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/celery.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -16,6 +16,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="normalization" href="normalization.html" />
     <link rel="prev" title="abs_function_module" href="abs_function_module.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -25,9 +26,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="normalization.html" title="normalization"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="abs_function_module.html" title="abs_function_module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href=""><code class="docutils literal notranslate"><span class="pre">abs_plot_module</span></code></a></li> 
       </ul>
     </div>  
@@ -47,15 +51,50 @@ what the graph number is, what the spectra name is, the signal to noise ratio, a
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kind</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – redshift</p></li>
-<li><p><strong>kind</strong> – wavelength</p></li>
+<li><p><strong>kind</strong> (<em>int</em><em> or </em><em>array</em><em>[</em><em>int</em><em>]</em>) – spectra_count_abs</p></li>
+<li><p><strong>kind</strong> – spectra_index</p></li>
+<li><p><strong>kind</strong> – velocity</p></li>
+<li><p><strong>kind</strong> – flux_normalized</p></li>
+<li><p><strong>kind</strong> – error</p></li>
+<li><p><strong>kind</strong> – savefile_name</p></li>
+<li><p><strong>kind</strong> – spectra_name</p></li>
+<li><p><strong>kind</strong> – redshift</p></li>
+<li><p><strong>kind</strong> – snr</p></li>
+<li><p><strong>kind</strong> – max_peak</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>velocity</p>
+<dt class="field-even">Description</dt>
+<dd class="field-even"><p>Keeping record of how many absorption plots have been found.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>array[int]</p>
+<dt class="field-odd">Description</dt>
+<dd class="field-odd"><p>The index number of the graph you are plotting.</p>
+</dd>
+<dt class="field-even">Description</dt>
+<dd class="field-even"><p>The velocity values to plot on the x-axis.</p>
+</dd>
+<dt class="field-odd">Description</dt>
+<dd class="field-odd"><p>The flux values that will be plotted on the y-axis.</p>
+</dd>
+<dt class="field-even">Description</dt>
+<dd class="field-even"><p>The error values to be plotted.</p>
+</dd>
+<dt class="field-odd">Description</dt>
+<dd class="field-odd"><p>The name that you want the plot to be saved as.</p>
+</dd>
+<dt class="field-even">Description</dt>
+<dd class="field-even"><p>The full name of the spectra.</p>
+</dd>
+<dt class="field-odd">Description</dt>
+<dd class="field-odd"><p>The redshift value used for calculations.</p>
+</dd>
+<dt class="field-even">Description</dt>
+<dd class="field-even"><p>The signal to noise ratio value.</p>
+</dd>
+<dt class="field-odd">Description</dt>
+<dd class="field-odd"><p>The max peak value which is used to scale the y-axis.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>none</p>
 </dd>
 </dl>
 </dd></dl>
@@ -72,6 +111,9 @@ what the graph number is, what the spectra name is, the signal to noise ratio, a
   <h4>Previous topic</h4>
   <p class="topless"><a href="abs_function_module.html"
                         title="previous chapter"><code class="docutils literal notranslate"><span class="pre">abs_function_module</span></code></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="normalization.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">normalization</span></code></a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -100,9 +142,12 @@ what the graph number is, what the spectra name is, the signal to noise ratio, a
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="normalization.html" title="normalization"
+             >next</a> |</li>
+        <li class="right" >
           <a href="abs_function_module.html" title="abs_function_module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Ouflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Extremely High Velocity Outflow Quasar Research Group 0.0.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href=""><code class="docutils literal notranslate"><span class="pre">abs_plot_module</span></code></a></li> 
       </ul>
     </div>
