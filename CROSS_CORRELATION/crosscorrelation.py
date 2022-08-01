@@ -21,21 +21,22 @@ from astropy.io import fits
 from utility_functions import read_spectra, append_row_to_csv, clear_file, print_to_file, read_list_spectra
 import os
 from os.path import exists
-
+import csv
+import pandas as pd
 
 #specnumDR16=XXX
 #specnumDR14=XXX
 #specnumEHVO=98 
 
 #The inputs in this program should be:
-infoDR16 = "/Volumes/MyPassport/Fits_Files/DR16Q_v4 .fits" #DR16 fits file
-infoDR14 = "/Volumes/MyPassport/Fits_Files/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
+infoDR16 = os.getcwd() + "/../DR16Q_v4.fits" #DR16 fits file
+infoDR14 = os.getcwd() + "/../dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
 
-infoEHVO = '/Volumes/MyPassport/DR16Q/DR16Q_EHVO' #the list of EHVOs (?? with more info or just the list)
-SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
+infoEHVO = os.getcwd() + "/../good_fit_EHVO.csv" #the list of EHVOs (?? with more info or just the list)
+#SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
 
-infoparent = '/Volumes/MyPassport/DR16Q' #the list of DR16 parent sample
-parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
+infoPARENT = os.getcwd() + "/../DR16_parent_sample.csv" #the list of DR16 parent sample
+#parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
 
 
 hdu_16 = fits.open(infoDR16)
@@ -66,14 +67,14 @@ bi_civ_err_14 = data_14['ERR_BI_CIV']
 bal_flag_14 = data_14['BAL_FLAG']
 hdu_14.close()
 
-<<<<<<< Updated upstream:CROSS_CORRELATION/crosscorrelation_trp.py
+
 
 
 # DR16_spec_name = OUT_DIREC + "/" + "BAL_BI_A.txt" *IGNORE*
 # clear_file(BAL_BI_FILE_A)  *IGNORE*
 # BAL_check_a_PDF = PdfPages('BAL_check_a.pdf')  *IGNORE*
-for i in range(len(plate_16)):
-    spectra_name_16 = "spec-" + str(plate_16[i]).zfill(4) + "-" + str(mjd_16[i]) + "-" + str(fiber_16[i]).zfill(4) + "-dered.dr16"
+# for i in range(len(plate_16)):
+#     spectra_name_16 = "spec-" + str(plate_16[i]).zfill(4) + "-" + str(mjd_16[i]) + "-" + str(fiber_16[i]).zfill(4) + "-dered.dr16"
   #  print(spectra_name_16)
 #print_to_file(spectra_name_a + ' ' + str(BI_CIV_a[i]) + ' '+ str(BI_CIV_err_a[i]) + ' '+ str(BI_ratio_a[i]), BAL_BI_FILE_A)  *IGNORE*
 
@@ -81,13 +82,13 @@ for i in range(len(plate_16)):
 #     spectra_name_14 = "spec-" + str(plate_14[i]).zfill(4) + "-" + str(mjd_14[i]) + "-" + str(fiber_14[i]).zfill(4) + "-dered.dr16"
 #     print(spectra_name_14)
 #%%
-for i in range(len(parent_spectra)):
-    SDSS_name_ALL_16 = []
-    if spectra_name_16 == parent_spectra[i]:
-        SDSS_name_ALL_16.append(SDSS_name_16)
-print(SDSS_name_ALL_16)
+# for i in range(len(parent_spectra)):
+#     SDSS_name_ALL_16 = []
+#     if spectra_name_16 == parent_spectra[i]:
+#         SDSS_name_ALL_16.append(SDSS_name_16)
+# print(SDSS_name_ALL_16)
         
-=======
+
 
 
 #%%
@@ -140,11 +141,10 @@ for ii in range(18165):
         MBH_parent.append(log_mbh_14[vv,])
         # MBH_parent.append = log_mbh_14[vv,]
         #print(vv)
-        #print(SDSS_name_14[vv,],plate_14[vv,],mjd_14[vv,],fiber_14[vv,],log_mbh_14[vv,],log_mbh_err_14[vv,],log_lbol_14[vv,], q_lbol_14[vv,], log_redd_14[vv,], q_redd_14[vv,])
+        print(SDSS_name_14[vv,],plate_14[vv,],mjd_14[vv,],fiber_14[vv,],log_mbh_14[vv,],log_mbh_err_14[vv,],log_lbol_14[vv,], q_lbol_14[vv,], log_redd_14[vv,], q_redd_14[vv,])
         SDSS_name0 = SDSS_name_14[vv,]
         fields = [SDSS_name0[0], int(plate_14[vv,]), int(mjd_14[vv,]), int(fiber_14[vv,]), float(log_mbh_14[vv,]),float(log_mbh_err_14[vv,]), float(log_lbol_14[vv,]), int(q_lbol_14[vv,]), float(log_redd_14[vv,]), int(q_redd_14[vv,])]
         append_row_to_csv(FILE, fields)
-        
         
 
 
