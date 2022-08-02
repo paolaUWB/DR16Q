@@ -27,28 +27,45 @@ import pandas as pd
 #specnumDR16=XXX
 #specnumDR14=XXX
 #specnumEHVO=98 
+specnumPARENT=int(18165)
 
 #The inputs in this program should be:
 infoDR16 = os.getcwd() + "/../DR16Q_v4.fits" #DR16 fits file
 infoDR14 = os.getcwd() + "/../dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
-
 infoEHVO = os.getcwd() + "/../good_fit_EHVO.csv" #the list of EHVOs (?? with more info or just the list)
-#SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO + '/good_fit_EHVO.csv', ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
-
 infoPARENT = os.getcwd() + "/../DR16_parent_sample.csv" #the list of DR16 parent sample
-#parent_spectra, parent_z, parent_snr = read_list_spectra(infoparent + '/DR16_parent_sample.csv', ['SPECTRA', 'z', 'SNR'])
 
 
+fieldnames = ['SDSS_Names', 'Mbh', 'L_bol', 'Redd']
+# outfile1='DR16parent_DR14info.txt'
+​# outdata=open(outfile1,'w')
+​
+​
+#%%
+#-----reads csv + fits files
+​
+#SPECTRA_FILE_NAME, REDSHIFT, CALCULATED_SNR = read_list_spectra(infoEHVO, ['SPECTRA FILE NAME', 'REDSHIFT', 'CALCULATED SNR'])
+​
+#parent_spectra, parent_z, parent_snr = read_list_spectra(infoPARENT, ['SPECTRA', 'z', 'SNR'])  #just 
+​
+​
 hdu_16 = fits.open(infoDR16)
 data_16 = hdu_16[1].data
+#print(data_16.columns)
 SDSS_name_16 = data_16['SDSS_NAME']
 plate_16 = data_16['PLATE  ']
-mjd_16 = data_16['MJD     ']
+mjd_16 = data_16['MJD']
 fiber_16 = data_16['FIBERID ']
 SNR_16 = data_16['SN_MEDIAN_ALL']
 redshift_16 = data_16['z']
+fits_16__duplicate_PLATE = data_16['PLATE_DUPLICATE']
+fits_16__duplicate_MJD = data_16['MJD_DUPLICATE']
+fits_16__duplicate_FIBER = data_16['FIBERID_DUPLICATE']
 hdu_16.close()
-
+​
+​
+#%%
+​
 hdu_14 = fits.open(infoDR14)
 data_14 = hdu_14[1].data
 SDSS_name_14 = data_16['SDSS_NAME']
@@ -134,17 +151,15 @@ for ii in range(18165):
    # print(plate_PARENT)
     mjd_PARENT = int (bb[2])
     fiber_PARENT = int (cc[0])
-    #print("pls run im gonna cry if it doesnt")
     vv, = np.where((plate_14[:] == plate_PARENT) & (mjd_14[:] == mjd_PARENT) & (fiber_14[:] == fiber_PARENT))
     #print(plate_14[:])
     if (len(vv,) != 0):
         MBH_parent.append(log_mbh_14[vv,])
-        # MBH_parent.append = log_mbh_14[vv,]
         #print(vv)
-        print(SDSS_name_14[vv,],plate_14[vv,],mjd_14[vv,],fiber_14[vv,],log_mbh_14[vv,],log_mbh_err_14[vv,],log_lbol_14[vv,], q_lbol_14[vv,], log_redd_14[vv,], q_redd_14[vv,])
+        #print(SDSS_name_14[vv,],plate_14[vv,],mjd_14[vv,],fiber_14[vv,],log_mbh_14[vv,],log_mbh_err_14[vv,],log_lbol_14[vv,], q_lbol_14[vv,], log_redd_14[vv,], q_redd_14[vv,])
         SDSS_name0 = SDSS_name_14[vv,]
         fields = [SDSS_name0[0], int(plate_14[vv,]), int(mjd_14[vv,]), int(fiber_14[vv,]), float(log_mbh_14[vv,]),float(log_mbh_err_14[vv,]), float(log_lbol_14[vv,]), int(q_lbol_14[vv,]), float(log_redd_14[vv,]), int(q_redd_14[vv,])]
-        append_row_to_csv(FILE, fields)
+        #append_row_to_csv(FILE, fields)
         
 
 
@@ -164,8 +179,9 @@ plt.hist([MBH_parent_toplot],bins,color=['black'],label=['parent'],histtype='ste
 # This for later when you have the 3 samples: plt.hist([MBH,MBH_BAL_toplot,MBH_EHVO_toplot],bins,color=['black','blue','red'],label=['parent','BAL','EHVO'],histtype='step')
  
 plt.xlabel(r'log($M_{\mathrm{BH}}/M_{\odot})$')
-#plt.ylabel('$n/N_{tot}$')
+plt.ylabel('$n/N_{tot}$')
 plt.ylabel('Number')
 plt.legend(loc='upper left')
+
 
 
