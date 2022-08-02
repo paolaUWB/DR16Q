@@ -14,7 +14,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 
 ##------ Inputs/Outputs to change
-specdirec = os.getcwd() + '/../' + 'EHVO_NORM_DR16Q/'
+specdirec = os.getcwd() + '/../' + 'DR16Q_EHVO_FILES/'
 
 save_format = 'pdf' # 'pdf' to save as pdf file, 'png' to save as png file
 
@@ -223,4 +223,4 @@ plt.ylim(0,topylim)
 
 fig.tight_layout() 
 
-plt.savefig(os.getcwd() + '/PRESENTATION_PLOTS/OUTPUT_FILES/' + pp2, dpi=100)
+#plt.savefig(os.getcwd() + '/PRESENTATION_PLOTS/OUTPUT_FILES/' + pp2, dpi=100)
