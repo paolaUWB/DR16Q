@@ -46,7 +46,7 @@ infoPARENT = os.getcwd() + "/../DR16_parent_sample.csv" #the list of DR16 parent
 
 fieldnames = ['SDSS_Names', 'Mbh', 'L_bol', 'Redd']
 
-PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/pdfFILES/"
+PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/pngFILES/"
 
 #%%
 
@@ -235,10 +235,10 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     ax_histx.tick_params(axis='x', labelbottom=False)
     ax_histy.tick_params(axis='y', labelleft=False)
     # the scatter plot:
-    #ax.set_xlim([7.5, 11.25]) #MBH
-    #ax.set_ylim([-2.0, 1.0]) #Redd
-    ax.set_xlim([-2.0, 1.0])
-    ax.set_ylim([46, 48.3]) #Lbol
+    #ax.set_xlim([7.5, 11.25]) #MBH x limits
+    #ax.set_ylim([-2.0, 1.0]) #Redd y limits
+    ax.set_xlim([-2.0, 1.0]) #Redd x limits
+    ax.set_ylim([46, 48.3]) #Lbol y limits
     ax.scatter(x, y, s = area, color = color)
     ax.text(10.5,0.5,'')
     # now determine nice limits by hand:
@@ -286,7 +286,7 @@ ax_set_3 = ax.set(xlabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', ylabel='lo
 # use the previously defined function
 scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3)
 scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
-plt.savefig(PLOT_DIREC + 'Redd_Lbol.pdf') 
+plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
 plt.close()
 
