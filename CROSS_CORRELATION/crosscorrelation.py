@@ -196,9 +196,6 @@ for jj in range(specnumEHVO):
 # MBH_parent=np.hstack(MBH_parent)
 # MBH_parent_toplot=MBH_parent[np.hstack(np.where(MBH_parent != 0.))]
 
-# MBH_EHVO=np.hstack(MBH_EHVO)
-# MBH_EHVO_toplot=MBH_EHVO[np.hstack(np.where(MBH_EHVO != 0.))]
-
 # fig=plt.figure(1)
  
 # iqr = np.subtract(*np.percentile(MBH_parent_toplot, [75, 25]))
@@ -286,6 +283,12 @@ ax_set_3 = ax.set(xlabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', ylabel='lo
 # use the previously defined function
 scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3)
 scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
+
+# legendnames = ['Test1 Redd', 'Test2 Parent']
+# plt.legend(labels=legendnames, loc='upper right')
+# ax.add_artist(ax.legend(title='test'))
+ax.legend(['Parent','EHVO'],loc='upper right')
+
 plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
 plt.close()
