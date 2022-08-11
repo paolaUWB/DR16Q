@@ -31,7 +31,7 @@ specnumEHVO=98
 specnumPARENT=int(18165)
 
 wnewfile = 'no'
-#wnewfile = 'yes'
+# wnewfile = 'yes'
 
 #The inputs in this program should be:
 infoDR16 = os.getcwd() + "/../../DR16Q_v4.fits" #DR16 fits file
@@ -68,6 +68,7 @@ hdu_16.close()
 
 hdu_14 = fits.open(infoDR14)
 data_14 = hdu_14[1].data
+# print(data_14.columns)
 SDSS_name_14 = data_16['SDSS_NAME']
 plate_14 = data_14['PLATE  ']
 mjd_14 = data_14['MJD     ']
@@ -84,6 +85,11 @@ bi_civ_err_14 = data_14['ERR_BI_CIV']
 bal_flag_14 = data_14['BAL_FLAG']
 hdu_14.close()
 
+
+
+BALQSO_index = np.where(bi_civ_14 > 0)
+BALQSO = 'no'
+
 #%%
 if wnewfile == 'yes':
     print('I am here!')
@@ -99,12 +105,12 @@ if wnewfile == 'yes':
     spec_name_EHVO = EHVO_first_col.tolist()
     #print(spec_name_EHVO)
     
-    OUTFILE = os.getcwd() + "/DR16PA_DR14INFO.csv"
+    OUTFILE = os.getcwd() + "/DR16parent_DR14INFO.csv"
     clear_file(OUTFILE)
     
     MBH_parent=[] ; errMBH_parent=[] ; Redd_parent=[] ; Lbol_parent= [] ; 
     #SDSS_Names_14, Plate_14, Mjd_14, Fiber_14, Mbh_14,Mbh_err_14, Lbol_14, Quality_Lbol_14, Redd_14, Quality_Redd_14 = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14']
-    Parentheaders = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14']
+    Parentheaders = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14', "BALQSO?"]
     
     with open(OUTFILE, 'w') as file:
         dw = csv.DictWriter(file, fieldnames = Parentheaders)
@@ -136,8 +142,11 @@ if wnewfile == 'yes':
             #print(vv)
             #print(SDSS_name_14[vv,],plate_14[vv,],mjd_14[vv,],fiber_14[vv,],log_mbh_14[vv,],log_mbh_err_14[vv,],log_lbol_14[vv,], q_lbol_14[vv,], log_redd_14[vv,], q_redd_14[vv,])
             SDSS_name0 = SDSS_name_14[vv,]
-            fields = [SDSS_name0[0], int(plate_14[vv,]), int(mjd_14[vv,]), int(fiber_14[vv,]), float(log_mbh_14[vv,]),float(log_mbh_err_14[vv,]), float(log_lbol_14[vv,]), int(q_lbol_14[vv,]), float(log_redd_14[vv,]), int(q_redd_14[vv,])]
+            if bi_civ_14[vv] > 0:
+                BALQSO = 'yes'
+            fields = [SDSS_name0[0], int(plate_14[vv,]), int(mjd_14[vv,]), int(fiber_14[vv,]), float(log_mbh_14[vv,]),float(log_mbh_err_14[vv,]), float(log_lbol_14[vv,]), int(q_lbol_14[vv,]), float(log_redd_14[vv,]), int(q_redd_14[vv,]), BALQSO]
             append_row_to_csv(OUTFILE, fields)
+            BALQSO ='no'
             #print(SDSS_name0)
 
         
@@ -164,6 +173,7 @@ ParentinDR14_Lbol = df1[df1.columns[6]].to_numpy()
 ParentinDR14_QLbol = df1[df1.columns[7]].to_numpy()
 ParentinDR14_redd = df1[df1.columns[8]].to_numpy()
 ParentinDR14_Qredd = df1[df1.columns[9]].to_numpy()
+ParentinDR14_BALQSO = df1[df1.columns[10]].to_numpy()
 
 #print(len(EHVO_plate))
 MBH_parent = ParentinDR14_mbh
@@ -176,7 +186,7 @@ clear_file(OUTFILE2)
 MBH_EHVO =[] ; Lbol_EHVO = [] ; Redd_EHVO = []
 
 #SDSS_Names_14, Plate_14, Mjd_14, Fiber_14, Mbh_14,Mbh_err_14, Lbol_14, Quality_Lbol_14, Redd_14, Quality_Redd_14 = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14']
-Parentheaders = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14']
+Parentheaders = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14', 'BALQSO_14']
 
 for jj in range(specnumEHVO):
     ww, = np.where((ParentinDR14_Plate == EHVO_plate[jj]) & (ParentinDR14_mjd == EHVO_mdj[jj]) & (ParentinDR14_fiber == EHVO_fiber[jj]))
@@ -188,7 +198,7 @@ for jj in range(specnumEHVO):
         Redd_EHVO.append(ParentinDR14_redd[ww,])
         #print(ParentinDR14_SDSSnames[ww]) 
         SDSS_name1 = ParentinDR14_SDSSnames[0]
-        fields2 = [SDSS_name1[0], int(ParentinDR14_Plate[ww,]), int(ParentinDR14_mjd[ww,]), int(ParentinDR14_fiber[ww,]), float(ParentinDR14_mbh[ww,]),float(ParentinDR14_mbherr[ww,]), float(ParentinDR14_Lbol[ww,]), int(ParentinDR14_QLbol[ww,]), float(ParentinDR14_redd[ww,]), int(ParentinDR14_Qredd[ww,])]
+        fields2 = [SDSS_name1[0], int(ParentinDR14_Plate[ww,]), int(ParentinDR14_mjd[ww,]), int(ParentinDR14_fiber[ww,]), float(ParentinDR14_mbh[ww,]),float(ParentinDR14_mbherr[ww,]), float(ParentinDR14_Lbol[ww,]), int(ParentinDR14_QLbol[ww,]), float(ParentinDR14_redd[ww,]), int(ParentinDR14_Qredd[ww,]), ParentinDR14_BALQSO[ww,]]
         append_row_to_csv(OUTFILE2, fields2)
         
 #%%
@@ -234,8 +244,8 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     # the scatter plot:
     #ax.set_xlim([7.5, 11.25]) #MBH
     #ax.set_ylim([-2.0, 1.0]) #Redd
-    ax.set_xlim([-2.0, 1.0])
-    ax.set_ylim([46, 48.3]) #Lbol
+    ax.set_ylim([ylowlim, yuplim])
+    ax.set_xlim([xlowlim, xuplim]) #Lbol
     ax.scatter(x, y, s = area, color = color)
     ax.text(10.5,0.5,'')
     # now determine nice limits by hand:
@@ -259,30 +269,52 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     ax_histx.hist(x, bins = binsx, weights = weightsx, color = color, alpha = 0.5)
     ax_histy.hist(y, bins = binsy, weights = weightsy, orientation='horizontal', color=color, alpha = 0.5)
  # definitions for the axes
+
+
+
+# PLOTS
+
 left, width = 0.1, 0.65
 bottom, height = 0.1, 0.65
 spacing = 0.005
 rect_scatter = [left, bottom, width, height]
 rect_histx = [left, bottom + height + spacing, width, 0.2]
 rect_histy = [left + width + spacing, bottom, 0.2, height]
-# start with a square Figure
+
+
+
+#%%
+# Plot of  REDD vs Lbol
+
+fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
+
+y = Redd_parent
+y2 = Redd_EHVO
+
+x_= Lbol_parent
+x2_ = Lbol_EHVO
+
+xlowlim = 46.
+xuplim = 48.3
+
+ylowlim = -2.0
+yuplim = 1.0
+
+
 ax = fig.add_axes(rect_scatter)
 ax_histx = fig.add_axes(rect_histx, sharex=ax)
 ax_histy = fig.add_axes(rect_histy, sharey=ax)
 
-#ax_set_1 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
-#ax_set_2 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='log($L_{bol}$/erg s$^{-1}$)')
-ax_set_3 = ax.set(xlabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', ylabel='log($L_{bol}$/erg s$^{-1}$)')
+ax_set_3 = ax.set(ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', xlabel='log($L_{bol}$/erg s$^{-1}$)')
 
-# ax_set_xlim_MBH = ax.set_xlim([7.5, 11.25])
-# ax_set_ylim_Redd = ax.set_ylim([-2.0, 1.0])
-# ax_set_ylim_Lbol = ax.set_ylim([46, 48.3])
-# ax_set_xlim_Redd = ax.set_xlim([-2.0, 1.0])
+ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
+ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+
 
 # use the previously defined function
-scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3)
-scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
+scatter_hist2(x_, y, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3)
+scatter_hist2(y2, x2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
 
 # legendnames = ['Test1 Redd', 'Test2 Parent']
 # plt.legend(labels=legendnames, loc='upper right')
@@ -293,14 +325,68 @@ plt.savefig(PLOT_DIREC + 'Redd_Lbol.png')
 plt.show()
 plt.close()
 
+#%%
+# Plot of  REDD vs MBH
+
+fig = plt.figure(1)
+fig = plt.figure(figsize=(8, 8))
+
+
+
+x = MBH_parent
+x2 = MBH_EHVO
+
+y = Redd_parent
+y2 = Redd_EHVO
+
+ylowlim = 7.5
+yuplim = 11.25
+
+xlowlim = -2.0
+xuplim = 1.0
+
+ax_set_1 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
+
+ax_set_ylim_Redd = ax.set_ylim([xlowlim, xuplim])
+ax_set_xlim_MBH = ax.set_ylim([ylowlim, yuplim])
+
+scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
+scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
+plt.savefig(PLOT_DIREC + 'Redd_MBH.png')
+plt.show()
+plt.close()
+
+#%%
+ #plot of Lbol vs MBH
+
+fig = plt.figure(1)
+fig = plt.figure(figsize=(8, 8))
+
+ 
+x = MBH_parent
+x2 = MBH_EHVO
+
+y = Lbol_parent
+y2 = Lbol_EHVO
+
+xlowlim = 46.
+xuplim = 48.3
+
+ylowlim = 7.5
+yuplim = 11.25
+
+ax_set_ylim_MBH = ax.set_ylim([ylowlim, yuplim])
+ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+
+
+#ax_set_2 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='log($L_{bol}$/erg s$^{-1}$)')
+
+# y = Lbol_parent
+# y2 = Lbol_EHVO
+
 # scatter_hist2(x, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_2, ax_set_xlim_MBH, ax_set_ylim_Lbol)
 # scatter_hist2(x2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_2, ax_set_xlim_MBH, ax_set_ylim_Lbol)
 # plt.savefig(PLOT_DIREC + 'MBH_Lbol_final.png')
 # plt.show()
 # plt.close()
 
-# scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3, ax_set_xlim_Redd, ax_set_ylim_Lbol)
-# scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3, ax_set_xlim_Redd, ax_set_ylim_Lbol)
-# plt.savefig(PLOT_DIREC + 'Redd_Lbol_final.png')
-# plt.show()
-# plt.close()
