@@ -16,7 +16,6 @@ import os
 import sys
 import numpy as np 
 from scipy.optimize import curve_fit
-from sqlalchemy import false
 from matplotlib.backends.backend_pdf import PdfPages
 # sys.path.insert(0, os.getcwd() + '/../DR16Q/') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
@@ -33,7 +32,7 @@ DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.
 
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
-## DEFINES THE CONFIG FILE
+## PATH TO THE FILE THAT IS READ BY THE PROGRAM
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv" 
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
@@ -49,7 +48,7 @@ PLOT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/pdfFILES/"
 NORM_DIREC = os.getcwd() + "/../DR16Q_DATA/" + "NORM_DR16Q/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 1 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
+STARTS_FROM, ENDS_AT = 10000, 10000 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS - DO NOT CHANGE 
 SNR_CUTOFF = 10. 
@@ -530,9 +529,9 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             point_B_flux_norm = norm_anchor_pts[1][1]
             point_C_flux_norm = norm_anchor_pts[0][1]
             
-            flagged_A = false
-            flagged_B = false
-            flagged_C = false
+            flagged_A = False
+            flagged_B = False
+            flagged_C = False
 
             flagged_anchor_point_bad_fit = False
 
