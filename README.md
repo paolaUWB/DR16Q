@@ -24,7 +24,7 @@ Steps to contribute to this project:
     - contains all files/codes necessary to run the code that searches each normalized quasar spectrum for absorption
 
 - CROSS_CORRELATION
-    - ?? 
+    - includes code to study quasar properties of the sample of EHVO quasars vs other populations
 
 - DATA
     - contains all `.drX` files; these are the data for each individual spectrum that is downloaded from the SDSS
@@ -33,7 +33,7 @@ Steps to contribute to this project:
     - contains all files relevant to the 40 DR9 EHVO cases
 
 - DR16Q_EHVO
-    - contains all files relevant to the 98 DR16 EHVO cases (& possibly the candidates later on??? TBD)
+    - contains all files relevant to the 98 DR16 EHVO cases (& possibly the candidates later on -- TBD)
 
 - NORMALIZATION
     - contains all files/codes necessary to run the code that fits & normalizes each quasar spectrum
@@ -49,7 +49,7 @@ Steps to contribute to this project:
     - codes/files to create histogram plots to compare redshifts of different populations for both the DR9 and DR16
 
 - VARIABILITY
-    - ??
+    - includes the directories with the study of variability in each quasar with an EHVO
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
