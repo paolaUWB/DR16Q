@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = empty-project-type
-recent_files = ['CROSS_CORRELATION/crosscorrelation.py', 'CROSS_CORRELATION/DR16parent_DR14INFO.csv', '../../../Desktop/crosscorrelation.py']
+recent_files = ['CROSS_CORRELATION/crosscorrelation.py', '../../../Desktop/crosscorrelation.py', '../FASERnu/MCpracticecode.py', 'CROSS_CORRELATION/DR16parent_DR14INFO.csv']
 
 [main]
 version = 0.2.0

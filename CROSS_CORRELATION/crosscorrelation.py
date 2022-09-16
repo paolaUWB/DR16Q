@@ -201,6 +201,15 @@ for jj in range(specnumEHVO):
         fields2 = [SDSS_name1[0], int(ParentinDR14_Plate[ww,]), int(ParentinDR14_mjd[ww,]), int(ParentinDR14_fiber[ww,]), float(ParentinDR14_mbh[ww,]),float(ParentinDR14_mbherr[ww,]), float(ParentinDR14_Lbol[ww,]), int(ParentinDR14_QLbol[ww,]), float(ParentinDR14_redd[ww,]), int(ParentinDR14_Qredd[ww,]), ParentinDR14_BALQSO[ww,]]
         append_row_to_csv(OUTFILE2, fields2)
         
+#%% BALQSO info
+#infoParent2's last column has BALQSO flags, df1 = reading infoParent2
+balinfo = df1[df1.columns[9]].to_numpy()
+pos = np.where(balinfo < 0)
+
+MBH_bal = ParentinDR14_mbh[pos]
+Lbol_bal = ParentinDR14_Lbol[pos]
+Redd_bal = ParentinDR14_redd[pos]
+
 #%%
 #Histogram codes:
 # MBH_parent=np.hstack(MBH_parent)
@@ -222,18 +231,22 @@ for jj in range(specnumEHVO):
 # plt.legend(loc='upper left')
 # plt.show()
 
-fig = plt.figure(1)
-x = MBH_parent
-x2 = MBH_EHVO
 
 # y = Lbol_parent
 # y2 = Lbol_EHVO
 
-y = Redd_parent
-y2 = Redd_EHVO
+# fig = plt.figure(1)
+# x = MBH_parent
+# x2 = MBH_EHVO
+# x3 = MBH_bal
 
-y_= Lbol_parent
-y2_ = Lbol_EHVO
+# y = Redd_parent
+# y2 = Redd_EHVO
+# x3 = Redd_bal
+
+# y_= Lbol_parent
+# y2_ = Lbol_EHVO
+# y3 = Lbol_bal
 
 #MBH RANGE:(8.972, 10.2896) Redd RANGE:(-0.7445, -0.175) Lbol RANGE: (46.937, 47.6849)
 
@@ -245,7 +258,7 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     #ax.set_xlim([7.5, 11.25]) #MBH
     #ax.set_ylim([-2.0, 1.0]) #Redd
     ax.set_ylim([ylowlim, yuplim])
-    ax.set_xlim([xlowlim, xuplim]) #Lbol
+    ax.set_xlim([xlowlim, xuplim]) 
     ax.scatter(x, y, s = area, color = color)
     ax.text(10.5,0.5,'')
     # now determine nice limits by hand:
@@ -266,7 +279,7 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     print('Sum =', np.sum(weightsx))
     weightsy = [np.ones_like(y)/float(len(y))]
     print('Sum =', np.sum(weightsy))
-    ax_histx.hist(x, bins = binsx, weights = weightsx, color = color, alpha = 0.5)
+    ax_histx.hist(x, bins = binsy, weights = weightsx, color = color, alpha = 0.5)
     ax_histy.hist(y, bins = binsy, weights = weightsy, orientation='horizontal', color=color, alpha = 0.5)
  # definitions for the axes
 
@@ -282,18 +295,23 @@ rect_histx = [left, bottom + height + spacing, width, 0.2]
 rect_histy = [left + width + spacing, bottom, 0.2, height]
 
 
-
 #%%
 # Plot of  REDD vs Lbol
 
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
 
-y = Redd_parent
-y2 = Redd_EHVO
+x1m = MBH_parent
+x2m = MBH_EHVO
+x3m = MBH_bal
 
-x_= Lbol_parent
-x2_ = Lbol_EHVO
+y1 = Redd_parent
+y2 = Redd_EHVO
+y3 = Redd_bal
+
+x1 = Lbol_parent
+x2 = Lbol_EHVO
+x3 = Lbol_bal
 
 xlowlim = 46.
 xuplim = 48.3
@@ -301,73 +319,46 @@ xuplim = 48.3
 ylowlim = -2.0
 yuplim = 1.0
 
-
 ax = fig.add_axes(rect_scatter)
 ax_histx = fig.add_axes(rect_histx, sharex=ax)
 ax_histy = fig.add_axes(rect_histy, sharey=ax)
 
 ax_set_3 = ax.set(ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', xlabel='log($L_{bol}$/erg s$^{-1}$)')
 
-ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
-ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+# ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
+# ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x_, y, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3)
-scatter_hist2(y2, x2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
+scatter_hist2(x3, y3, ax, ax_histx, ax_histy,'mediumblue', 5, 'yes', 2, ax_set_3)
+scatter_hist2(x2, y2, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
 
 # legendnames = ['Test1 Redd', 'Test2 Parent']
 # plt.legend(labels=legendnames, loc='upper right')
 # ax.add_artist(ax.legend(title='test'))
-ax.legend(['Parent','EHVO'],loc='upper right')
-
-plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
+ax.legend(['BALQSO','EHVO'],loc='upper right')
+ax.set_title("Title for second plot")
+# plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
 plt.close()
 
 #%%
-# Plot of  REDD vs MBH
+# Plot of  Mass vs Lbol
 
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
 
+x1m = MBH_parent
+x2m = MBH_EHVO
+x3m = MBH_bal
 
-
-x = MBH_parent
-x2 = MBH_EHVO
-
-y = Redd_parent
+y1 = Redd_parent
 y2 = Redd_EHVO
+y3 = Redd_bal
 
-ylowlim = 7.5
-yuplim = 11.25
-
-xlowlim = -2.0
-xuplim = 1.0
-
-ax_set_1 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
-
-ax_set_ylim_Redd = ax.set_ylim([xlowlim, xuplim])
-ax_set_xlim_MBH = ax.set_ylim([ylowlim, yuplim])
-
-scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
-scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
-plt.savefig(PLOT_DIREC + 'Redd_MBH.png')
-plt.show()
-plt.close()
-
-#%%
- #plot of Lbol vs MBH
-
-fig = plt.figure(1)
-fig = plt.figure(figsize=(8, 8))
-
- 
-x = MBH_parent
-x2 = MBH_EHVO
-
-y = Lbol_parent
-y2 = Lbol_EHVO
+x1 = Lbol_parent
+x2 = Lbol_EHVO
+x3 = Lbol_bal
 
 xlowlim = 46.
 xuplim = 48.3
@@ -375,8 +366,80 @@ xuplim = 48.3
 ylowlim = 7.5
 yuplim = 11.25
 
-ax_set_ylim_MBH = ax.set_ylim([ylowlim, yuplim])
-ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+ax = fig.add_axes(rect_scatter)
+ax_histx = fig.add_axes(rect_histx, sharex=ax)
+ax_histy = fig.add_axes(rect_histy, sharey=ax)
+
+ax_set_2 = ax.set(ylabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', xlabel='log($L_{bol}$/erg s$^{-1}$)')
+
+# ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
+# ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+
+
+# use the previously defined function
+scatter_hist2(x3, x3m, ax, ax_histx, ax_histy,'mediumblue', 5, 'yes', 2, ax_set_2)
+scatter_hist2(x2, x2m, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_2)
+
+# ax.add_artist(ax.legend(title='test'))
+ax.legend(['BALQSO','EHVO'],loc='upper right')
+ax.set_title("Title for second plot")
+# plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
+plt.show()
+plt.close()
+
+#%%
+# Plot of  REDD vs MBH
+
+# fig = plt.figure(1)
+# fig = plt.figure(figsize=(8, 8))
+
+
+
+# x = MBH_parent
+# x2 = MBH_EHVO
+
+# y = Redd_parent
+# y2 = Redd_EHVO
+
+# ylowlim = 7.5
+# yuplim = 11.25
+
+# xlowlim = -2.0
+# xuplim = 1.0
+
+# ax_set_1 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
+
+# ax_set_ylim_Redd = ax.set_ylim([xlowlim, xuplim])
+# ax_set_xlim_MBH = ax.set_ylim([ylowlim, yuplim])
+
+
+# scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
+# scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
+# # plt.savefig(PLOT_DIREC + 'Redd_MBH.png')
+# plt.show()
+# plt.close()
+
+#%%
+ #plot of Lbol vs MBH
+
+# fig = plt.figure(1)
+# fig = plt.figure(figsize=(8, 8))
+
+ 
+# x = MBH_parent
+# x2 = MBH_EHVO
+
+# y = Lbol_parent
+# y2 = Lbol_EHVO
+
+# xlowlim = 46.
+# xuplim = 48.3
+
+# ylowlim = 7.5
+# yuplim = 11.25
+
+# ax_set_ylim_MBH = ax.set_ylim([ylowlim, yuplim])
+# ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 #ax_set_2 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='log($L_{bol}$/erg s$^{-1}$)')
