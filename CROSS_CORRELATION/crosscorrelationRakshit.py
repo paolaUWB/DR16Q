@@ -220,68 +220,17 @@ for jj in range(specnumEHVO):
 balinfo = df1[df1.columns[9]].to_numpy()
 pos = np.where(balinfo < 0)
 
-# MBH_bal = ParentinDR14_mbh[pos]
-# Lbol_bal = ParentinDR14_Lbol[pos]
-# Redd_bal = ParentinDR14_redd[pos]
-
-#%%
-# csv files only contain good cases 
-infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
-infoRankineEHVO = os.getcwd() + "/DR16EHVO_DR14RankineInfo.csv"
-
-dfRPA = pd.read_csv(infoRankineparent, header=None)
-dfRHV = pd.read_csv(infoRankineEHVO, header=None)
-
-#for parent sample
-Parentin14Rank_mbh=dfRPA[dfRPA.columns[16]].to_numpy()
-Parentin14Rank_lbol=dfRPA[dfRPA.columns[17]].to_numpy()
-Parentin14Rank_redd=dfRPA[dfRPA.columns[18]].to_numpy()
-
-#for EHVOs
-EHVOin14Rank_mbh=dfRHV[dfRHV.columns[16]].to_numpy()
-EHVOin14Rank_lbol=dfRHV[dfRHV.columns[17]].to_numpy()
-EHVOin14Rank_redd=dfRHV[dfRHV.columns[18]].to_numpy()
-
-
-MBH_parentR = Parentin14Rank_mbh
-Lbol_parentR = Parentin14Rank_lbol
-Redd_parentR = Parentin14Rank_redd
-
-MBH_EHVOR = EHVOin14Rank_mbh
-Lbol_EHVOR = EHVOin14Rank_lbol
-Redd_EHVOR = EHVOin14Rank_redd 
-
-#%%
-# bals:  16 17 18 
-#bal pos:
-bi_bi0 = dfRPA[dfRPA.columns[10]].to_numpy()
-bi_vmax = dfRPA[dfRPA.columns[11]].to_numpy()
-bi_vmin = dfRPA[dfRPA.columns[12]].to_numpy()
-SNR = dfRPA[dfRPA.columns[15]].to_numpy()
-
-pos_bal = np.where((bi_bi0>0) & (SNR > 10))
-pos_10k = np.where((bi_vmax<10000)&(bi_bi0>0)&(SNR>10))
-pos_25k = np.where((bi_vmax>10000)&(bi_vmax<25000)&(bi_bi0>0)&(SNR>10))
-
-mbh_bal = Parentin14Rank_mbh[pos_bal]
-lbol_bal = Parentin14Rank_lbol[pos_bal]
-redd_bal = Parentin14Rank_redd[pos_bal]
-
-mbh_bal10k,mbh_bal25k   = Parentin14Rank_mbh[pos_10k], Parentin14Rank_mbh[pos_25k]
-redd_bal10k, redd_bal25k = Parentin14Rank_redd[pos_10k], Parentin14Rank_redd[pos_25k]
-lbol_bal10k, lbol_bal25k = Parentin14Rank_lbol[pos_10k], Parentin14Rank_lbol[pos_25k]
-
-# pos_bal = np.where(bi0>0, SNR>10)
-                   # (vmin>10k, vmin<vmax<25k)
-
-                  
+MBH_bal = ParentinDR14_mbh[pos]
+Lbol_bal = ParentinDR14_Lbol[pos]
+Redd_bal = ParentinDR14_redd[pos]
+           
 #%% bins width calc
 # comb_mbhdata = np.concatenate([MBH_EHVOR , MBH_parentR])
 # comb_edddata = np.concatenate([Redd_EHVOR , Redd_parentR])
 
-op_binmbh = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(mbh_bal))/2
-op_binedd = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(redd_bal))/2
-op_binlbol = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(lbol_bal))/2
+op_binmbh = (stats.knuth_bin_width(MBH_EHVO)+stats.knuth_bin_width(MBH_bal))/2
+op_binedd = (stats.knuth_bin_width(Redd_EHVO)+stats.knuth_bin_width(Redd_bal))/2
+op_binlbol = (stats.knuth_bin_width(Lbol_EHVO)+stats.knuth_bin_width(Lbol_bal))/2
 
 #%%
 #Histogram:
@@ -341,20 +290,14 @@ rect_histy = [left + width + spacing, bottom, 0.2, height]
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
 
-x1m = MBH_parentR
-x2m = MBH_EHVOR
-x3m = mbh_bal10k
-x4m = mbh_bal25k
+x1m = MBH_parent
+x2m = MBH_EHVO
 
-y1 = Redd_parentR
-y2 = Redd_EHVOR
-y3 = redd_bal10k
-y4 = redd_bal25k
+y1 = Redd_parent
+y2 = Redd_EHVO
 
-x1 = Lbol_parentR
-x2 = Lbol_EHVOR
-x3 = lbol_bal10k
-x4 = lbol_bal25k
+x1 = Lbol_parent
+x2 = Lbol_EHVO
 
 
 #setting axis limits based on properties
@@ -398,20 +341,14 @@ plt.close()
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
 
-x1m = MBH_parentR
-x2m = MBH_EHVOR
-x3m = mbh_bal10k
-x4m = mbh_bal25k
+x1m = MBH_parent
+x2m = MBH_EHVO
 
-y1 = Redd_parentR
-y2 = Redd_EHVOR
-y3 = redd_bal10k
-y4 = redd_bal25k
+y1 = Redd_parent
+y2 = Redd_EHVO
 
-x1 = Lbol_parentR
-x2 = Lbol_EHVOR
-x3 = lbol_bal10k
-x4 = lbol_bal25k
+x1 = Lbol_parent
+x2 = Lbol_EHVO
 
 xlowlim = 46.
 xuplim = 48.3
