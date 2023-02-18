@@ -47,10 +47,6 @@ infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
 infoRankineEHVO = os.getcwd() + "/DR16EHVO_DR14RankineInfo.csv"
 
 
-
-#for new csv: columns 16 mass 17 lbol  18 redd
-#SDSS NAME 
-
 #%%
 #Reading DR14 & 16 fits table files
 
@@ -158,7 +154,7 @@ op_binlbol = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(lbol_bal))
 #Histogram:
 
 
-def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_set, limx, limy):
+def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_set, limx, limy,binwidth_x,binwidth_y):
     # no labels
     ax_histx.tick_params(axis='x', labelbottom=False)
     ax_histy.tick_params(axis='y', labelleft=False)
@@ -170,8 +166,8 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     ax.scatter(x, y, s = area, color = color)
     ax.text(10.5,0.5,'')
     # now determine nice limits by hand:
-    binwidth_x = op_binmbh
-    binwidth_y = op_binlbol
+    # binwidth_x = op_binmbh
+    # binwidth_y = op_binlbol
     #limx limy redefine lines
     # limx = 11.25
     # limx = 48.3
@@ -252,9 +248,9 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x3m, y3, ax, ax_histx, ax_histy,'dodgerblue', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3)
-scatter_hist2(x4m, y4, ax, ax_histx, ax_histy ,'darkturquoise', 5, 'yes', 2, ax_set_2,limx=11.25, limy=48.3)
-scatter_hist2(x2m, y2, ax, ax_histx, ax_histy ,'magenta', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3)
+scatter_hist2(x3m, y3, ax, ax_histx, ax_histy,'dodgerblue', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3,binwidth_x = op_binmbh,binwidth_y = op_binedd )
+scatter_hist2(x4m, y4, ax, ax_histx, ax_histy ,'darkturquoise', 5, 'yes', 2, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh,binwidth_y = op_binedd)
+scatter_hist2(x2m, y2, ax, ax_histx, ax_histy ,'magenta', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh,binwidth_y = op_binedd)
 
 # ax.add_artist(ax.legend(title='test'))
 ax.legend(['Bal10k','Bal25k','EHVO'],loc='upper right')
@@ -307,9 +303,9 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x3, y3, ax, ax_histx, ax_histy,'dodgerblue', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3)
-scatter_hist2(x4, y4, ax, ax_histx, ax_histy ,'darkturquoise', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3)
-scatter_hist2(x2, y2, ax, ax_histx, ax_histy ,'magenta', 60, 'yes', 10, ax_set_2,limx=48.3, limy=48.3)
+scatter_hist2(x3, y3, ax, ax_histx, ax_histy,'dodgerblue', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3,binwidth_x = op_binlbol,binwidth_y = op_binedd)
+scatter_hist2(x4, y4, ax, ax_histx, ax_histy ,'darkturquoise', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3,binwidth_x = op_binlbol,binwidth_y = op_binedd)
+scatter_hist2(x2, y2, ax, ax_histx, ax_histy ,'magenta', 60, 'yes', 10, ax_set_2,limx=48.3, limy=48.3,binwidth_x = op_binlbol,binwidth_y = op_binedd)
 
 # ax.add_artist(ax.legend(title='test'))
 ax.legend(['Bal10k','Bal25k','EHVO'],loc='upper right')
