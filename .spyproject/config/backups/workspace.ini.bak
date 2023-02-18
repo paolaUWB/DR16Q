@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = empty-project-type
-recent_files = ['CROSS_CORRELATION/crosscorrelation.py', '../../../Desktop/crosscorrelation.py', '../FASERnu/MCpracticecode.py', 'CROSS_CORRELATION/DR16parent_DR14INFO.csv']
+recent_files = ['CROSS_CORRELATION/crosscorrelation.py', '../../../Desktop/untitled6.py', '../../../Desktop/untitled10.py', '../../../Desktop/HW2tankbisec.py', 'CROSS_CORRELATION/DR16EHVOs_inDR14INFO.csv', '../../../Downloads/gassy.py', '../../../Desktop/HW3drainning_tank.py', '../../../Desktop/inclassquantumoscillator.py', 'CROSS_CORRELATION/DR16parent_DR14RankineInfo.csv', '../../../Downloads/one_car.py', '../../../Downloads/TrafficJamWave.py', 'CROSS_CORRELATION/DR16parent_DR14INFO.csv', 'CROSS_CORRELATION/DR16_EHVO_sorted_norm.csv', '../../../Desktop/IDMinclasspractice.py', '../../../Desktop/AIhumansmixed.py']
 
 [main]
 version = 0.2.0

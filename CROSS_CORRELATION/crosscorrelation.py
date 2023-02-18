@@ -19,11 +19,14 @@ from astropy import constants as const
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import pyplot as plt
 from astropy.io import fits
+from astropy import stats
 from utility_functions import read_spectra, append_row_to_csv, clear_file, print_to_file, read_list_spectra
 import os
 from os.path import exists
 import csv
 import pandas as pd
+
+#Number of samples 
 
 #specnumDR16=XXX
 #specnumDR14=XXX
@@ -48,7 +51,11 @@ fieldnames = ['SDSS_Names', 'Mbh', 'L_bol', 'Redd']
 
 PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/pngFILES/"
 
+#for new csv: columns 16 mass 17 lbol  18 redd
+#SDSS NAME 
+
 #%%
+#Reading DR14 & 16 fits table files
 
 hdu_16 = fits.open(infoDR16)
 data_16 = hdu_16[1].data
@@ -64,7 +71,8 @@ fits_16__duplicate_MJD = data_16['MJD_DUPLICATE']
 fits_16__duplicate_FIBER = data_16['FIBERID_DUPLICATE']
 hdu_16.close()
 
-#%%
+
+
 
 hdu_14 = fits.open(infoDR14)
 data_14 = hdu_14[1].data
@@ -87,10 +95,12 @@ hdu_14.close()
 
 
 
-BALQSO_index = np.where(bi_civ_14 > 0)
-BALQSO = 'no'
+# BALQSO_index = np.where(bi_civ_14 > 0)
+# BALQSO = 'no'
 
 #%%
+#Writing csv file for DR16 parent with DR14 info 
+
 if wnewfile == 'yes':
     print('I am here!')
     #DR16Parent sample read:
@@ -120,7 +130,8 @@ if wnewfile == 'yes':
         
     # reader = csv.reader(file)
     # writer = csv.writer(csvfile, fmtparams)
-    
+
+
     #DR16parent and DR14 fits CC:
     for ii in range(specnumPARENT):
         aa=spec_name_PARENT[ii]
@@ -180,6 +191,7 @@ MBH_parent = ParentinDR14_mbh
 Lbol_parent = ParentinDR14_Lbol
 Redd_parent = ParentinDR14_redd
 
+
 OUTFILE2 = os.getcwd() + "/DR16EHVOs_inDR14INFO.csv"
 clear_file(OUTFILE2)
 
@@ -187,6 +199,7 @@ MBH_EHVO =[] ; Lbol_EHVO = [] ; Redd_EHVO = []
 
 #SDSS_Names_14, Plate_14, Mjd_14, Fiber_14, Mbh_14,Mbh_err_14, Lbol_14, Quality_Lbol_14, Redd_14, Quality_Redd_14 = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14']
 Parentheaders = ['SDSS_Names_14', 'Plate_14', 'Mjd_14', 'Fiber_14', 'Mbh_14','Mbh_err_14', 'Lbol_14', 'Quality_Lbol_14', 'Redd_14', 'Quality_Redd_14', 'BALQSO_14']
+
 
 for jj in range(specnumEHVO):
     ww, = np.where((ParentinDR14_Plate == EHVO_plate[jj]) & (ParentinDR14_mjd == EHVO_mdj[jj]) & (ParentinDR14_fiber == EHVO_fiber[jj]))
@@ -198,6 +211,7 @@ for jj in range(specnumEHVO):
         Redd_EHVO.append(ParentinDR14_redd[ww,])
         #print(ParentinDR14_SDSSnames[ww]) 
         SDSS_name1 = ParentinDR14_SDSSnames[0]
+        #using balQSO flags to get positions of Mass, Lbol, Redd
         fields2 = [SDSS_name1[0], int(ParentinDR14_Plate[ww,]), int(ParentinDR14_mjd[ww,]), int(ParentinDR14_fiber[ww,]), float(ParentinDR14_mbh[ww,]),float(ParentinDR14_mbherr[ww,]), float(ParentinDR14_Lbol[ww,]), int(ParentinDR14_QLbol[ww,]), float(ParentinDR14_redd[ww,]), int(ParentinDR14_Qredd[ww,]), ParentinDR14_BALQSO[ww,]]
         append_row_to_csv(OUTFILE2, fields2)
         
@@ -206,51 +220,74 @@ for jj in range(specnumEHVO):
 balinfo = df1[df1.columns[9]].to_numpy()
 pos = np.where(balinfo < 0)
 
-MBH_bal = ParentinDR14_mbh[pos]
-Lbol_bal = ParentinDR14_Lbol[pos]
-Redd_bal = ParentinDR14_redd[pos]
+# MBH_bal = ParentinDR14_mbh[pos]
+# Lbol_bal = ParentinDR14_Lbol[pos]
+# Redd_bal = ParentinDR14_redd[pos]
 
 #%%
-#Histogram codes:
-# MBH_parent=np.hstack(MBH_parent)
-# MBH_parent_toplot=MBH_parent[np.hstack(np.where(MBH_parent != 0.))]
+# csv files only contain good cases 
+infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
+infoRankineEHVO = os.getcwd() + "/DR16EHVO_DR14RankineInfo.csv"
 
-# fig=plt.figure(1)
- 
-# iqr = np.subtract(*np.percentile(MBH_parent_toplot, [75, 25]))
-# nhist=(max(MBH_parent_toplot)-min(MBH_parent_toplot))/(2*iqr*(len(MBH_parent_toplot)**(-1/3)))
- 
-# bins=np.linspace(min(MBH_parent_toplot),max(MBH_parent_toplot),int(nhist))
- 
-# plt.hist([MBH_parent_toplot],bins,color=['black'],label=['parent'],histtype='step')
-# # This for later when you have the 3 samples: plt.hist([MBH,MBH_BAL_toplot,MBH_EHVO_toplot],bins,color=['black','blue','red'],label=['parent','BAL','EHVO'],histtype='step')
- 
-# plt.xlabel(r'log($M_{\mathrm{BH}}/M_{\odot})$')
-# plt.ylabel('$n/N_{tot}$')
-# plt.ylabel('Number')
-# plt.legend(loc='upper left')
-# plt.show()
+dfRPA = pd.read_csv(infoRankineparent, header=None)
+dfRHV = pd.read_csv(infoRankineEHVO, header=None)
+
+#for parent sample
+Parentin14Rank_mbh=dfRPA[dfRPA.columns[16]].to_numpy()
+Parentin14Rank_lbol=dfRPA[dfRPA.columns[17]].to_numpy()
+Parentin14Rank_redd=dfRPA[dfRPA.columns[18]].to_numpy()
+
+#for EHVOs
+EHVOin14Rank_mbh=dfRHV[dfRHV.columns[16]].to_numpy()
+EHVOin14Rank_lbol=dfRHV[dfRHV.columns[17]].to_numpy()
+EHVOin14Rank_redd=dfRHV[dfRHV.columns[18]].to_numpy()
 
 
-# y = Lbol_parent
-# y2 = Lbol_EHVO
+MBH_parentR = Parentin14Rank_mbh
+Lbol_parentR = Parentin14Rank_lbol
+Redd_parentR = Parentin14Rank_redd
 
-# fig = plt.figure(1)
-# x = MBH_parent
-# x2 = MBH_EHVO
-# x3 = MBH_bal
+MBH_EHVOR = EHVOin14Rank_mbh
+Lbol_EHVOR = EHVOin14Rank_lbol
+Redd_EHVOR = EHVOin14Rank_redd 
 
-# y = Redd_parent
-# y2 = Redd_EHVO
-# x3 = Redd_bal
+#%%
+# bals:  16 17 18 
+#bal pos:
+bi_bi0 = dfRPA[dfRPA.columns[10]].to_numpy()
+bi_vmax = dfRPA[dfRPA.columns[11]].to_numpy()
+bi_vmin = dfRPA[dfRPA.columns[12]].to_numpy()
+SNR = dfRPA[dfRPA.columns[15]].to_numpy()
 
-# y_= Lbol_parent
-# y2_ = Lbol_EHVO
-# y3 = Lbol_bal
+pos_bal = np.where((bi_bi0>0) & (SNR > 10))
+pos_10k = np.where((bi_vmax<10000)&(bi_bi0>0)&(SNR>10))
+pos_25k = np.where((bi_vmax>10000)&(bi_vmax<25000)&(bi_bi0>0)&(SNR>10))
 
-#MBH RANGE:(8.972, 10.2896) Redd RANGE:(-0.7445, -0.175) Lbol RANGE: (46.937, 47.6849)
+mbh_bal = Parentin14Rank_mbh[pos_bal]
+lbol_bal = Parentin14Rank_lbol[pos_bal]
+redd_bal = Parentin14Rank_redd[pos_bal]
 
-def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_set):
+mbh_bal10k,mbh_bal25k   = Parentin14Rank_mbh[pos_10k], Parentin14Rank_mbh[pos_25k]
+redd_bal10k, redd_bal25k = Parentin14Rank_redd[pos_10k], Parentin14Rank_redd[pos_25k]
+lbol_bal10k, lbol_bal25k = Parentin14Rank_lbol[pos_10k], Parentin14Rank_lbol[pos_25k]
+
+# pos_bal = np.where(bi0>0, SNR>10)
+                   # (vmin>10k, vmin<vmax<25k)
+
+                  
+#%% bins width calc
+# comb_mbhdata = np.concatenate([MBH_EHVOR , MBH_parentR])
+# comb_edddata = np.concatenate([Redd_EHVOR , Redd_parentR])
+
+op_binmbh = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(mbh_bal))/2
+op_binedd = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(redd_bal))/2
+op_binlbol = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(lbol_bal))/2
+
+#%%
+#Histogram:
+
+
+def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_set, limx, limy):
     # no labels
     ax_histx.tick_params(axis='x', labelbottom=False)
     ax_histy.tick_params(axis='y', labelleft=False)
@@ -262,12 +299,15 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     ax.scatter(x, y, s = area, color = color)
     ax.text(10.5,0.5,'')
     # now determine nice limits by hand:
-    binwidth_x = 0.2
-    binwidth_y = 0.1
-    limx = (int(11.25/binwidth_x) + 1) * binwidth_x
-    limy = (int(48.3/binwidth_y) + 1) * binwidth_y
-    binsx = np.arange(-limx, limx + binwidth_x, binwidth_x)
-    binsy = np.arange(-limy, limy + binwidth_y, binwidth_y)
+    binwidth_x = op_binmbh
+    binwidth_y = op_binlbol
+    #limx limy redefine lines
+    # limx = 11.25
+    # limx = 48.3
+    # limy = 48.3
+    binsx = np.arange(-limx, limx, binwidth_x)
+    binsy = np.arange(-limy, limy, binwidth_y)
+    
     if mult == 'yes':
         for i in range(0, factor):
             x = np.append(x,x)
@@ -279,7 +319,7 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
     print('Sum =', np.sum(weightsx))
     weightsy = [np.ones_like(y)/float(len(y))]
     print('Sum =', np.sum(weightsy))
-    ax_histx.hist(x, bins = binsy, weights = weightsx, color = color, alpha = 0.5)
+    ax_histx.hist(x, bins = binsx, weights = weightsx, color = color, alpha = 0.5)
     ax_histy.hist(y, bins = binsy, weights = weightsy, orientation='horizontal', color=color, alpha = 0.5)
  # definitions for the axes
 
@@ -296,26 +336,36 @@ rect_histy = [left + width + spacing, bottom, 0.2, height]
 
 
 #%%
-# Plot of  REDD vs Lbol
+# Plot of  redd vs mass
 
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
 
-x1m = MBH_parent
-x2m = MBH_EHVO
-x3m = MBH_bal
+x1m = MBH_parentR
+x2m = MBH_EHVOR
+x3m = mbh_bal10k
+x4m = mbh_bal25k
 
-y1 = Redd_parent
-y2 = Redd_EHVO
-y3 = Redd_bal
+y1 = Redd_parentR
+y2 = Redd_EHVOR
+y3 = redd_bal10k
+y4 = redd_bal25k
 
-x1 = Lbol_parent
-x2 = Lbol_EHVO
-x3 = Lbol_bal
+x1 = Lbol_parentR
+x2 = Lbol_EHVOR
+x3 = lbol_bal10k
+x4 = lbol_bal25k
 
-xlowlim = 46.
-xuplim = 48.3
 
+#setting axis limits based on properties
+# xlowlim = 46.
+# xuplim = 48.3
+xlowlim = 8.20
+xuplim = 10.25
+
+
+# ylowlim = 7.5
+# yuplim = 11.25
 ylowlim = -2.0
 yuplim = 1.0
 
@@ -323,133 +373,79 @@ ax = fig.add_axes(rect_scatter)
 ax_histx = fig.add_axes(rect_histx, sharex=ax)
 ax_histy = fig.add_axes(rect_histy, sharey=ax)
 
-ax_set_3 = ax.set(ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', xlabel='log($L_{bol}$/erg s$^{-1}$)')
+# ax_set_2 = ax.set(ylabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', xlabel='log($L_{bol}$/erg s$^{-1}$)')
+ax_set_2 = ax.set(ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$')
 
-# ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
-# ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
+ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x3, y3, ax, ax_histx, ax_histy,'mediumblue', 5, 'yes', 2, ax_set_3)
-scatter_hist2(x2, y2, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3)
+scatter_hist2(x3m, y3, ax, ax_histx, ax_histy,'dodgerblue', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3)
+scatter_hist2(x4m, y4, ax, ax_histx, ax_histy ,'darkturquoise', 5, 'yes', 2, ax_set_2,limx=11.25, limy=48.3)
+scatter_hist2(x2m, y2, ax, ax_histx, ax_histy ,'magenta', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3)
 
-# legendnames = ['Test1 Redd', 'Test2 Parent']
-# plt.legend(labels=legendnames, loc='upper right')
 # ax.add_artist(ax.legend(title='test'))
-ax.legend(['BALQSO','EHVO'],loc='upper right')
+ax.legend(['Bal10k','Bal25k','EHVO'],loc='upper right')
 ax.set_title("Title for second plot")
 # plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
 plt.close()
 
 #%%
-# Plot of  Mass vs Lbol
+# Plot of  redd vs Lbol
 
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
 
-x1m = MBH_parent
-x2m = MBH_EHVO
-x3m = MBH_bal
+x1m = MBH_parentR
+x2m = MBH_EHVOR
+x3m = mbh_bal10k
+x4m = mbh_bal25k
 
-y1 = Redd_parent
-y2 = Redd_EHVO
-y3 = Redd_bal
+y1 = Redd_parentR
+y2 = Redd_EHVOR
+y3 = redd_bal10k
+y4 = redd_bal25k
 
-x1 = Lbol_parent
-x2 = Lbol_EHVO
-x3 = Lbol_bal
+x1 = Lbol_parentR
+x2 = Lbol_EHVOR
+x3 = lbol_bal10k
+x4 = lbol_bal25k
 
 xlowlim = 46.
 xuplim = 48.3
+# xlowlim = 8.20
+# xuplim = 10.25
 
-ylowlim = 7.5
-yuplim = 11.25
+
+# ylowlim = 7.5
+# yuplim = 11.25
+ylowlim = -2.0
+yuplim = 1.0
 
 ax = fig.add_axes(rect_scatter)
 ax_histx = fig.add_axes(rect_histx, sharex=ax)
 ax_histy = fig.add_axes(rect_histy, sharey=ax)
 
-ax_set_2 = ax.set(ylabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', xlabel='log($L_{bol}$/erg s$^{-1}$)')
+# ax_set_2 = ax.set(ylabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', xlabel='log($L_{bol}$/erg s$^{-1}$)')
+ax_set_2 = ax.set(ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', xlabel='log($L_{bol}$/erg s$^{-1}$)')
 
-# ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
-# ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
+ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
+ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x3, x3m, ax, ax_histx, ax_histy,'mediumblue', 5, 'yes', 2, ax_set_2)
-scatter_hist2(x2, x2m, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_2)
+scatter_hist2(x3, y3, ax, ax_histx, ax_histy,'dodgerblue', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3)
+scatter_hist2(x4, y4, ax, ax_histx, ax_histy ,'darkturquoise', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3)
+scatter_hist2(x2, y2, ax, ax_histx, ax_histy ,'magenta', 60, 'yes', 10, ax_set_2,limx=48.3, limy=48.3)
 
 # ax.add_artist(ax.legend(title='test'))
-ax.legend(['BALQSO','EHVO'],loc='upper right')
+ax.legend(['Bal10k','Bal25k','EHVO'],loc='upper right')
 ax.set_title("Title for second plot")
 # plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
 plt.close()
 
-#%%
-# Plot of  REDD vs MBH
 
-# fig = plt.figure(1)
-# fig = plt.figure(figsize=(8, 8))
-
-
-
-# x = MBH_parent
-# x2 = MBH_EHVO
-
-# y = Redd_parent
-# y2 = Redd_EHVO
-
-# ylowlim = 7.5
-# yuplim = 11.25
-
-# xlowlim = -2.0
-# xuplim = 1.0
-
-# ax_set_1 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
-
-# ax_set_ylim_Redd = ax.set_ylim([xlowlim, xuplim])
-# ax_set_xlim_MBH = ax.set_ylim([ylowlim, yuplim])
-
-
-# scatter_hist2(y, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
-# scatter_hist2(y2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_3, ax_set_xlim_MBH, ax_set_ylim_Redd)
-# # plt.savefig(PLOT_DIREC + 'Redd_MBH.png')
-# plt.show()
-# plt.close()
-
-#%%
- #plot of Lbol vs MBH
-
-# fig = plt.figure(1)
-# fig = plt.figure(figsize=(8, 8))
-
- 
-# x = MBH_parent
-# x2 = MBH_EHVO
-
-# y = Lbol_parent
-# y2 = Lbol_EHVO
-
-# xlowlim = 46.
-# xuplim = 48.3
-
-# ylowlim = 7.5
-# yuplim = 11.25
-
-# ax_set_ylim_MBH = ax.set_ylim([ylowlim, yuplim])
-# ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
-
-
-#ax_set_2 = ax.set(xlabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', ylabel='log($L_{bol}$/erg s$^{-1}$)')
-
-# y = Lbol_parent
-# y2 = Lbol_EHVO
-
-# scatter_hist2(x, y_, ax, ax_histx, ax_histy,'mediumblue', 2, 'yes', 3, ax_set_2, ax_set_xlim_MBH, ax_set_ylim_Lbol)
-# scatter_hist2(x2, y2_, ax, ax_histx, ax_histy ,'purple', 50, 'yes', 10, ax_set_2, ax_set_xlim_MBH, ax_set_ylim_Lbol)
-# plt.savefig(PLOT_DIREC + 'MBH_Lbol_final.png')
-# plt.show()
-# plt.close()
 
