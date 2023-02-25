@@ -146,14 +146,24 @@ lbol_bal10k, lbol_bal25k = Parentin14Rank_lbol[pos_10k], Parentin14Rank_lbol[pos
 # comb_mbhdata = np.concatenate([MBH_EHVOR , MBH_parentR])
 # comb_edddata = np.concatenate([Redd_EHVOR , Redd_parentR])
 
-op_binmbh_knuth = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(MBH_parentR))/2
-op_binedd1_knuth = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(Redd_parentR))/2
-op_binlbol1_knuth = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(Lbol_parentR))/2
+# Parent sample knuth  
+op_binmbh_knuthp = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(MBH_parentR))/2
+op_binedd_knuthp = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(Redd_parentR))/2
+op_binlbol_knuthp = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(Lbol_parentR))/2
+
+# Bal sample knuth
+op_binmbh_knuthbal = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(mbh_bal))/2
+op_binedd_knuthbal = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(redd_bal))/2
+op_binlbol_knuthbal = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(lbol_bal))/2
+
+# op_binmbh_knuthbal = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(mbh_bal10k)+stats.knuth_bin_width(mbh_bal25k))/3
+# op_binedd_knuthbal = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(redd_bal10k)+stats.knuth_bin_width(redd_bal25k))/3
+# op_binlbol_knuthbal = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(lbol_bal10k)+stats.knuth_bin_width(lbol_bal25k))/3
 
 # BAL sample freedman
-op_binmbh_freedmanbal = (stats.freedman_bin_width(MBH_EHVOR)+stats.freedman_bin_width(mbh_bal))/2
-op_binedd_freedmanbal = (stats.freedman_bin_width(Redd_EHVOR)+stats.freedman_bin_width(redd_bal))/2
-op_binlbol_freedmanbal = (stats.freedman_bin_width(Lbol_EHVOR)+stats.freedman_bin_width(lbol_bal))/2
+op_binmbh_freedmanbal = (stats.freedman_bin_width(MBH_EHVOR)+stats.freedman_bin_width(mbh_bal10k)+stats.freedman_bin_width(mbh_bal10k))/3
+op_binedd_freedmanbal = (stats.freedman_bin_width(Redd_EHVOR)+stats.freedman_bin_width(redd_bal10k)+stats.freedman_bin_width(redd_bal25k))/3
+op_binlbol_freedmanbal = (stats.freedman_bin_width(Lbol_EHVOR)+stats.freedman_bin_width(lbol_bal10k)+stats.freedman_bin_width(lbol_bal25k))/3
 
 # parent sample freedman
 op_binmbh_freedmanp = (stats.freedman_bin_width(MBH_EHVOR)+stats.freedman_bin_width(MBH_parentR))/2
@@ -270,11 +280,11 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x10km, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2, limx=masslim, limy=reddlim, binwidth_x = op_binmbh_freedmanbal, binwidth_y = op_binedd_freedmanbal )
-scatter_hist2(x25km, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=masslim, limy=reddlim, binwidth_x = op_binmbh_freedmanbal, binwidth_y = op_binedd_freedmanbal)
+scatter_hist2(x10km, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2, limx=masslim, limy=reddlim, binwidth_x = op_binmbh_knuthbal, binwidth_y = op_binedd_knuthbal )
+scatter_hist2(x25km, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=masslim, limy=reddlim, binwidth_x = op_binmbh_knuthbal, binwidth_y = op_binedd_knuthbal)
 
-# scatter_hist2(xpm, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3,binwidth_x = op_binmbh_freedmanp,binwidth_y = op_binedd_freedmanp )
-scatter_hist2(xem, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh_freedmanp,binwidth_y = op_binedd_freedmanp)
+# scatter_hist2(xpm, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3,binwidth_x = op_binmbh_knuthp,binwidth_y = op_binedd_knuthp )
+scatter_hist2(xem, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh_knuthp, binwidth_y = op_binedd_knuthp)
 
 # ax.add_artist(ax.legend(title='test'))
 ax.legend(['Rankine+2020 BALs vmin<10,000 km/s','Rankine+2020 BALs 10,000 km/s<vmin<25,000 km/s','RH+(in prep) EHVO'],loc='lower left')
@@ -313,11 +323,11 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x10kl, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_freedmanbal, binwidth_y = op_binedd_freedmanbal)
-scatter_hist2(x25kl, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_freedmanbal, binwidth_y = op_binedd_freedmanbal)
+scatter_hist2(x10kl, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_knuthbal, binwidth_y = op_binedd_knuthbal)
+scatter_hist2(x25kl, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_knuthbal, binwidth_y = op_binedd_knuthbal)
 
-# scatter_hist2(xpl, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=48.3, limy=48.3, binwidth_x = op_binmbh_freedmanp, binwidth_y = op_binedd_freedmanp )
-scatter_hist2(xel, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=lbollim, limy=reddlim, binwidth_x = op_binlbol_freedmanp, binwidth_y = op_binedd_freedmanp)
+# scatter_hist2(xpl, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=48.3, limy=48.3, binwidth_x = op_binmbh_knuthp, binwidth_y = op_binedd_knuthp)
+scatter_hist2(xel, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=lbollim, limy=reddlim, binwidth_x = op_binlbol_knuthp, binwidth_y = op_binedd_knuthp)
 
 # ax.add_artist(ax.legend(title='test'))
 ax.legend(['Rankine+2020 BALs vmin<10,000 km/s','Rankine+2020 BALs 10,000 km/s<vmin<25,000 km/s','RH+(in prep) EHVO'],loc='lower left')
