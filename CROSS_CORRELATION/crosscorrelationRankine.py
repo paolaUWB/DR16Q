@@ -146,13 +146,20 @@ lbol_bal10k, lbol_bal25k = Parentin14Rank_lbol[pos_10k], Parentin14Rank_lbol[pos
 # comb_mbhdata = np.concatenate([MBH_EHVOR , MBH_parentR])
 # comb_edddata = np.concatenate([Redd_EHVOR , Redd_parentR])
 
-# op_binmbh = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(MBH_parentR))/2
-# op_binedd = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(Redd_parentR))/2
-# op_binlbol = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(Lbol_parentR))/2
+op_binmbh_knuth = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(MBH_parentR))/2
+op_binedd1_knuth = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(Redd_parentR))/2
+op_binlbol1_knuth = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(Lbol_parentR))/2
 
-op_binmbh = (stats.knuth_bin_width(MBH_EHVOR)+stats.knuth_bin_width(mbh_bal))/2
-op_binedd = (stats.knuth_bin_width(Redd_EHVOR)+stats.knuth_bin_width(redd_bal))/2
-op_binlbol = (stats.knuth_bin_width(Lbol_EHVOR)+stats.knuth_bin_width(lbol_bal))/2
+# BAL sample freedman
+op_binmbh_freedmanbal = (stats.freedman_bin_width(MBH_EHVOR)+stats.freedman_bin_width(mbh_bal))/2
+op_binedd_freedmanbal = (stats.freedman_bin_width(Redd_EHVOR)+stats.freedman_bin_width(redd_bal))/2
+op_binlbol_freedmanbal = (stats.freedman_bin_width(Lbol_EHVOR)+stats.freedman_bin_width(lbol_bal))/2
+
+# parent sample freedman
+op_binmbh_freedmanp = (stats.freedman_bin_width(MBH_EHVOR)+stats.freedman_bin_width(MBH_parentR))/2
+op_binedd_freedmanp = (stats.freedman_bin_width(Redd_EHVOR)+stats.freedman_bin_width(Redd_parentR))/2
+op_binlbol_freedmanp = (stats.freedman_bin_width(Lbol_EHVOR)+stats.freedman_bin_width(Lbol_parentR))/2
+
 
 #%%
 #Histogram:
@@ -196,7 +203,7 @@ def scatter_hist2(x, y, ax, ax_histx, ax_histy, color, area, mult, factor, ax_se
 
 
 
-# PLOTS
+# PLOTS paramters
 
 left, width = 0.1, 0.65
 bottom, height = 0.1, 0.65
@@ -206,26 +213,37 @@ rect_histx = [left, bottom + height + spacing, width, 0.2]
 rect_histy = [left + width + spacing, bottom, 0.2, height]
 
 
+reddlim = 48.3
+masslim = 11.25
+lbollim = 48.3
+
+# reddlimbal = (max(Redd_EHVOR) + max(redd_bal10k) + max(redd_bal25k))/3
+# masslimbal = (max(MBH_EHVOR) + max(mbh_bal10k) + max(mbh_bal25k))/3
+# lbollimbal = (max(Lbol_EHVOR) + max(lbol_bal10k)+ max(lbol_bal25k))/3
+
+# stop
+#%%
+#Property values:
+xpm = MBH_parentR
+xem = MBH_EHVOR
+x10km = mbh_bal10k
+x25km = mbh_bal25k
+
+ypr = Redd_parentR
+yer = Redd_EHVOR
+y10kr = redd_bal10k
+y25kr = redd_bal25k
+
+xpl = Lbol_parentR
+xel = Lbol_EHVOR
+x10kl = lbol_bal10k
+x25kl = lbol_bal25k
+
 #%%
 # Plot of  redd vs mass
 
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
-
-x1m = MBH_parentR
-x2m = MBH_EHVOR
-x3m = mbh_bal10k
-x4m = mbh_bal25k
-
-y1 = Redd_parentR
-y2 = Redd_EHVOR
-y3 = redd_bal10k
-y4 = redd_bal25k
-
-x1 = Lbol_parentR
-x2 = Lbol_EHVOR
-x3 = lbol_bal10k
-x4 = lbol_bal25k
 
 
 #setting axis limits based on properties
@@ -252,13 +270,15 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x3m, y3, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3,binwidth_x = op_binmbh,binwidth_y = op_binedd )
-scatter_hist2(x4m, y4, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh,binwidth_y = op_binedd)
-scatter_hist2(x2m, y2, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh,binwidth_y = op_binedd)
+scatter_hist2(x10km, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2, limx=masslim, limy=reddlim, binwidth_x = op_binmbh_freedmanbal, binwidth_y = op_binedd_freedmanbal )
+scatter_hist2(x25km, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=masslim, limy=reddlim, binwidth_x = op_binmbh_freedmanbal, binwidth_y = op_binedd_freedmanbal)
+
+# scatter_hist2(xpm, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=11.25, limy=48.3,binwidth_x = op_binmbh_freedmanp,binwidth_y = op_binedd_freedmanp )
+scatter_hist2(xem, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=11.25, limy=48.3,binwidth_x = op_binmbh_freedmanp,binwidth_y = op_binedd_freedmanp)
 
 # ax.add_artist(ax.legend(title='test'))
-ax.legend(['Bal10k','Bal25k','EHVO'],loc='upper right')
-# ax.legend(['Parent','EHVO'],loc='upper right')
+ax.legend(['Rankine+2020 BALs vmin<10,000 km/s','Rankine+2020 BALs 10,000 km/s<vmin<25,000 km/s','RH+(in prep) EHVO'],loc='lower left')
+# ax.legend(['Rankine+2020 Parent sample','RH+(in prep) EHVO'],loc='lower left')
 ax.set_title("Title for second plot")
 # plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
@@ -269,21 +289,6 @@ plt.close()
 
 fig = plt.figure(1)
 fig = plt.figure(figsize=(8, 8))
-
-x1m = MBH_parentR
-x2m = MBH_EHVOR
-x3m = mbh_bal10k
-x4m = mbh_bal25k
-
-y1 = Redd_parentR
-y2 = Redd_EHVOR
-y3 = redd_bal10k
-y4 = redd_bal25k
-
-x1 = Lbol_parentR
-x2 = Lbol_EHVOR
-x3 = lbol_bal10k
-x4 = lbol_bal25k
 
 xlowlim = 46.
 xuplim = 48.3
@@ -308,13 +313,15 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-scatter_hist2(x3, y3, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3,binwidth_x = op_binlbol,binwidth_y = op_binedd)
-scatter_hist2(x4, y4, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=48.3, limy=48.3,binwidth_x = op_binlbol,binwidth_y = op_binedd)
-scatter_hist2(x2, y2, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=48.3, limy=48.3,binwidth_x = op_binlbol,binwidth_y = op_binedd)
+scatter_hist2(x10kl, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_freedmanbal, binwidth_y = op_binedd_freedmanbal)
+scatter_hist2(x25kl, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_freedmanbal, binwidth_y = op_binedd_freedmanbal)
+
+# scatter_hist2(xpl, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=48.3, limy=48.3, binwidth_x = op_binmbh_freedmanp, binwidth_y = op_binedd_freedmanp )
+scatter_hist2(xel, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=lbollim, limy=reddlim, binwidth_x = op_binlbol_freedmanp, binwidth_y = op_binedd_freedmanp)
 
 # ax.add_artist(ax.legend(title='test'))
-ax.legend(['Bal10k','Bal25k','EHVO'],loc='upper right')
-# ax.legend(['Parent','EHVO'],loc='upper right')
+ax.legend(['Rankine+2020 BALs vmin<10,000 km/s','Rankine+2020 BALs 10,000 km/s<vmin<25,000 km/s','RH+(in prep) EHVO'],loc='lower left')
+# ax.legend(['Rankine+2020 Parent sample','RH+(in prep) EHVO'],loc='lower left')
 ax.set_title("Title for second plot")
 # plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
 plt.show()
