@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = empty-project-type
-recent_files = ['VARIABILITY/make_info_files.py', 'VARIABILITY/move_files.py', 'VARIABILITY/move_files_to_direc.py', 'NORMALIZATION/normalization.py', 'VARIABILITY/make_directories.py', 'utility_functions.py', 'VARIABILITY/ehvo_duplicate_file.csv', 'VARIABILITY/data_request.csv']
+recent_files = ['CROSS_CORRELATION/crosscorrelationRankine.py', '../../../Desktop/AIhumansmixed.py', 'CROSS_CORRELATION/crosscorrelationRakshit.py', '../../../Desktop/IDMinclasspractice.py', '../../../Desktop/inclass_systemofODE.py', '../../../Downloads/FinalProjectCode.py', '../../../Desktop/2bodygrav.py', 'CROSS_CORRELATION/DR16parent_DR14RankineInfo.csv', 'CROSS_CORRELATION/DR16parent_DR14INFO.csv', 'CROSS_CORRELATION/DR16EHVO_DR14RankineInfo.csv', '../../DR16_Routine/CROSS_CORRELATION/crosscorrelationRakshit.py', '../../../Downloads/skeleton_calibration.py']
 
 [main]
 version = 0.2.0
