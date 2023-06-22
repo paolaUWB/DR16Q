@@ -1,0 +1,127 @@
+16: spec-1229-52723-0245-dered.dr16
+17: spec-5391-56000-0254-dered.dr16
+18: spec-5807-56329-0778-dered.dr16
+     Failed Test 4 [pink]
+19: spec-10429-58145-0655-dered.dr16
+     Failed Test 4 [pink]
+20: spec-11377-58434-0650-dered.dr16
+     Failed Test 4 [pink]
+21: spec-6442-56369-0246-dered.dr16
+     Failed Test 4 [pink]
+22: spec-10479-58159-0770-dered.dr16
+     Failed Test 4 [pink]
+23: spec-1732-53501-0445-dered.dr16
+24: spec-5212-56016-0348-dered.dr16
+25: spec-6674-56416-0693-dered.dr16
+     Failed Test 4 [green]
+27: spec-6045-56072-0455-dered.dr16
+     Failed Test 4 [green]
+28: spec-10730-58244-0836-dered.dr16
+     Failed Test 4 [green]
+30: spec-6674-56416-0964-dered.dr16
+32: spec-5809-56353-0704-dered.dr16
+33: spec-0628-52083-0304-dered.dr16
+34: spec-6036-56093-0310-dered.dr16
+     Failed Test 4 [pink]
+35: spec-8524-57656-0969-dered.dr16
+36: spec-6305-56563-0032-dered.dr16
+     Failed Test 4 [green]
+37: spec-7667-57580-0430-dered.dr16
+38: spec-4419-55867-0178-dered.dr16
+39: spec-9446-58082-0782-dered.dr16
+41: spec-6806-56419-0302-dered.dr16
+     Failed Test 4 [green]
+42: spec-6786-56448-0829-dered.dr16
+43: spec-6976-56448-0440-dered.dr16
+45: spec-6138-56598-0754-dered.dr16
+46: spec-5745-55998-0657-dered.dr16
+48: spec-6460-56334-0396-dered.dr16
+49: spec-1933-53381-0566-dered.dr16
+50: spec-5179-55957-0836-dered.dr16
+     Failed Test 4 [green]
+51: spec-9609-58136-0331-dered.dr16
+     Failed Test 4 [pink]
+52: spec-1521-52945-0532-dered.dr16
+     Failed Test 4 [pink]
+53: spec-5143-55828-0900-dered.dr16
+     Failed Test 4 [pink]
+54: spec-5144-55829-0475-dered.dr16
+     Failed Test 4 [pink]
+55: spec-9162-58040-0112-dered.dr16
+     Failed Test 4 [pink]
+56: spec-9227-57932-0572-dered.dr16
+     Failed Test 4 [pink]
+57: spec-4354-55810-0356-dered.dr16
+58: spec-9345-57713-0464-dered.dr16
+59: spec-2884-54526-0579-dered.dr16
+60: spec-6313-56460-0295-dered.dr16
+     Failed Test 4 [green]
+61: spec-2945-54505-0067-dered.dr16
+     Failed Test 4 [pink]
+62: spec-5494-55857-0549-dered.dr16
+63: spec-6587-56537-0015-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+64: spec-7701-57356-0794-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+65: spec-0948-52428-0370-dered.dr16
+66: spec-7089-56661-0060-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+67: spec-6199-56220-0264-dered.dr16
+68: spec-7618-56898-0268-dered.dr16
+69: spec-1455-53089-0381-dered.dr16
+70: spec-6670-56389-0168-dered.dr16
+71: spec-6280-56570-0623-dered.dr16
+72: spec-7694-57359-0006-dered.dr16
+74: spec-4485-55836-0092-dered.dr16
+76: spec-5896-56047-0658-dered.dr16
+     Failed Test 4 [pink]
+77: spec-4341-55538-0324-dered.dr16
+78: spec-9312-57784-0360-dered.dr16
+79: spec-1709-53533-0576-dered.dr16
+     Failed Test 4 [pink]
+80: spec-5465-55988-0798-dered.dr16
+81: spec-2582-54139-0485-dered.dr16
+82: spec-5320-55999-0336-dered.dr16
+     Failed Test 4 [green]
+83: spec-9587-57784-0340-dered.dr16
+84: spec-1618-53116-0538-dered.dr16
+85: spec-5374-55947-0608-dered.dr16
+86: spec-2511-53882-0552-dered.dr16
+87: spec-6422-56328-0988-dered.dr16
+88: spec-2225-53729-0182-dered.dr16
+89: spec-6402-56334-0966-dered.dr16
+     Failed Test 4 [green]
+91: spec-5476-55986-0599-dered.dr16
+92: spec-6456-56339-0894-dered.dr16
+     Failed Test 4 [pink]
+93: spec-10464-58155-0575-dered.dr16
+94: spec-2430-53815-0471-dered.dr16
+95: spec-5288-55865-0958-dered.dr16
+96: spec-5290-55862-0164-dered.dr16
+97: spec-1372-53062-0154-dered.dr16
+98: spec-6636-56367-0036-dered.dr16
+99: spec-8374-57783-0919-dered.dr16
+100: spec-5444-56038-0942-dered.dr16
+101: spec-5868-56045-0372-dered.dr16
+     Failed Test 4 [green]
+102: spec-5133-55860-0412-dered.dr16
+103: spec-7622-56987-0113-dered.dr16
+104: spec-5174-56047-0344-dered.dr16
+     Failed Test 4 [pink]
+105: spec-10748-58224-0461-dered.dr16
+     Failed Test 4 [pink]
+106: spec-6122-56246-0696-dered.dr16
+     Failed Test 4 [green]
+107: spec-7610-56980-0454-dered.dr16
+108: spec-6720-56390-0552-dered.dr16
+109: spec-8396-57837-0736-dered.dr16
+110: spec-1982-53436-0626-dered.dr16
+     Failed Test 4 [green]
+111: spec-6447-56362-0854-dered.dr16
+     Failed Test 4 [green]
+     Failed Test 4 [pink]
+112: spec-5421-55980-0918-dered.dr16
+113: spec-5422-55986-0288-dered.dr16

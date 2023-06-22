@@ -33,10 +33,10 @@ DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.
 NORM_FILE_EXTENSION = "norm.dr" + DR
 
 ## PATH TO THE FILE THAT IS READ BY THE PROGRAM
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv" 
+CONFIG_FILE = 'DR16_EVHO_SPEC_LIST.csv'
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/../DR16Q_DATA/DR" + DR + "Q_SNR10/" 
+SPEC_DIREC = os.getcwd() + "\VARIABILITY\Dered_Spec_Files_All_DR16/" 
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
@@ -45,10 +45,10 @@ OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
 PLOT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/pdfFILES/"
 
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
-NORM_DIREC = os.getcwd() + "/../DR16Q_DATA/" + "NORM_DR16Q/"
+NORM_DIREC = os.getcwd() + "/VARIABILITY/" + "Manually_Approved_Norm/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 10000, 10000 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
+STARTS_FROM, ENDS_AT = 1,1  ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS - DO NOT CHANGE 
 SNR_CUTOFF = 10. 
@@ -56,7 +56,7 @@ SNR_CUTOFF = 10.
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
 save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no' 
 save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
-save_by_range = 'no' ## DO YOU WANT TO SAVE FILES BY RANGE OF SPECTRA RUN? 'yes'/'no' -- this will prevent overwriting files every time you run the code.
+save_by_range = 'yes' ## DO YOU WANT TO SAVE FILES BY RANGE OF SPECTRA RUN? 'yes'/'no' -- this will prevent overwriting files every time you run the code.
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
 dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
@@ -69,7 +69,7 @@ val1 = 0.10
 ## VALUE USED IN TEST 2
 val2 = 0.05 
 
-BOXCAR_SIZE = 11 ## MUST BE ODD
+BOXCAR_SIZE = 3 ## MUST BE ODD
 
 ## INITIAL PARAMETERS OF POWERLAW
 b = 1250 
@@ -79,9 +79,9 @@ c = -0.5
 ####################################### DO NOT CHANGE #######################################
 
 ## RANGES OF WAVELENGTHS IN THE SPECTRA
-WAVELENGTH_RESTFRAME = Range(1200., 1800.)
-WAVELENGTH_FOR_SNR = Range(1250., 1400.)
-WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
+WAVELENGTH_RESTFRAME = Range(1310., 1800.)
+WAVELENGTH_FOR_SNR = Range(1310., 1400.)
+WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1310., 1320.)
 WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1440., 1450.)
 WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)

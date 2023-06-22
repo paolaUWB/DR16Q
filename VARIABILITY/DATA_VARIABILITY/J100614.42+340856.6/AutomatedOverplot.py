@@ -53,8 +53,8 @@ OIem = 'yes'
 LyNVem = 'yes'
 OVIem = 'no' 
 
-n_list_norm = [3,3,3,3,3] # smooth box car
-n_list_dered = [3,3,3,3,3]
+n_list_norm = [5,5,5,3,3] # smooth box car
+n_list_dered = [5,5,5,3,3]
 norm_error_threshold = 0.2
 dered_error_threshold = 3
 if manual_ylim == 'yes': # Manually change ylim here

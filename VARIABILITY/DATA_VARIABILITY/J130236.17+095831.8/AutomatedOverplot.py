@@ -55,7 +55,7 @@ OVIem = 'no'
 
 n_list_norm = [3,3,3,3,3] # smooth box car
 n_list_dered = [3,3,3,3,3]
-norm_error_threshold = 0.2
+norm_error_threshold = 10000
 dered_error_threshold = 10
 if manual_ylim == 'yes': # Manually change ylim here
     top_ylim_norm = 2.5

@@ -1,0 +1,10 @@
+18: spec-10431-58137-0135-dered.dr16
+19: spec-2430-53815-0471-dered.dr16
+20: spec-5288-55865-0958-dered.dr16
+21: spec-5290-55862-0164-dered.dr16
+22: spec-1933-53381-0566-dered.dr16
+23: spec-5179-55957-0836-dered.dr16
+     Failed Test 4 [green]
+24: spec-9609-58136-0331-dered.dr16
+     Failed Test 4 [pink]
+26: spec-5809-56353-0704-dered.dr16

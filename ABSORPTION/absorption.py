@@ -51,16 +51,16 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
 #defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16Q_EHVO/good_fit_EHVO.csv" #"/OUTPUT_FILES/NORMALIZATION/good_fit_EHVO.csv" #good_fit_EHVO.csv" ##_newSNR_flagged_but_ok.csv #_EHVO.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/VARIABILITY/good_fit_EHVO_variability_for_absorption_code_updated.csv" #"/OUTPUT_FILES/NORMALIZATION/good_fit_EHVO.csv" #good_fit_EHVO.csv" ##_newSNR_flagged_but_ok.csv #_EHVO.csv" 
 
 # directory of where normalized data files are
 # data NOT on github but local computer
 #NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
-NORM_DIREC = os.getcwd() + "/../" + "/DR16Q_EHVO/NORM_DR16Q_EHVO/"
+NORM_DIREC = os.getcwd()  + "/VARIABILITY/Variability_Norms_Unsmoothed/"
 
 # creates directory for output files
-OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
+OUT_DIREC = os.getcwd() + "/ABSORPTION/OUTPUT_FILES/"
 
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
@@ -73,13 +73,13 @@ boxcar_size = 11
 all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
-BALNICITY_INDEX_LIMIT = 2000
+BALNICITY_INDEX_LIMIT = 1500
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 98
+STARTS_FROM, ENDS_AT = 1, 110
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -96,7 +96,7 @@ ABSORPTION_VALUES = OUT_DIREC + "/" + 'BI' + str(BALNICITY_INDEX_LIMIT) + '.txt'
 # set name of output pdf with plots 
 ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BI' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
 
-ABSORPTION_TABLE = OUT_DIREC + 'absorption_table.csv'
+ABSORPTION_TABLE = OUT_DIREC + 'absorption_table_1-110_ALL_1500_Unsmoothed.csv'
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################

@@ -12,7 +12,7 @@ import os
 
 ##------ Inputs/Outputs to change
 
-quasardirec = 'J103800.50+582343.0/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
+quasardirec = 'J103119.22+294622.9/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
 # Then set your specdirec to where your spec files are
 quasardirecname = quasardirec[:-1]
 

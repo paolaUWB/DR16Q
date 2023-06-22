@@ -24,7 +24,7 @@ save_format = 'png' # 'pdf' to save as pdf file, 'png' to save as png file
 
 save_file_name = quasardirecname
 
-manual_ylim = 'no' # This allows you to manually set the ylim on the graphs. Default behavior on 'no' is 1.1x max flux.
+manual_ylim = 'yes' # This allows you to manually set the ylim on the graphs. Default behavior on 'no' is 1.1x max flux.
 
 zem =2.548# redshift of the quasar
 coem=zem+1.
@@ -46,11 +46,11 @@ SiIVabs = 'no'
 Lyaabs = 'no'
 
 #Emission labels: 'yes' to include
-CIVem = 'yes'
-SiIVem = 'yes'
-CIIem = 'yes'
-OIem = 'yes'
-LyNVem = 'yes'
+CIVem = 'no'
+SiIVem = 'no'
+CIIem = 'no'
+OIem = 'no'
+LyNVem = 'no'
 OVIem = 'no' 
 
 n_list_norm = [3,3,3,3,3] # smooth box car
@@ -62,7 +62,7 @@ norm_error_threshold = 0.2
 dered_error_threshold = 50000
 
 if manual_ylim == 'yes': # Manually change ylim here
-    top_ylim_norm = 2.5
+    top_ylim_norm = 2
     top_ylim_dered = 37
     topemlabel = top_ylim_norm - 0.03 # where you want to place the ion labels
     topemlabel_dered = top_ylim_dered - 0.03
@@ -70,8 +70,8 @@ if manual_ylim == 'yes': # Manually change ylim here
     zem_label_y_dered = top_ylim_dered/1.5
     
 # Parameters to change the legend's location and size. Default is x = 0.58, y = 0.05 (norm and dered)
-legend_fontsize = 8
-norm_legend_xloc = 0.3
+legend_fontsize = 5
+norm_legend_xloc = 0.2
 dered_legend_xloc = 0.3
 norm_legend_yloc = 0.62
 dered_legend_yloc = 0.62

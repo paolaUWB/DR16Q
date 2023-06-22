@@ -1,4 +1,4 @@
-1 abs | 1 tot
+1 abs | 2 tot
 spec-10431-58137-0135norm.dr16
 BI (-30000 > v > -60000.0): 36.03
 vmins: [-37190.96072]
@@ -8,7 +8,7 @@ EW_individual: [172.42]
 Depth: [0.25]
 
 
-2 abs | 2 tot
+2 abs | 3 tot
 spec-5187-56074-0092norm.dr16
 BI (-30000 > v > -60000.0): 627.64
 vmins: [-36372.1932]
@@ -18,17 +18,27 @@ EW_individual: [846.86]
 Depth: [0.26]
 
 
-3 abs | 3 tot
-spec-7597-56973-0699norm.dr16
-BI (-30000 > v > -60000.0): 764.13
-vmins: [-37001.1429]
-vmaxs: [-44858.79989]
-BI_individual: [764.13]
-EW_individual: [1058.18]
-Depth: [0.49]
+3 abs | 4 tot
+spec-10720-58250-0895norm.dr16
+BI (-30000 > v > -60000.0): 791.77
+vmins: [-35623.76917]
+vmaxs: [-43220.95462]
+BI_individual: [791.77]
+EW_individual: [1011.84]
+Depth: [0.36]
 
 
-4 abs | 4 tot
+4 abs | 5 tot
+spec-2745-54231-0564norm.dr16
+BI (-30000 > v > -60000.0): 69.08
+vmins: [-39453.27951 -56199.26551]
+vmaxs: [-42163.21077]
+BI_individual: [28.8]
+EW_individual: [443.07]
+Depth: [0.81]
+
+
+5 abs | 6 tot
 spec-5454-56015-0104norm.dr16
 BI (-30000 > v > -60000.0): 109.92
 vmins: [-38231.52113]
@@ -38,7 +48,7 @@ EW_individual: [508.35]
 Depth: [0.45]
 
 
-5 abs | 5 tot
+6 abs | 7 tot
 spec-5778-56328-0973norm.dr16
 BI (-30000 > v > -60000.0): 139.64
 vmins: [-37801.00908 -45517.89704]
@@ -48,7 +58,7 @@ EW_individual: [101.74, 200.22]
 Depth: [0.25, 0.27]
 
 
-6 abs | 6 tot
+7 abs | 10 tot
 spec-6621-56366-0502norm.dr16
 BI (-30000 > v > -60000.0): 77.34
 vmins: [-34514.3775]
@@ -58,567 +68,17 @@ EW_individual: [176.22]
 Depth: [0.26]
 
 
-7 abs | 7 tot
-spec-11634-58484-0334norm.dr16
-BI (-30000 > v > -60000.0): 120.84
-vmins: [-43801.36768]
-vmaxs: [-47913.53964]
-BI_individual: [120.84]
-EW_individual: [313.37]
-Depth: [0.34]
-
-
-8 abs | 8 tot
-spec-5391-56000-0254norm.dr16
-BI (-30000 > v > -60000.0): 173.39
-vmins: [-32642.49693]
-vmaxs: [-38223.64705]
-BI_individual: [173.39]
-EW_individual: [212.2]
-Depth: [0.23]
-
-
-9 abs | 9 tot
-spec-7861-57281-0472norm.dr16
-BI (-30000 > v > -60000.0): 123.17
-vmins: [-33308.39392]
-vmaxs: [-37936.13229]
-BI_individual: [123.17]
-EW_individual: [365.95]
-Depth: [0.34]
-
-
-10 abs | 10 tot
-spec-5807-56329-0778norm.dr16
-BI (-30000 > v > -60000.0): 1.53
-vmins: [-41348.62332]
-vmaxs: [-43378.17873]
-BI_individual: [1.53]
-EW_individual: [71.08]
-Depth: [0.16]
-
-
-11 abs | 11 tot
-spec-5212-56016-0348norm.dr16
-BI (-30000 > v > -60000.0): 113.64
-vmins: [-35942.09495]
-vmaxs: [-38728.30842]
-BI_individual: [113.64]
-EW_individual: [454.34]
-Depth: [0.36]
-
-
-12 abs | 12 tot
-spec-6674-56416-0693norm.dr16
-BI (-30000 > v > -60000.0): 1071.07
-vmins: [-39520.62114 -42906.95074 -45607.92612 -55932.36379]
-vmaxs: [-42433.5309  -45338.09111 -50919.75614 -58459.93088]
-BI_individual: [287.94, 57.09, 712.61, 13.43]
-EW_individual: [595.69, 358.15, 934.77, 109.01]
-Depth: [0.52, 0.51, 0.68, 0.39]
-
-
-13 abs | 13 tot
-spec-5372-55978-0916norm.dr16
-BI (-30000 > v > -60000.0): 1524.57
-vmins: [-39565.65096]
-vmaxs: [-54442.87357]
-BI_individual: [1524.57]
-EW_individual: [1593.86]
-Depth: [0.45]
-
-
-14 abs | 14 tot
-spec-5356-55979-0586norm.dr16
-BI (-30000 > v > -60000.0): 85.39
-vmins: [-35046.31101]
-vmaxs: [-38310.11327]
-BI_individual: [85.39]
-EW_individual: [192.78]
-Depth: [0.28]
-
-
-15 abs | 15 tot
-spec-7148-56591-0664norm.dr16
-BI (-30000 > v > -60000.0): 205.35
-vmins: [-46144.05803]
-vmaxs: [-49440.49899]
-BI_individual: [205.35]
-EW_individual: [291.08]
-Depth: [0.52]
-
-
-16 abs | 16 tot
-spec-7678-57282-0598norm.dr16
-BI (-30000 > v > -60000.0): 993.03
-vmins: [-32620.17482 -38337.26497]
-vmaxs: [-38065.57254 -45982.82829]
-BI_individual: [613.8, 379.22]
-EW_individual: [743.68, 577.32]
-Depth: [0.39, 0.35]
-
-
-17 abs | 17 tot
-spec-6674-56416-0964norm.dr16
-BI (-30000 > v > -60000.0): 276.6
-vmins: [-35671.57013]
-vmaxs: [-40290.12036]
-BI_individual: [276.6]
-EW_individual: [422.05]
-Depth: [0.32]
-
-
-18 abs | 18 tot
-spec-5809-56353-0704norm.dr16
-BI (-30000 > v > -60000.0): 53.09
-vmins: [-37854.11438]
-vmaxs: [-40839.09867]
-BI_individual: [53.09]
-EW_individual: [240.6]
-Depth: [0.35]
-
-
-19 abs | 19 tot
-spec-8524-57656-0969norm.dr16
-BI (-30000 > v > -60000.0): 151.06
-vmins: [-36825.8292]
-vmaxs: [-41304.49228]
-BI_individual: [151.06]
-EW_individual: [327.55]
-Depth: [0.28]
-
-
-20 abs | 20 tot
-spec-4538-55860-0660norm.dr16
-BI (-30000 > v > -60000.0): 9.94
-vmins: [-40679.78385]
-vmaxs: [-43319.0206]
-BI_individual: [9.94]
-EW_individual: [113.95]
-Depth: [0.36]
-
-
-21 abs | 21 tot
-spec-4663-55893-0248norm.dr16
-BI (-30000 > v > -60000.0): 125.73
-vmins: [-33637.26727]
-vmaxs: [-37176.62098]
-BI_individual: [125.73]
-EW_individual: [242.05]
-Depth: [0.3]
-
-
-22 abs | 22 tot
-spec-4419-55867-0178norm.dr16
-BI (-30000 > v > -60000.0): 271.57
-vmins: [-35496.14147]
-vmaxs: [-39572.99625]
-BI_individual: [271.57]
-EW_individual: [550.22]
-Depth: [0.4]
-
-
-23 abs | 23 tot
-spec-6318-56186-0342norm.dr16
-BI (-30000 > v > -60000.0): 16.67
-vmins: [-32773.03768]
-vmaxs: [-35498.38751]
-BI_individual: [16.67]
-EW_individual: [195.83]
-Depth: [0.28]
-
-
-24 abs | 24 tot
-spec-6257-56274-0490norm.dr16
-BI (-30000 > v > -60000.0): 76.16
-vmins: [-46692.48316]
-vmaxs: [-50053.96362]
-BI_individual: [76.16]
-EW_individual: [229.32]
-Depth: [0.31]
-
-
-25 abs | 25 tot
-spec-6806-56419-0302norm.dr16
-BI (-30000 > v > -60000.0): 886.1
-vmins: [-43521.45824]
-vmaxs: [-51328.03256]
-BI_individual: [886.1]
-EW_individual: [964.35]
-Depth: [0.52]
-
-
-26 abs | 26 tot
-spec-6976-56448-0440norm.dr16
-BI (-30000 > v > -60000.0): 84.92
-vmins: [-34993.046]
-vmaxs: [-38392.71574]
-BI_individual: [84.92]
-EW_individual: [417.54]
-Depth: [0.53]
-
-
-27 abs | 27 tot
-spec-6729-56419-0322norm.dr16
-BI (-30000 > v > -60000.0): 707.32
-vmins: [-36118.11684]
-vmaxs: [-42427.50537]
-BI_individual: [707.32]
-EW_individual: [863.23]
-Depth: [0.69]
-
-
-28 abs | 28 tot
-spec-6138-56598-0754norm.dr16
-BI (-30000 > v > -60000.0): 31.23
-vmins: [-39737.01677]
-vmaxs: [-42040.43076]
-BI_individual: [31.23]
-EW_individual: [178.29]
-Depth: [0.49]
-
-
-29 abs | 29 tot
-spec-6754-56414-0240norm.dr16
-BI (-30000 > v > -60000.0): 547.03
-vmins: [-39737.01677 -44338.78687]
-vmaxs: [-42243.39851 -49322.19269]
-BI_individual: [54.64, 492.39]
-EW_individual: [195.35, 697.99]
-Depth: [0.43, 0.51]
-
-
-30 abs | 30 tot
-spec-5039-56220-0625norm.dr16
-BI (-30000 > v > -60000.0): 73.57
-vmins: [-36857.85529]
-vmaxs: [-40116.74668]
-BI_individual: [73.57]
-EW_individual: [257.98]
-Depth: [0.3]
-
-
-31 abs | 31 tot
-spec-5486-56030-0078norm.dr16
-BI (-30000 > v > -60000.0): 370.19
-vmins: [-34135.12971]
-vmaxs: [-40523.01356]
-BI_individual: [370.19]
-EW_individual: [489.84]
-Depth: [0.35]
-
-
-32 abs | 32 tot
-spec-5427-56001-0204norm.dr16
-BI (-30000 > v > -60000.0): 72.06
-vmins: [-45434.24122]
-vmaxs: [-49002.01878]
-BI_individual: [72.06]
-EW_individual: [373.12]
-Depth: [0.36]
-
-
-33 abs | 33 tot
-spec-5745-55998-0657norm.dr16
-BI (-30000 > v > -60000.0): 214.84
-vmins: [-34768.20243]
-vmaxs: [-39118.95992]
-BI_individual: [214.84]
-EW_individual: [343.89]
-Depth: [0.36]
-
-
-34 abs | 34 tot
-spec-5998-56087-0294norm.dr16
-BI (-30000 > v > -60000.0): 176.12
-vmins: [-35508.79454]
-vmaxs: [-39042.68985]
-BI_individual: [176.12]
-EW_individual: [342.8]
-Depth: [0.45]
-
-
-35 abs | 35 tot
-spec-6640-56385-0896norm.dr16
-BI (-30000 > v > -60000.0): 2036.67
-vmins: [-34752.88289]
-vmaxs: [-45732.91221]
-BI_individual: [2036.67]
-EW_individual: [2211.08]
-Depth: [0.58]
-
-
-36 abs | 36 tot
-spec-5430-56000-0964norm.dr16
-BI (-30000 > v > -60000.0): 2333.42
-vmins: [-38673.96819 -54500.09125]
-vmaxs: [-51959.71884 -58162.6625 ]
-BI_individual: [2157.35, 176.07]
-EW_individual: [2611.05, 396.81]
-Depth: [0.62, 0.49]
-
-
-37 abs | 37 tot
-spec-6969-56420-0959norm.dr16
-BI (-30000 > v > -60000.0): 130.3
-vmins: [-41547.45875 -52253.20164]
-vmaxs: [-44657.16609 -55059.57682]
-BI_individual: [108.55, 21.75]
-EW_individual: [430.65, 71.95]
-Depth: [0.46, 0.24]
-
-
-38 abs | 38 tot
-spec-5338-56002-0157norm.dr16
-BI (-30000 > v > -60000.0): 55.97
-vmins: [-56577.32957]
-vmaxs: [-59102.93196]
-BI_individual: [55.97]
-EW_individual: [330.3]
-Depth: [0.33]
-
-
-39 abs | 39 tot
-spec-9345-57713-0464norm.dr16
-BI (-30000 > v > -60000.0): 65.62
-vmins: [-41747.61577 -52183.44712]
-vmaxs: [-44721.72271 -54189.16625]
-BI_individual: [59.13, 6.49]
-EW_individual: [209.54, 96.69]
-Depth: [0.25, 0.38]
-
-
-40 abs | 40 tot
-spec-6313-56460-0295norm.dr16
-BI (-30000 > v > -60000.0): 35.08
-vmins: [-46745.26592]
-vmaxs: [-49233.92631]
-BI_individual: [35.08]
-EW_individual: [179.87]
-Depth: [0.26]
-
-
-41 abs | 41 tot
-spec-11277-58450-0622norm.dr16
-BI (-30000 > v > -60000.0): 310.72
-vmins: [-37686.95465 -45472.1019 ]
-vmaxs: [-42567.92729 -47896.98798]
-BI_individual: [295.1, 15.63]
-EW_individual: [569.28, 56.53]
-Depth: [0.37, 0.19]
-
-
-42 abs | 42 tot
-spec-7391-56781-0721norm.dr16
-BI (-30000 > v > -60000.0): 683.35
-vmins: [-34480.84608]
-vmaxs: [-43911.17242]
-BI_individual: [683.35]
-EW_individual: [1017.48]
-Depth: [0.45]
-
-
-43 abs | 43 tot
-spec-5494-55857-0549norm.dr16
-BI (-30000 > v > -60000.0): 39.68
-vmins: [-37404.92935]
-vmaxs: [-40187.82348]
-BI_individual: [39.68]
-EW_individual: [203.24]
-Depth: [0.26]
-
-
-44 abs | 44 tot
-spec-7701-57356-0794norm.dr16
-BI (-30000 > v > -60000.0): 3635.69
-vmins: [-32027.28916]
-vmaxs: [-50240.59287]
-BI_individual: [3635.69]
-EW_individual: [3783.66]
-Depth: [0.78]
-
-
-45 abs | 45 tot
-spec-8205-58143-0500norm.dr16
-BI (-30000 > v > -60000.0): 68.83
-vmins: [-35139.21644]
-vmaxs: [-38538.57578]
-BI_individual: [68.83]
-EW_individual: [577.09]
-Depth: [0.5]
-
-
-46 abs | 46 tot
-spec-7089-56661-0060norm.dr16
-BI (-30000 > v > -60000.0): 924.42
-vmins: [-34296.77175]
-vmaxs: [-43931.17663]
-BI_individual: [924.42]
-EW_individual: [1148.07]
-Depth: [0.48]
-
-
-47 abs | 47 tot
-spec-6199-56220-0264norm.dr16
-BI (-30000 > v > -60000.0): 2207.49
-vmins: [-31693.4921]
-vmaxs: [-42905.6779]
-BI_individual: [2207.49]
-EW_individual: [2408.15]
-Depth: [0.44]
-
-
-48 abs | 48 tot
-spec-5394-56001-0990norm.dr16
-BI (-30000 > v > -60000.0): 135.33
-vmins: [-45632.67722]
-vmaxs: [-49535.4367]
-BI_individual: [135.33]
-EW_individual: [257.27]
-Depth: [0.28]
-
-
-49 abs | 49 tot
-spec-6670-56389-0168norm.dr16
-BI (-30000 > v > -60000.0): 218.7
-vmins: [-30867.57694]
-vmaxs: [-34618.91843]
-BI_individual: [218.7]
-EW_individual: [598.21]
-Depth: [0.4]
-
-
-50 abs | 50 tot
-spec-8507-57878-0108norm.dr16
-BI (-30000 > v > -60000.0): 58.66
-vmins: [-32792.59559]
-vmaxs: [-35722.15947]
-BI_individual: [58.66]
-EW_individual: [247.93]
-Depth: [0.33]
-
-
-51 abs | 51 tot
-spec-8839-57846-0634norm.dr16
-BI (-30000 > v > -60000.0): 4593.21
-vmins: [-30130.97157 -35382.68728]
-vmaxs: [-32657.09794 -58068.35267]
-BI_individual: [18.82, 4574.39]
-EW_individual: [307.54, 4650.99]
-Depth: [0.32, 0.57]
-
-
-52 abs | 52 tot
-spec-7694-57359-0006norm.dr16
-BI (-30000 > v > -60000.0): 125.05
-vmins: [-33922.71962]
-vmaxs: [-37325.34785]
-BI_individual: [125.05]
-EW_individual: [264.83]
-Depth: [0.33]
-
-
-53 abs | 53 tot
-spec-5896-56047-0658norm.dr16
-BI (-30000 > v > -60000.0): 1303.59
-vmins: [-33503.91814]
-vmaxs: [-43888.19979]
-BI_individual: [1303.59]
-EW_individual: [1497.62]
-Depth: [0.39]
-
-
-54 abs | 54 tot
-spec-8381-57512-0320norm.dr16
-BI (-30000 > v > -60000.0): 3042.44
-vmins: [-29953.32707 -49343.14298]
-vmaxs: [-43414.12085 -53296.43763]
-BI_individual: [2860.12, 182.32]
-EW_individual: [3333.26, 338.26]
-Depth: [0.53, 0.33]
-
-
-55 abs | 55 tot
-spec-6182-56190-0657norm.dr16
-BI (-30000 > v > -60000.0): 27.53
-vmins: [-33434.85851]
-vmaxs: [-35682.5159]
-BI_individual: [27.53]
-EW_individual: [409.55]
-Depth: [0.58]
-
-
-56 abs | 56 tot
-spec-9312-57784-0360norm.dr16
-BI (-30000 > v > -60000.0): 2294.81
-vmins: [-29948.98694 -54361.22219]
-vmaxs: [-40906.35536 -59219.35944]
-BI_individual: [1618.28, 676.53]
-EW_individual: [2033.69, 944.67]
-Depth: [0.51, 0.45]
-
-
-57 abs | 57 tot
-spec-5465-55988-0798norm.dr16
-BI (-30000 > v > -60000.0): 2160.64
-vmins: [-31602.50585 -54975.68178]
-vmaxs: [-42409.65116 -57373.3975 ]
-BI_individual: [2145.16, 15.48]
-EW_individual: [2440.57, 145.36]
-Depth: [0.64, 0.28]
-
-
-58 abs | 58 tot
-spec-5320-55999-0336norm.dr16
-BI (-30000 > v > -60000.0): 23.74
-vmins: [-45872.34712]
-vmaxs: [-48363.15782]
-BI_individual: [23.74]
-EW_individual: [127.05]
-Depth: [0.22]
-
-
-59 abs | 59 tot
-spec-6422-56328-0988norm.dr16
-BI (-30000 > v > -60000.0): 1219.18
-vmins: [-29959.04622 -55171.57151]
-vmaxs: [-40983.90523 -58366.20417]
-BI_individual: [1146.72, 72.46]
-EW_individual: [1349.49, 109.87]
-Depth: [0.45, 0.32]
-
-
-60 abs | 60 tot
-spec-5476-55986-0599norm.dr16
-BI (-30000 > v > -60000.0): 789.95
-vmins: [-33855.64745]
-vmaxs: [-41938.35759]
-BI_individual: [789.95]
-EW_individual: [970.12]
-Depth: [0.37]
-
-
-61 abs | 61 tot
-spec-8374-57783-0919norm.dr16
-BI (-30000 > v > -60000.0): 281.92
-vmins: [-34931.53804 -42398.22067]
-vmaxs: [-38942.5305  -45842.43511]
-BI_individual: [215.47, 66.45]
-EW_individual: [457.82, 418.64]
-Depth: [0.4, 0.9]
-
-
-62 abs | 62 tot
-spec-5174-56047-0344norm.dr16
-BI (-30000 > v > -60000.0): 1304.93
-vmins: [-34305.92351]
-vmaxs: [-41844.23204]
-BI_individual: [1304.93]
-EW_individual: [1505.88]
-Depth: [0.72]
-
-
-63 abs | 63 tot
+8 abs | 11 tot
+spec-1793-53883-0520norm.dr16
+BI (-30000 > v > -60000.0): 3107.18
+vmins: [-32104.59127]
+vmaxs: [-43650.69846]
+BI_individual: [3107.18]
+EW_individual: [3487.03]
+Depth: [0.65]
+
+
+9 abs | 12 tot
 spec-5415-55982-0013norm.dr16
 BI (-30000 > v > -60000.0): 1875.99
 vmins: [-32377.56019]
@@ -628,7 +88,47 @@ EW_individual: [2196.0]
 Depth: [0.58]
 
 
-64 abs | 64 tot
+10 abs | 14 tot
+spec-5391-56000-0254norm.dr16
+BI (-30000 > v > -60000.0): 173.39
+vmins: [-32642.49693]
+vmaxs: [-38223.64705]
+BI_individual: [173.39]
+EW_individual: [212.2]
+Depth: [0.23]
+
+
+11 abs | 15 tot
+spec-5807-56329-0778norm.dr16
+BI (-30000 > v > -60000.0): 15.15
+vmins: [-40942.38329]
+vmaxs: [-43378.17873]
+BI_individual: [15.15]
+EW_individual: [107.11]
+Depth: [0.17]
+
+
+12 abs | 16 tot
+spec-10429-58145-0655norm.dr16
+BI (-30000 > v > -60000.0): 298.64
+vmins: [-38229.23051]
+vmaxs: [-43445.88292]
+BI_individual: [298.64]
+EW_individual: [368.57]
+Depth: [0.26]
+
+
+13 abs | 17 tot
+spec-11377-58434-0650norm.dr16
+BI (-30000 > v > -60000.0): 533.38
+vmins: [-36462.30814]
+vmaxs: [-43445.88292]
+BI_individual: [533.38]
+EW_individual: [719.27]
+Depth: [0.28]
+
+
+14 abs | 18 tot
 spec-6442-56369-0246norm.dr16
 BI (-30000 > v > -60000.0): 626.96
 vmins: [-35211.77696]
@@ -638,277 +138,47 @@ EW_individual: [755.04]
 Depth: [0.41]
 
 
-65 abs | 65 tot
-spec-9142-57664-0368norm.dr16
-BI (-30000 > v > -60000.0): 221.17
-vmins: [-37016.1537]
-vmaxs: [-41494.0043]
-BI_individual: [221.17]
-EW_individual: [329.27]
-Depth: [0.3]
+15 abs | 19 tot
+spec-10479-58159-0770norm.dr16
+BI (-30000 > v > -60000.0): 1433.63
+vmins: [-34666.94643]
+vmaxs: [-43352.59641]
+BI_individual: [1433.63]
+EW_individual: [1673.79]
+Depth: [0.47]
 
 
-66 abs | 66 tot
-spec-7673-57329-0103norm.dr16
-BI (-30000 > v > -60000.0): 6836.36
-vmins: [-35433.08026]
-vmaxs: [-53519.71089]
-BI_individual: [6836.36]
-EW_individual: [7651.83]
-Depth: [0.83]
-
-
-67 abs | 67 tot
-spec-7667-57580-0430norm.dr16
-BI (-30000 > v > -60000.0): 125.73
-vmins: [-46428.47809]
-vmaxs: [-50193.72642]
-BI_individual: [125.73]
-EW_individual: [301.02]
-Depth: [0.31]
-
-
-68 abs | 68 tot
-spec-7098-56661-0163norm.dr16
-BI (-30000 > v > -60000.0): 822.98
-vmins: [-35971.23212]
-vmaxs: [-43971.42186]
-BI_individual: [822.98]
-EW_individual: [1137.94]
-Depth: [0.45]
-
-
-69 abs | 69 tot
-spec-11395-58488-0418norm.dr16
-BI (-30000 > v > -60000.0): 3307.61
-vmins: [-29933.35948]
-vmaxs: [-47777.46782]
-BI_individual: [3307.61]
-EW_individual: [3516.79]
-Depth: [0.58]
-
-
-70 abs | 70 tot
-spec-7083-56722-0348norm.dr16
-BI (-30000 > v > -60000.0): 388.86
-vmins: [-29993.57531 -38712.72092 -55938.5316 ]
-vmaxs: [-35994.45751 -42169.15121 -58864.51202]
-BI_individual: [192.84, 108.94, 87.08]
-EW_individual: [361.28, 212.75, 270.66]
-Depth: [0.29, 0.28, 0.32]
-
-
-71 abs | 71 tot
-spec-6727-56369-0773norm.dr16
-BI (-30000 > v > -60000.0): 1873.87
-vmins: [-36027.68514 -54103.61444]
-vmaxs: [-48743.76912 -58299.57256]
-BI_individual: [1794.58, 79.29]
-EW_individual: [1896.77, 150.75]
-Depth: [0.5, 0.25]
-
-
-72 abs | 72 tot
-spec-5179-55957-0836norm.dr16
-BI (-30000 > v > -60000.0): 16.74
-vmins: [-46367.17191]
-vmaxs: [-48856.84528]
-BI_individual: [16.74]
-EW_individual: [127.14]
-Depth: [0.22]
-
-
-73 abs | 73 tot
-spec-5144-55829-0475norm.dr16
-BI (-30000 > v > -60000.0): 669.43
-vmins: [-29961.89382 -36030.95384]
-vmaxs: [-33988.35604 -42205.5018 ]
-BI_individual: [252.25, 417.18]
-EW_individual: [492.44, 614.17]
-Depth: [0.37, 0.33]
-
-
-74 abs | 74 tot
-spec-5483-56017-0061norm.dr16
-BI (-30000 > v > -60000.0): 2703.25
-vmins: [-35028.70873]
-vmaxs: [-47016.39162]
-BI_individual: [2703.25]
-EW_individual: [2882.93]
-Depth: [0.73]
-
-
-75 abs | 75 tot
-spec-6754-56414-0561norm.dr16
-BI (-30000 > v > -60000.0): 342.81
-vmins: [-37282.94425]
-vmaxs: [-42098.11282]
-BI_individual: [342.81]
-EW_individual: [448.76]
+16 abs | 21 tot
+spec-5212-56016-0348norm.dr16
+BI (-30000 > v > -60000.0): 113.64
+vmins: [-35942.09495]
+vmaxs: [-38728.30842]
+BI_individual: [113.64]
+EW_individual: [454.34]
 Depth: [0.36]
 
 
-76 abs | 76 tot
-spec-8059-57895-0912norm.dr16
-BI (-30000 > v > -60000.0): 92.91
-vmins: [-51587.27367]
-vmaxs: [-54329.21144]
-BI_individual: [92.91]
-EW_individual: [254.19]
-Depth: [0.29]
+17 abs | 22 tot
+spec-6674-56416-0693norm.dr16
+BI (-30000 > v > -60000.0): 1071.07
+vmins: [-39520.62114 -42906.95074 -45607.92612 -55932.36379]
+vmaxs: [-42433.5309  -45338.09111 -50919.75614 -58459.93088]
+BI_individual: [287.94, 57.09, 712.61, 13.43]
+EW_individual: [595.69, 358.15, 934.77, 109.01]
+Depth: [0.52, 0.51, 0.68, 0.39]
 
 
-77 abs | 77 tot
-spec-5374-55947-0608norm.dr16
-BI (-30000 > v > -60000.0): 228.13
-vmins: [-32222.74415]
-vmaxs: [-38145.32759]
-BI_individual: [228.13]
-EW_individual: [358.53]
-Depth: [0.5]
+18 abs | 23 tot
+spec-8221-58198-0399norm.dr16
+BI (-30000 > v > -60000.0): 199.25
+vmins: [-45944.97235]
+vmaxs: [-49242.12312]
+BI_individual: [199.25]
+EW_individual: [290.9]
+Depth: [0.46]
 
 
-78 abs | 78 tot
-spec-6412-56358-0454norm.dr16
-BI (-30000 > v > -60000.0): 59.55
-vmins: [-36278.76517 -39810.37083]
-vmaxs: [-38928.43293 -42181.19647]
-BI_individual: [38.78, 20.77]
-EW_individual: [163.1, 158.53]
-Depth: [0.37, 0.31]
-
-
-79 abs | 79 tot
-spec-4663-55893-0854norm.dr16
-BI (-30000 > v > -60000.0): 289.0
-vmins: [-37822.46963]
-vmaxs: [-41349.33362]
-BI_individual: [289.0]
-EW_individual: [668.28]
-Depth: [0.66]
-
-
-80 abs | 80 tot
-spec-6402-56334-0966norm.dr16
-BI (-30000 > v > -60000.0): 419.06
-vmins: [-43865.8906]
-vmaxs: [-50731.31614]
-BI_individual: [419.06]
-EW_individual: [527.44]
-Depth: [0.44]
-
-
-81 abs | 81 tot
-spec-6456-56339-0894norm.dr16
-BI (-30000 > v > -60000.0): 352.12
-vmins: [-38847.46229]
-vmaxs: [-46017.57987]
-BI_individual: [352.12]
-EW_individual: [478.38]
-Depth: [0.32]
-
-
-82 abs | 82 tot
-spec-6405-56342-0814norm.dr16
-BI (-30000 > v > -60000.0): 1787.56
-vmins: [-36743.92046]
-vmaxs: [-49652.5981]
-BI_individual: [1787.56]
-EW_individual: [1999.55]
-Depth: [0.39]
-
-
-83 abs | 83 tot
-spec-5288-55865-0958norm.dr16
-BI (-30000 > v > -60000.0): 145.25
-vmins: [-36900.82525]
-vmaxs: [-39956.0373]
-BI_individual: [145.25]
-EW_individual: [286.85]
-Depth: [0.34]
-
-
-84 abs | 84 tot
-spec-5868-56045-0372norm.dr16
-BI (-30000 > v > -60000.0): 113.73
-vmins: [-45289.56442]
-vmaxs: [-48790.62756]
-BI_individual: [113.73]
-EW_individual: [323.4]
-Depth: [0.42]
-
-
-85 abs | 85 tot
-spec-7622-56987-0113norm.dr16
-BI (-30000 > v > -60000.0): 165.98
-vmins: [-41918.87857]
-vmaxs: [-46914.66435]
-BI_individual: [165.98]
-EW_individual: [202.36]
-Depth: [0.51]
-
-
-86 abs | 86 tot
-spec-6122-56246-0696norm.dr16
-BI (-30000 > v > -60000.0): 216.99
-vmins: [-46216.79234]
-vmaxs: [-50117.1391]
-BI_individual: [216.99]
-EW_individual: [473.2]
-Depth: [0.32]
-
-
-87 abs | 87 tot
-spec-8396-57837-0736norm.dr16
-BI (-30000 > v > -60000.0): 560.17
-vmins: [-36879.39481 -47231.99015]
-vmaxs: [-39799.20107 -52868.68412]
-BI_individual: [65.5, 494.68]
-EW_individual: [335.33, 743.03]
-Depth: [0.33, 0.44]
-
-
-88 abs | 88 tot
-spec-6447-56362-0854norm.dr16
-BI (-30000 > v > -60000.0): 176.73
-vmins: [-39543.80943 -45428.49091]
-vmaxs: [-43741.06198 -47449.69926]
-BI_individual: [173.76, 2.97]
-EW_individual: [468.85, 100.13]
-Depth: [0.36, 0.28]
-
-
-89 abs | 89 tot
-spec-5421-55980-0918norm.dr16
-BI (-30000 > v > -60000.0): 20.62
-vmins: [-53918.0452]
-vmaxs: [-56851.67565]
-BI_individual: [20.62]
-EW_individual: [195.41]
-Depth: [0.33]
-
-
-90 abs | 90 tot
-spec-6433-56339-0278norm.dr16
-BI (-30000 > v > -60000.0): 207.58
-vmins: [-37065.6402]
-vmaxs: [-40798.26944]
-BI_individual: [207.58]
-EW_individual: [390.07]
-Depth: [0.36]
-
-
-91 abs | 91 tot
-spec-5712-56602-0074norm.dr16
-BI (-30000 > v > -60000.0): 448.13
-vmins: [-44816.40527]
-vmaxs: [-49595.7566]
-BI_individual: [448.13]
-EW_individual: [557.98]
-Depth: [0.4]
-
-
-92 abs | 92 tot
+19 abs | 24 tot
 spec-6045-56072-0455norm.dr16
 BI (-30000 > v > -60000.0): 28.8
 vmins: [-44740.09439]
@@ -918,57 +188,407 @@ EW_individual: [245.38]
 Depth: [0.31]
 
 
-93 abs | 93 tot
-spec-6142-56219-0893norm.dr16
-BI (-30000 > v > -60000.0): 31.39
-vmins: [-38607.95027]
-vmaxs: [-41590.91986]
-BI_individual: [31.39]
-EW_individual: [267.64]
-Depth: [0.34]
+20 abs | 25 tot
+spec-10730-58244-0836norm.dr16
+BI (-30000 > v > -60000.0): 420.51
+vmins: [-45347.31463]
+vmaxs: [-49318.45959]
+BI_individual: [420.51]
+EW_individual: [562.61]
+Depth: [0.68]
 
 
-94 abs | 94 tot
-spec-6983-56447-0896norm.dr16
-BI (-30000 > v > -60000.0): 730.11
-vmins: [-31035.49757 -40357.70021]
-vmaxs: [-35194.82881 -46978.75456]
-BI_individual: [603.54, 126.57]
-EW_individual: [926.77, 181.72]
-Depth: [0.87, 0.24]
+21 abs | 27 tot
+spec-6674-56416-0964norm.dr16
+BI (-30000 > v > -60000.0): 276.6
+vmins: [-35671.57013]
+vmaxs: [-40290.12036]
+BI_individual: [276.6]
+EW_individual: [422.05]
+Depth: [0.32]
 
 
-95 abs | 95 tot
-spec-6389-56270-0061norm.dr16
-BI (-30000 > v > -60000.0): 2047.89
-vmins: [-38667.20618]
-vmaxs: [-55893.88029]
-BI_individual: [2047.89]
-EW_individual: [2127.68]
-Depth: [0.42]
+22 abs | 28 tot
+spec-1272-52989-0064norm.dr16
+BI (-30000 > v > -60000.0): 13.57
+vmins: [-39686.77787]
+vmaxs: [-41922.53459]
+BI_individual: [13.57]
+EW_individual: [140.16]
+Depth: [0.41]
 
 
-96 abs | 96 tot
-spec-10728-58248-0740norm.dr16
-BI (-30000 > v > -60000.0): 137.55
-vmins: [-53221.35367]
-vmaxs: [-56290.7884]
-BI_individual: [137.55]
-EW_individual: [284.7]
-Depth: [0.42]
+23 abs | 29 tot
+spec-5809-56353-0704norm.dr16
+BI (-30000 > v > -60000.0): 53.09
+vmins: [-37854.11438]
+vmaxs: [-40839.09867]
+BI_individual: [53.09]
+EW_individual: [240.6]
+Depth: [0.35]
 
 
-97 abs | 97 tot
-spec-5372-55978-0742norm.dr16
-BI (-30000 > v > -60000.0): 355.05
-vmins: [-31662.62725 -36772.29781]
-vmaxs: [-35139.30343 -40980.13571]
-BI_individual: [180.2, 174.85]
-EW_individual: [496.02, 376.39]
-Depth: [0.42, 0.29]
+24 abs | 31 tot
+spec-6036-56093-0310norm.dr16
+BI (-30000 > v > -60000.0): 476.62
+vmins: [-37845.32347]
+vmaxs: [-42590.35772]
+BI_individual: [476.62]
+EW_individual: [632.14]
+Depth: [0.43]
 
 
-98 abs | 98 tot
+25 abs | 32 tot
+spec-8524-57656-0969norm.dr16
+BI (-30000 > v > -60000.0): 151.06
+vmins: [-36825.8292]
+vmaxs: [-41304.49228]
+BI_individual: [151.06]
+EW_individual: [327.55]
+Depth: [0.28]
+
+
+26 abs | 33 tot
+spec-6305-56563-0032norm.dr16
+BI (-30000 > v > -60000.0): 464.89
+vmins: [-45214.91207]
+vmaxs: [-50462.0435]
+BI_individual: [464.89]
+EW_individual: [661.07]
+Depth: [0.47]
+
+
+27 abs | 34 tot
+spec-7667-57580-0430norm.dr16
+BI (-30000 > v > -60000.0): 125.73
+vmins: [-46428.47809]
+vmaxs: [-50193.72642]
+BI_individual: [125.73]
+EW_individual: [301.02]
+Depth: [0.31]
+
+
+28 abs | 35 tot
+spec-4419-55867-0178norm.dr16
+BI (-30000 > v > -60000.0): 271.57
+vmins: [-35496.14147]
+vmaxs: [-39572.99625]
+BI_individual: [271.57]
+EW_individual: [550.22]
+Depth: [0.4]
+
+
+29 abs | 37 tot
+spec-0790-52441-0583norm.dr16
+BI (-30000 > v > -60000.0): 149.4
+vmins: [-46153.37714]
+vmaxs: [-49718.42756]
+BI_individual: [149.4]
+EW_individual: [321.39]
+Depth: [0.7]
+
+
+30 abs | 38 tot
+spec-6806-56419-0302norm.dr16
+BI (-30000 > v > -60000.0): 886.1
+vmins: [-43521.45824]
+vmaxs: [-51328.03256]
+BI_individual: [886.1]
+EW_individual: [964.35]
+Depth: [0.52]
+
+
+31 abs | 39 tot
+spec-6786-56448-0829norm.dr16
+BI (-30000 > v > -60000.0): 125.62
+vmins: [-34924.88545]
+vmaxs: [-38596.49498]
+BI_individual: [125.62]
+EW_individual: [497.21]
+Depth: [0.58]
+
+
+32 abs | 40 tot
+spec-6976-56448-0440norm.dr16
+BI (-30000 > v > -60000.0): 84.92
+vmins: [-34993.046]
+vmaxs: [-38392.71574]
+BI_individual: [84.92]
+EW_individual: [417.54]
+Depth: [0.53]
+
+
+33 abs | 41 tot
+spec-6138-56236-0746norm.dr16
+BI (-30000 > v > -60000.0): 33.73
+vmins: [-46092.65256]
+vmaxs: [-48179.64727]
+BI_individual: [33.73]
+EW_individual: [150.7]
+Depth: [0.5]
+
+
+34 abs | 42 tot
+spec-6138-56598-0754norm.dr16
+BI (-30000 > v > -60000.0): 35.38
+vmins: [-39737.01677]
+vmaxs: [-42040.43076]
+BI_individual: [35.38]
+EW_individual: [204.18]
+Depth: [0.5]
+
+
+35 abs | 43 tot
+spec-5745-55998-0657norm.dr16
+BI (-30000 > v > -60000.0): 214.84
+vmins: [-34768.20243]
+vmaxs: [-39118.95992]
+BI_individual: [214.84]
+EW_individual: [343.89]
+Depth: [0.36]
+
+
+36 abs | 44 tot
+spec-5745-56050-0657norm.dr16
+BI (-30000 > v > -60000.0): 238.49
+vmins: [-36401.65448]
+vmaxs: [-40814.12076]
+BI_individual: [238.49]
+EW_individual: [538.33]
+Depth: [0.56]
+
+
+37 abs | 45 tot
+spec-6460-56334-0396norm.dr16
+BI (-30000 > v > -60000.0): 254.11
+vmins: [-32382.44807 -34972.56457]
+vmaxs: [-34631.93872 -39661.61764]
+BI_individual: [35.18, 218.93]
+EW_individual: [157.91, 372.13]
+Depth: [0.27, 0.4]
+
+
+38 abs | 46 tot
+spec-1933-53381-0566norm.dr16
+BI (-30000 > v > -60000.0): 247.57
+vmins: [-39402.97975]
+vmaxs: [-43600.76551]
+BI_individual: [247.57]
+EW_individual: [442.2]
+Depth: [0.32]
+
+
+39 abs | 47 tot
+spec-5179-55957-0836norm.dr16
+BI (-30000 > v > -60000.0): 16.74
+vmins: [-46367.17191]
+vmaxs: [-48856.84528]
+BI_individual: [16.74]
+EW_individual: [127.14]
+Depth: [0.22]
+
+
+40 abs | 48 tot
+spec-9609-58136-0331norm.dr16
+BI (-30000 > v > -60000.0): 341.51
+vmins: [-38385.01427]
+vmaxs: [-42924.71372]
+BI_individual: [341.51]
+EW_individual: [504.94]
+Depth: [0.35]
+
+
+41 abs | 49 tot
+spec-1521-52945-0532norm.dr16
+BI (-30000 > v > -60000.0): 4535.95
+vmins: [-29961.89382 -54306.94165]
+vmaxs: [-45987.40244 -60027.4512 ]
+BI_individual: [3792.82, 743.13]
+EW_individual: [4492.08, 975.77]
+Depth: [0.62, 0.41]
+
+
+42 abs | 50 tot
+spec-5143-55828-0900norm.dr16
+BI (-30000 > v > -60000.0): 2600.12
+vmins: [-29961.83413 -54907.63109]
+vmaxs: [-44908.33809 -59364.54174]
+BI_individual: [2377.85, 222.27]
+EW_individual: [2804.19, 348.97]
+Depth: [0.48, 0.23]
+
+
+43 abs | 51 tot
+spec-5144-55829-0475norm.dr16
+BI (-30000 > v > -60000.0): 1896.5
+vmins: [-29961.89382 -55907.80092]
+vmaxs: [-43625.39701 -58833.69925]
+BI_individual: [1870.01, 26.49]
+EW_individual: [2275.14, 125.05]
+Depth: [0.43, 0.22]
+
+
+44 abs | 52 tot
+spec-9162-58040-0112norm.dr16
+BI (-30000 > v > -60000.0): 2175.7
+vmins: [-29961.89382 -55907.80092]
+vmaxs: [-43355.02507 -58103.38631]
+BI_individual: [2164.01, 11.69]
+EW_individual: [2611.68, 66.78]
+Depth: [0.46, 0.18]
+
+
+45 abs | 53 tot
+spec-9227-57932-0572norm.dr16
+BI (-30000 > v > -60000.0): 2437.01
+vmins: [-29961.89382 -55707.74535]
+vmaxs: [-43828.02909 -58634.56232]
+BI_individual: [2375.51, 61.5]
+EW_individual: [2886.54, 161.86]
+Depth: [0.46, 0.22]
+
+
+46 abs | 55 tot
+spec-9345-57713-0464norm.dr16
+BI (-30000 > v > -60000.0): 65.62
+vmins: [-41747.61577 -52183.44712]
+vmaxs: [-44721.72271 -54189.16625]
+BI_individual: [59.13, 6.49]
+EW_individual: [209.54, 96.69]
+Depth: [0.25, 0.38]
+
+
+47 abs | 57 tot
+spec-6313-56460-0295norm.dr16
+BI (-30000 > v > -60000.0): 35.08
+vmins: [-46745.26592]
+vmaxs: [-49233.92631]
+BI_individual: [35.08]
+EW_individual: [179.87]
+Depth: [0.26]
+
+
+48 abs | 59 tot
+spec-5494-55857-0549norm.dr16
+BI (-30000 > v > -60000.0): 39.68
+vmins: [-37404.92935]
+vmaxs: [-40187.82348]
+BI_individual: [39.68]
+EW_individual: [203.24]
+Depth: [0.26]
+
+
+49 abs | 60 tot
+spec-6587-56537-0015norm.dr16
+BI (-30000 > v > -60000.0): 4252.77
+vmins: [-31003.36306]
+vmaxs: [-49368.10217]
+BI_individual: [4252.77]
+EW_individual: [4496.56]
+Depth: [0.74]
+
+
+50 abs | 61 tot
+spec-7701-57356-0794norm.dr16
+BI (-30000 > v > -60000.0): 3635.69
+vmins: [-32027.28916]
+vmaxs: [-50240.59287]
+BI_individual: [3635.69]
+EW_individual: [3783.66]
+Depth: [0.78]
+
+
+51 abs | 62 tot
+spec-0948-52428-0370norm.dr16
+BI (-30000 > v > -60000.0): 83.61
+vmins: [-39734.89123]
+vmaxs: [-42038.13374]
+BI_individual: [83.61]
+EW_individual: [221.76]
+Depth: [0.44]
+
+
+52 abs | 63 tot
+spec-7089-56661-0060norm.dr16
+BI (-30000 > v > -60000.0): 924.42
+vmins: [-34296.77175]
+vmaxs: [-43931.17663]
+BI_individual: [924.42]
+EW_individual: [1148.07]
+Depth: [0.48]
+
+
+53 abs | 64 tot
+spec-6199-56220-0264norm.dr16
+BI (-30000 > v > -60000.0): 2207.49
+vmins: [-31693.4921]
+vmaxs: [-42905.6779]
+BI_individual: [2207.49]
+EW_individual: [2408.15]
+Depth: [0.44]
+
+
+54 abs | 65 tot
+spec-7618-56898-0268norm.dr16
+BI (-30000 > v > -60000.0): 1413.17
+vmins: [-33807.81533 -45606.61853]
+vmaxs: [-42837.93713 -49509.56396]
+BI_individual: [1169.65, 243.52]
+EW_individual: [1493.37, 314.88]
+Depth: [0.38, 0.9]
+
+
+55 abs | 66 tot
+spec-1455-53089-0381norm.dr16
+BI (-30000 > v > -60000.0): 3.88
+vmins: [-30867.57694]
+vmaxs: [-33119.57013]
+BI_individual: [3.88]
+EW_individual: [209.57]
+Depth: [0.37]
+
+
+56 abs | 67 tot
+spec-6670-56389-0168norm.dr16
+BI (-30000 > v > -60000.0): 218.7
+vmins: [-30867.57694]
+vmaxs: [-34618.91843]
+BI_individual: [218.7]
+EW_individual: [598.21]
+Depth: [0.4]
+
+
+57 abs | 68 tot
+spec-6280-56570-0623norm.dr16
+BI (-30000 > v > -60000.0): 87.35
+vmins: [-33990.76638]
+vmaxs: [-37257.44046]
+BI_individual: [87.35]
+EW_individual: [213.73]
+Depth: [0.28]
+
+
+58 abs | 69 tot
+spec-7694-57359-0006norm.dr16
+BI (-30000 > v > -60000.0): 125.05
+vmins: [-33922.71962]
+vmaxs: [-37325.34785]
+BI_individual: [125.05]
+EW_individual: [264.83]
+Depth: [0.33]
+
+
+59 abs | 70 tot
+spec-1582-52939-0558norm.dr16
+BI (-30000 > v > -60000.0): 496.11
+vmins: [-54451.29976]
+vmaxs: [-58047.55415]
+BI_individual: [496.11]
+EW_individual: [928.17]
+Depth: [1.49]
+
+
+60 abs | 71 tot
 spec-4485-55836-0092norm.dr16
 BI (-30000 > v > -60000.0): 658.75
 vmins: [-30041.34]
@@ -976,5 +596,355 @@ vmaxs: [-36313.96954]
 BI_individual: [658.75]
 EW_individual: [982.59]
 Depth: [0.78]
+
+
+61 abs | 72 tot
+spec-2785-54537-0175norm.dr16
+BI (-30000 > v > -60000.0): 679.24
+vmins: [-35479.1943]
+vmaxs: [-44631.02839]
+BI_individual: [679.24]
+EW_individual: [817.97]
+Depth: [0.43]
+
+
+62 abs | 73 tot
+spec-5896-56047-0658norm.dr16
+BI (-30000 > v > -60000.0): 1303.59
+vmins: [-33503.91814]
+vmaxs: [-43888.19979]
+BI_individual: [1303.59]
+EW_individual: [1497.62]
+Depth: [0.39]
+
+
+63 abs | 74 tot
+spec-4341-55538-0324norm.dr16
+BI (-30000 > v > -60000.0): 792.06
+vmins: [-32748.27764 -53826.85893]
+vmaxs: [-43409.99255 -58821.33412]
+BI_individual: [553.42, 238.64]
+EW_individual: [776.25, 323.17]
+Depth: [0.41, 0.3]
+
+
+64 abs | 75 tot
+spec-9312-57784-0360norm.dr16
+BI (-30000 > v > -60000.0): 2294.81
+vmins: [-29948.98694 -54361.22219]
+vmaxs: [-40906.35536 -59219.35944]
+BI_individual: [1618.28, 676.53]
+EW_individual: [2033.69, 944.67]
+Depth: [0.51, 0.45]
+
+
+65 abs | 76 tot
+spec-1709-53533-0576norm.dr16
+BI (-30000 > v > -60000.0): 2548.03
+vmins: [-32012.05656 -45247.03687]
+vmaxs: [-43423.98468 -48748.31635]
+BI_individual: [2460.23, 87.79]
+EW_individual: [2924.31, 275.01]
+Depth: [0.68, 0.33]
+
+
+66 abs | 77 tot
+spec-5465-55988-0798norm.dr16
+BI (-30000 > v > -60000.0): 2160.64
+vmins: [-31602.50585 -54975.68178]
+vmaxs: [-42409.65116 -57373.3975 ]
+BI_individual: [2145.16, 15.48]
+EW_individual: [2440.57, 145.36]
+Depth: [0.64, 0.28]
+
+
+67 abs | 78 tot
+spec-2582-54139-0485norm.dr16
+BI (-30000 > v > -60000.0): 292.11
+vmins: [-43442.32859]
+vmaxs: [-48363.15782]
+BI_individual: [292.11]
+EW_individual: [538.51]
+Depth: [0.33]
+
+
+68 abs | 79 tot
+spec-5320-55999-0336norm.dr16
+BI (-30000 > v > -60000.0): 23.74
+vmins: [-45872.34712]
+vmaxs: [-48363.15782]
+BI_individual: [23.74]
+EW_individual: [127.05]
+Depth: [0.22]
+
+
+69 abs | 82 tot
+spec-5374-55947-0608norm.dr16
+BI (-30000 > v > -60000.0): 228.13
+vmins: [-32222.74415]
+vmaxs: [-38145.32759]
+BI_individual: [228.13]
+EW_individual: [358.53]
+Depth: [0.5]
+
+
+70 abs | 83 tot
+spec-2511-53882-0552norm.dr16
+BI (-30000 > v > -60000.0): 575.74
+vmins: [-32690.02802]
+vmaxs: [-40780.7092]
+BI_individual: [575.74]
+EW_individual: [710.53]
+Depth: [0.31]
+
+
+71 abs | 84 tot
+spec-6422-56328-0988norm.dr16
+BI (-30000 > v > -60000.0): 1219.18
+vmins: [-29959.04622 -55171.57151]
+vmaxs: [-40983.90523 -58366.20417]
+BI_individual: [1146.72, 72.46]
+EW_individual: [1349.49, 109.87]
+Depth: [0.45, 0.32]
+
+
+72 abs | 86 tot
+spec-6402-56334-0966norm.dr16
+BI (-30000 > v > -60000.0): 419.06
+vmins: [-43865.8906]
+vmaxs: [-50731.31614]
+BI_individual: [419.06]
+EW_individual: [527.44]
+Depth: [0.44]
+
+
+73 abs | 87 tot
+spec-1713-53827-0211norm.dr16
+BI (-30000 > v > -60000.0): 396.35
+vmins: [-33514.84386 -38820.58927]
+vmaxs: [-38549.15413 -41058.10341]
+BI_individual: [387.62, 8.73]
+EW_individual: [573.93, 184.43]
+Depth: [0.47, 0.39]
+
+
+74 abs | 88 tot
+spec-5476-55986-0599norm.dr16
+BI (-30000 > v > -60000.0): 789.95
+vmins: [-33855.64745]
+vmaxs: [-41938.35759]
+BI_individual: [789.95]
+EW_individual: [970.12]
+Depth: [0.37]
+
+
+75 abs | 89 tot
+spec-6456-56339-0894norm.dr16
+BI (-30000 > v > -60000.0): 352.12
+vmins: [-38847.46229]
+vmaxs: [-46017.57987]
+BI_individual: [352.12]
+EW_individual: [478.38]
+Depth: [0.32]
+
+
+76 abs | 90 tot
+spec-10464-58155-0575norm.dr16
+BI (-30000 > v > -60000.0): 465.58
+vmins: [-38508.08691]
+vmaxs: [-46960.70375]
+BI_individual: [465.58]
+EW_individual: [502.73]
+Depth: [0.28]
+
+
+77 abs | 91 tot
+spec-2430-53815-0471norm.dr16
+BI (-30000 > v > -60000.0): 48.33
+vmins: [-37512.5418]
+vmaxs: [-39956.0373]
+BI_individual: [48.33]
+EW_individual: [306.2]
+Depth: [0.47]
+
+
+78 abs | 92 tot
+spec-5288-55865-0958norm.dr16
+BI (-30000 > v > -60000.0): 145.25
+vmins: [-36900.82525]
+vmaxs: [-39956.0373]
+BI_individual: [145.25]
+EW_individual: [286.85]
+Depth: [0.34]
+
+
+79 abs | 93 tot
+spec-5290-55862-0164norm.dr16
+BI (-30000 > v > -60000.0): 105.96
+vmins: [-36968.71247]
+vmaxs: [-40227.27252]
+BI_individual: [105.96]
+EW_individual: [282.27]
+Depth: [0.34]
+
+
+80 abs | 94 tot
+spec-1372-53062-0154norm.dr16
+BI (-30000 > v > -60000.0): 991.52
+vmins: [-38535.16867 -45302.85728]
+vmaxs: [-42127.5502  -53361.65785]
+BI_individual: [137.88, 853.64]
+EW_individual: [490.82, 954.6]
+Depth: [0.48, 0.88]
+
+
+81 abs | 95 tot
+spec-6636-56367-0036norm.dr16
+BI (-30000 > v > -60000.0): 718.98
+vmins: [-35408.11923 -42127.49938]
+vmaxs: [-41653.74959 -48400.66974]
+BI_individual: [450.46, 268.51]
+EW_individual: [655.43, 621.41]
+Depth: [0.47, 0.91]
+
+
+82 abs | 96 tot
+spec-8374-57783-0919norm.dr16
+BI (-30000 > v > -60000.0): 281.92
+vmins: [-34931.53804 -42398.22067]
+vmaxs: [-38942.5305  -45842.43511]
+BI_individual: [215.47, 66.45]
+EW_individual: [457.82, 418.64]
+Depth: [0.4, 0.9]
+
+
+83 abs | 97 tot
+spec-5444-56038-0942norm.dr16
+BI (-30000 > v > -60000.0): 42.22
+vmins: [-45694.12485]
+vmaxs: [-48723.51454]
+BI_individual: [42.22]
+EW_individual: [186.77]
+Depth: [0.35]
+
+
+84 abs | 98 tot
+spec-5868-56045-0372norm.dr16
+BI (-30000 > v > -60000.0): 113.73
+vmins: [-45289.56442]
+vmaxs: [-48790.62756]
+BI_individual: [113.73]
+EW_individual: [323.4]
+Depth: [0.42]
+
+
+85 abs | 99 tot
+spec-5133-55860-0412norm.dr16
+BI (-30000 > v > -60000.0): 50.81
+vmins: [-40564.33995]
+vmaxs: [-43406.68167]
+BI_individual: [50.81]
+EW_individual: [157.29]
+Depth: [0.31]
+
+
+86 abs | 100 tot
+spec-7622-56987-0113norm.dr16
+BI (-30000 > v > -60000.0): 165.98
+vmins: [-41918.87857]
+vmaxs: [-46914.66435]
+BI_individual: [165.98]
+EW_individual: [202.36]
+Depth: [0.51]
+
+
+87 abs | 101 tot
+spec-5174-56047-0344norm.dr16
+BI (-30000 > v > -60000.0): 1304.93
+vmins: [-34305.92351]
+vmaxs: [-41844.23204]
+BI_individual: [1304.93]
+EW_individual: [1505.88]
+Depth: [0.72]
+
+
+88 abs | 102 tot
+spec-10748-58224-0461norm.dr16
+BI (-30000 > v > -60000.0): 3018.06
+vmins: [-32533.48354]
+vmaxs: [-43940.28716]
+BI_individual: [3018.06]
+EW_individual: [3189.78]
+Depth: [0.9]
+
+
+89 abs | 103 tot
+spec-6122-56246-0696norm.dr16
+BI (-30000 > v > -60000.0): 216.99
+vmins: [-46216.79234]
+vmaxs: [-50117.1391]
+BI_individual: [216.99]
+EW_individual: [473.2]
+Depth: [0.32]
+
+
+90 abs | 104 tot
+spec-7610-56980-0454norm.dr16
+BI (-30000 > v > -60000.0): 47.86
+vmins: [-47159.7806]
+vmaxs: [-49647.31173]
+BI_individual: [47.86]
+EW_individual: [284.32]
+Depth: [0.35]
+
+
+91 abs | 105 tot
+spec-6720-56390-0552norm.dr16
+BI (-30000 > v > -60000.0): 326.05
+vmins: [-36675.45197 -47366.63493]
+vmaxs: [-40002.56256 -50792.78523]
+BI_individual: [162.81, 163.24]
+EW_individual: [420.58, 339.66]
+Depth: [0.41, 0.51]
+
+
+92 abs | 106 tot
+spec-8396-57837-0736norm.dr16
+BI (-30000 > v > -60000.0): 560.17
+vmins: [-36879.39481 -47231.99015]
+vmaxs: [-39799.20107 -52868.68412]
+BI_individual: [65.5, 494.68]
+EW_individual: [335.33, 743.03]
+Depth: [0.33, 0.44]
+
+
+93 abs | 107 tot
+spec-1982-53436-0626norm.dr16
+BI (-30000 > v > -60000.0): 26.06
+vmins: [-45091.25042]
+vmaxs: [-47382.49469]
+BI_individual: [26.06]
+EW_individual: [107.5]
+Depth: [0.37]
+
+
+94 abs | 108 tot
+spec-6447-56362-0854norm.dr16
+BI (-30000 > v > -60000.0): 176.73
+vmins: [-39543.80943 -45428.49091]
+vmaxs: [-43741.06198 -47449.69926]
+BI_individual: [173.76, 2.97]
+EW_individual: [468.85, 100.13]
+Depth: [0.36, 0.28]
+
+
+95 abs | 109 tot
+spec-5421-55980-0918norm.dr16
+BI (-30000 > v > -60000.0): 20.62
+vmins: [-53918.0452]
+vmaxs: [-56851.67565]
+BI_individual: [20.62]
+EW_individual: [195.41]
+Depth: [0.33]
 
 

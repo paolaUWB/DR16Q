@@ -1,0 +1,3 @@
+36: spec-6305-56563-0032-dered.dr16
+     Failed Test 4 [green]
+ABSORPTION / GOOD FIT

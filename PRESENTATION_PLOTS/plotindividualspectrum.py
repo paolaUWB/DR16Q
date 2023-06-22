@@ -20,21 +20,21 @@ save_format = 'pdf' # 'pdf' to save as pdf file, 'png' to save as png file
 
 #-- TO CHANGE EVERY TIME:
 save_file_name = 'spec-5372-55978-0742' 
-norm_spectra = 'spec-5372-55978-0742norm.dr16'
+norm_spectra = 'spec-6318-56186-0342norm.dr16'
 
-zem =2.382# redshift of norm_spectra
+zem =2.369# redshift of norm_spectra
 
-topylim = 2.5
+topylim = 5
 topemlabel = topylim - 0.03 # where you want to place the ion labels
 
-zem_label_x = 1400# x-coordinate for zem label (in restframe)
-zem_label_y = 1.5# y-coordinate for zem label
+zem_label_x = 1450# x-coordinate for zem label (in restframe)
+zem_label_y = 2# y-coordinate for zem label
 
 wavelength_emit1_initial = 1060.  # left xlim in restframe
 wavelength_emit2_initial = 1600.  # right xlim in restframe
 
-vmin = [-36900,-31500] # make smaller to move right line right (bigger to move right line left)
-vmax = [-41000,-35000] # make bigger to move left line left (smaller to move left line right)
+vmin = [-32773,-1100] # make smaller to move right line right (bigger to move right line left)
+vmax = [-35498,-4000] # make bigger to move left line left (smaller to move left line right)
 
 #-- absorption shading: 'yes' to include
 NVabs = 'yes'

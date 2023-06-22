@@ -1,0 +1,15 @@
+52: spec-1521-52945-0532-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+53: spec-5143-55828-0900-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+54: spec-5144-55829-0475-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+55: spec-9162-58040-0112-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+56: spec-9227-57932-0572-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT

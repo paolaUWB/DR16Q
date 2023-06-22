@@ -1,0 +1,3 @@
+3: spec-0485-51909-0092-dered.dr16
+     Flagged - low SNR
+FLAGGED SNR

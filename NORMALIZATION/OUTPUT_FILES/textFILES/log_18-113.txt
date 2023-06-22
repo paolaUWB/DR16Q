@@ -1,0 +1,22 @@
+18: spec-10431-58137-0135-dered.dr16
+GOOD FIT
+19: spec-2430-53815-0471-dered.dr16
+GOOD FIT
+20: spec-5288-55865-0958-dered.dr16
+GOOD FIT
+21: spec-5290-55862-0164-dered.dr16
+GOOD FIT
+22: spec-1933-53381-0566-dered.dr16
+GOOD FIT
+23: spec-5179-55957-0836-dered.dr16
+     Failed Test 4 [green]
+ABSORPTION / GOOD FIT
+24: spec-9609-58136-0331-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+25: spec-1272-52989-0064-dered.dr16
+     Flagged - low SNR
+FLAGGED SNR
+26: spec-5809-56353-0704-dered.dr16
+GOOD FIT
+27: spec-2087-53415-0278-dered.dr16

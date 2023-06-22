@@ -56,9 +56,9 @@ OVIem = 'no'
 n_list_norm = [3,3,3,3,3] # smooth box car
 n_list_dered = [3,3,3,3,3]
 
-error_diagnostics = False # Prints out the max error for each epoch, True or False
+error_diagnostics = True # Prints out the max error for each epoch, True or False
 
-norm_error_threshold = 0.2
+norm_error_threshold = 698
 dered_error_threshold = 5.017
 
 if manual_ylim == 'yes': # Manually change ylim here

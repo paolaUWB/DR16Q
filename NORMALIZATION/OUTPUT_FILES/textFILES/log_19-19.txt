@@ -1,0 +1,3 @@
+19: spec-10429-58145-0655-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT

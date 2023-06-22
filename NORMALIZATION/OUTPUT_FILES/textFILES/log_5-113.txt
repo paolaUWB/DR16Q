@@ -1,0 +1,7 @@
+5: spec-5187-56074-0092-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+6: spec-10720-58250-0895-dered.dr16
+     Failed Test 4 [pink]
+ABSORPTION / GOOD FIT
+7: spec-2745-54231-0564-dered.dr16

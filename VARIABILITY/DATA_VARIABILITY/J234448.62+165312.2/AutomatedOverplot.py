@@ -39,7 +39,7 @@ colors_norm = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9'] #Colors the
 colors_dered = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9']
 
 #-- absorption shading: 'yes' to include. CURRENTLY DEPRECIATED, DOESN'T WORK
-CIV_abs = 'yes'
+CIV_abs = 'no'
 NVabs = 'no'
 OVIabs = 'no'
 SiIVabs = 'no'
@@ -56,7 +56,7 @@ OVIem = 'no'
 n_list_norm = [3,3,3,3,3] # smooth box car
 n_list_dered = [5,3,3,3,3]
 
-error_diagnostics = True # Prints out the max error for each epoch, True or False
+error_diagnostics = False # Prints out the max error for each epoch, True or False
 
 norm_error_threshold = 0.2
 dered_error_threshold = 3
