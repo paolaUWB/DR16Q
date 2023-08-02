@@ -93,7 +93,7 @@ def load_config(config_path, data_name):
 
 
 
-def plot_orig_spectra(directory, wavemin, wavemax, lines=False, error=False,):
+def plot_orig_spectra(directory, lines=False, error=False, wavemin, wavemax):
     """
     
     Parameters
