@@ -14,41 +14,35 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 
 ##------ Inputs/Outputs to change
-specdirec = os.getcwd() + '/Documents/GitHub/DR16Q/DR16Q_EHVO/' + 'NORM_DR16Q_EHVO/'
+specdirec = os.getcwd() + '/../' + 'EHVO_NORM_DR16Q/'
 
 save_format = 'pdf' # 'pdf' to save as pdf file, 'png' to save as png file
 
 #-- TO CHANGE EVERY TIME:
-save_file_name = 'spec-5372-55978-0742' 
-norm_spectra = 'spec-5372-55978-0742norm.dr16'
+save_file_name = 'spec001' 
+norm_spectra = 'spec-5421-55980-0918norm.dr16'
 
-zem =2.382# redshift of norm_spectra
+zem = 4.479 # redshift of norm_spectra
 
-topylim = 2.5
+topylim = 2.7
 topemlabel = topylim - 0.03 # where you want to place the ion labels
 
-zem_label_x = 1400# x-coordinate for zem label (in restframe)
-zem_label_y = 1.5# y-coordinate for zem label
+zem_label_x = 1450 # x-coordinate for zem label (in restframe)
+zem_label_y = 1.9 # y-coordinate for zem label
 
-wavelength_emit1_initial = 1060.  # left xlim in restframe
+wavelength_emit1_initial = 1000.  # left xlim in restframe
 wavelength_emit2_initial = 1600.  # right xlim in restframe
 
-vmin = [-36900,-31500] # make smaller to move right line right (bigger to move right line left)
-vmax = [-41000,-35000] # make bigger to move left line left (smaller to move left line right)
+vmin = [-53800] # make smaller to move right line right (bigger to move right line left)
+vmax = [-58200] # make bigger to move left line left (smaller to move left line right)
 
 #-- absorption shading: 'yes' to include
 NVabs = 'yes'
 OVIabs = 'no'
 SiIVabs = 'yes'
-Lyaabs = 'yes'
+Lyaabs = 'no'
 
-#Emission labels: 'yes' to include
-CIVem = 'yes'
-SiIVem = 'yes'
-CIIem = 'yes'
-OIem = 'yes'
-LyNVem = 'yes'
-OVIem = 'no' 
+OVIem = 'yes' # OVI emission label: 'yes' to include
 
 n = 3 # smooth box car
 
@@ -199,21 +193,13 @@ for k in range(0,len(vmin)):
 
 #matplotlib.rcParams['font.sans-serif'] = ['Source Han Sans TW', 'sans-serif']
 
-if CIVem == 'yes':
-    plt.text(1549.0*(1+zem)-30,topemlabel ,'CIV',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+plt.text(1549.0*(1+zem)-30,topemlabel ,'CIV',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+plt.text(1402.770*(1+zem)-40.,topemlabel,'SiIV+OIV]',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
 
-if SiIVem == 'yes':
-    plt.text(1402.770*(1+zem)-40.,topemlabel,'SiIV+OIV]',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
-
-if CIIem == 'yes' :
-    plt.text(1334.5323*(1+zem)-30.,topemlabel,'CII',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
-
-if OIem == 'yes':
-    plt.text(1304.8576*(1+zem)-35.,topemlabel,'OI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
-
-if LyNVem == 'yes':
-    alpha = 'Ly' + chr(945)
-    plt.text(1242.804*(1+zem)+30.,topemlabel, alpha + '+NV' ,color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+alpha = 'Ly' + chr(945)
+plt.text(1242.804*(1+zem)+30.,topemlabel, alpha + '+NV' ,color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+plt.text(1304.8576*(1+zem)-35.,topemlabel,'OI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
+plt.text(1334.5323*(1+zem)-30.,topemlabel,'CII',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
 
 if OVIem == 'yes':
     plt.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
@@ -237,4 +223,4 @@ plt.ylim(0,topylim)
 
 fig.tight_layout() 
 
-plt.savefig(os.getcwd() + '/Documents/GitHub/DR16Q/PRESENTATION_PLOTS/OUTPUT_FILES/' + pp2, dpi=200)
+plt.savefig(os.getcwd() + '/PRESENTATION_PLOTS/OUTPUT_FILES/' + pp2, dpi=100)
