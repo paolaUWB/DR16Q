@@ -48,14 +48,14 @@ def wavelength_to_velocity(redshift, wavelength):
     RC = (1. + redshift) / (1. + z_absC)
     betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.) # betaC is in units of c (speed of light)
     betakm = -betaC * c_in_km # betakm is in km/s
-    beta = []
 
-    for velocity in betakm:
-        betas = round(velocity, 5)
-        beta.append(betas)
-    beta = np.array(beta)
+    beta = np.empty(len(wavelength))
+
+    for index, velocity in enumerate(betakm):
+        beta[index] = round(velocity, 5) 
 
     return beta
+
 
 #############################################################################################################################################
 #############################################################################################################################################
@@ -84,7 +84,7 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, percent, plots = 'yes'):
+def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, percent, plots = 'yes', absorption_cutoff = 4):
     """Based off and does what find_absorption_parameters does, but also includes plotting.
 
     Reads in a list of redshift, wavelength, velocity limit (your integral bounds), broad absorption width, and percentage value 
@@ -109,6 +109,9 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
         The percentage value you want to go below the continuum.
     plots: string, default = 'yes'
         Whether you want to plot the values or just want the values, the default is to plot. 
+    absorption_cutoff
+        The number of points you want to evaluate at the end of the absorption trough, the default is 4, below 1
+        will cause undefined behavior
 
     Returns
     -------
@@ -231,13 +234,17 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     
                     count_v = 1
                 
-                bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / 0.9))
-                bracket_2 = (1. - (normalized_flux[current_velocity_index - 2] / 0.9))
-                bracket_3 = (1. - (normalized_flux[current_velocity_index - 3] / 0.9))
-                bracket_4 = (1. - (normalized_flux[current_velocity_index - 4] / 0.9))
+                # NOTE: we unintuitively go DOWN to find the vmax cutoff because
+                # normalized_flux is indexed according to wavelength, not velocity
+                num_above_percentage = 0
+                for i in range(1, absorption_cutoff + 1):
+                    if normalized_flux[current_velocity_index - i] >= percent:
+                        num_above_percentage = num_above_percentage + 1
+                    else:
+                        break
 
                 # vMAX calculation + plotting #############################################################################
-                if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or 
+                if (((bracket > 0 and num_above_percentage >= absorption_cutoff)) or 
                     (current_velocity_index == vmaxindex_for_range)):  
 
                     vmaxs_index = np.min(np.where(beta >= beta[current_velocity_index]))
