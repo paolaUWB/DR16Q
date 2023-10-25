@@ -21,6 +21,7 @@ ehthumbs_vista.db
 
 ## IGNORES ALL PDF FILES - TOO LARGE TO CONSISTENTLY PUSH
 *.pdf
+*.png
 
 # ----------------------------------- what github recommends is listed below -----------------------------------------------------------------------
 # Byte-compiled / optimized / DLL files
