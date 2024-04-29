@@ -66,7 +66,7 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
     plt.xlim(-70000, 0)
     snr = round(snr, 2)
     min_peak = -0.1
-    plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
+    plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr), loc = 'center', wrap = True, fontsize = 25)
     plt.axhline(y = 0.9, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
     plt.ylim(min_peak, max_peak + (max_peak / 4))

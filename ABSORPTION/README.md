@@ -29,6 +29,7 @@
 ## FILES IN ABSORPTION DIRECTORY
 
 ### `absorption.py`
+- (Legacy absorption code)
 - Searches for absorption based on the parameters listed below. It outputs pdf-graphs of the spectra and also with various absorption characteristics. It also outputs a text file with the values of various absorption characteristics which are listed below.   
 - Default is it searches for non-shallow absorption, we have this as being 10% below the continuum. 
     - We have the contiuum set to a value of 1 from the normalization, so 0.9 would be 10% below the continuum, this is where it flags.  
@@ -39,6 +40,18 @@
 - These defaults can be changed to other values.
 - When the pdf-graphs of spectra are produced the user can state if they would like to plot all of the spectra even if there are no absorption features or only spectra that contain absorption features based on the prerequistes entered above (i.e. the range of speed, non-shallow value, and broad absorption value).
 - The user can also state whether to 'smooth' the spectra and can set a value for the amount of smoothness.
+
+### 'FullabsorptionVCent.py'
+- Current version of the absorption.py code
+- Adds multiple options to change where maxs and mins are calculated (default = 0.9 of continuum)
+- Now by default calculates the EW of the trough starting from the continuum line (instead of at 0.9 below the continuum as before)
+- Adds average depth and weighted central velocity calculations to each trough
+- Fixes several minor bugs with depth and Vmax calculations
+
+### 'DebugFullAbsorptionVcent.py'
+- Debug version of FullabsorptionVCent.py
+- Removes modules to fold them all into the same program, allowing easier debugging
+	- Contains Fullabs_function_moduleVCentCalc.py within it
       
 ### `OUTPUT_FILES` --> textFILES
 - Text file with :BI, v mins, v maxs, BI individual, equivalent width individual and depth.
@@ -61,6 +74,13 @@
 ### `abs_plot_module.py`
 - Contains all of the code necessary to plot spectra and various absorption characteristics. 
 - Also contains a function for plots we utilize only for presentation purposes.
+
+### 'Fullabs_function_moduleVCentCalc.py'
+- Updated version of abs_function_module that contains the absorption function that FullabsorptionVCent uses.
+- Contains the updates outlined in FullabsorptionVCent
+
+### 'Fullabs_plot_module.py'
+- Contains minor changes on abs_plot_module in order to remain compatible with FullabsorptionVCent
 
 
 

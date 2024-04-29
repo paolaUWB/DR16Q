@@ -34,8 +34,8 @@ for name,group in grouped:
 
 def find_smallest_difference(df, column_name):
     sorted_df = df.sort_values(column_name)
-    smallest_diff = float('inf')  # Initialize with infinity
-    indices = None  # Initialize indices variable
+    smallest_diff = float('inf')  
+    indices = None  
 
     for i in range(len(sorted_df) - 1):
         diff = sorted_df[column_name].iloc[i + 1] - sorted_df[column_name].iloc[i]

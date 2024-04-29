@@ -12,7 +12,7 @@ import os
 
 ##------ Inputs/Outputs to change
 
-quasardirec = 'J000022.93-022716.4/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
+quasardirec = 'J004300.26+045718.6/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
 # Then set your specdirec to where your spec files are
 quasardirecname = quasardirec[:-1]
 
@@ -26,23 +26,23 @@ save_file_name = quasardirecname
 
 manual_ylim = 'no' # This allows you to manually set the ylim on the graphs. Default behavior on 'no' is 1.1x max flux.
 
-zem =2.61# redshift of the quasar
+zem = 2.362696 # redshift of the quasar
 coem=zem+1.
 
-wavelength_emit1_initial = 1225.  # left xlim in restframe
+wavelength_emit1_initial = 1000.  # left xlim in restframe
 wavelength_emit2_initial = 1600.  # right xlim in restframe
 
-vmin = [-41747.61577, -52183.44712] # make smaller to move right line right (bigger to move right line left) For absorption shading
-vmax = [-44721.72271, -54189.16625] # make bigger to move left line left (smaller to move left line right)
+vmin = [-35557.67809] # make smaller to move right line right (bigger to move right line left) For absorption shading
+vmax = [-39634.32016] # make bigger to move left line left (smaller to move left line right)
 
 colors_norm = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9'] #Colors the program will run through
 colors_dered = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9']
 
 #-- absorption shading: 'yes' to include. CURRENTLY DEPRECIATED, DOESN'T WORK
 CIV_abs = 'yes'
-NVabs = 'no'
+NVabs = 'yes'
 OVIabs = 'no'
-SiIVabs = 'no'
+SiIVabs = 'yes'
 Lyaabs = 'no'
 
 #Emission labels: 'yes' to include
@@ -58,7 +58,7 @@ n_list_dered = [3,3,3,3,3]
 
 error_diagnostics = True # Prints out the max error for each epoch, True or False
 
-norm_error_threshold = 0.2
+norm_error_threshold = 2025
 dered_error_threshold = 4
 
 if manual_ylim == 'yes': # Manually change ylim here
@@ -71,7 +71,7 @@ if manual_ylim == 'yes': # Manually change ylim here
     
 # Parameters to change the legend's location and size. Default is x = 0.58, y = 0.05 (norm and dered)
 legend_fontsize = 8
-norm_legend_xloc = 0.3
+norm_legend_xloc = 0.2
 dered_legend_xloc = 0.2
 norm_legend_yloc = 0.62
 dered_legend_yloc = 0.65
@@ -249,7 +249,7 @@ for i in range(len(norm_list)):
         flux[messed_up_error[0]]=0
     
     ay1.plot (wavelength, smooth(normflux,n),'-', color = colors_norm[i], label = 'MJD ' + mjd_norm_list[i], linewidth = 0.75)
-    ay1.plot (wavelength, error_normflux,'--') 
+    ay1.plot (wavelength, (smooth(error_normflux, n))/np.sqrt(n),'--') 
     ay1.plot([wavelength_observe1,wavelength_observe2],[1,1],'r--')
     ay1.legend(bbox_to_anchor = (norm_legend_xloc,norm_legend_yloc),loc = 'lower center',fontsize = legend_fontsize)
 
@@ -301,7 +301,7 @@ if OVIem == 'yes':
     ay1.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
     
 fig.tight_layout() 
-plt.savefig(os.getcwd() +  '/Documents/GitHub/DR16Q/VARIABILITY/DATA_VARIABILITY/' + quasardirec + quasardirecname + ' (Normalized)' + pp2, dpi=200)
+plt.savefig(os.getcwd() +  '/Documents/GitHub/DR16Q/VARIABILITY/DATA_VARIABILITY/' + quasardirec + quasardirecname + ' (Normalized)Expanded' + pp2, dpi=200)
 plt.show()
 
 ########################################################################################################################################################################################################################################
@@ -372,7 +372,7 @@ for i in range(len(dered_list)):
         flux[messed_up_error[0]]=0
     
     ay3.plot(wavelength, smooth(normflux,n),color = colors_norm[i], label = 'MJD ' + mjd_dered_list[i], linewidth = 0.75)
-    ay3.plot(wavelength, error_normflux, '--')
+    ay3.plot(wavelength, (smooth(error_normflux, n))/np.sqrt(n), '--')
     ay3.legend(bbox_to_anchor = (dered_legend_xloc,dered_legend_yloc),loc = 'lower center', fontsize = legend_fontsize)
 
 if manual_ylim == 'no':
@@ -424,4 +424,4 @@ if OVIem == 'yes':
 
 fig2.tight_layout()
 
-plt.savefig(os.getcwd() +  '/Documents/GitHub/DR16Q/VARIABILITY/DATA_VARIABILITY/' + quasardirec + quasardirecname +' (Dered)' + pp2, dpi=200)
+plt.savefig(os.getcwd() +  '/Documents/GitHub/DR16Q/VARIABILITY/DATA_VARIABILITY/' + quasardirec + quasardirecname +' (Dered)Expanded' + pp2, dpi=200)

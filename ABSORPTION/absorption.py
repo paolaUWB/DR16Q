@@ -73,13 +73,13 @@ boxcar_size = 11
 all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
-BALNICITY_INDEX_LIMIT = 1500
+BALNICITY_INDEX_LIMIT = 500
 
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 110
+STARTS_FROM, ENDS_AT = 1,108
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -94,9 +94,9 @@ want_csv = 'yes'
 ABSORPTION_VALUES = OUT_DIREC + "/" + 'BI' + str(BALNICITY_INDEX_LIMIT) + '.txt'
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BI' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BITest' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
 
-ABSORPTION_TABLE = OUT_DIREC + 'absorption_table_1-110_ALL_1500_Unsmoothed.csv'
+ABSORPTION_TABLE = OUT_DIREC + 'absorption_table_1-110_ALL_500_UnsmoothedTest.csv'
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################

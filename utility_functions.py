@@ -128,3 +128,54 @@ def read_spectra(spectra_data):
     error = spectra_data[:, column_index.error] 
     
     return [wavelength, flux, error]
+
+def correlate(Set, subset, data_to_match, inorder = False):
+    """
+    Reads in three lists, the larger Set list from which the subset list is derived, the subset, as well as the data set you want to match.
+    The code then searches Set values and checks to see if they match a value in the subset, if a value does match the index is saved to the list named 'matched'
+    The function then returns a new list that contains the values found in data_to_match that correspond to the saved indexies.
+    
+    For example: if we have a Set = [50,92,4] and a subset = [50,4] and data_to_match = [500,900,1000] then the program will return a list = [500,1000]
+    as these values are the data contained within data_to_match that are matched via Set and subset.
+    
+
+    Parameters
+    ----------
+    Set : list
+        The larger set, from which the subset is made up
+    subset : list
+        The subset of the larger Set list
+    data_to_match : list
+        The list of data you want to match
+    inorder : boolean, optional
+        This forces the function to only try to find matches at or above the current Set index. This means the program will no longer search the entire set to find a match for each value.
+        
+        For example: if we have a Set [50,92,4] and a subset = [4,50] and data to match = [500,900,1000] then the program will return a list = [1000] only.
+        
+
+    Returns
+    -------
+    sort : list
+        The matched data
+
+    """
+    matched = [] 
+    if inorder == True: # CURRENTLY BROKEN WORK ON IT MORE, currently searches only part of the subset, I want it to instead to search part of set (ones above j only)
+        for i in range(len(Set)):
+            for j in range(i, len(subset)):
+                if subset[j] == Set[i]:
+                    matched.append(i)
+    
+    
+    else:
+        for i in range(len(Set)): # Runs through all the 1.0 values and checks to see if they match a 0.9 value. If they do, save the index
+            for j in range(len(subset)):
+                if subset[j] == Set[i]:
+                    matched.append(i)
+    
+    sort = []  # New list containing 1.0 data that corresponds to 0.9 detections (like EW)
+    
+    for i in range(len(matched)):
+        sort.append(data_to_match[matched[i]])
+        # Repeat for each value (EW, depth, velocity, etc)
+    return sort

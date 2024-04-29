@@ -1,2 +1,1 @@
-1: spec-1589-52972-0430-dered.dr16
-GOOD FIT
+1: spec-0485-51909-0092-dered.dr16

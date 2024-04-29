@@ -11,6 +11,16 @@
 `overplot.py`
 - This file will go through a directory of directories and plot the spectra in each directory.
 
+### 'AutomatedOverplotFinal.py'
+- Updated version of the original prettyplot code.
+- Ability to plot multiple spectra at once
+- Automatic legend setting, naming, and color progression
+
+### 'parentsamplegraphredshift.py'
+- Used to create the parent sample graphs for the DR16, BALs, EHVOs, and the variability study
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Data File Organization
 
