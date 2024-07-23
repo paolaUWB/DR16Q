@@ -24,7 +24,6 @@ CIVRest    = 1549.0524
 SiIVRest   = 1396.747
 OIRest     = 1302.168
 
-
 start_time = time.time()
 
 Spectra = namedtuple("Spectra", ["plate", "mjd", "fiber"])
@@ -44,7 +43,13 @@ def extractSpectraTupleFromString(inputString):
 # pixel's error values. Points is the # of points checked, percentage is the min
 # percentage that has to be different
 '''
-def isSpectrumVariable(flux1, flux2, error, lineStartIdx, lineEndIdx, points, percentage):
+def isSpectrumVariable(flux1: np.ndarray, 
+                       flux2: np.ndarray, 
+					   error: np.ndarray, 
+					   lineStartIdx: float, 
+					   lineEndIdx: float, 
+					   points: int, 
+					   percentage: float) -> bool:
 	totalEvaluated = 0
 	totalDiff      = 0
 	MIN_PERCENTAGE = 0.6
@@ -62,9 +67,17 @@ def isSpectrumVariable(flux1, flux2, error, lineStartIdx, lineEndIdx, points, pe
 
 # assume indices correspond to spec1
 # returns:
-#       (isWeird, (I_01, I_02, I_1, I_2), bottomWavelength)
+#       (isWeird, (I_01, I_01, I_1, I_2), bottomWavelength)
 #types:  boolean  float float float float float
-def findStats(spec1flux, spec1wl, spec1error, spec2flux, spec2wl, spec2error, minWL, maxWL):
+# if isWeird is False, all other values default to 0.0
+def findStats(spec1flux: np.ndarray, 
+              spec1wl: np.ndarray, 
+			  spec1error: np.ndarray, 
+			  spec2flux: np.ndarray, 
+			  spec2wl: np.ndarray, 
+			  spec2error: np.ndarray, 
+			  minWL: float, 
+			  maxWL: float) -> tuple[bool, tuple[float, float, float, float], float]:
 	troughStartIdx = np.argmin(np.abs(minWL - spec1wl))
 	troughEndIdx = np.argmin(np.abs(maxWL - spec1wl))
 
@@ -81,7 +94,7 @@ def findStats(spec1flux, spec1wl, spec1error, spec2flux, spec2wl, spec2error, mi
 
 	if len(spec1flux) == 0:
 		print("ERROR: EMPTY FLUX ARRAY. TODO: TROUBLESHOOT")
-		return (False, (None, None, None, None), None)
+		return (False, (0, 0, 0, 0), 0)
 
 	# fluxes before the trough. TODO: Find a more sophisitcated way to calculate
 	# this
@@ -97,7 +110,7 @@ def findStats(spec1flux, spec1wl, spec1error, spec2flux, spec2wl, spec2error, mi
 #	print("spec2lowest: " + str(spec2lowest))
 	if spec1lowest + width <= spec2lowest or spec2lowest + width <= spec1lowest:
 		print("no intersection of minima")
-		return (False, (None, None, None, None))
+		return (False, (0, 0, 0, 0), 0)
 	
 	possibleMatchBegin = np.max((spec1lowest, spec2lowest))
 	possibleMatchEnd = np.min((spec1lowest, spec2lowest)) + width
@@ -122,7 +135,7 @@ def findStats(spec1flux, spec1wl, spec1error, spec2flux, spec2wl, spec2error, mi
 	highEnough  = np.logical_and(spec1flux > spec1error + MIN_TROUGH_CUTOFF, spec2flux > spec2error + MIN_TROUGH_CUTOFF)
 	# at least some of the points must be close enough, and all must be high enough
 	if np.all(closeEnough == False) or np.any(highEnough == False):
-		return (False, (None, None, None, None))
+		return (False, (0, 0, 0, 0), 0)
 
 	valid = np.logical_and(closeEnough, highEnough)
 
@@ -132,7 +145,7 @@ def findStats(spec1flux, spec1wl, spec1error, spec2flux, spec2wl, spec2error, mi
 	# isticated way to do this...
 	closestMatchIdx    = np.argmin(possibleMatchDiff[valid])
 	if min((spec1flux[valid])[closestMatchIdx], (spec2flux[valid])[closestMatchIdx]) < MIN_TROUGH_CUTOFF:
-		return (False, (None, None, None, None))
+		return (False, (0, 0, 0, 0), 0)
 
 
 	return (True, (I_01, I_02, (spec1flux[valid])[closestMatchIdx], (spec2flux[valid])[closestMatchIdx]), (spec1wl[valid])[closestMatchIdx])
@@ -162,6 +175,7 @@ spectraRedshifts= defaultdict(list) # z-values
 # we basically just extract each spectra's MJD, fiber, and plate. Then, we get
 # the absorption code's calculated start/end BAL region for this
 for index, row in df.iterrows():
+	print(str(row))
 	filename = row['NORM SPECTRA FILE NAME']
 	nums = re.findall('\d+', filename)
 	key = Spectra(plate=nums[0], mjd=nums[1], fiber=nums[2])
@@ -180,6 +194,7 @@ objectNames =      []
 specNum     = 0
 # we then look for repeated observations of BALs
 for index, duplicateRow in duplicatesDF.iterrows():
+	print("row")
 	duplicates = duplicateRow['duplicate_spectra'].split(",")
 	print(duplicates)
 	duplicates = list(map(extractSpectraTupleFromString, duplicates))
