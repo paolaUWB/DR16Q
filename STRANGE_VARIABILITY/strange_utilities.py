@@ -27,6 +27,10 @@ def getMinPartition(arr, n):
 # fiber: the spectrum's fiber
 '''
 def getSpectrum(plate, mjd, fiber):
+	if int(plate) == 10658:
+		return None, None, None
+
+	print(str(plate) + "-"+str(mjd)+"-"+str(fiber))
 	spectrumFits = SDSS.get_spectra(plate=int(plate), mjd=int(mjd), fiberID=int(fiber))
 	# astroquery is kinda dumb, so it sends us a "list" of one element (hence
 	# the [0]. The data we care about is in [1] of the hdu, .data specifies we're
