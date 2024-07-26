@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Rectangle
 import scipy.constants as sc
-
+from scipy.optimize import curve_fit
 
 MIN_TROUGH_CUTOFF = 0.0
 
@@ -49,6 +49,42 @@ def plotPotentialLines(figureAxis, SiIVMin, SiIVMax):
 	figureAxis.axvspan( CIIMin, CIIMax, color='blue', alpha=0.2)
 	figureAxis.axvspan( OIMin, OIMax, color='yellow', alpha=0.2)
 
+def powerlaw(wavelength, b, c):
+	""" Calculates the power law. 
+
+	Parameters
+	----------
+	wavelength: array
+	Comes from RangesData().    
+	b: int
+	Initial parameter of powerlaw. 
+	c: float
+	Initial parameter of powerlaw.
+
+	Returns
+	-------
+	array
+		Power law value in the form of an array.
+	"""
+	return b * (np.power(wavelength, c))
+
+
+
+def findParams(flux, wl, z):
+	RLF1 = (1250, 1350)
+	RLF2 = (1700, 1800)
+	RLF3 = (1950, 2200)
+
+	indices1 = np.logical_and(wl > RLF1[0]*(z+1), wl < RLF1[1]*(z+1))
+	indices2 = np.logical_and(wl > RLF2[0]*(z+1), wl < RLF2[1]*(z+1))
+	indices3 = np.logical_and(wl > RLF3[0]*(z+1), wl < RLF3[1]*(z+1))
+	
+	finalIndices = np.logical_or(np.logical_or(indices1, indices2), indices3)
+	pars, covar = curve_fit(powerlaw, wl[finalIndices], flux[finalIndices], p0=[1250, -0.5], maxfev=10000)
+	return pars
+
+
+
 # Generates a graph from the provided information
 # f1, wl1, e1: The flux, wavelength, and error values from the first observation
 # f2, wl2, e2: The flux, wavelength, and error values from the second observation
@@ -56,7 +92,7 @@ def plotPotentialLines(figureAxis, SiIVMin, SiIVMax):
 # bottomWavelength: Where the trough bottom is
 # z: The redshift of the quasar itself. This primarily comes from the expansion
 #    of the universe
-def graphMain(f1, wl1, e1, f2, wl2, e2, troughStart, troughEnd, bottomWavelength, z):
+def graphMain(f1, wl1, e1, f2, wl2, e2, troughStart, troughEnd, bottomWavelength, z, spec1, spec2):
 	outputFigure = plt.figure(1)
 	outputAxis   = outputFigure.add_subplot()
 	outputAxis.grid(visible=True)
@@ -79,8 +115,19 @@ def graphMain(f1, wl1, e1, f2, wl2, e2, troughStart, troughEnd, bottomWavelength
 	# add red line for arbitrary cutoff
 	outputAxis.plot(wl1[goodRange1], np.ones(len(wl1[goodRange1])) * MIN_TROUGH_CUTOFF, color='red', linestyle='dashed')
 
-	outputAxis.plot(wl1[goodRange1], f1[goodRange1], color='red') #label=str(spec1.plate)+"-"+str(spec1.mjd)+"-"+str(spec1.fiber))
-	outputAxis.plot(wl2[goodRange2], f2[goodRange2], color='navy') #label=str(spec2.plate)+"-"+str(spec2.mjd)+"-"+str(spec2.fiber))
+
+
+	outputAxis.plot(wl1[goodRange1], f1[goodRange1], color='red', label=str(spec1.plate)+"-"+str(spec1.mjd)+"-"+str(spec1.fiber))
+
+	outputAxis.plot(wl2[goodRange2], f2[goodRange2], color='navy', label=str(spec2.plate)+"-"+str(spec2.mjd)+"-"+str(spec2.fiber))
+
+	p1 = findParams(f1, wl1, z)
+	outputAxis.plot(wl1[goodRange1], powerlaw(wl1[goodRange1], *p1), color='xkcd:light orange', label='curve fit of ' + str(spec1.plate)+"-"+str(spec1.mjd)+"-"+str(spec1.fiber))
+
+	p2 = findParams(f2, wl2, z)
+	outputAxis.plot(wl2[goodRange1], powerlaw(wl2[goodRange1], *p2), color='xkcd:azure', label='curve fit of ' + str(spec2.plate)+"-"+str(spec2.mjd)+"-"+str(spec2.fiber))
+
+
 
 	plt.axvline(x=troughStart)
 	plt.axvline(x=troughEnd)

@@ -65,6 +65,7 @@ def isSpectrumVariable(flux1: np.ndarray,
 		totalEvaluated += 2
 	return totalDiff > (totalEvaluated * percentage)
 
+
 # assume indices correspond to spec1
 # returns:
 #       (isWeird, (I_01, I_01, I_1, I_2), bottomWavelength)
@@ -234,6 +235,10 @@ for specListIndex, spectraList in enumerate(duplicateSpectra):
 		for minWL, maxWL in zip(minWLIndices, maxWLIndices):
 			f1, wl1, e1 = getSpectrum(spectraList[0].plate, spectraList[0].mjd, spectraList[0].fiber)
 			f2, wl2, e2 = getSpectrum(spectraList[i].plate, spectraList[i].mjd, spectraList[i].fiber)
+
+			if f1 is None or f2 is None:
+				continue
+
 			f1, wl1, e1, f2, wl2, e2 =  intersectSpectra(f1, wl1, e1, f2, wl2, e2)
 
 			SNR1 = round(np.mean(f1/e1), 2)
@@ -245,7 +250,7 @@ for specListIndex, spectraList in enumerate(duplicateSpectra):
 			minError = np.min(np.row_stack((e1, e2)), axis=0)
 			lineStartIdx = int(np.argmin(np.abs(minWL - wl1)))
 			lineEndIdx   = int(np.argmin(np.abs(maxWL - wl1)))
-			if not isSpectrumVariable(f1, f2, minError, lineStartIdx, lineEndIdx, 30, 0.6):
+			if not isSpectrumVariable(f1, f2, minError, lineStartIdx, lineEndIdx, 20, 0.8):
 				print("spectrum not variable enough")
 				continue
 			
@@ -257,8 +262,9 @@ for specListIndex, spectraList in enumerate(duplicateSpectra):
 			if tmp[0] == True:
 				if GRAPH_RESULTS:
 					plt.clf()
-					generatedFig = graphMain(f1, wl1, e1, f2, wl2, e2, minWL, maxWL, tmp[2], redshift)
+					generatedFig = graphMain(f1, wl1, e1, f2, wl2, e2, minWL, maxWL, tmp[2], redshift, spectraList[0], spectraList[i])
 					generatedFig.gca().set_title(f"{idx}: {objectNames[specListIndex]} z={redshift} snr={str(round(min(SNR1, SNR2), 2))}")
+					generatedFig.gca().legend()
 					pp.savefig()
 				foundStrange = True
 				idx=idx+1
