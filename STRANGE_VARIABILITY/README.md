@@ -32,9 +32,20 @@ In VARIABILITY use make_directories.py to generate a list of repeated observatio
 `
 python make_directories.py ../ABSORPTION/OUTPUT_FILES/absorption_table.csv
 `
-## Executing find_weird_variability
-In this STRANGE_VARIABILITY, run
+## Executing find_weird_variability from command line
+In the STRANGE_VARIABILITY directory, run
 `
 python find_weird_variability.py ../ABSORPTION/OUTPUT_FILES/absorption_table.csv ../VARIABILITY/ehvo_duplicate_file.csv
 `
+
+## Executing find_weird_variability without command line
+If you can't run Python from the command line for whatever reason, hardcode the values of absorptionCsvFilename and duplicateCsvFilename. An example of this would be
+`
+absorptionCsvFilename = "absorption.csv"
+duplicateCsvFilename  = "../../examples/duplicates.csv"
+`
+## Notes
 If you want graphs to be generated, ensure that GRAPH_RESULTS is set to true
+
+# Common issues
+If you're not using version v0.4.7 of AstroQuery the program may be unable to download the spectra
