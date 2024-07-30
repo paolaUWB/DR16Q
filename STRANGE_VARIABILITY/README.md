@@ -40,10 +40,12 @@ python find_weird_variability.py ../ABSORPTION/OUTPUT_FILES/absorption_table.csv
 
 ## Executing find_weird_variability without command line
 If you can't run Python from the command line for whatever reason, hardcode the values of absorptionCsvFilename and duplicateCsvFilename. An example of this would be
-`
+
+```
 absorptionCsvFilename = "absorption.csv"
+
 duplicateCsvFilename  = "../../examples/duplicates.csv"
-`
+```
 ## Notes
 If you want graphs to be generated, ensure that GRAPH_RESULTS is set to true
 
