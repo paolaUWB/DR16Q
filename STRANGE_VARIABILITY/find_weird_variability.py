@@ -33,7 +33,7 @@ pp = PdfPages('test.pdf')
 '''
 # Takes a string like 6742-124359-0943 and converts it to a string tuple
 '''
-def extractSpectraTupleFromString(inputString):
+def extractSpectraTupleFromString(inputString: str) -> tuple[int, int, int]: # not sure how to do type hints with named tuples
 	nums = re.findall('\d+', inputString)
 	return Spectra(plate=nums[0], mjd=nums[1], fiber=nums[2])
 
@@ -250,7 +250,7 @@ for specListIndex, spectraList in enumerate(duplicateSpectra):
 			minError = np.min(np.row_stack((e1, e2)), axis=0)
 			lineStartIdx = int(np.argmin(np.abs(minWL - wl1)))
 			lineEndIdx   = int(np.argmin(np.abs(maxWL - wl1)))
-			if not isSpectrumVariable(f1, f2, minError, lineStartIdx, lineEndIdx, 20, 0.8):
+			if isSpectrumVariable(f1, f2, minError, lineStartIdx, lineEndIdx, 40, 0.8):
 				print("spectrum not variable enough")
 				continue
 			

@@ -26,7 +26,7 @@ def getMinPartition(arr, n):
 # mjd  : the spectrum's modified julian date, the day it was taken
 # fiber: the spectrum's fiber
 '''
-def getSpectrum(plate, mjd, fiber):
+def getSpectrum(plate: int, mjd: int, fiber: int) -> list[list[float], list[float], list[float]]:
 	if int(plate) == 10658:
 		return None, None, None
 

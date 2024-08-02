@@ -32,7 +32,7 @@ def displayPatch(figureAxis, x, y, start, length):
 
 # NOTE: SiIVMin < SiIVMax is assumed. undefined behavior otherwise
 '''
-def plotPotentialLines(figureAxis, SiIVMin, SiIVMax):
+def plotPotentialLines(figureAxis: any, SiIVMin: float, SiIVMax: float):
 	SiIVMinZ = (SiIVMin/SiIVRest) - 1.
 	SiIVMaxZ = (SiIVMax/SiIVRest) - 1.
 
@@ -49,7 +49,7 @@ def plotPotentialLines(figureAxis, SiIVMin, SiIVMax):
 	figureAxis.axvspan( CIIMin, CIIMax, color='blue', alpha=0.2)
 	figureAxis.axvspan( OIMin, OIMax, color='yellow', alpha=0.2)
 
-def powerlaw(wavelength, b, c):
+def powerlaw(wavelength: list[float], b: int, c: float):
 	""" Calculates the power law. 
 
 	Parameters
@@ -70,7 +70,7 @@ def powerlaw(wavelength, b, c):
 
 
 
-def findParams(flux, wl, z):
+def findParams(flux: list[float], wl: list[float], z: float) -> list[float]:
 	RLF1 = (1250, 1350)
 	RLF2 = (1700, 1800)
 	RLF3 = (1950, 2200)
@@ -92,7 +92,18 @@ def findParams(flux, wl, z):
 # bottomWavelength: Where the trough bottom is
 # z: The redshift of the quasar itself. This primarily comes from the expansion
 #    of the universe
-def graphMain(f1, wl1, e1, f2, wl2, e2, troughStart, troughEnd, bottomWavelength, z, spec1, spec2):
+def graphMain(f1: list[float], 
+              wl1: list[float], 
+              e1: list[float], 
+              f2: list[float], 
+ 			  wl2: list[float], 
+			  e2: list[float], 
+              troughStart: float, 
+              troughEnd: float, 
+              bottomWavelength: float, 
+              z: float, 
+              spec1: str, 
+              spec2: str) -> any:
 	outputFigure = plt.figure(1)
 	outputAxis   = outputFigure.add_subplot()
 	outputAxis.grid(visible=True)
