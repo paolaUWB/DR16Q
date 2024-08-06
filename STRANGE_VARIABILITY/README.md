@@ -50,4 +50,4 @@ duplicateCsvFilename  = "../../examples/duplicates.csv"
 If you want graphs to be generated, ensure that GRAPH_RESULTS is set to true
 
 # Common issues
-If you're not using version v0.4.7 of AstroQuery the program may be unable to download the spectra
+This program only works with versions of astroquery which are >= 0.4.7 . At the time of writing this, Conda's package for astroquery is at version 0.4.6, so you will need to install it with pip
