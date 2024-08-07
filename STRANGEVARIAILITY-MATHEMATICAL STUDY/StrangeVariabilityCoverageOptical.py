@@ -30,10 +30,10 @@ If there is going to be anything added, make sure that it is being added here
 '''
 
 
-graph = 'No'
+graph = 'Yes'
 
 #yes = saving figures to CovOpt_Plots folder
-save_figs = 'no'
+save_figs = 'yes'
 
 start_time = time.time()
 
@@ -118,7 +118,7 @@ data_alpha.to_csv(alpha_out_filename,index =False)
 
 
 if graph == 'Yes':
-    svp.Cf_grapher(data)
+    svp.Cf_tau_grapher(data)
     
 
 

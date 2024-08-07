@@ -94,25 +94,6 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
     tau = np.arange(0.1,5,0.1)
     ttau = -1 * tau
 
-
-    template = data #for now
-
-    if alpha_group == 'yes':
-        for i in range(len(template)):
-            temp_cf1 = template.Obs_Cf1[i]
-            for k in range(len(temp_cf1)):
-#                plt.plot(tau, temp_cf1[k], color=[0,0.5,1-k])
-                plt.plot(tau, template.Obs_Cf1[i][k], color = [0,0.5,1-i] )
-        
-        for k in range(len(template)):
-            plt.plot(tau, template.Spec_Cf1[k], 'r')
-
-
-
-
-                  
-        
-        
     
     graph_time = []
     total_time_start = time.time()    
@@ -145,15 +126,15 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         
         
         #Setting up plots
-        fig = plt.figure(figsize = (12,5))
+        fig = plt.figure(figsize = (12,6))
         
-        plt.suptitle(row['objectName'] + r' $\alpha$ = ' + str(alpha))
+        plt.suptitle(row['objectName'] + r' $\alpha$ = ' + str(alpha), fontsize=20)
         
         plt.subplot(1,2,1)
-        plt.title(r'$C_{f1}$' + ' vs. ' + r'$\tau$')
+        plt.title(r'$C_{f1}$' + ' vs. ' + r'$\tau$',fontsize=16)
         
         plt.subplot(1,2,2)
-        plt.title(r'$C_{f2}$' + ' vs. ' + r'$\tau$')
+        plt.title(r'$C_{f2}$' + ' vs. ' + r'$\tau$',fontsize=16)
         
         
         if row['I01'] < row['I02']:
@@ -161,8 +142,8 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
             subplt2 = 2
             alpha_eqn = r"; $I_{o1} = \alpha I_{o2}$"
         else:
-            subplt1 = 2
-            subplt2 = 1
+            subplt1 = 1
+            subplt2 = 2
             alpha_eqn = r"; $I_{o2} = \alpha I_{o1}$"
         
         
@@ -186,12 +167,12 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         
         #Minimum Optical Depth
         plt.plot([mintau,mintau],[0,1],'r--')
-        plt.text(mintau-1,-0.1,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
+        plt.text(mintau-1,-0.15,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
         
-        #Graph Text
-        plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.7))
-        plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
-        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+ alpha_eqn,bbox=dict(facecolor='white', alpha=0.7))
+        # #Graph Text
+        # plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.5))
+        # plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
+        # plt.text(3,0.05,r"$\alpha =$"+str(alpha)+ alpha_eqn,bbox=dict(facecolor='white', alpha=0.5))
         
         #Plotting the Cf2 vs tau graph
         plt.subplot(1,2,2)
@@ -210,12 +191,12 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         
         #Minimum Optical Depth
         plt.plot([mintau,mintau],[0,1],'r--')
-        plt.text(mintau-1,-0.1,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
+        plt.text(mintau-1,-0.15,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
         
-        #Graph Text
-        plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.7))
-        plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
-        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+r"; $I_{o1} = \alpha I_{o2}$",bbox=dict(facecolor='white', alpha=0.7))
+        # #Graph Text
+        # plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.2))
+        # plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
+        # plt.text(3,0.05,r"$\alpha =$"+str(alpha)+r"; $I_{o1} = \alpha I_{o2}$",bbox=dict(facecolor='white', alpha=0.2))
         
         Cf = 0.1
         
@@ -234,8 +215,10 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
             Cf = round(Cf + 0.1, 1)
         
         
-        fig.legend(loc = 'outside upper left')
+        fig.legend(loc = 'outside upper right', fontsize= 14,bbox_to_anchor=(1.107,0.85))
         
+        
+        plt.tight_layout()
         
         g_time = round(time.time() - time_start,2)
         graph_time.append(g_time)
@@ -251,10 +234,10 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
                 prev_num = 0
         
         if row['save_fig'] == 'yes':
-            #plt.savefig(os.getcwd() + '/CovOpt_Plots/a=' + str(alpha) + '(' + str(prev_num) + ')' + '.png',dpi = 350)
-            plt.savefig(os.getcwd() + 'OUTPUT_FILES/alpha_plots/a=' + str(alpha) + '(' +str(prev_num) + ').png',dpi = 350)            
+            plt.savefig(os.getcwd() + '/OutputFiles/CovOpt_Plots/' + str(row.objectName) + '(' + str(prev_num) + ')' + '.png',dpi = 350,bbox_inches = 'tight')
+            plt.savefig(os.getcwd() + '/OutputFiles/CovOpt_Plots/AlphaSorted/a=' + str(alpha) + '(' +str(prev_num) + ').png',dpi = 350,bbox_inches = 'tight')            
         elif alpha_group == 'yes':
-            plt.savefig(os.getcwd() + 'OUTPUT_FILES/Grouped Alpha/a=' + str(alpha) + '.png', dpi = 350)
+            plt.savefig(os.getcwd() + '/OutputFiles/Grouped Alpha/a=' + str(alpha) + '.png', dpi = 350)
         
         plt.clf()
         
