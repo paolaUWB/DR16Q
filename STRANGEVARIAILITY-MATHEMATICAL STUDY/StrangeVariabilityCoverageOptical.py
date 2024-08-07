@@ -45,7 +45,7 @@ filename = os.getcwd() + '/CSV Files/out.csv'
 #Name of file being saved to
 #out_filename = 'Alpha_Template.csv'
 out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculations.csv'
-
+alpha_out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculationsAlphaSort.csv'
 #Makes a dataframe of all the data from csv using PANDAS
 og_data = pd.read_csv(filename)
 
@@ -113,7 +113,8 @@ data['save_fig'] = save_figs
 data_alpha = data.sort_values(by = ['alpha'])
 data_alpha.reset_index(inplace = True, drop = True)
 
-data_alpha.to_csv(out_filename,index =False)
+data.to_csv(out_filename, index=False)
+data_alpha.to_csv(alpha_out_filename,index =False)
 
 
 if graph == 'Yes':
