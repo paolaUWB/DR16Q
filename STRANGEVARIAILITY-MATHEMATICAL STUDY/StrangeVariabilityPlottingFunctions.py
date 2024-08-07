@@ -176,7 +176,7 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         plt.ylim(0,1)
         plt.xlim(-0.95,5)
         
-        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+alpha_eqn,bbox=dict(facecolor='white', alpha=0.7))
+
         
         #Observational Data/Solution Cf1
         plt.plot(tau,Spectral_Cf1,color = 'r')
@@ -188,6 +188,10 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         plt.plot([mintau,mintau],[0,1],'r--')
         plt.text(mintau-1,-0.1,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
         
+        #Graph Text
+        plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.7))
+        plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
+        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+ alpha_eqn,bbox=dict(facecolor='white', alpha=0.7))
         
         #Plotting the Cf2 vs tau graph
         plt.subplot(1,2,2)
@@ -198,7 +202,6 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         plt.ylim(0,1)
         plt.xlim(-0.95,5)
         
-        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+alpha_eqn,bbox=dict(facecolor='white', alpha=0.7))
         
         #Observation Data/Solution
         plt.plot(tau,Spectral_Cf2,color = 'r')
@@ -209,6 +212,10 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         plt.plot([mintau,mintau],[0,1],'r--')
         plt.text(mintau-1,-0.1,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
         
+        #Graph Text
+        plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.7))
+        plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
+        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+r"; $I_{o1} = \alpha I_{o2}$",bbox=dict(facecolor='white', alpha=0.7))
         
         Cf = 0.1
         
