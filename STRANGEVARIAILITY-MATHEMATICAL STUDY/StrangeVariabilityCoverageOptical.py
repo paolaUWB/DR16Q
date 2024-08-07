@@ -123,7 +123,7 @@ if graph == 'Yes':
 
 
 prog_time = time.time() - start_time
-print('Program Finished\n Took: ' + str(prog_time) + ' seconds')
+print('Program Finished\n Took: ' + str(prog_time) + ' seconds, or ' + str(round(prog_time/60,2)) + ' minutes')
 
 
     #Start figuring a way to move the legend per case so that we are not 
