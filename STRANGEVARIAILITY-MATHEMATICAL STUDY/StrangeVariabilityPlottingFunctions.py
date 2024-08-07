@@ -284,57 +284,42 @@ def alpha_group_grapher(data):
     
     
     #Setting up data
-    testing = 'no'
     template_file = 'CSV Files/Alpha_Template.csv'
     data_alpha = data.sort_values(by = ['alpha'])
     template = pd.read_csv(template_file)
-    #print(template.iloc[0])
+
     print('Total Number of Detections: ' + str(len(data_alpha)))
     
     #initiallizing Variables/Lists
-     
     total_Cf1_obs = [] #The Total List of lists of Cf1 observational Data
     total_Cf2_obs = [] #the Total List of lists of Cf2 Observational Data
     
     
     #Iterating through the template dataframe rows 
     for index, row in template.iterrows():
-        #print(row['alpha'])
+        
+        #Creating an interval and conditions fitting that interval
         print('alpha interval: [' + str(round(row['alpha'] - 0.05,2)) + ',' + str(round(row['alpha'] + 0.05,2)) + ')')
         cond1 = data_alpha['alpha'] >= round(row['alpha'] - 0.05,2)
         cond2 = data_alpha['alpha'] < round(row['alpha'] + 0.05,2)
         
+        #Making a dataframe that contains all of the detections within the conditions/interval
         data_iv = data_alpha.loc[(cond1) & (cond2)] 
-        
-        data_iv.reset_index(inplace = True, drop = True) #data frame containing all rows in conditions
-        
         print('Number of alpha values in interval: ' + str(len(data_iv)))
-        
-        temp_obs_Cf1 = data_iv.Spec_Cf1.squeeze()
-
-        temp_obs_Cf2 = data_iv.Spec_Cf2.squeeze()
 
         #Adds each of the spec_cf1/Cf2 into list 
-        total_Cf1_obs.append(temp_obs_Cf1)
-        
-        total_Cf2_obs.append(temp_obs_Cf2)
-
-        if testing == 'yes':
-           print(data_iv['alpha'])
-           print('Length of obs_Cf1: ' + str(len(data_iv.Spec_Cf1)))
-           print('Length of obs_Cf2: ' + str(len(data_iv.Spec_Cf2)))       
-           print('data_iv_Cf1 index 0: ' + str(data_iv.Spec_Cf1.iloc[0]))  
-           print('total_Cf1_obs Test [0]:')
-           print(total_Cf1_obs[0])          
+        total_Cf1_obs.append(data_iv.Spec_Cf1.squeeze())
+        total_Cf2_obs.append(data_iv.Spec_Cf2.squeeze())
+       
            
         print('Number of lists in template dataframe (should be ' + str(index + 1) + ' total): ' + str(len(total_Cf1_obs)))
         
-        
+    #Saving list of series into the template dataframe that will go to the graphing function
     template['obs_Cf1'] = total_Cf1_obs
     template['obs_Cf2'] = total_Cf2_obs
 
-    #Cf_tau_grapher(template,'yes')
-    #return template,total_Cf1_obs
+    Cf_tau_grapher(template,'yes')
+
     
 def alpha_Testing(I01, I02, I1, I2, Sv1, Sv2, Spectral_Cf1, Spectral_Cf2, graph):
     """
