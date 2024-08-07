@@ -262,6 +262,7 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
           str(round(time.time() - total_time_start,2)) + ' seconds')
     
     
+    
 def alpha_group_grapher(data):
     """
     This function takes in a dataframe of detections with calculations and 
@@ -288,7 +289,7 @@ def alpha_group_grapher(data):
     data_alpha = data.sort_values(by = ['alpha'])
     template = pd.read_csv(template_file)
     #print(template.iloc[0])
-    
+    print('Total Number of Detections: ' + str(len(data_alpha)))
     
     #initiallizing Variables/Lists
      
@@ -307,61 +308,33 @@ def alpha_group_grapher(data):
         
         data_iv.reset_index(inplace = True, drop = True) #data frame containing all rows in conditions
         
-        data_iv_Cf1 = data_iv.Spec_Cf1 #Gives a series of just the Spec_Cf1
-        data_iv_Cf2 = data_iv.Spec_Cf2 #Gives a series of just the Spec_Cf2
         print('Number of alpha values in interval: ' + str(len(data_iv)))
         
-        temp_Cf1_obs = np.zeros(len(data_iv))#The sublist of total_Cf1_obs
-        temp_Cf2_obs = np.zeros(len(data_iv))#The sublist of total_Cf2_obs
-        
-        
-        print('Trying data["column"].squeeze()')
         temp_obs_Cf1 = data_iv.Spec_Cf1.squeeze()
-        print('Squeezed obs_Cf1:')
-        print(temp_obs_Cf1)
-        temp_obs_Cf2 = data_iv.Spec_Cf2.squeeze()
-        #print(temp_obs_Cf2)
-        
-        #For loop to fill temp_Cf1 with each Spec_Cf1 in each detection within interval
-        # for index,rows in data_iv.iterrows():
-        #     print('Start Filling Obs Data: \nIndex: ' + str(index))
-        #     print('Current Row: ')
-        #     print(row)
-        #     temp_Cf1_obs[index] = rows.Spec_Cf1
-        #     temp_Cf2_obs[index] = rows.Spec_Cf2
-        #for row in data_iv:
-            #saves row[]  to whatever
-        
-        #Problem that is coming from this:
-            #when applying temp_Cf1_obs to total_Cf1_obs, the entire list is being
-            #applied to each of the indexes for the total, which is incorrect.
-            #What should be happening, is each row has only so many observational
-            #data, so it should only have 3 (index = 0) in the first index, and such for the 
-            #rest. 
-        
-        #Adds each of the spec_cf1/Cf2 into list 
-        total_Cf1_obs.append(temp_Cf1_obs)
-        print('Number of Lists in total_Cf1: ' + str(len(total_Cf1_obs)))
-        total_Cf2_obs.append(temp_Cf2_obs)
 
-        #temp_Cf1_obs.clear()
-        #temp_Cf2_obs.clear()
+        temp_obs_Cf2 = data_iv.Spec_Cf2.squeeze()
+
+        #Adds each of the spec_cf1/Cf2 into list 
+        total_Cf1_obs.append(temp_obs_Cf1)
+        
+        total_Cf2_obs.append(temp_obs_Cf2)
 
         if testing == 'yes':
            print(data_iv['alpha'])
-           print('Length of obs_Cf1: ' + str(len(data_iv_Cf1)))
-           print('Length of obs_Cf2: ' + str(len(data_iv_Cf2)))       
-           print('data_iv_Cf1 index 0: ' + str(data_iv_Cf1.iloc[0]))  
+           print('Length of obs_Cf1: ' + str(len(data_iv.Spec_Cf1)))
+           print('Length of obs_Cf2: ' + str(len(data_iv.Spec_Cf2)))       
+           print('data_iv_Cf1 index 0: ' + str(data_iv.Spec_Cf1.iloc[0]))  
            print('total_Cf1_obs Test [0]:')
            print(total_Cf1_obs[0])          
-
-    print(len(total_Cf1_obs))
+           
+        print('Number of lists in template dataframe (should be ' + str(index + 1) + ' total): ' + str(len(total_Cf1_obs)))
+        
+        
     template['obs_Cf1'] = total_Cf1_obs
     template['obs_Cf2'] = total_Cf2_obs
-    #print(template)
-    #print(template.obs_Cf1)
+
     #Cf_tau_grapher(template,'yes')
-    return template,total_Cf1_obs
+    #return template,total_Cf1_obs
     
 def alpha_Testing(I01, I02, I1, I2, Sv1, Sv2, Spectral_Cf1, Spectral_Cf2, graph):
     """
