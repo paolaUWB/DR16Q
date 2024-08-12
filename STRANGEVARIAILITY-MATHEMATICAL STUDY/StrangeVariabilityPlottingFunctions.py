@@ -12,6 +12,12 @@ import os
 #import StrangeVariabilityCalculationFunctions as svc
 import time
 
+def string_to_flt_list(str_list):
+    
+    flt_list = []
+    
+    return flt_list
+
 def visualize(data,xaxis,yaxis, graph_num = 0): #In Progress, and more of a test than an actual function to be used
     """
     
@@ -71,50 +77,44 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
     None.
 
     """
+    #Starts recording the time it takes to run the program entirely
+    graph_time = []
+    total_time_start = time.time()      
+
+
+    #saving files/paths
+    file_out = os.getcwd() + '/OutputFiles/CovOpt_Plots/'
+    alpha_plot_out = os.getcwd() + '/OutputFiles/CovOpt_Plots/AlphaSorted/a='
+    alpha_group_out = os.getcwd() + '/OutputFiles/Grouped Alpha/a='
     
-    #Whenever alpha_group is yes, itll take the template dataframe that we pass into it
-    # then will plot the basic solutions of the detections, but none of the dotted lines
-    #
-    #
-    #if alpha_group == yes:
-    #   then it will prevent the plotting of the dotted lines (minimum values) and start plotting all of the 
-    #   lists within the list of the observational data from the template df. ie. 
-# =============================================================================
-#             if alpha_group == 'yes':
-#                 for index in range(len(row.Obs)):
-#                     plt.plot(tau, row['Obs'][index])
-#             else:
-#                 plt.plot(dotted lines and all comes with it)
-# =============================================================================
-    
-
-
-
-
+    #Variable initialization
     tau = np.arange(0.1,5,0.1)
     ttau = -1 * tau
-
-    
-    graph_time = []
-    total_time_start = time.time()    
-    
-    
-    #alpha, mintau, Sv1, Sv2, Spectral_value_Cf2Cf1, Spectral_Cf1, Spectral_Cf2 =svc.min_value_finder(I01, I02, I1, I2, prev_num)
-
-    
-    num = 1
     prev_num = 0
-    #Goes through each of the 
+    prev_alpha = 0
+    num = 1
+    #Colors for the grouping 
+# =============================================================================
+#     pickle = [0,0.2,0]
+#     obs_colors = [0,51 - index/10,0]
+#     It would be sik af if we can get the color of the observation to be determined based on the closeness of the midpoint of the interval
+#       color = [0.8,0,0.8 * obs_alpha/alpha] Red initial
+#       
+# =============================================================================
+    
+################################################################################################################################################### 
+    #Starts iterating through each of the dataframe rows
     for index, row in data.iterrows():
         time_start = time.time()
         
+        #Makes sure that the I0's are not equal/ alpha = 1
         if row['I01'] == row['I02']:
             continue
         
         
         print('Plotting: ' + row['objectName'])
         
-        #Initializing
+        #Inner Initialization
         alpha = row['alpha']
         inv_alpha = 1 / alpha
         Spectral_Cf1 = row['Spec_Cf1']
@@ -124,122 +124,176 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         Sv2 = row['minCov2']
         mintau = row['minOpt']  
         
+       
+        #Setting up plots for both subplots
         
-        #Setting up plots
-        fig = plt.figure(figsize = (12,6))
+        #Figure Size
+        fig = plt.figure(figsize = (12,5))        
         
-        plt.suptitle(row['objectName'] + r' $\alpha$ = ' + str(alpha), fontsize=20)
-        
-        plt.subplot(1,2,1)
-        plt.title(r'$C_{f1}$' + ' vs. ' + r'$\tau$',fontsize=16)
-        
-        plt.subplot(1,2,2)
-        plt.title(r'$C_{f2}$' + ' vs. ' + r'$\tau$',fontsize=16)
-        
-        
-        if row['I01'] < row['I02']:
-            subplt1 = 1
-            subplt2 = 2
-            alpha_eqn = r"; $I_{o1} = \alpha I_{o2}$"
+        #Sets title of plot
+        if alpha_group == 'yes':
+            if isinstance(row.obs_Cf1, np.ndarray):
+                detect = 1
+            else:
+                detect = len(row.obs_Cf1)
+            
+            plt.suptitle(r' $\alpha$ = ' + str(alpha) + ' with ' + str(detect) + ' detections')
         else:
-            subplt1 = 1
-            subplt2 = 2
-            alpha_eqn = r"; $I_{o2} = \alpha I_{o1}$"
+            plt.suptitle(row['objectName'] + r' $\alpha$ = ' + str(alpha))
         
+        #Subplot 1 Settings
+        plt.subplot(1,2,1)
+        plt.title(r'$C_{f1}$' + ' vs. ' + r'$\tau$')
+        plt.ylabel(r'$C_{f1}$')
+        plt.xlabel(r'$\tau$')
+        plt.ylim(0,1)
+        plt.xlim(-0.95,5)
+        
+        #Subplot 2 Settings
+        plt.subplot(1,2,2)
+        plt.title(r'$C_{f2}$' + ' vs. ' + r'$\tau$')
+        plt.ylabel(r'$C_{f2}$')
+        plt.xlabel(r'$\tau$')
+        plt.ylim(0,1)
+        plt.xlim(-0.95,5)      
+        
+        #Not really necessary but I am too lazy to change the variable names
+        subplt1 = 1
+        subplt2 = 2
+        
+        #Sets the equation used to get the alpha value
+        if row['I01'] < row['I02']:
+            alpha_eqn = r"; $I_{o1} = \alpha I_{o2}$"
+            
+        else:
+            alpha_eqn = r"; $I_{o2} = \alpha I_{o1}$"  
+                
+        #Starting solution sets of coverage fraction vs tau
+        Cf = 0.1 #control coverage fraction value
+            
+        for index in range(1,11): #The numbers in range determine how many solution sets are shown
+                
+        
+            plt.subplot(1,2,subplt1)
+            Cf1 = alpha * Cf + (alpha - 1)/(np.exp(ttau)-1)
+                
+            plt.plot(tau, Cf1,label = r'$C_{f}$=' + str(Cf), color = [0.05,0.6,index/10.])
+                
+            plt.subplot(1,2,subplt2)
+            Cf2 = inv_alpha * Cf + (inv_alpha - 1)/(np.exp(ttau)-1)
+                
+            plt.plot(tau, Cf2, color = [0.05,0.6,index/10.])
+                
+            Cf = round(Cf + 0.1, 1)
+            
+        
+        fig.legend(loc = 'outside upper left')
+        
+        #print('Finshed Cf_tau lines on ' + row.objectName)
+        
+        if alpha_group == 'yes':
+            #starts iterating through data frame to look into each indexes set of lists
+            
+            if len(row.obs_Cf1) == 0:
+                                 #print('The interval ' + str(row['alpha']) + ' +- 0.05 is empty')
+                                 continue
+                             
+                                
+            if isinstance(row.obs_Cf1, np.ndarray):
+                    #print('temp_cf1 is an array')
+                    #print('tau length: ' + str(len(tau)) + ', temp_cf1 length: ' + str(len(row.obs_Cf1) ))
+                    
+                    plt.subplot(1,2,1)
+                    plt.plot(tau, row.obs_Cf1, color = [0.8,0,0.8])
+
+                    plt.subplot(1,2,2)
+                    plt.plot(tau, row.obs_Cf2, color = [0.8,0,0.8]) 
+            
+            elif isinstance(row.obs_Cf1, pd.Series):
+                    #print('temp_cf1 is a Series')
+                    
+                    #iterates through each of the lists inside of the series
+                    for k in range(len(row.obs_Cf1)): 
+
+                        if alpha > row.obs_alpha.iloc[k]:
+                            alp_ratio = row.obs_alpha.iloc[k]/alpha
+                            
+                        else:
+                            alp_ratio = alpha/row.obs_alpha.iloc[k]
+                        
+                        if k == 0:
+                            print(alp_ratio)
+                        
+                        blue = 0.8 * np.abs(alpha - row.obs_alpha.iloc[k]) * 20
+                        
+                        plt.subplot(1,2,1)    
+                        plt.plot(tau, row.obs_Cf1.iloc[k], color = [0.8,0,blue])
+                        
+                        plt.subplot(1,2,2) 
+                        plt.plot(tau, row.obs_Cf2.iloc[k], color = [0.8,0,blue])
+                       
+    
+        else: 
+            #Observational Data/Solution Cf1
+            plt.subplot(1,2,1)
+            plt.plot(tau,Spectral_Cf1,color = 'r')
+            plt.plot([-0.95,5],[Sv1,Sv1],'r--')
+            plt.text(2.8,Sv1-0.05,r'$C_{f1}(1-e^{- \tau})=$' + str(Sv1),color='r',fontsize=10)
+       
+            plt.subplot(1,2,2)
+            #Observation Data/Solution Cf2
+            plt.plot(tau,Spectral_Cf2,color = 'r')
+            plt.plot([-0.95,5],[Sv2,Sv2], 'r--')
+            plt.text(2.8,Sv2-0.05,r'$C_{f2}(1-e^{- \tau})=$' + str(Sv2),color='r',fontsize=10)
+                    
+            
+            #Minimum Optical Depth
+            plt.plot([mintau,mintau],[0,1],'r--')
+            plt.text(mintau-1,-0.1,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
+                   
+           
+            #Minimum Optical Depth
+            plt.plot([mintau,mintau],[0,1],'r--')
+            plt.text(mintau-1,-0.1,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
         
         
         #Plotting the Cf1 vs tau graph
         plt.subplot(1,2,1)
-        
-        plt.ylabel(r'$C_{f1}$')
-        plt.xlabel(r'$\tau$')
-        
-        plt.ylim(0,1)
-        plt.xlim(-0.95,5)
-        
-
-        
-        #Observational Data/Solution Cf1
-        plt.plot(tau,Spectral_Cf1,color = 'r')
-        plt.plot([-0.95,5],[Sv1,Sv1],'r--')
-        plt.text(2.8,Sv1-0.05,r'$C_{f1}(1-e^{- \tau})=$' + str(Sv1),color='r',fontsize=10)
-        
-        
-        #Minimum Optical Depth
-        plt.plot([mintau,mintau],[0,1],'r--')
-        plt.text(mintau-1,-0.15,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
-        
-        # #Graph Text
-        # plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.5))
-        # plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
-        # plt.text(3,0.05,r"$\alpha =$"+str(alpha)+ alpha_eqn,bbox=dict(facecolor='white', alpha=0.5))
-        
+        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+alpha_eqn,bbox=dict(facecolor='white', alpha=0.6))
+    
+    
+    
         #Plotting the Cf2 vs tau graph
-        plt.subplot(1,2,2)
-        
-        plt.ylabel(r'$C_{f2}$')
-        plt.xlabel(r'$\tau$')
-        
-        plt.ylim(0,1)
-        plt.xlim(-0.95,5)
+        plt.subplot(1,2,2)        
+        plt.text(3,0.05,r"$\alpha =$"+str(alpha)+alpha_eqn,bbox=dict(facecolor='white', alpha=0.6))
+    
         
         
-        #Observation Data/Solution
-        plt.plot(tau,Spectral_Cf2,color = 'r')
-        plt.plot([-0.95,5],[Sv2,Sv2], 'r--')
-        plt.text(2.8,Sv2-0.05,r'$C_{f2}(1-e^{- \tau})=$' + str(Sv2),color='r',fontsize=10)
-        
-        #Minimum Optical Depth
-        plt.plot([mintau,mintau],[0,1],'r--')
-        plt.text(mintau-1,-0.15,r"mintau= "+str(round(mintau,2)),color = 'r',fontsize=12)
-        
-        # #Graph Text
-        # plt.text(3,0.19,r"$C_{f2}- \alpha C_{f1} = \frac{\alpha - 1}{e^{- \tau}-1}$",bbox=dict(facecolor='white', alpha=0.2))
-        # plt.text(3,0.12,r"assume $\tau_1 = \tau_2$")
-        # plt.text(3,0.05,r"$\alpha =$"+str(alpha)+r"; $I_{o1} = \alpha I_{o2}$",bbox=dict(facecolor='white', alpha=0.2))
-        
-        Cf = 0.1
-        
-        for index in range(1,11): #The numbers in range determine how many solution sets are shown
-            
-            plt.subplot(1,2,subplt1)
-            Cf1 = alpha * Cf + (alpha - 1)/(np.exp(ttau)-1)
-            
-            plt.plot(tau, Cf1,label = r'$C_{f}$=' + str(Cf), color = [0.05,0.6,index/10.])
-            
-            plt.subplot(1,2,subplt2)
-            Cf2 = inv_alpha * Cf + (inv_alpha - 1)/(np.exp(ttau)-1)
-            
-            plt.plot(tau, Cf2, color = [0.05,0.6,index/10.])
-            
-            Cf = round(Cf + 0.1, 1)
-        
-        
-        fig.legend(loc = 'outside upper right', fontsize= 14,bbox_to_anchor=(1.107,0.85))
-        
-        
-        plt.tight_layout()
         
         g_time = round(time.time() - time_start,2)
         graph_time.append(g_time)
         print('Plot took ' + str(g_time) + ' seconds')
         
-        #plt.show()
+    
+        if prev_alpha == alpha:
+            prev_num += 1
+        else:
+            prev_num = 0
         
         
-        if index != 0:
-            if data.iloc[index - 1]['alpha'] == alpha:
-                prev_num += 1
+        prev_alpha = alpha
+        
+        
+        if row['save_fig'] == 'yes':            
+            
+            if alpha_group == 'yes':
+                plt.savefig(alpha_group_out + str(alpha) + '.png', dpi = 350)
+                plt.show()
             else:
-                prev_num = 0
+                plt.savefig(file_out + row.objectName + '.png',dpi = 350)
+                plt.savefig(alpha_plot_out + str(alpha) + '(' +str(prev_num) + ').png',dpi = 350)
         
-        if row['save_fig'] == 'yes':
-            plt.savefig(os.getcwd() + '/OutputFiles/CovOpt_Plots/' + str(row.objectName) + '(' + str(prev_num) + ')' + '.png',dpi = 350,bbox_inches = 'tight')
-            plt.savefig(os.getcwd() + '/OutputFiles/CovOpt_Plots/AlphaSorted/a=' + str(alpha) + '(' +str(prev_num) + ').png',dpi = 350,bbox_inches = 'tight')            
-        elif alpha_group == 'yes':
-            plt.savefig(os.getcwd() + '/OutputFiles/Grouped Alpha/a=' + str(alpha) + '.png', dpi = 350)
-        
-        plt.clf()
+                plt.clf()
         
 
 
@@ -271,46 +325,55 @@ def alpha_group_grapher(data):
     
     """
     
+    #We might need to add a variable that will let us change the interval size due to detection rate at 
+    #specific intervals. IE, if only one in a range then change the interval
     
     
     #Setting up data
-    template_file = 'CSV Files/Alpha_Template.csv'
+    template_file = 'CSV Files/Alpha_Template.pkl'
+    
     data_alpha = data.sort_values(by = ['alpha'])
-    template = pd.read_csv(template_file)
-
+    template = pd.read_pickle(template_file)
+    
     print('Total Number of Detections: ' + str(len(data_alpha)))
     
     #initiallizing Variables/Lists
     total_Cf1_obs = [] #The Total List of lists of Cf1 observational Data
     total_Cf2_obs = [] #the Total List of lists of Cf2 Observational Data
+    obs_alpha = []
     
     
     #Iterating through the template dataframe rows 
     for index, row in template.iterrows():
         
         #Creating an interval and conditions fitting that interval
-        print('alpha interval: [' + str(round(row['alpha'] - 0.05,2)) + ',' + str(round(row['alpha'] + 0.05,2)) + ')')
+        #print('alpha interval: [' + str(round(row['alpha'] - 0.05,2)) + ',' + str(round(row['alpha'] + 0.05,2)) + ')')
         cond1 = data_alpha['alpha'] >= round(row['alpha'] - 0.05,2)
         cond2 = data_alpha['alpha'] < round(row['alpha'] + 0.05,2)
         
         #Making a dataframe that contains all of the detections within the conditions/interval
-        data_iv = data_alpha.loc[(cond1) & (cond2)] 
-        print('Number of alpha values in interval: ' + str(len(data_iv)))
+        data_iv = data_alpha.loc[(cond1) & (cond2)]
+
 
         #Adds each of the spec_cf1/Cf2 into list 
         total_Cf1_obs.append(data_iv.Spec_Cf1.squeeze())
         total_Cf2_obs.append(data_iv.Spec_Cf2.squeeze())
+        #print(data_iv.alpha.squeeze())
+        alpha_sqz = data_iv.alpha.squeeze()
+        obs_alpha.append(alpha_sqz)
+        
        
-           
-        print('Number of lists in template dataframe (should be ' + str(index + 1) + ' total): ' + str(len(total_Cf1_obs)))
+          
         
     #Saving list of series into the template dataframe that will go to the graphing function
+    #print(obs_alpha)
     template['obs_Cf1'] = total_Cf1_obs
     template['obs_Cf2'] = total_Cf2_obs
+    template['obs_alpha'] = obs_alpha
 
-    Cf_tau_grapher(template,'yes')
+    template.to_pickle(os.getcwd() + '/CSV Files/templateDF.pkl')
+    return template
 
-    
 def alpha_Testing(I01, I02, I1, I2, Sv1, Sv2, Spectral_Cf1, Spectral_Cf2, graph):
     """
 

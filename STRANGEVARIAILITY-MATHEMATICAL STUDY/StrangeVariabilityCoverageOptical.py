@@ -20,6 +20,7 @@ import StrangeVariabilityCalculationFunctions as svc
 
 import StrangeVariabilityPlottingFunctions as svp
 
+#import openpyxl
 
 ##########################################################################################################################################################
 
@@ -29,25 +30,58 @@ If there is going to be anything added, make sure that it is being added here
 (unless it is a new function then whatever works bruh)
 '''
 
-
-graph = 'Yes'
-
 #yes = saving figures to CovOpt_Plots folder
+graph = 'no'
+alpha_grouping = 'yes'
 save_figs = 'yes'
 
+alpha_template = 'no'
 start_time = time.time()
 
 #Name of file being read
-filename = os.getcwd() + '/CSV Files/out.csv'
+filename = os.getcwd() + '/CSV Files/out.xlsx'
 #filename = 'SVTesting.csv'
-#filename = 'Alpha_Group_Template.csv'
 
 #Name of file being saved to
-#out_filename = 'Alpha_Template.csv'
-out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculations.csv'
-alpha_out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculationsAlphaSort.csv'
+out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculations.xlsx'
+alpha_out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculationsAlphaSort.xlsx'
+alpha_pickle_out = os.getcwd() + '/CSV Files/StrangeVariabilityCalculationsAlphaSort.pkl'
+
+
+#Used for alpha grouping! 
+
+if alpha_template == 'yes':
+    #sets the filenames of input and output
+    filename = os.getcwd() + '/CSV Files/Alpha_Group_Template.xlsx'
+    out_filename = os.getcwd() + '/CSV Files/Alpha_Template.pkl'
+    #yes will make a new template file that will be based on the interval wanted: IN PROGRESSSSSSSSSS
+    make_temp = 'no'
+
+    #the +- value
+    epsilon = 0.05
+
+    #where you want the alpha grouping to start
+    alpha = 0.25
+
+    #Random value to start getting a template datafram
+
+    if make_temp == 'yes':
+         I01 = 10
+         I02 = []
+         alpha_list = []
+    
+         while alpha < 1:
+             I02.append(I01 * alpha)
+             alpha_list.append(alpha)
+             alpha = alpha + ( 2 * epsilon)
+
+
+
+
+
+
 #Makes a dataframe of all the data from csv using PANDAS
-og_data = pd.read_csv(filename)
+og_data = pd.read_excel(filename)
 
 
 #Removes all of the detections where In > I0n, or I01 = I02 (which goes against the idea of
@@ -63,7 +97,6 @@ minOpt = []
 minCov1 = []
 minCov2 = []
 alpha = []
-#new_alpha = []
 Spec_Cf1 = []
 Spec_Cf2 = []
 Spec_Cf2Cf1 = []
@@ -72,13 +105,11 @@ Spec_Cf2Cf1 = []
 #How we determine if we have an object that has a repeated detection
 prev_name = ''
 prev_num = 0
-number = 1
+
 
 
 #Starts going through the dataframe row by row
 for index,row in data.iterrows():    
-    
-    #print('Working on plotting ' + row['objectName'])
     
     #If there is a repeated name, then it increases the prev_num so that it will
     #not overwrite the graph that is already been ploted
@@ -87,9 +118,13 @@ for index,row in data.iterrows():
     else:
         prev_num = 0
 
-    
+    #calls the calculation function to get values of Cf
     alp,inv_alpha, mintau, Spec_v_1, Spec_v_2, Spectral_Cf1, Spectral_Cf2, Spectral_Cf2Cf1 = svc.min_value_finder(row['I01'], row['I02'], row['I1'], row['I2'], prev_num)
+
+    #keeps track of the previous name so that if there was more than one detection of the same name, then it wouldn't save over
     prev_name = row['objectName']
+
+    #filling the lists with valuse
     minOpt.append(mintau)
     minCov1.append(Spec_v_1)
     minCov2.append(Spec_v_2)
@@ -97,11 +132,15 @@ for index,row in data.iterrows():
     Spec_Cf1.append(Spectral_Cf1)
     Spec_Cf2.append(Spectral_Cf2)
     Spec_Cf2Cf1.append(Spectral_Cf2Cf1)
-    number += 1
-     
 
+    
+
+
+
+
+     
+#Fills the dataframe with the newly filled lists
 data['alpha'] = alpha  
-#data['new_alpha'] = new_alpha #New alpha is a ratio of change (smaller / larger)
 data['minOpt'] = minOpt
 data['minCov1'] = minCov1
 data['minCov2'] = minCov2
@@ -110,21 +149,41 @@ data['Spec_Cf2'] = Spec_Cf2
 data['Spec_Cf2Cf1'] = Spec_Cf2Cf1
 data['save_fig'] = save_figs
 
+
+
+print(type(data.Spec_Cf1[0]))
+
+#sorts the data frame by alpha values and reindexes
 data_alpha = data.sort_values(by = ['alpha'])
 data_alpha.reset_index(inplace = True, drop = True)
 
-data.to_csv(out_filename, index=False)
-data_alpha.to_csv(alpha_out_filename,index =False)
+#This is to make sure all of the detections do not have alpha = 1
+data_alpha = data_alpha[data_alpha.alpha < 1]
+
+#saves dataframes to a csv
+#data.to_excel(out_filename, index=False)
+data_alpha.to_excel(alpha_out_filename,index =False)
+
+data_alpha.to_pickle(out_filename)
 
 
-if graph == 'Yes':
-    svp.Cf_tau_grapher(data)
+
+
+
+
+#this is what will call the graphing function and send the data frame
+if graph == 'yes':
+    svp.Cf_tau_grapher(data_alpha)
     
-
-
+#this is to plot the data based on a selected alpha interval
+if alpha_grouping == 'yes':
+    grouped_df = svp.alpha_group_grapher(data_alpha)
+    grouped_df.to_pickle(os.getcwd() + '/CSV Files/groupedDfPickle.pkl')
+    print(type(grouped_df))
+    svp.Cf_tau_grapher(grouped_df,'yes')
+    
+    
+#To see how long the program takes to run/graph
 prog_time = time.time() - start_time
 print('Program Finished\n Took: ' + str(prog_time) + ' seconds, or ' + str(round(prog_time/60,2)) + ' minutes')
 
-
-    #Start figuring a way to move the legend per case so that we are not 
-    #covering the important info
