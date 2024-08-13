@@ -43,7 +43,13 @@ This is how you would set up your system to be able to use the code that has bee
 3. Make sure the `filename` filepath is correctly set to find the out.csv or there is also an option for the out.xlsx if the file format permits. At this point, the code should be ready to run by using all the folders within the parent SV folder.
 4. Running for the first time will only dave the dataframe into an `.xlsx` file and into a pickle (`.pkl`). The excel files are the ones to be read by people, however if read through a code, it will end up giving some of the columns in the form of strings, instead of the desired list of floats. The pickle files are python read only and can be handled similarly to how excel files are read and saved.
 5. To run the graphing function, change the `graph = 'no'` to `graph = 'yes'`
-6. If you would like to create plots based on an interval of the alpha value; default is set to $`interval = \left(\alpha \pm 0.05 | \alpha \in [0.25,0.35,0.45, ... ,0.95]\right)`$
+## To run the alpha_group_grapher:
+1. To run the alpha_group_grapher function, you will need to create a template excel file that has the midpoints of your intervals along with the predetermined observational values (I01,I02,I1,I2,alpha); default is set to $`interval = \left(\alpha \pm 0.05 | \alpha \in [0.25,0.35,0.45, ... ,0.95]\right)`$
+2. When the template file has been made, be sure to change `alpha_template = 'no'` to `alpha_template = 'yes'` and it will take in your filepath to the template. In the default case, the starting template name is `Alpha_Group_template.xlsx` and the output file is `Alpha_Template.pkl`.
+3. After the filepath is changed to the correct files, run the program with `graphing = 'no' & alpha_grouping = 'no'`. This will take in your template values and make all of the calculations.
+4. After the program runs, set `alpha_template = 'no'` and `alpha_grouping = 'yes'`, then run the code again. This will take in the detection data from before (out.csv), calculate, then send it to `StrangeVariabilityPlottingFunctions.alpha_group_grapher()` to have Spec_Cf1 and Spec_Cf2 seperated into their correspoding alpha intervals.
+5. After the program is ran, it will save the figures into `OutputFiles/Grouped Alpha`.
+6. **IN PROGRESS** Soon, you will be able to see the plots actively seperate the detections into bins of 10 on one plot at a time. This part is being taken over my Imad Morsli.
 
 # Currently Uncommited Files:
 IN PROGRESS
