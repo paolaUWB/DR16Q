@@ -50,7 +50,3 @@ This is how you would set up your system to be able to use the code that has bee
 4. After the program runs, set `alpha_template = 'no'` and `alpha_grouping = 'yes'`, then run the code again. This will take in the detection data from before (out.csv), calculate, then send it to `StrangeVariabilityPlottingFunctions.alpha_group_grapher()` to have Spec_Cf1 and Spec_Cf2 seperated into their correspoding alpha intervals.
 5. After the program is ran, it will save the figures into `OutputFiles/Grouped Alpha`.
 6. **IN PROGRESS** Soon, you will be able to see the plots actively seperate the detections into bins of 10 on one plot at a time. This part is being taken over my Imad Morsli.
-
-# Currently Uncommited Files:
-IN PROGRESS
-`git status`
