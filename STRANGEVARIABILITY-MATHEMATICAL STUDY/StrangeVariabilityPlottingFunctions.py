@@ -12,12 +12,6 @@ import os
 #import StrangeVariabilityCalculationFunctions as svc
 import time
 
-def string_to_flt_list(str_list):
-    
-    flt_list = []
-    
-    return flt_list
-
 def visualize(data,xaxis,yaxis, graph_num = 0): #In Progress, and more of a test than an actual function to be used
     """
     
@@ -93,6 +87,7 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
     prev_num = 0
     prev_alpha = 0
     num = 1
+
     #Colors for the grouping 
 # =============================================================================
 #     pickle = [0,0.2,0]
@@ -175,33 +170,30 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
                 
         
             plt.subplot(1,2,subplt1)
+            #solving for Cf1
             Cf1 = alpha * Cf + (alpha - 1)/(np.exp(ttau)-1)
-                
             plt.plot(tau, Cf1,label = r'$C_{f}$=' + str(Cf), color = [0.05,0.6,index/10.])
-                
+            
+
             plt.subplot(1,2,subplt2)
+            #Solving for Cf2
             Cf2 = inv_alpha * Cf + (inv_alpha - 1)/(np.exp(ttau)-1)
-                
             plt.plot(tau, Cf2, color = [0.05,0.6,index/10.])
                 
             Cf = round(Cf + 0.1, 1)
             
-        
+        #LEGEND - DAIRY
         fig.legend(loc = 'outside upper left')
-        
-        #print('Finshed Cf_tau lines on ' + row.objectName)
         
         if alpha_group == 'yes':
             #starts iterating through data frame to look into each indexes set of lists
             
-            if len(row.obs_Cf1) == 0:
-                                 #print('The interval ' + str(row['alpha']) + ' +- 0.05 is empty')
-                                 continue
+            if len(row.obs_Cf1) == 0: #If the interval has no observational data, it will stop this loop and continue
+                                 
+                continue
                              
-                                
-            if isinstance(row.obs_Cf1, np.ndarray):
-                    #print('temp_cf1 is an array')
-                    #print('tau length: ' + str(len(tau)) + ', temp_cf1 length: ' + str(len(row.obs_Cf1) ))
+                 
+            if isinstance(row.obs_Cf1, np.ndarray): #The dataframe saves a single list as an array instead of in a series, so this is one single detection
                     
                     plt.subplot(1,2,1)
                     plt.plot(tau, row.obs_Cf1, color = [0.8,0,0.8])
@@ -209,12 +201,13 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
                     plt.subplot(1,2,2)
                     plt.plot(tau, row.obs_Cf2, color = [0.8,0,0.8]) 
             
-            elif isinstance(row.obs_Cf1, pd.Series):
-                    #print('temp_cf1 is a Series')
+            elif isinstance(row.obs_Cf1, pd.Series): #A list of lists is saved as a series in a dataframe. This is anycase where there is more than one obs. data in an interval
+                    
                     
                     #iterates through each of the lists inside of the series
                     for k in range(len(row.obs_Cf1)): 
 
+                        #Originally for the use of finding how close an obs data was to the plotted alpha value, but is unnessassary now.
                         if alpha > row.obs_alpha.iloc[k]:
                             alp_ratio = row.obs_alpha.iloc[k]/alpha
                             
@@ -226,14 +219,16 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
                         
                         blue = 0.8 * np.abs(alpha - row.obs_alpha.iloc[k]) * 20
                         
+                        #plots each of the obs data for the interval on Cf1
                         plt.subplot(1,2,1)    
                         plt.plot(tau, row.obs_Cf1.iloc[k], color = [0.8,0,blue])
                         
+                        #plots each of the obs data for the interval on Cf2
                         plt.subplot(1,2,2) 
                         plt.plot(tau, row.obs_Cf2.iloc[k], color = [0.8,0,blue])
                        
     
-        else: 
+        else: #If alpha_group == 'no'. This is the case for plotting each detection and is defaulted
             #Observational Data/Solution Cf1
             plt.subplot(1,2,1)
             plt.plot(tau,Spectral_Cf1,color = 'r')
@@ -269,12 +264,12 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
     
         
         
-        
+        #Finds the time it took for each plot
         g_time = round(time.time() - time_start,2)
         graph_time.append(g_time)
         print('Plot took ' + str(g_time) + ' seconds')
         
-    
+        #Determines if the alpha value has been seen before (assuming the dataframe is in alpha_numerical order)
         if prev_alpha == alpha:
             prev_num += 1
         else:
@@ -283,7 +278,7 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
         
         prev_alpha = alpha
         
-        
+        #Saving figures 
         if row['save_fig'] == 'yes':            
             
             if alpha_group == 'yes':
@@ -296,11 +291,11 @@ def Cf_tau_grapher(data, alpha_group = 'no'):
                 plt.clf()
         
 
-
+        #Just to see progress and how many detections are left at a time
         print(str(len(data) - num) + ' detections left')
         num += 1
         
-        
+    #Time it takes for the entire plotting function to finish
     avg_time = np.mean(graph_time)
     print('Average Plotting Time: ' + str(avg_time) + ' seconds\nTotal Plotting Time: ' + 
           str(round(time.time() - total_time_start,2)) + ' seconds')
@@ -334,6 +329,7 @@ def alpha_group_grapher(data):
     
     data_alpha = data.sort_values(by = ['alpha'])
     template = pd.read_pickle(template_file)
+    epsilon = 0.05
     
     print('Total Number of Detections: ' + str(len(data_alpha)))
     
@@ -348,12 +344,20 @@ def alpha_group_grapher(data):
         
         #Creating an interval and conditions fitting that interval
         #print('alpha interval: [' + str(round(row['alpha'] - 0.05,2)) + ',' + str(round(row['alpha'] + 0.05,2)) + ')')
-        cond1 = data_alpha['alpha'] >= round(row['alpha'] - 0.05,2)
-        cond2 = data_alpha['alpha'] < round(row['alpha'] + 0.05,2)
+        cond1 = data_alpha['alpha'] >= round(row['alpha'] - epsilon,2)
+        cond2 = data_alpha['alpha'] < round(row['alpha'] + epsilon,2)
         
         #Making a dataframe that contains all of the detections within the conditions/interval
         data_iv = data_alpha.loc[(cond1) & (cond2)]
 
+        #this is where you would maybe start with checking the number of obs_data and start seperating by tens.
+        for k in range(len(data_iv.Spec_Cf1)):
+            if k % 10 == 0:
+                print('something')
+            #This is where you would add an index into the data frame and you can copy original/calculated data, then put 10 observational datas into its respective column. 
+            #Research:
+            #Inserting indexes/rows into a data frame and copying data from the row into it. 
+            #Pandas df.squeeze() might be usefull again
 
         #Adds each of the spec_cf1/Cf2 into list 
         total_Cf1_obs.append(data_iv.Spec_Cf1.squeeze())
@@ -468,3 +472,25 @@ def alpha_Testing(I01, I02, I1, I2, Sv1, Sv2, Spectral_Cf1, Spectral_Cf2, graph)
         plt.show()
         plt.savefig(os.getcwd() + '/AlphaChangePlots/' + title + ').png',dpi= 500)
 
+#Everything above has been created with respect to ONLY Coverage Fraction vs Optical Depth. Below is the start of Optical Depth vs Coverage Fraction
+
+def tau_Cf_grapher(data, alpha_group = 'no'):
+
+
+
+    for index, row in data.iterrows():
+        #Inner Initialization
+        alpha = row['alpha']
+        inv_alpha = 1 / alpha
+        Spectral_Cf1 = row['Spec_Cf1']
+        Spectral_Cf2 = row['Spec_Cf2']
+        #Spectral_value_Cf2Cf1 = row['Spec_Cf2Cf1']
+        Sv1 = row['minCov1']
+        Sv2 = row['minCov2']
+        mintau = row['minOpt']  
+
+        Cf = np.arange(0.1,1.1,0.02)
+
+        for i in range(1,52):
+            tau1 =  
+        

@@ -23,7 +23,7 @@ def get_spectral_values(I01,I02,I12):
     return Spectral_value_1,Spectral_value_2,Spectral_value_Cf2Cf1
 
 
-def min_value_finder(I01,I02,I1,I2, prev_num = 0): #maybe should just be passed alpha instead of both I01 and I02???
+def min_value_finder(I01,I02,I1,I2): #maybe should just be passed alpha instead of both I01 and I02???
     """
     Cf_finder will calculate the coverage fraction values for both observations.
     Essentially the case in which the optical depths are the same through all observations
@@ -88,14 +88,17 @@ def min_value_finder(I01,I02,I1,I2, prev_num = 0): #maybe should just be passed 
     return alpha,inv_alpha, round(mintau,2), Sv1, Sv2, Spectral_Cf1, Spectral_Cf2, SvCf2Cf1
 
 
-# def tau_finder(name,I01, I02, I12):#IN PROGRESS
-#     I1 = I12
-#     I2 = I12
+def tau_finder(name,I01, I02, I12):#IN PROGRESS
+    I1 = I12
+    I2 = I12
     
-#     Spectral_Cf1, Spectral_Cf2, Spectral_Cf2Cf1 = get_spectral_values(I01, I02, I12)
-    
-#     ###########################################################################
-#     ## First set of Tau1 vs Cf
+    Spectral_Cf1, Spectral_Cf2, Spectral_Cf2Cf1 = get_spectral_values(I01, I02, I12)
+    maxtau1 = (-1)*np.log(1.-Spectral_value_Cf2Cf1)
+    mintau1 = (-1)*np.log(1.-(Spectral_value_1/1.))
+    Spectral_tau1 = (-1)*np.log(1.-(Spectral_value_1/Cf))
+    ###########################################################################
+
+    ## First set of Tau1 vs Cf
 #     plt.subplot(1,3,1)
 #     Cf = np.arange(0.1,1.1,0.02)
 #     alpha = round(Io1/Io2,1)
@@ -103,9 +106,8 @@ def min_value_finder(I01,I02,I1,I2, prev_num = 0): #maybe should just be passed 
 #     yyy = ((1-alpha)*(1-Cf))/(Cf) 
 #     xxx = ((1-alpha2)*(1-Cf))/Cf
 #     tau2 = 0.1
-#     maxtau1 = (-1)*np.log(1.-Spectral_value_Cf2Cf1)
-#     mintau1 = (-1)*np.log(1.-(Spectral_value_1/1.))
-#     Spectral_tau1 = (-1)*np.log(1.-(Spectral_value_1/Cf))
+
+#     
 #     if plot == 'Yes':
 #         plt.title(name)
         

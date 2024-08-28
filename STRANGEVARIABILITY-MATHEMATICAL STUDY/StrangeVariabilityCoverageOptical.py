@@ -32,16 +32,16 @@ If there is going to be anything added, make sure that it is being added here
 
 #yes = saving figures to CovOpt_Plots folder
 graph = 'no'
-alpha_grouping = 'yes'
-save_figs = 'yes'
+alpha_grouping = 'no'
+save_figs = 'no'
 
 alpha_template = 'no'
 start_time = time.time()
 
 #Name of file being read
 filename = os.getcwd() + '/CSV Files/out.xlsx'
-#filename = 'SVTesting.csv'
-
+filename = os.getcwd() + '/CSV Files/out.csv'
+filename = os.getcwd() + '/CSV Files/'
 #Name of file being saved to
 out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculations.xlsx'
 alpha_out_filename = os.getcwd() + '/CSV Files/StrangeVariabilityCalculationsAlphaSort.xlsx'
