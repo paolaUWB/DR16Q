@@ -1,1 +1,2 @@
-
+GENERALCORNERPLOT CODE:
+Creates a corner plot with hexagon and scatter plots, a color gradient, and histograms. Good for comparing plots that share axis.
