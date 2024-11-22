@@ -27,7 +27,8 @@ import numpy as np
 import math
 from numpy.lib.function_base import append
 from matplotlib.backends.backend_pdf import PdfPages
-sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
+sys.path.insert(0, os.path.dirname(os.getcwd())) # changes the directory to start at DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
+print(os.getcwd())
 from utility_functions import clear_file, read_list_spectra, read_spectra, append_row_to_csv
 from data_types import Range
 from abs_function_module import smooth, abs_parameters_plot_optional
