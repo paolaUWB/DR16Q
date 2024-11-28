@@ -25,10 +25,11 @@ import os
 import sys
 import numpy as np 
 import math
+import pandas as pd
 from numpy.lib.function_base import append
 from matplotlib.backends.backend_pdf import PdfPages
 sys.path.insert(0, os.path.dirname(os.getcwd())) # changes the directory to start at DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
-print(os.getcwd())
+#print(os.getcwd())
 from utility_functions import clear_file, read_list_spectra, read_spectra, append_row_to_csv
 from data_types import Range
 from abs_function_module import smooth, abs_parameters_plot_optional
@@ -52,14 +53,13 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 ###############################################################################################################################
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
-#defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16Q_EHVO/good_fit_EHVO.csv" #"/OUTPUT_FILES/NORMALIZATION/good_fit_EHVO.csv" #good_fit_EHVO.csv" ##_newSNR_flagged_but_ok.csv #_EHVO.csv" 
 
-# directory of where normalized data files are
-# data NOT on github but local computer
-#NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
+SPECTRA_NAME = os.getcwd() + "/../" + "/bh9_b364c3_l-2_al075_mw90_wa423.spec"
+df = pd.read_csv(SPECTRA_NAME, delim_whitespace=True, on_bad_lines='warn')
 
-NORM_DIREC = os.getcwd() + "/../" + "/DR16Q_EHVO/NORM_DR16Q_EHVO/"
+wavelength = df[df.columns[1]].to_numpy()
+#Assuming LOS is 70 degrees
+flux = df[df.columns[15]].to_numpy()
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
@@ -68,6 +68,9 @@ OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 # boxcar_size must always be an odd integer
 want_to_smooth = 'no' 
 boxcar_size = 11
+
+z = 0
+
 
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
@@ -80,9 +83,6 @@ BALNICITY_INDEX_LIMIT = 2000
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
-# range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 98
-
 # what percentage value you want to go below the continuum
 percent = 0.9
 
@@ -93,12 +93,12 @@ want_csv = 'yes'
 ######################################## OUTPUT FILES #########################################################################
 
 # set name of output .txt file with absorption values
-ABSORPTION_VALUES = OUT_DIREC + "/" + 'BI' + str(BALNICITY_INDEX_LIMIT) + '.txt'
+ABSORPTION_VALUES = OUT_DIREC + "/" + 'BI' + str(BALNICITY_INDEX_LIMIT) + '_theoretical.txt'
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BI' + str(BALNICITY_INDEX_LIMIT) + '.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BI' + str(BALNICITY_INDEX_LIMIT) + '_theoretical.pdf') 
 
-ABSORPTION_TABLE = OUT_DIREC + 'absorption_table.csv'
+ABSORPTION_TABLE = OUT_DIREC + 'absorption_table_theoretical.csv'
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
@@ -109,9 +109,9 @@ if __name__ == "__main__":
     if (want_csv == 'yes'):
         clear_file(ABSORPTION_TABLE)
 
-# read list of normalized spectra, zem, and calculated snr from csv file (in this case good_normalization.csv)
+
 # and set variable name to each value
-norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
+#norm_spectra_list = read_list_spectra(CONFIG_FILE) 
 vlast = []
 # whether abs_count or all_count is used is based on the value of all_plot_and_text
 abs_count = 0 # counter for amount of spectra that have absorption when all_plot_and_text = no and for text files
@@ -121,84 +121,63 @@ if (want_csv == 'yes'):
     field = ['NORM SPECTRA FILE NAME','BI TOTAL','BI INDIVIDUAL','VMINS', 'VMAXS', 'EW INDIVIDUAL', 'DEPTH']
     append_row_to_csv(ABSORPTION_TABLE, field)
 
-# loops over each spectra from a specified starting and ending point
-for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
-
-    # rounding the numbers of the redshift, calculated snr and setting the norm file name to the current file name from the csv
-    z = round(redshift_list[spectra_index - 1], 5)
-    calc_snr = round(calc_snr_list[spectra_index - 1], 5)
-    norm_spectrum_file_name = norm_spectra_list[spectra_index - 1]
-
-    # from the norm spectra name retrieving it's wavelength, normalized flux, and normalized error (in this case from NORM_DRXQ)
-    print(str(spectra_index), "current spectra file name:", norm_spectrum_file_name)
-    norm_spectra_data = np.loadtxt(NORM_DIREC + norm_spectrum_file_name)
-
-    # setting a variable for each of those values from the spectra
-    wavelength, normalized_flux, normalized_error = read_spectra(norm_spectra_data)
-
-    # smoothing the flux and error based on what the user wants (yes or no)
-    if want_to_smooth == 'yes':
-        normalized_flux = smooth(normalized_flux, boxcar_size)
-        normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
     # getting various BI-related values from the absorption_parameters_with_plot function
-    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
-        z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
+BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
+    z, wavelength, flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
 
-    max_peak = np.max(normalized_flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])
+#max_peak = np.max(flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])
 
-    ############################# putting things into a text file or plot #######################################
-    fields = [norm_spectrum_file_name, BI_total, BI_individual, vmins, vmaxs, EW_individual, final_depth_individual]
+############################# putting things into a text file or plot #######################################
+fields = [SPECTRA_NAME, BI_total, BI_individual, vmins, vmaxs, EW_individual, final_depth_individual]
+
+if (all_plot_and_text == 'yes'): # plot all is yes, graph everything but only text file for when abs is found
+    all_count += 1
+    if (len(vmaxs) != 0): # text file created only when absorption is found
+        abs_count += 1
+        text = [f"{str(abs_count)} abs | {str(all_count)} tot",
+                f"{SPECTRA_NAME}",
+                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
+                f"vmins: {vmins}",
+                f"vmaxs: {vmaxs}",
+                f"BI_individual: {BI_individual}",
+                f"EW_individual: {EW_individual}",
+                f"Depth: {final_depth_individual}"]
+        vlast.extend(['\n'.join(text), '\n'])
+        abs = abs_count
+    else: # create graph no matter what
+        abs = 'no'
+        plot_spectra(70, 'v', want_to_smooth, boxcar_size, spectra_name = "/bh9_b364c3_l-2_al075_mw90_wa423.spec", x_min=-200000, x_max=0, y_min=0, y_max=1.0)
+    # whether you want to create a master csv table or not
+    if (want_csv == 'yes'):
+        append_row_to_csv(ABSORPTION_TABLE, fields)
+else: # plot all is no and only create text file and graph of cases where absorption is found
+    all_count += 1
+    if (len(vmaxs) != 0):
+        abs_count += 1
+        text = [f"{str(abs_count)} abs | {str(all_count)} tot",
+                f"{SPECTRA_NAME}",
+                f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
+                f"vmins: {vmins}",
+                f"vmaxs: {vmaxs}",
+                f"BI_individual: {BI_individual}",
+                f"EW_individual: {EW_individual}",
+                f"Depth: {final_depth_individual}"]
+        vlast.extend(['\n'.join(text), '\n'])
+        abs = abs_count
+        plot_spectra(70, 'v', want_to_smooth, boxcar_size, spectra_name = "/bh9_b364c3_l-2_al075_mw90_wa423.spec", x_min=-200000, x_max=0, y_min=0, y_max=1.0)
     
-    if (all_plot_and_text == 'yes'): # plot all is yes, graph everything but only text file for when abs is found
-        all_count += 1
-        if (len(vmaxs) != 0): # text file created only when absorption is found
-            abs_count += 1
-            text = [f"{str(abs_count)} abs | {str(all_count)} tot",
-                    f"{norm_spectrum_file_name}",
-                    f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
-                    f"vmins: {vmins}",
-                    f"vmaxs: {vmaxs}",
-                    f"BI_individual: {BI_individual}",
-                    f"EW_individual: {EW_individual}",
-                    f"Depth: {final_depth_individual}"]
-            vlast.extend(['\n'.join(text), '\n'])
-            abs = abs_count
-        else: # create graph no matter what
-            abs = 'no'
-        draw_abs_figure(
-            abs, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
-        # whether you want to create a master csv table or not
-        if (want_csv == 'yes'):
-            append_row_to_csv(ABSORPTION_TABLE, fields)  
-    else: # plot all is no and only create text file and graph of cases where absorption is found
-        all_count += 1
-        if (len(vmaxs) != 0):
-            abs_count += 1
-            text = [f"{str(abs_count)} abs | {str(all_count)} tot",
-                    f"{norm_spectrum_file_name}",
-                    f"BI ({VELOCITY_LIMIT.start} > v > {VELOCITY_LIMIT.end}): {BI_total}",
-                    f"vmins: {vmins}",
-                    f"vmaxs: {vmaxs}",
-                    f"BI_individual: {BI_individual}",
-                    f"EW_individual: {EW_individual}",
-                    f"Depth: {final_depth_individual}"]
-            vlast.extend(['\n'.join(text), '\n'])
-            abs = abs_count
-            draw_abs_figure(
-                abs_count, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
-        
-        # whether you want to create a master csv table or not
-        if (want_csv == 'yes'):
-            append_row_to_csv(ABSORPTION_TABLE, fields)  
-    #####################################################################################################################
-    
-    final_depth_all_individual.append(final_depth_individual)
+    # whether you want to create a master csv table or not
+    if (want_csv == 'yes'):
+        append_row_to_csv(ABSORPTION_TABLE, fields)  
+#####################################################################################################################
 
-    # testing
-    #if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
-        #vmins_all.append(vmins)
-        #vmaxs_all.append(vmaxs)
+final_depth_all_individual.append(final_depth_individual)
+
+# testing
+#if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):
+    #vmins_all.append(vmins)
+    #vmaxs_all.append(vmaxs)
 
 BI_all= np.array(BI_all)
 

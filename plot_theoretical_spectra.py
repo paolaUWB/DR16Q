@@ -12,10 +12,11 @@ import numpy as np
 import pandas as pd
 import math
 import matplotlib.pyplot as plt
-sys.path.insert(0, os.path.dirname(os.getcwd()))
-from utility_functions import read_spectra
 sys.path.insert(0, os.path.dirname(os.getcwd()) + '/ABSORPTION')
 from ABSORPTION.abs_function_module import wavelength_to_velocity, smooth
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+from utility_functions import read_spectra
+
 '''
 spectra = os.getcwd() + "/bh9_b364c3_l-2_al075_mw90_wa423.spec"
 
@@ -41,11 +42,10 @@ flux_89 = df[df.columns[25]].to_numpy()
 '''
 
 
-def plot_spectra( q, wavelength_or_velocity, want_to_smooth, boxcar_size, save_plot=False, plot_filename='plot.png', x_min=None, x_max=None, y_min=None, y_max=None):
+def plot_spectra(q, wavelength_or_velocity, want_to_smooth, boxcar_size, save_plot=False, spectra_name ='file.spec', plot_filename='plot.png', x_min=None, x_max=None, y_min=None, y_max=None):
     
-    
-        
-    spectra = os.getcwd() + "/bh9_b364c3_l-2_al075_mw90_wa423.spec"
+    #spectra = os.getcwd() + "/bh9_b364c3_l-2_al075_mw90_wa423.spec"
+    spectra = os.getcwd() +  "/../" + str(spectra_name)
     #Need to delete commented header in .spec file for this code to work
 
 
@@ -122,8 +122,9 @@ def plot_spectra( q, wavelength_or_velocity, want_to_smooth, boxcar_size, save_p
     if save_plot:
         plt.savefig(plot_filename)
 
+    return wavelength
     #plt.show()
     
 
-plot_spectra(70, 'v', 'no', 0, x_min=-200000, x_max=0, y_min=0, y_max=1.0)
+plot_spectra(70, 'v', 'no', 0, spectra_name = "/bh9_b364c3_l-2_al075_mw90_wa423.spec", x_min=-200000, x_max=0, y_min=0, y_max=1.0)
        
