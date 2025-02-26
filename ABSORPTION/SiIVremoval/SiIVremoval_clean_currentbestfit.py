@@ -12,8 +12,7 @@ import os
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from functools import partial
-#from functions import wavelength_to_velocity_adj ----- I don't have functions file with these functions. I made an adjustable wavelength to velocity function for myself. - LEF
-from SiV_functions import wavelength_to_velocity_adj #Paola could comment this out and uncomment above ^^^^
+from SiV_functions import wavelength_to_velocity_adj, column_density
 
 
 #__________________________________________________________
@@ -467,8 +466,6 @@ plt.figure()
 
 stop
 #Column density calculations
-from column_density_calcs import column_density
-
 print()
 print('Column Density Calculations:')
 
