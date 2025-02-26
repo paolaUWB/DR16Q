@@ -12,7 +12,7 @@ import os
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from functools import partial
-from SiV_functions import wavelength_to_velocity_adj, column_density
+from SiV_functions import wavelength_to_velocity_adj, column_density, tau_v
 
 
 #__________________________________________________________
@@ -37,18 +37,9 @@ wavelength_SiIV_emit2 = 1402.770
 avr_CIV_doublet = 1549.0524 # weighted average
 avr_SiIV_doublet = 1396.747 # weighted average
 
-#_______________________________________________________
-# FUNCTIONS: 
-
-def tau_v(v,v0,b,tau0):
-    return tau0*np.exp(-(v-v0)**2./(b**2.))
-
-#function for curve fitting down where used
-
 #-------------------------------------
 # MAIN CODE:
-    
-    
+     
 #...................................................
 # Read data information from file:
 
