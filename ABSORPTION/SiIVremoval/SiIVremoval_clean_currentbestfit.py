@@ -12,7 +12,7 @@ import os
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from functools import partial
-from SiV_functions import wavelength_to_velocity_adj, column_density, tau_v
+from SiIVremoval_functions import wavelength_to_velocity_adj, column_density, tau_v
 
 
 #__________________________________________________________
