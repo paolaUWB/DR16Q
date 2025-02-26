@@ -7,12 +7,45 @@ Created on Sun Jan 19 23:54:32 2025
 """
 import numpy as np
 from scipy.integrate import quad
+import scipy.constants as sc
 from astropy import constants as K
 from astropy import units as u
 from math import sqrt, pi
 from curve_fit_functions import tau_v
 
+def wavelength_to_velocity_adj(redshift, wavelength, reference):
+    """Reads in a list of wavelength values to be converted to velocity.
 
+    Parameters
+    ----------
+    redshift: list
+        The list of redshift values needed for the equation.
+    wavelength: list
+        The list of wavelength values that will be converted to velocity.
+    reference: int
+        A wavelength value from the Verner table for the function to reference.
+        
+    Returns
+    -------
+    beta: array
+        The values of velocity that were converted from the wavelength provided.
+    """
+   
+
+    # Transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
+    c_in_km = sc.speed_of_light * (10**-3) # speed_of_light is in m/s
+    z_absC = (wavelength / reference) - 1.
+    RC = (1. + redshift) / (1. + z_absC)
+    betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.) # betaC is in units of c (speed of light)
+    betakm = -betaC * c_in_km # betakm is in km/s
+    beta = []
+
+    for velocity in betakm:
+        betas = round(velocity, 5)
+        beta.append(betas)
+    beta = np.array(beta)
+
+    return beta
 
 
 def column_density(v0, b, tau0, Cf, xfit):
