@@ -11,7 +11,9 @@ import scipy.constants as sc
 from astropy import constants as K
 from astropy import units as u
 from math import sqrt, pi
-from curve_fit_functions import tau_v
+
+def tau_v(v,v0,b,tau0):
+    return tau0*np.exp(-(v-v0)**2./(b**2.))
 
 def wavelength_to_velocity_adj(redshift, wavelength, reference):
     """Reads in a list of wavelength values to be converted to velocity.
