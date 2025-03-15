@@ -24,7 +24,7 @@ from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmi
 ###############################################################################################################################
 ######################################### Functions ###########################################################################
 
-def wavelength_to_velocity(redshift, wavelength):
+def wavelength_to_velocity(redshift, wavelength, ref_wavelength=None):
     """Reads in a list of wavelength values to be converted to velocity.
 
     Parameters
@@ -33,18 +33,24 @@ def wavelength_to_velocity(redshift, wavelength):
         The list of redshift values needed for the equation.
     wavelength: list
         The list of wavelength values that will be converted to velocity.
+    ref_wavelength: flt (optional)
+        The reference wavelength used to convert wavelength to velocity. If one is not provided the default average CIV wavelength will be used.
         
     Returns
     -------
     beta: array
         The values of velocity that were converted from the wavelength provided.
     """
+        
     # CIV doublet data from verner table
     avr_CIV_doublet = 1549.0524
+    
+    if ref_wavelength == None:
+        ref_wavelength = avr_CIV_doublet
 
     # Transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
     c_in_km = sc.speed_of_light * (10**-3) # speed_of_light is in m/s
-    z_absC = (wavelength / avr_CIV_doublet) - 1.
+    z_absC = (wavelength / ref_wavelength) - 1.
     RC = (1. + redshift) / (1. + z_absC)
     betaC = ((RC**2.) - 1.) / ((RC**2.) + 1.) # betaC is in units of c (speed of light)
     betakm = -betaC * c_in_km # betakm is in km/s
