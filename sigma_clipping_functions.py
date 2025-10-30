@@ -44,24 +44,25 @@ def GaussClip(WL,INT,ERR,FLAG,std=4,err=1.5):
         FLAG == 1: Not flagged
         FLAG == 0: Flagged
     std : float, optional
-        Standard deviation to decide how far bellow the smoothed spectra points will be flagged. 
-        The default is 4.
+        Standard deviation to decide how wide of a gaussian kernel is used. 
+        The default is 3 as g0 is called not g_kernel.
     err : float, optional
-        Used within the function as a multiplier to the errors. The ERR*err is used to decide what FLAG
-        values copied as clip_logic wil be replaced with 0. This means those points are not flagged as 
+        Used to decide how far a point can be from the smoothed spectra to be clipped. Used within the 
+        function as a multiplier to the errors. The ERR*err is used to decide what FLAG
+        values copied as clip_logic will be replaced with 0. This means those points are not flagged as 
         they are not impacted by the total establish error (ERR*err). The default is 1.5.
 
     Returns
     -------
     clip_logic : array
-        Array of 1s and 0s to indicate points that are clipped.
+        Array of 1s and 0s to indicate points that are not cliped and clipped respectively.
 
     '''
     
     
     g_kernel = Gaussian1DKernel(stddev=std) #std is used for the Gaussian kernel to smooth the spectra while the err value is the sigma value that decides the cuttoff for values to flag
     temp_INT=np.interp(WL,WL[FLAG==1],INT[FLAG==1]) #placing an interpolated data points?
-    temp=np.where(np.logical_and(WL<1215.7,convolve(temp_INT,g0)-temp_INT>ERR*err))[0]
+    temp=np.where(np.logical_and(WL<1215.7,convolve(temp_INT,g_kernel)-temp_INT>ERR*err))[0]
     #print(np.where(np.logical_and(WL<1215.7,convolve(temp_INT,g0)-temp_INT>ERR*err)))
     #what is convolve? ^ temp values are where wavelength values are in Lya forest and convolution of the 
     #interpolated data points and established 1D gaussian kernel minus the interpolated data points is greater
@@ -93,9 +94,10 @@ def ChoiClip(WL,INT,ERR,std=4,err=1.5,maxiter=10):
     ERR : array
         Error values.
     std : float, optional
-        Standard deviation to decide how far bellow the smoothed spectra points will be flagged. The default is 4.
+        Decides the gaussian kerenel width. The default is 4.
     err : TYPE, optional
-        Error is used within the GaussClip function called within this one (see GaussClip function for more details). 
+        Standard deviation to decide how far bellow the smoothed spectra points will be flagged. Error is used within the 
+        GaussClip function called within this one (see GaussClip function for more details). 
         The default is 1.5.
     maxiter : TYPE, optional
         Maximum iteration limit stops the function process if the limit is met and data points are still being flagged. 
