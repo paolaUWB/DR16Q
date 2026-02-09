@@ -6,13 +6,16 @@ Created on Fri Feb  6 15:25:15 2026
 @author: lilianaflores
 """
 
+import os
+import sys
+import numpy as np
+from astropy.io import fits
 from matplotlib.backends.backend_pdf import PdfPages
 from abs_plot_module import draw_abs_figure
 from utility_functions import read_list_spectra
-from astropy.io import fits
-from abs_function
-import os
-import sys
+from data_types import Range
+from abs_function_module import smooth, abs_parameters_plot_optional, wavelength_to_velocity
+
 
 #defining the config file
 CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_parent_list.csv" #2281 full parent sample
@@ -87,3 +90,13 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         VELOCITY_LIMIT = Range(-30000, -new_end)
     else:
         VELOCITY_LIMIT = VELOCITY_LIMIT
+        
+    draw_abs_figure()
+    
+    
+    #draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak):
+        
+    
+        
+        
+        
