@@ -90,7 +90,7 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, percent, plots = 'yes'):
+def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, ref_wavelength = None, percent = 0.9, plots = 'yes'):
     """Based off and does what find_absorption_parameters does, but also includes plotting.
 
     Reads in a list of redshift, wavelength, velocity limit (your integral bounds), broad absorption width, and percentage value 
@@ -111,8 +111,10 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
         The minimum value of broad absorption width that we are looking for. 
     velocity_limits: namedtuple
         The velocity limits that we will be searching for absorption, aka the integral limits of BI calculation.
+    ref_wavelength: float
+        Optional reference wavelength used when converting wavelengths to velocity. Default value is weighted average of CIV.
     percent: float
-        The percentage value you want to go below the continuum.
+        The percentage value you want to go below the continuum. The default is 0.9.
     plots: string, default = 'yes'
         Whether you want to plot the values or just want the values, the default is to plot. 
 
@@ -158,7 +160,7 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     count_v = 0 # variable initialization to get into vmin/vmax loop
 
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
-    beta = wavelength_to_velocity(z, wavelength)
+    beta = wavelength_to_velocity(z, wavelength, ref_wavelength)
 
     # finding and labeling index of beta that we will be looping through ################################################
                                                         # start,  end
@@ -237,10 +239,10 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     
                     count_v = 1
                 
-                bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / 0.9))
-                bracket_2 = (1. - (normalized_flux[current_velocity_index - 2] / 0.9))
-                bracket_3 = (1. - (normalized_flux[current_velocity_index - 3] / 0.9))
-                bracket_4 = (1. - (normalized_flux[current_velocity_index - 4] / 0.9))
+                bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / percent))
+                bracket_2 = (1. - (normalized_flux[current_velocity_index - 2] / percent))
+                bracket_3 = (1. - (normalized_flux[current_velocity_index - 3] / percent))
+                bracket_4 = (1. - (normalized_flux[current_velocity_index - 4] / percent))
 
                 # vMAX calculation + plotting #############################################################################
                 if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or 
