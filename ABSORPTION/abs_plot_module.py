@@ -28,7 +28,7 @@ OI_EMITTED = 1303.4951 # weighted average; individuals pag 20 in Verner Table
 ###############################################################################################################################
 
 
-def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak):
+def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak, VELOCITY_LIMIT= Range(-30000, -60000), percent=0.9, xlow=None, xhigh=None):
     """Makes a flux vs velocity graph, that also has the error vs velocity on the same graph. Has text that identifies 
     what the graph number is, what the spectra name is, the signal to noise ratio, and the redshift value used.
     
@@ -54,6 +54,12 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
         The signal to noise ratio value.
     max_peak: int or array
         The max peak value which is used to scale the y-axis. 
+    VELOCITY_LIMIT: Range of values
+        This parameter is used to set the xlimits with the absorption velocity searching range. Can be overidden with xlow and xhigh.
+    xlow and xhigh: int or flt
+        The lowest and highes x limit value used when plotting. Default is none as VELOCITY_LIMIT start and end are typically used for 
+        plotting limits but in the case that extended plotting limits are needed you may specify with xlow and xhigh.
+        
 
     Returns
     -------
@@ -63,11 +69,14 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
     plt.plot(velocity, error, color = 'grey')
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
-    plt.xlim(-70000, 0)
+    if xlow and xhigh != None:
+        plt.xlim(xlow-10000, xhigh+10000)
+    else:
+        plt.xlim(VELOCITY_LIMIT.end-10000, VELOCITY_LIMIT.start+10000)
     snr = round(snr, 2)
     min_peak = -0.1
     plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
-    plt.axhline(y = 0.9, color='r', linestyle = '--')    
+    plt.axhline(y = percent, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
     plt.ylim(min_peak, max_peak + (max_peak / 4))
     savefile_name.savefig()
