@@ -25,7 +25,7 @@ import os
 import sys
 import numpy as np 
 import math
-from numpy.lib.function_base import append
+#from numpy.lib.function_base import append #Remove: Unused in program and incompatible with updated version of numpy
 from matplotlib.backends.backend_pdf import PdfPages
 sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
 from utility_functions import clear_file, read_list_spectra, read_spectra, append_row_to_csv
@@ -75,6 +75,13 @@ all_plot_and_text = 'yes'
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
 
+#xlimits for plotting
+xlow = None #No value -> VELOCITY_LIMIT range is used +10,000 on either end to plot xlimits
+xhigh = None
+
+#xlow = -80000
+#xhigh = -10000
+
 # limits on velocity     min,   max
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
@@ -86,6 +93,18 @@ percent = 0.9
 
 # whether you want to output a csv table of your run
 want_csv = 'yes'
+
+# Do you want to use a specific reference wavelength?
+# data from Verner table
+wavelength_CIV_emit1 = 1548.1950
+wavelength_CIV_emit2 = 1550.7700
+wavelength_SiIV_emit1 = 1393.755
+wavelength_SiIV_emit2 = 1402.770
+avr_CIV_doublet = 1549.0524 # weighted average
+avr_SiIV_doublet = 1396.747 # weighted average
+
+ref_wavelength = avr_CIV_doublet
+#ref_wavelength = wavelength_CIV_emit1
 
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
@@ -141,7 +160,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
     # getting various BI-related values from the absorption_parameters_with_plot function
     BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
-        z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent)
+        z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, ref_wavelength=ref_wavelength, percent=percent)
 
     max_peak = np.max(normalized_flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])
 
@@ -165,7 +184,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         else: # create graph no matter what
             abs = 'no'
         draw_abs_figure(
-            abs, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
+            abs, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak, VELOCITY_LIMIT, percent, xlow, xhigh)
         # whether you want to create a master csv table or not
         if (want_csv == 'yes'):
             append_row_to_csv(ABSORPTION_TABLE, fields)  
@@ -184,7 +203,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             vlast.extend(['\n'.join(text), '\n'])
             abs = abs_count
             draw_abs_figure(
-                abs_count, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak)
+                abs_count, all_count, beta, normalized_flux, normalized_error, ABSORPTION_OUTPUT_PLOT_PDF, norm_spectrum_file_name, z, calc_snr, max_peak, VELOCITY_LIMIT, percent, xlow, xhigh)
         
         # whether you want to create a master csv table or not
         if (want_csv == 'yes'):
