@@ -70,7 +70,7 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
     plt.xlabel("Velocity (km/s)")
     plt.ylabel("Normalized Flux")
     if xlow and xhigh != None:
-        plt.xlim(xlow-10000, xhigh+10000)
+        plt.xlim(xlow, xhigh)
     else:
         plt.xlim(VELOCITY_LIMIT.end-10000, VELOCITY_LIMIT.start+10000)
     snr = round(snr, 2)
