@@ -14,6 +14,9 @@ Notes
 ########################################### IMPORTS ############################################################################
 from matplotlib import pyplot as plt
 import numpy as np
+import sys
+import os
+sys.path.insert(0, os.getcwd()+'/../')
 from data_types import Range
 import random as ran
 

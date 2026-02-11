@@ -11,8 +11,10 @@ import sys
 import numpy as np
 from astropy.io import fits
 from matplotlib.backends.backend_pdf import PdfPages
+sys.path.insert(0, os.getcwd()+'/../')
 from abs_plot_module import draw_abs_figure
 from utility_functions import read_list_spectra
+sys.path.insert(0, os.getcwd()+'/../')
 from data_types import Range
 from abs_function_module import smooth, abs_parameters_plot_optional, wavelength_to_velocity
 
