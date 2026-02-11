@@ -20,22 +20,12 @@ from abs_function_module import smooth, abs_parameters_plot_optional, wavelength
 
 
 #defining the config file
-CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_parent_list.csv" #2281 full parent sample
-CONFIG_FILE2 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
-CONFIG_FILE3 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10.csv" #268 with SNR>10
 
-CONFIG_FILE = CONFIG_FILE2
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
 
 # range of spectra you are working with from the good_fit.csv file
-if CONFIG_FILE == CONFIG_FILE1:
-    STARTS_FROM, ENDS_AT = 1, 2281
-elif CONFIG_FILE == CONFIG_FILE2:
-    STARTS_FROM, ENDS_AT = 1, 250
-elif CONFIG_FILE == CONFIG_FILE3:
-    STARTS_FROM, ENDS_AT = 1, 268
-#STARTS_FROM, ENDS_AT = 1, 268 #uncomment to override if statement auto selection of range
 
-
+STARTS_FROM, ENDS_AT = 1, 25 # eventually 1 -> 250
 
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
@@ -71,12 +61,15 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     File = fits.open(os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name))
     data = File[1].data   
     
+    '''
     
+    '''
     wavelength = data['Wave']
     flux = data["Flux"]
     normalized_error = data["Noise"] #is this normalized as it is though? Does the error array need to be divided by recon?
     recon = data["Recon"]
     normalized_flux = flux/recon
+    #Compare reconstruction line and morphed line; morphed = flux / recon
     
     #EDITED: This section so that the velocity search limit would adjust if the spectra does not reach the full range
     beta_test = wavelength_to_velocity(z, wavelength)
@@ -93,12 +86,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     else:
         VELOCITY_LIMIT = VELOCITY_LIMIT
         
-    draw_abs_figure()
+    draw_abs_figure(0, spectra_index)
     
     
     #draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized, error, savefile_name, spectra_name, redshift, snr, max_peak):
         
-    
+
         
         
         
