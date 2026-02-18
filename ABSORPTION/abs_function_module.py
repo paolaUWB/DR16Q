@@ -274,7 +274,11 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     EW_ind = []
                     
                     # depth calculation ##################################################################################
-                    final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
+                    local_min = np.min(normalized_flux[vmaxs_index:vmins_index])
+                    local_min_index = np.where(local_min)
+                    min_range = normalized_flux[local_min_index-5:local_min_index+6]
+                    min_range_avg = np.average(min_range)
+                    final_depth = round((1. - min_range_avg), 2)
                     final_depth_individual.append(final_depth)
                     
                     count_v = 0 

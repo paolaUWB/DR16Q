@@ -86,7 +86,7 @@ xhigh = None
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 98
+STARTS_FROM, ENDS_AT = 1, 98 #Note that the end is inclusive
 
 # what percentage value you want to go below the continuum
 percent = 0.9
