@@ -16,9 +16,12 @@ Notes
 ########################################## IMPORTS ############################################################################
 import numpy as np 
 import scipy.constants as sc
+import sys
+import os
 from scipy import signal
 from matplotlib import pyplot as plt
 #from numpy.lib.function_base import append #commented out as not utilized in program and creates issues with recent version of numpy - LEF
+sys.path.insert(0, os.getcwd()+'/../../')
 from data_types import Range
 from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
 ###############################################################################################################################
