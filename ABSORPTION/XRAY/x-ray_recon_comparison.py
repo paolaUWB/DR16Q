@@ -27,7 +27,7 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xra
 
 # range of spectra you are working with from the good_fit.csv file
 
-STARTS_FROM, ENDS_AT = 1, 25 # eventually 1 -> 250
+STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
 
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
@@ -42,8 +42,11 @@ all_count = 0 # counter for all spectra ran when all_plot_and_text = yes
 not_in_range = []
 
 # loops over each spectra from a specified starting and ending point
-output_morphed_pdf = "spectra_output_morphed.pdf"
-output_og_pdf = "spectra_output_og.pdf"
+output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES_PDF")
+
+output_morphed_pdf = os.path.join(output_folder, "spectra_output_morphed.pdf")
+output_og_pdf = os.path.join(output_folder, "spectra_output_og.pdf")
+
 
 with PdfPages(output_morphed_pdf) as pdf:
     for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
