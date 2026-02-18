@@ -67,8 +67,8 @@ def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
     plt.xlim(xlims)
     plt.legend(loc='upper right')
     plt.title(file[70:])
-    plt.show()
-    plt.close()
+#    plt.show()
+#    plt.close()
     
     
 def Plot_spec_compare_og(file, xlims = None, ylims = None):
@@ -114,8 +114,8 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
     plt.xlim(xlims)
     plt.legend(loc='upper right')
     plt.title(file[70:])
-    plt.show()
-    plt.close()
+#   plt.show()
+#   plt.close()
     
     
     
