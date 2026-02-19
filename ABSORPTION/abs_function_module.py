@@ -26,6 +26,9 @@ from data_types import Range
 from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
 ###############################################################################################################################
 ######################################### Functions ###########################################################################
+# CIV doublet data from verner table
+avr_CIV_doublet = 1549.0524
+
 
 def wavelength_to_velocity(redshift, wavelength, ref_wavelength=None):
     """Reads in a list of wavelength values to be converted to velocity.
@@ -44,9 +47,6 @@ def wavelength_to_velocity(redshift, wavelength, ref_wavelength=None):
     beta: array
         The values of velocity that were converted from the wavelength provided.
     """
-        
-    # CIV doublet data from verner table
-    avr_CIV_doublet = 1549.0524
     
     if ref_wavelength == None:
         ref_wavelength = avr_CIV_doublet
@@ -93,7 +93,7 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, ref_wavelength = None, percent = 0.9, plots = 'yes'):
+def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, ref_wavelength = avr_CIV_doublet, percent = 0.9, plots = 'yes'):
     """Based off and does what find_absorption_parameters does, but also includes plotting.
 
     Reads in a list of redshift, wavelength, velocity limit (your integral bounds), broad absorption width, and percentage value 
@@ -274,8 +274,9 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     EW_ind = []
                     
                     # depth calculation ##################################################################################
-                    local_min = np.min(normalized_flux[vmaxs_index:vmins_index])
-                    local_min_index = np.where(local_min)
+                    abs_region = normalized_flux[vmaxs_index:vmins_index]
+                    local_min = np.min(abs_region)
+                    local_min_index = np.where(abs_region == local_min)[0][0]
                     min_range = normalized_flux[local_min_index-5:local_min_index+6]
                     min_range_avg = np.average(min_range)
                     final_depth = round((1. - min_range_avg), 2)
