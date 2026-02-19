@@ -11,6 +11,7 @@ import os
 from astropy.io import fits
 import numpy as np
 import pandas as pd
+sys.path.insert(0, os.getcwd() + '/../../')
 from useful_wavelength_flux_error_modules import calculate_snr
 from data_types import Range
 from utility_functions import clear_file, read_list_spectra, read_spectra, append_row_to_csv
