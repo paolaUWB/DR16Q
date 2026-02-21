@@ -279,7 +279,6 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     local_min_index = np.where(abs_region == local_min)[0][0]
                     min_range = abs_region[local_min_index-5:local_min_index+6]
                     min_range_avg = np.average(min_range)
-                    print(min_range_avg)
                     final_depth = round((1. - min_range_avg), 2)
                     final_depth_individual.append(final_depth)
                     
