@@ -32,6 +32,7 @@ def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
         Optionally specify x limits when plotting.
     ylims: tuple
         Optionally specify y limits when plotting.
+        If not, it will automatically take the range of the mask of the given parameters in the flux and find the max value and at 5% to it
 
     Returns
     -------
@@ -63,7 +64,28 @@ def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
 
     plt.ylabel('Normalized Flux')
     plt.xlabel('Velocity km/s')
-    plt.ylim(ylims)
+    
+    #Check if ylims were defined
+    if ylims is not None:
+        plt.ylim(ylims)
+
+    #If ylims were not defines, check if xlims were defined if it was we will find the ylims in the range of xlims
+    elif xlims is not None:
+        xmin, xmax = xlims
+        
+        #Make sure beta2 is in the range of the velocites we care about
+        mask_range = (beta2 >= xmin) & (beta2 <= xmax)
+    
+        if np.any(mask_range):
+            y_candidates = np.concatenate([
+                flux[mask_range],
+                (flux/recon)[mask_range],
+                recon[mask_range],
+                noise[mask_range]
+            ])
+            ymax = np.max(y_candidates)
+            plt.ylim(top=ymax + (0.05*ymax))
+    
     plt.xlim(xlims)
     plt.legend(loc='upper right')
     plt.title(file[70:])
@@ -81,6 +103,7 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
         Optionally specify x limits when plotting.
     ylims: tuple
         Optionally specify y limits when plotting.
+        If not, it will automatically take the range of the mask of the given parameters in the flux and find the max value and at 5% to it
 
     Returns
     -------
@@ -110,7 +133,27 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
 
     plt.ylabel('Flux')
     plt.xlabel('Velocity km/s')
-    plt.ylim(ylims)
+    
+    #Check if ylims were defined
+    if ylims is not None:
+        plt.ylim(ylims)
+
+    #If ylims were not defines, check if xlims were defined if it was we will find the ylims in the range of xlims
+    elif xlims is not None:
+        xmin, xmax = xlims
+        
+        #Make sure beta2 is in the range of the velocites we care about
+        mask_range = (beta2 >= xmin) & (beta2 <= xmax)
+        if np.any(mask_range):
+            y_candidates = np.concatenate([
+            (flux*morph)[mask_range],
+            (recon*morph)[mask_range],
+            (noise*morph)[mask_range]
+            ])
+    
+            ymax = np.max(y_candidates)
+            plt.ylim(top=ymax + (0.05*ymax))
+            
     plt.xlim(xlims)
     plt.legend(loc='upper right')
     plt.title(file[70:])
