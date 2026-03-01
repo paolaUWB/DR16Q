@@ -128,8 +128,9 @@ if __name__ == "__main__":
 
 # read list of normalized spectra, zem, and calculated snr from csv file (in this case good_normalization.csv)
 # and set variable name to each value
-norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
+norm_spectra_list, redshift_list, calc_snr_list, depth_flag = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "NEEDS RECALCULATION"]) 
 vlast = []
+final_depth_individual = []
 # whether abs_count or all_count is used is based on the value of all_plot_and_text
 abs_count = 0 # counter for amount of spectra that have absorption when all_plot_and_text = no and for text files
 all_count = 0 # counter for all spectra ran when all_plot_and_text = yes
@@ -145,6 +146,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     z = round(redshift_list[spectra_index - 1], 5)
     calc_snr = round(calc_snr_list[spectra_index - 1], 5)
     norm_spectrum_file_name = norm_spectra_list[spectra_index - 1]
+    flag = depth_flag[spectra_index-1]
 
     # from the norm spectra name retrieving it's wavelength, normalized flux, and normalized error (in this case from NORM_DRXQ)
     print(str(spectra_index), "current spectra file name:", norm_spectrum_file_name)
@@ -159,8 +161,36 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
     # getting various BI-related values from the absorption_parameters_with_plot function
-    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
+    #BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
+        #z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, ref_wavelength=ref_wavelength, percent=percent)
+
+    BI_total, BI_individual, BI_all, vmins, vmaxs, vmins_index, vmaxs_index, EW_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
         z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, ref_wavelength=ref_wavelength, percent=percent)
+
+
+    #implement separate plotting zoomed function with vmins and vmaxs as well as a user input function for masked regions
+    
+    if flag == 'Y':
+        import matplotlib.pyplot as plt
+        def plot_depth_masking():
+            plt.plot(beta, wavelength)
+            plt.xlim(np.min(abs(vmins)), np.min(abs(vmaxs)))
+            
+        
+            # then some sort of user input function for identifying masked regions
+            plt.show()
+            plt.close()
+        
+    #implement depth calculation function (take depth calc out of abs_parameters_plot_optional)
+    # depth calculation ##################################################################################
+    def depth(vmaxs_index,vmins_index):
+        abs_region = normalized_flux[vmaxs_index:vmins_index]
+        local_min = np.min(abs_region)
+        local_min_index = np.where(abs_region == local_min)[0][0]
+        min_range = abs_region[local_min_index-5:local_min_index+6]
+        min_range_avg = np.average(min_range)
+        final_depth = round((1. - min_range_avg), 2)
+        final_depth_individual.append(final_depth)
 
     max_peak = np.max(normalized_flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])
 

@@ -273,6 +273,7 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     EW_individual.append(EW_ind_sum)
                     EW_ind = []
                     
+                    '''
                     # depth calculation ##################################################################################
                     abs_region = normalized_flux[vmaxs_index:vmins_index]
                     local_min = np.min(abs_region)
@@ -281,6 +282,7 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     min_range_avg = np.average(min_range)
                     final_depth = round((1. - min_range_avg), 2)
                     final_depth_individual.append(final_depth)
+                    '''
                     
                     count_v = 0 
         #if the bracket value is not more than zero (so if we don't have absorption feature)
@@ -306,4 +308,4 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     vmins_all_index.append(vmins_index)
     vmaxs_all_index.append(vmaxs_index)
     '''
-    return BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range
+    return BI_total, BI_individual, BI_all, vmins, vmaxs, vmins_index, vmaxs_index, EW_individual, beta, vminindex_for_range, vmaxindex_for_range
