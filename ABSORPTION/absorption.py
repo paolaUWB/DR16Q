@@ -130,7 +130,8 @@ if __name__ == "__main__":
 # and set variable name to each value
 norm_spectra_list, redshift_list, calc_snr_list, depth_flag = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "NEEDS RECALCULATION"]) 
 vlast = []
-final_depth_individual = []
+final_depth_all_individual = []
+masked_regions_all = []
 # whether abs_count or all_count is used is based on the value of all_plot_and_text
 abs_count = 0 # counter for amount of spectra that have absorption when all_plot_and_text = no and for text files
 all_count = 0 # counter for all spectra ran when all_plot_and_text = yes
@@ -171,26 +172,84 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     #implement separate plotting zoomed function with vmins and vmaxs as well as a user input function for masked regions
     
     if flag == 'Y':
+        masked_regions = []
         import matplotlib.pyplot as plt
-        def plot_depth_masking():
-            plt.plot(beta, wavelength)
-            plt.xlim(np.min(abs(vmins)), np.min(abs(vmaxs)))
-            
+        def plot_depth_masking(beta, normalized_flux):
+            plt.plot(beta, normalized_flux, color = 'k')
+            plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+            plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+            plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+            plt.show(block=False)
         
             # then some sort of user input function for identifying masked regions
-            plt.show()
+            
+            
+            print("Enter velocity ranges to MASK.")
+            print("Format: xmin xmax")
+            print("Type 'done' when finished.\n")
+                
+           
+            user_input = ""
+
+            while user_input.lower() != "done":
+                user_input = input("Mask range: ")
+            
+                if user_input.lower() == "done":
+                    break
+                
+        
+            
+                try:
+                    xmin, xmax = map(float, user_input.split())
+                    masked_regions.append((xmin, xmax))
+                    
+                    indices = np.where((beta >= xmin) & (beta <= xmax))[0]
+                    
+                    plt.plot(beta, normalized_flux, color = 'k')
+                    plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+                    plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+                    plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+                    plt.plot(beta[indices], normalized_flux[indices], color='red', linewidth=2)
+                    plt.pause(0.1)
+                    
+                except:
+                    print("Invalid format. Use: xmin xmax")
+                    
+                if user_input.lower() == 'remove':
+                    masked_regions.pop()
+
+            
+            
             plt.close()
+            
+        plot_depth_masking(beta, normalized_flux)
+        masked_regions_all.append(masked_regions)
         
     #implement depth calculation function (take depth calc out of abs_parameters_plot_optional)
     # depth calculation ##################################################################################
+    final_depth_individual = []
     def depth(vmaxs_index,vmins_index):
         abs_region = normalized_flux[vmaxs_index:vmins_index]
+        
+        beta_region = beta[vmaxs_index:vmins_index]
+
+        indices_to_remove = []
+
+        for xmin, xmax in masked_regions:   
+            for i in range(len(beta_region)):
+                if xmin <= beta_region[i] <= xmax:
+                    indices_to_remove.append(i)
+        
+        abs_region = np.delete(abs_region, indices_to_remove)
+        
         local_min = np.min(abs_region)
         local_min_index = np.where(abs_region == local_min)[0][0]
         min_range = abs_region[local_min_index-5:local_min_index+6]
         min_range_avg = np.average(min_range)
         final_depth = round((1. - min_range_avg), 2)
         final_depth_individual.append(final_depth)
+        
+    depth(vmaxs_index, vmins_index)
 
     max_peak = np.max(normalized_flux[vmaxindex_for_range + 1 : vminindex_for_range + 1])
 
@@ -240,7 +299,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             append_row_to_csv(ABSORPTION_TABLE, fields)  
     #####################################################################################################################
     
-    final_depth_all_individual.append(final_depth_individual)
+    #final_depth_all_individual.append(final_depth_individual) #LEF COME back!!
 
     # testing
     #if (len(vmaxs) != 0) or (all_plot_and_text == 'yes'):

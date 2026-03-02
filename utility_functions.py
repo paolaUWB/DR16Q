@@ -95,7 +95,8 @@ def read_list_spectra(file_name: str, column_list: list):
     spectra_list = data[column_list[0]]
     redshift_list = data[column_list[1]]
     snr_list = data[column_list[2]]
-    return(spectra_list,redshift_list, snr_list)
+    depth_flag = data[column_list[3]]
+    return(spectra_list,redshift_list, snr_list, depth_flag)
 
 def read_spectra(spectra_data):
     """Reads in and returns a lists of lists containing the wavelength, flux, and error for each spectra.
