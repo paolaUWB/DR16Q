@@ -185,8 +185,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         
         print("Enter velocity ranges to MASK.")
         print("Format: xmin xmax")
-        print("Type 'done' when finished.\n")
-        print("Type 'remove' to remove the previous entry if you are not satisfied with the region.")
+        print("Type 'done' when finished.")
+        print("Type 'remove' to remove the previous entry if you are not satisfied with the region.\n")
             
        
         user_input = ""
