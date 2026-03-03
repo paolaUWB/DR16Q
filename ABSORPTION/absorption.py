@@ -170,63 +170,62 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
 
     #implement separate plotting zoomed function with vmins and vmaxs as well as a user input function for masked regions
+    masked_regions = []
+    
+    import matplotlib.pyplot as plt
+    def plot_depth_masking(beta, normalized_flux):
+        plt.plot(beta, normalized_flux, color = 'k')
+        plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+        plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+        plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+        plt.show(block=False)
+    
+        # then some sort of user input function for identifying masked regions
+        
+        
+        print("Enter velocity ranges to MASK.")
+        print("Format: xmin xmax")
+        print("Type 'done' when finished.\n")
+            
+       
+        user_input = ""
+
+        while user_input.lower() != "done":
+            user_input = input("Mask range: ")
+        
+            if user_input.lower() == "done":
+                break
+            
+    
+        
+            try:
+                xmin, xmax = map(float, user_input.split())
+                masked_regions.append((xmin, xmax))
+                
+                indices = np.where((beta >= xmin) & (beta <= xmax))[0]
+                
+                plt.plot(beta, normalized_flux, color = 'k')
+                plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+                plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+                plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+                plt.plot(beta[indices], normalized_flux[indices], color='red', linewidth=2)
+                plt.pause(0.1)
+                
+            except:
+                print("Invalid format. Use: xmin xmax")
+                
+            if user_input.lower() == 'remove':
+                masked_regions.pop()
+        plt.close()
+    
     
     if flag == 'Y':
-        masked_regions = []
-        import matplotlib.pyplot as plt
-        def plot_depth_masking(beta, normalized_flux):
-            plt.plot(beta, normalized_flux, color = 'k')
-            plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
-            plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
-            plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
-            plt.show(block=False)
-        
-            # then some sort of user input function for identifying masked regions
-            
-            
-            print("Enter velocity ranges to MASK.")
-            print("Format: xmin xmax")
-            print("Type 'done' when finished.\n")
-                
-           
-            user_input = ""
+        plot_depth_masking(beta, normalized_flux)
 
-            while user_input.lower() != "done":
-                user_input = input("Mask range: ")
-            
-                if user_input.lower() == "done":
-                    break
-                
-        
-            
-                try:
-                    xmin, xmax = map(float, user_input.split())
-                    masked_regions.append((xmin, xmax))
-                    
-                    indices = np.where((beta >= xmin) & (beta <= xmax))[0]
-                    
-                    plt.plot(beta, normalized_flux, color = 'k')
-                    plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
-                    plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
-                    plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
-                    plt.plot(beta[indices], normalized_flux[indices], color='red', linewidth=2)
-                    plt.pause(0.1)
-                    
-                except:
-                    print("Invalid format. Use: xmin xmax")
-                    
-                if user_input.lower() == 'remove':
-                    masked_regions.pop()
-
-            
-            
-            plt.close()
-            
     else:
          masked_regions.append(np.nan)   
             
             
-    plot_depth_masking(beta, normalized_flux)
     masked_regions_all.append(masked_regions)
         
     #implement depth calculation function (take depth calc out of abs_parameters_plot_optional)
