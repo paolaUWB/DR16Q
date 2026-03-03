@@ -86,7 +86,7 @@ xhigh = None
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 98 #Note that the end is inclusive
+STARTS_FROM, ENDS_AT = 1, 7 #Note that the end is inclusive
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -186,6 +186,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         print("Enter velocity ranges to MASK.")
         print("Format: xmin xmax")
         print("Type 'done' when finished.\n")
+        print("Type 'remove' to remove the previous entry if you are not satisfied with the region.")
             
        
         user_input = ""
@@ -212,7 +213,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
                 plt.pause(0.1)
                 
             except:
-                print("Invalid format. Use: xmin xmax")
+                if user_input.lower() == 'remove':
+                    print('Previous entry removed')
+                    
+                else: 
+                    print("Invalid format. Use: xmin xmax")
                 
             if user_input.lower() == 'remove':
                 masked_regions.pop()
@@ -227,6 +232,20 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             
             
     masked_regions_all.append(masked_regions)
+    
+    #reading in CONFIG_FILE csv and saving masked regions
+    import csv
+    with open(CONFIG_FILE, 'r', newline='') as f:
+        reader = csv.DictReader(f)
+        data = list(reader)
+        
+   
+    data[spectra_index-1]['Masked Regions'] = masked_regions
+        
+    with open(CONFIG_FILE, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=data[0].keys())
+        writer.writeheader()
+        writer.writerows(data)
         
     #implement depth calculation function (take depth calc out of abs_parameters_plot_optional)
     # depth calculation ##################################################################################
@@ -322,18 +341,6 @@ ABSORPTION_OUTPUT_PLOT_PDF.close()
 
 vmins_final, vmaxs_final = [], []
 
-import csv
-with open(CONFIG_FILE, 'r', newline='') as f:
-    reader = csv.reader(f)
-    data = list(reader)
-    
-data[0].append('Masked Regions')
-for spectra_index in range(STARTS_FROM, ENDS_AT+1):
-    data[spectra_index].append(masked_regions_all[spectra_index])
-    
-with open(CONFIG_FILE, 'w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerows(data)
     
 
 
