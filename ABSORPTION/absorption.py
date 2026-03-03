@@ -238,12 +238,16 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
 
         indices_to_remove = []
 
-        for xmin, xmax in masked_regions:   
-            for i in range(len(beta_region)):
-                if xmin <= beta_region[i] <= xmax:
-                    indices_to_remove.append(i)
+        try:
+            for xmin, xmax in masked_regions:   
+                for i in range(len(beta_region)):
+                    if xmin <= beta_region[i] <= xmax:
+                        indices_to_remove.append(i)
         
-        abs_region = np.delete(abs_region, indices_to_remove)
+            abs_region = np.delete(abs_region, indices_to_remove)
+            
+        except:
+            abs_region = abs_region
         
         local_min = np.min(abs_region)
         local_min_index = np.where(abs_region == local_min)[0][0]
