@@ -222,8 +222,12 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             
             plt.close()
             
-        plot_depth_masking(beta, normalized_flux)
-        masked_regions_all.append(masked_regions)
+    else:
+         masked_regions.append(np.nan)   
+            
+            
+    plot_depth_masking(beta, normalized_flux)
+    masked_regions_all.append(masked_regions)
         
     #implement depth calculation function (take depth calc out of abs_parameters_plot_optional)
     # depth calculation ##################################################################################
@@ -314,6 +318,21 @@ vmaxs = np.array(vmaxs)
 ABSORPTION_OUTPUT_PLOT_PDF.close()
 
 vmins_final, vmaxs_final = [], []
+
+import csv
+with open(CONFIG_FILE, 'r', newline='') as f:
+    reader = csv.reader(f)
+    data = list(reader)
+    
+data[0].append('Masked Regions')
+for spectra_index in range(STARTS_FROM, ENDS_AT+1):
+    data[spectra_index].append(masked_regions_all[spectra_index])
+    
+with open(CONFIG_FILE, 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(data)
+    
+
 
 '''
 # creating list of all vmaxs
