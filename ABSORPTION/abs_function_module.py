@@ -23,7 +23,7 @@ from matplotlib import pyplot as plt
 #from numpy.lib.function_base import append #commented out as not utilized in program and creates issues with recent version of numpy - LEF
 sys.path.insert(0, os.getcwd()+'/../../')
 from data_types import Range
-from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
+from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line, plot_depth_masking
 ###############################################################################################################################
 ######################################### Functions ###########################################################################
 # CIV doublet data from verner table
@@ -93,7 +93,53 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, ref_wavelength = avr_CIV_doublet, percent = 0.9, plots = 'yes'):
+def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final_depth_individual, flag):
+    abs_region = normalized_flux[vmaxs_index:vmins_index]
+     
+    beta_region = beta[vmaxs_index:vmins_index]
+    indices_to_remove = []
+    
+    flat_regions = []
+
+    import ast
+    if isinstance(masked_regions, str):
+        masked_regions = ast.literal_eval(masked_regions)
+    
+        for group in masked_regions:
+            for region in group:
+                flat_regions.append(region)
+    
+        masked_regions = flat_regions
+    
+    print(masked_regions)
+
+    if flag == 'Y':
+        for xmin, xmax in masked_regions:   
+            for i in range(len(beta_region)):
+                if xmin <= beta_region[i] <= xmax:
+                    indices_to_remove.append(i)
+    
+        if indices_to_remove:
+            abs_region = np.delete(abs_region, indices_to_remove)
+            print(f'Lines masked in regions: {masked_regions}')
+        
+    else:
+        abs_region = abs_region
+    
+    local_min = np.min(abs_region)
+    local_min_index = np.where(abs_region == local_min)[0][0]
+    min_range = abs_region[local_min_index-5:local_min_index+6]
+    min_range_avg = np.nanmean(min_range)
+    final_depth = round((1. - min_range_avg), 2)
+    print(f'depth: {final_depth}')
+    
+    return final_depth
+
+
+#############################################################################################################################################
+#############################################################################################################################################
+
+def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, ref_wavelength = avr_CIV_doublet, percent = 0.9, plots = 'yes', flag = 'N', norm_spectrum_file_name = 'Manual Mask Regions', manual_depth_masking = False, masks=[]):
     """Based off and does what find_absorption_parameters does, but also includes plotting.
 
     Reads in a list of redshift, wavelength, velocity limit (your integral bounds), broad absorption width, and percentage value 
@@ -157,6 +203,7 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     final_depth_individual, final_depth_all_individual = [], []
     BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind, BI_mid = [], [], [], [], [], [], []
     EW_individual, EW_ind, EW_all_individual = [], [], [] #EW = equivalent width
+    masked_regions, masked_regions_all = [], []
     non_trough_count = 999 # arbitrary large number that we will never reach
     delta_v = 0 #change in velocity
     sum_of_deltas = 0        
@@ -273,6 +320,23 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     EW_individual.append(EW_ind_sum)
                     EW_ind = []
                     
+                    if manual_depth_masking == True:
+                    
+                        if flag == 'Y':
+                            masked_regions = plot_depth_masking(beta, normalized_flux, norm_spectrum_file_name, vmaxs, vmins, vmaxs_index, vmins_index)
+                            masked_regions_all.append(masked_regions)
+    
+                        elif flag == 'N':
+                            masked_regions.append(np.nan)  
+                    else:
+                        masked_regions = masks
+                        
+                        
+                    final_depth = depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final_depth_individual, flag)
+                    final_depth_individual.append(final_depth)  
+                    
+
+
                     '''
                     # depth calculation ##################################################################################
                     abs_region = normalized_flux[vmaxs_index:vmins_index]
@@ -297,7 +361,6 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-    final_depth_all_individual.append(final_depth_individual)   
     BI_all= np.array(BI_all)
     vmins = np.array(vmins)
     vmaxs = np.array(vmaxs)
@@ -308,4 +371,12 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     vmins_all_index.append(vmins_index)
     vmaxs_all_index.append(vmaxs_index)
     '''
-    return BI_total, BI_individual, BI_all, vmins, vmaxs, vmins_index, vmaxs_index, EW_individual, beta, vminindex_for_range, vmaxindex_for_range
+    print(f'final depth individual: {final_depth_individual}')
+    
+    return BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range, masked_regions_all
+
+
+
+
+
+

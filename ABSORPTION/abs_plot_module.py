@@ -262,3 +262,68 @@ def presentation(beta, flux, vmins_i, vmaxs_i, continuum = 1):
     plt.axvspan(beta[vmins_i], beta[vmaxs_i], edgecolor = 'c', fill= False, linewidth=1)
     plt.axvspan(beta[vmins_i]-2000, beta[vmaxs_i], facecolor = 'c', alpha=0.5) #alpha is how translucent it is
     plt.fill_between(beta, continuum, flux, where = (flux<continuum) & (beta < -33918) & (beta > -42744), interpolate=True, facecolor='r')
+    
+    
+def plot_depth_masking(beta, normalized_flux, norm_spectrum_file_name, vmaxs, vmins, vmaxs_index, vmins_index):
+    plt.title(norm_spectrum_file_name)
+    plt.ylabel('Normalized Flux')
+    plt.xlabel('Velocity')
+    plt.plot(beta, normalized_flux, color = 'k')
+    plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+    plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+    plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+    plt.show(block=False)
+
+    # then some sort of user input function for identifying masked regions
+    
+    
+    print("Enter velocity ranges to MASK.")
+    print("Format: xmin xmax")
+    print("Type 'done' when finished.")
+    print("Type 'remove' to remove the previous entry if you are not satisfied with the region.\n")
+        
+    masked_regions = []
+    user_input = ""
+
+    while user_input.lower() != "done":
+        user_input = input("Mask range: ")
+    
+        if user_input.lower() == "done":
+            break
+        
+        if user_input.lower() == 'remove':
+            masked_regions.pop()
+            
+        try:
+            xmin, xmax = map(float, user_input.split())
+            masked_regions.append((xmin, xmax))
+            
+            indices = np.where((beta >= xmin) & (beta <= xmax))[0]
+            
+            plt.title(norm_spectrum_file_name)
+            plt.ylabel('Normalized Flux')
+            plt.xlabel('Velocity')
+            plt.plot(beta, normalized_flux, color = 'k')
+            plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+            plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+            plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+            plt.plot(beta[indices], normalized_flux[indices], color='red', linewidth=2)
+            plt.pause(0.1)
+            
+        except:
+            if user_input.lower() == 'remove':
+                print('Previous entry removed')
+                plt.title(norm_spectrum_file_name)
+                plt.ylabel('Normalized Flux')
+                plt.xlabel('Velocity')
+                plt.plot(beta, normalized_flux, color = 'k')
+                plt.xlim(np.min(vmaxs) - 1000, np.max(vmins)+1000)
+                plt.ylim(np.min(normalized_flux[vmaxs_index:vmins_index]) - 0.2, np.max(normalized_flux[vmaxs_index:vmins_index]) +0.2)
+                plt.xticks(np.arange(np.min(vmaxs) - 1000, np.max(vmins)+1001, 500), rotation='vertical')
+                plt.show(block=False)
+            else: 
+                print("Invalid format. Use: xmin xmax")
+            
+        
+    plt.close()
+    return masked_regions
