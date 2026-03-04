@@ -111,8 +111,6 @@ def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final
     
         masked_regions = flat_regions
     
-    print(masked_regions)
-
     if flag == 'Y':
         for xmin, xmax in masked_regions:   
             for i in range(len(beta_region)):
@@ -125,13 +123,13 @@ def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final
         
     else:
         abs_region = abs_region
+        
     
     local_min = np.min(abs_region)
     local_min_index = np.where(abs_region == local_min)[0][0]
     min_range = abs_region[local_min_index-5:local_min_index+6]
     min_range_avg = np.nanmean(min_range)
     final_depth = round((1. - min_range_avg), 2)
-    print(f'depth: {final_depth}')
     
     return final_depth
 
