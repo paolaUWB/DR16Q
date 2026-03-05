@@ -19,10 +19,19 @@ sys.path.insert(0, os.getcwd()+'/../')
 ######################################## PATH FINDING ########################################
 
 #defining the config file
+
+'''
+# 2nd csv with all file names of the SDSS spectrum
+# Give dummy zeros for redshift and SNR 
+# Make sure the names are the same and match match middle set of numbers
+# Make sure to loop them in order together
+# Make a folder if you dont have one from the output_folder
+# Make a changable variable for when you want to show fig
+'''
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 25 # eventually 1 -> 250
+STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
 
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
@@ -37,10 +46,11 @@ xlims = -70000, 0
 
 # Modes can be "morphed", "og", or "both"
 MODE = "both"
+show_plot = True
 
 ########################################## FUNCTIONS ##########################################
 
-def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims):
+def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot = False):
     
     with PdfPages(output_path) as pdf:
         for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
@@ -59,15 +69,16 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims):
             
             #Saves the current figure into a page of the pdf
             pdf.savefig(fig)
-            plt.show(fig)
+            if show_plot == True:
+                plt.show(fig)
             plt.close(fig)
             
 if MODE == "morphed":
-    Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims)
+    Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims, show_plot)
     
 elif MODE == "og":
-    Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims)
+    Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims, show_plot)
 
 elif MODE == "both":
-    Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims)
-    Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims)
+    Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims, show_plot)
+    Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims, show_plot)
