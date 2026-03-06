@@ -19,6 +19,7 @@ import scipy.constants as sc
 import sys
 import os
 from scipy import signal
+import ast
 from matplotlib import pyplot as plt
 #from numpy.lib.function_base import append #commented out as not utilized in program and creates issues with recent version of numpy - LEF
 sys.path.insert(0, os.getcwd()+'/../../')
@@ -93,25 +94,71 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final_depth_individual, flag):
-    abs_region = normalized_flux[vmaxs_index:vmins_index]
-     
-    beta_region = beta[vmaxs_index:vmins_index]
-    indices_to_remove = []
-    
-    flat_regions = []
+def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, flag):
+    '''
+    Calculates the depth of an absorption feature after removing any points within a defined masked region.
+    The depth is 1 minus a range of 5 points on either side of the local minimum in the absorption region.
 
-    import ast
-    if isinstance(masked_regions, str):
-        masked_regions = ast.literal_eval(masked_regions)
+    Parameters
+    ----------
+    vmaxs_index : int
+        Index of vmax.
+    vmins_index : int
+        Index of vmin.
+    normalized_flux : array
+        Array of normalized flux values.
+    beta : array
+        Array of velocity values.
+    masked_regions : str or list
+        Function can handle a list of tuples, list of lists of tuples, or either format in as a string.
+        Ex: [(−40000, −39800)] or [[(-40000,-39800)], [(-47030,-46810),(-48000,-47750)]]
+    flag : str
+        String indicator to tell function wheather there are lines that need to be masked with masked regions.
+        For example a case with flag = 'Y' will remove points in masked regions before calculating depth.
+
+    Returns
+    -------
+    final_depth : float
+        Final depth value.
+
+    '''
+    # defining flux and velocity points within absorption region
+    abs_region = normalized_flux[vmaxs_index:vmins_index]
+    beta_region = beta[vmaxs_index:vmins_index]
     
-        for group in masked_regions:
-            for region in group:
-                flat_regions.append(region)
+    indices_to_remove = []
+    flat_regions = []
+        
+
+    if flag == 'Y': # removing points in masked regions if case is flagged for depth corrections
     
-        masked_regions = flat_regions
+        try: # when using masked regions from csv they will be tuples in lists in the form of a string
+            if masked_regions == '[nan]':
+                masked_regions = '[]'
+        
+            # when using masked regions saved in csv they are in the form of a string and need to be converted and unpacked
+            elif isinstance(masked_regions, str):
+                masked_regions = ast.literal_eval(masked_regions) # converts string into actual list object. 
+                                                                    # csv provides the masked regions in a string format of a list so this converts back 
+                                                                  # to an actual list if you are using masked regions from the csv as opposed to manual masking through visual inspection.
+                
+                if isinstance(masked_regions[0], tuple): # if the first entry is a tuple then there are no lists inside the list to unpack into a list of tuples
+                    masked_regions = masked_regions
+                        
+                else:
+                    # upacking lists of tuples in a list -> into one list of tuples
+                    # each absorption feature is prompted for masked regions individually when manual masking lines through visual inspection. For cases with multiple absorption features 
+                    # the masked regions may be saved in the csv as '[[(-40000.0, -39800.0)], [(-47030.0, -46810.0), (-48000.0, -47750.0)]]' with lists of tuples in a list so they are unpacked here vv.                              
+                    for group in masked_regions:
+                        for region in group:
+                            flat_regions.append(region)
+                                
+                    masked_regions = flat_regions
+                        
+        except: # when using user input masked regions no conversion from string to list or unpacking of list has to occur
+            masked_regions=masked_regions
     
-    if flag == 'Y':
+    
         for xmin, xmax in masked_regions:   
             for i in range(len(beta_region)):
                 if xmin <= beta_region[i] <= xmax:
@@ -121,14 +168,18 @@ def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final
             abs_region = np.delete(abs_region, indices_to_remove)
             print(f'Lines masked in regions: {masked_regions}')
         
-    else:
+    elif flag == 'N': # no alteration to points in absorption region 
         abs_region = abs_region
         
-    
+    # calculating depth ----
+    # find the local min and its location in the array
     local_min = np.min(abs_region)
     local_min_index = np.where(abs_region == local_min)[0][0]
+    # defining a range around the local min
     min_range = abs_region[local_min_index-5:local_min_index+6]
+    # calculating the average flux value within the range around the local min
     min_range_avg = np.nanmean(min_range)
+    # subtracting the average flux in the local min range from 1 to get final depth
     final_depth = round((1. - min_range_avg), 2)
     
     return final_depth
@@ -325,12 +376,12 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                             masked_regions_all.append(masked_regions)
     
                         elif flag == 'N':
-                            masked_regions.append(np.nan)  
+                            masked_regions.append('')   # was previously np.nan
                     else:
                         masked_regions = masks
                         
                         
-                    final_depth = depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, final_depth_individual, flag)
+                    final_depth = depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, flag)
                     final_depth_individual.append(final_depth)  
                     
 
