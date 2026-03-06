@@ -26,22 +26,27 @@ Outputs:
     - .csv files containing CIV fitting parameters, to be used as initial
       guesses and fixed values when fitting the SiIV EHVOs.
 
-
+Note: To obtain results from the f-test you must rerun the program changing 'doublets' in the 
+changeable variables as 1 then again as 2 then 3 then 4 so that fittings done using 
+1, 2, 3, and 4 doublets can be compared.
 """
 
 # Imports
 import os
 import sys
 import numpy as np 
-import matplotlib.pyplot as plt
 import pandas as pd
-from utility_functions import read_spectra
-from abs_function_module import wavelength_to_velocity
-from Fastest_CIV_EHVO_Functions import plot_masked_regions, f_test
-from curve_fit_function import plotting_curvefit_test, curve_fit_area, tau_v
-from sigma_clipping_functions import ChoiClip
+import matplotlib.pyplot as plt
 import matplotlib as mpl
 mpl.rcParams.update(mpl.rcParamsDefault)
+sys.path.insert(0,os.getcwd()+'/../')
+from abs_function_module import wavelength_to_velocity
+sys.path.insert(0,os.getcwd()+'/../../')
+from utility_functions import read_spectra
+from sigma_clipping_functions import ChoiClip
+from Fastest_CIV_EHVO_Functions import plot_masked_regions, f_test 
+from curve_fit_function import plotting_curvefit_test, curve_fit_area, tau_v
+
 
 # Defining fitting equations:
 def curve_func( v, tau0, v0, b, Cf, I0, vdiff, tau_ratio): 
@@ -145,8 +150,8 @@ currentRP2_smooth_60 = DATADIREC + 'J2318_60251_DZ2_RP2norm.dat'
 #choose data to use
 data = [currentRP_57, currentRP_59, currentRP_60]
 data = [currentRP2_57, currentRP2_59, currentRP2_60]
-#data = [currentRP_smooth_57, currentRP_smooth_59, currentRP_smooth_60]
-#data = [currentRP2_smooth_57, currentRP2_smooth_59, currentRP2_smooth_60]
+data = [currentRP_smooth_57, currentRP_smooth_59, currentRP_smooth_60]
+data = [currentRP2_smooth_57, currentRP2_smooth_59, currentRP2_smooth_60]
 
 #.....................................................................................................................
 #.....................................................................................................................
@@ -242,7 +247,7 @@ FLAGGUE=(ChoiClip(wavelength, norm_flux, norm_error, sigma_smooth, sigma_clip))[
 (xfit, yfit, errfit) = curve_fit_area(xstart = -72000, xend = -92500, xvalues = x[FLAGGUE==1], flux = norm_flux[FLAGGUE==1], error = norm_error[FLAGGUE==1])
 
 
-plot_masked_regions(beta, norm_flux, xfit, yfit) #plotting masked regions as grey
+plot_masked_regions(beta, norm_flux, xfit) #plotting masked regions as grey
 
 #plt.scatter(x[FLAGGUE==0],norm_flux[FLAGGUE==0],c='orange',marker='o', s=12) #plotting masked data points
 #plt.scatter(x[FLAGGUE==1],norm_flux[FLAGGUE==1],c='green',marker='o', s=5) #plotting points used in fitting
@@ -544,7 +549,7 @@ if readd == 'yes':
     errfit = errfit[sort_indices]
     
 # plotting the masked regions in grey
-plot_masked_regions(beta, norm_flux, xfit, yfit)
+plot_masked_regions(beta, norm_flux, xfit)
 
 # plotting error and establishing xlimits
 plt.plot(x, norm_error, color = 'lightgrey', label = 'Error')
@@ -850,7 +855,7 @@ if manual_mask == True:
     errfit=np.hstack((errfit1,errfit2))
 
 # plotting masked regions in grey
-plot_masked_regions(beta, norm_flux, xfit, yfit)
+plot_masked_regions(beta, norm_flux, xfit)
 
 # plotting error
 plt.plot(x, norm_error, color = 'lightgrey', label = 'Error')

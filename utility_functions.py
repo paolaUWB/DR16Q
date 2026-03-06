@@ -92,10 +92,13 @@ def read_list_spectra(file_name: str, column_list: list):
     """
     
     data = pd.read_csv(file_name)
-    spectra_list = data[column_list[0]]
-    redshift_list = data[column_list[1]]
-    snr_list = data[column_list[2]]
-    return(spectra_list,redshift_list, snr_list)
+    
+    variable_lists = []
+    for i in range(len(column_list)):
+        x = data[column_list[i]]
+        variable_lists.append(x)
+    
+    return variable_lists
 
 def read_spectra(spectra_data):
     """Reads in and returns a lists of lists containing the wavelength, flux, and error for each spectra.
