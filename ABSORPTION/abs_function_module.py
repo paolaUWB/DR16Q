@@ -101,9 +101,9 @@ def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, flag)
 
     Parameters
     ----------
-    vmaxs_index : float
+    vmaxs_index : int
         Index of vmax.
-    vmins_index : float
+    vmins_index : int
         Index of vmin.
     normalized_flux : array
         Array of normalized flux values.
@@ -111,6 +111,7 @@ def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, flag)
         Array of velocity values.
     masked_regions : str or list
         Function can handle a list of tuples, list of lists of tuples, or either format in as a string.
+        Ex: [(−40000, −39800)] or [[(-40000,-39800)], [(-47030,-46810),(-48000,-47750)]]
     flag : str
         String indicator to tell function wheather there are lines that need to be masked with masked regions.
         For example a case with flag = 'Y' will remove points in masked regions before calculating depth.
