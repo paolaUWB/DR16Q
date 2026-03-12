@@ -16,13 +16,20 @@ Notes
 ########################################## IMPORTS ############################################################################
 import numpy as np 
 import scipy.constants as sc
+import sys
+import os
 from scipy import signal
+import ast
 from matplotlib import pyplot as plt
-from numpy.lib.function_base import append
+#from numpy.lib.function_base import append #commented out as not utilized in program and creates issues with recent version of numpy - LEF
+sys.path.insert(0, os.getcwd()+'/../../')
 from data_types import Range
-from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
+from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line, plot_depth_masking
 ###############################################################################################################################
 ######################################### Functions ###########################################################################
+# CIV doublet data from verner table
+avr_CIV_doublet = 1549.0524
+
 
 def wavelength_to_velocity(redshift, wavelength, ref_wavelength=None):
     """Reads in a list of wavelength values to be converted to velocity.
@@ -41,9 +48,6 @@ def wavelength_to_velocity(redshift, wavelength, ref_wavelength=None):
     beta: array
         The values of velocity that were converted from the wavelength provided.
     """
-        
-    # CIV doublet data from verner table
-    avr_CIV_doublet = 1549.0524
     
     if ref_wavelength == None:
         ref_wavelength = avr_CIV_doublet
@@ -90,7 +94,101 @@ def smooth(smooth_this, box_size):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, percent, plots = 'yes'):
+def depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, flag):
+    '''
+    Calculates the depth of an absorption feature after removing any points within a defined masked region.
+    The depth is 1 minus a range of 5 points on either side of the local minimum in the absorption region.
+
+    Parameters
+    ----------
+    vmaxs_index : int
+        Index of vmax.
+    vmins_index : int
+        Index of vmin.
+    normalized_flux : array
+        Array of normalized flux values.
+    beta : array
+        Array of velocity values.
+    masked_regions : str or list
+        Function can handle a list of tuples, list of lists of tuples, or either format in as a string.
+        Ex: [(−40000, −39800)] or [[(-40000,-39800)], [(-47030,-46810),(-48000,-47750)]]
+    flag : str
+        String indicator to tell function wheather there are lines that need to be masked with masked regions.
+        For example a case with flag = 'Y' will remove points in masked regions before calculating depth.
+
+    Returns
+    -------
+    final_depth : float
+        Final depth value.
+
+    '''
+    # defining flux and velocity points within absorption region
+    abs_region = normalized_flux[vmaxs_index:vmins_index]
+    beta_region = beta[vmaxs_index:vmins_index]
+    
+    indices_to_remove = []
+    flat_regions = []
+        
+
+    if flag == 'Y': # removing points in masked regions if case is flagged for depth corrections
+    
+        try: # when using masked regions from csv they will be tuples in lists in the form of a string
+            if masked_regions == '[nan]':
+                masked_regions = '[]'
+        
+            # when using masked regions saved in csv they are in the form of a string and need to be converted and unpacked
+            elif isinstance(masked_regions, str):
+                masked_regions = ast.literal_eval(masked_regions) # converts string into actual list object. 
+                                                                    # csv provides the masked regions in a string format of a list so this converts back 
+                                                                  # to an actual list if you are using masked regions from the csv as opposed to manual masking through visual inspection.
+                
+                if isinstance(masked_regions[0], tuple): # if the first entry is a tuple then there are no lists inside the list to unpack into a list of tuples
+                    masked_regions = masked_regions
+                        
+                else:
+                    # upacking lists of tuples in a list -> into one list of tuples
+                    # each absorption feature is prompted for masked regions individually when manual masking lines through visual inspection. For cases with multiple absorption features 
+                    # the masked regions may be saved in the csv as '[[(-40000.0, -39800.0)], [(-47030.0, -46810.0), (-48000.0, -47750.0)]]' with lists of tuples in a list so they are unpacked here vv.                              
+                    for group in masked_regions:
+                        for region in group:
+                            flat_regions.append(region)
+                                
+                    masked_regions = flat_regions
+                        
+        except: # when using user input masked regions no conversion from string to list or unpacking of list has to occur
+            masked_regions=masked_regions
+    
+    
+        for xmin, xmax in masked_regions:   
+            for i in range(len(beta_region)):
+                if xmin <= beta_region[i] <= xmax:
+                    indices_to_remove.append(i)
+    
+        if indices_to_remove:
+            abs_region = np.delete(abs_region, indices_to_remove)
+            print(f'Lines masked in regions: {masked_regions}')
+        
+    elif flag == 'N': # no alteration to points in absorption region 
+        abs_region = abs_region
+        
+    # calculating depth ----
+    # find the local min and its location in the array
+    local_min = np.min(abs_region)
+    local_min_index = np.where(abs_region == local_min)[0][0]
+    # defining a range around the local min
+    min_range = abs_region[local_min_index-5:local_min_index+6]
+    # calculating the average flux value within the range around the local min
+    min_range_avg = np.nanmean(min_range)
+    # subtracting the average flux in the local min range from 1 to get final depth
+    final_depth = round((1. - min_range_avg), 2)
+    
+    return final_depth
+
+
+#############################################################################################################################################
+#############################################################################################################################################
+
+def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, velocity_limits, ref_wavelength = avr_CIV_doublet, percent = 0.9, plots = 'yes', flag = 'N', norm_spectrum_file_name = 'Manual Mask Regions', manual_depth_masking = False, masks=[]):
     """Based off and does what find_absorption_parameters does, but also includes plotting.
 
     Reads in a list of redshift, wavelength, velocity limit (your integral bounds), broad absorption width, and percentage value 
@@ -111,8 +209,10 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
         The minimum value of broad absorption width that we are looking for. 
     velocity_limits: namedtuple
         The velocity limits that we will be searching for absorption, aka the integral limits of BI calculation.
+    ref_wavelength: float
+        Optional reference wavelength used when converting wavelengths to velocity. Default value is weighted average of CIV.
     percent: float
-        The percentage value you want to go below the continuum.
+        The percentage value you want to go below the continuum. The default is 0.9.
     plots: string, default = 'yes'
         Whether you want to plot the values or just want the values, the default is to plot. 
 
@@ -152,13 +252,14 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     final_depth_individual, final_depth_all_individual = [], []
     BI_all, BI_total, BI_ind_sum, BI_individual, BI_all_individual, BI_ind, BI_mid = [], [], [], [], [], [], []
     EW_individual, EW_ind, EW_all_individual = [], [], [] #EW = equivalent width
+    masked_regions, masked_regions_all = [], []
     non_trough_count = 999 # arbitrary large number that we will never reach
     delta_v = 0 #change in velocity
     sum_of_deltas = 0        
     count_v = 0 # variable initialization to get into vmin/vmax loop
 
     # transform the wavelength array to velocity (called "beta") based on the CIV doublet: 
-    beta = wavelength_to_velocity(z, wavelength)
+    beta = wavelength_to_velocity(z, wavelength, ref_wavelength)
 
     # finding and labeling index of beta that we will be looping through ################################################
                                                         # start,  end
@@ -237,10 +338,10 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     
                     count_v = 1
                 
-                bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / 0.9))
-                bracket_2 = (1. - (normalized_flux[current_velocity_index - 2] / 0.9))
-                bracket_3 = (1. - (normalized_flux[current_velocity_index - 3] / 0.9))
-                bracket_4 = (1. - (normalized_flux[current_velocity_index - 4] / 0.9))
+                bracket_1 = (1. - (normalized_flux[current_velocity_index - 1] / percent))
+                bracket_2 = (1. - (normalized_flux[current_velocity_index - 2] / percent))
+                bracket_3 = (1. - (normalized_flux[current_velocity_index - 3] / percent))
+                bracket_4 = (1. - (normalized_flux[current_velocity_index - 4] / percent))
 
                 # vMAX calculation + plotting #############################################################################
                 if (((bracket > 0 and bracket_1 < 0 and bracket_2 < 0 and bracket_3 < 0 and bracket_4 < 0 and count_v == 1)) or 
@@ -268,9 +369,33 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
                     EW_individual.append(EW_ind_sum)
                     EW_ind = []
                     
+                    if manual_depth_masking == True:
+                    
+                        if flag == 'Y':
+                            masked_regions = plot_depth_masking(beta, normalized_flux, norm_spectrum_file_name, vmaxs, vmins, vmaxs_index, vmins_index)
+                            masked_regions_all.append(masked_regions)
+    
+                        elif flag == 'N':
+                            masked_regions.append('')   # was previously np.nan
+                    else:
+                        masked_regions = masks
+                        
+                        
+                    final_depth = depth(vmaxs_index, vmins_index, normalized_flux, beta, masked_regions, flag)
+                    final_depth_individual.append(final_depth)  
+                    
+
+
+                    '''
                     # depth calculation ##################################################################################
-                    final_depth = round((1. - np.min(normalized_flux[vmaxs_index:vmins_index])), 2)
+                    abs_region = normalized_flux[vmaxs_index:vmins_index]
+                    local_min = np.min(abs_region)
+                    local_min_index = np.where(abs_region == local_min)[0][0]
+                    min_range = abs_region[local_min_index-5:local_min_index+6]
+                    min_range_avg = np.average(min_range)
+                    final_depth = round((1. - min_range_avg), 2)
                     final_depth_individual.append(final_depth)
+                    '''
                     
                     count_v = 0 
         #if the bracket value is not more than zero (so if we don't have absorption feature)
@@ -285,7 +410,6 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
 
-    final_depth_all_individual.append(final_depth_individual)   
     BI_all= np.array(BI_all)
     vmins = np.array(vmins)
     vmaxs = np.array(vmaxs)
@@ -296,4 +420,12 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
     vmins_all_index.append(vmins_index)
     vmaxs_all_index.append(vmaxs_index)
     '''
-    return BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range
+    print(f'final depth individual: {final_depth_individual}')
+    
+    return BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range, masked_regions_all
+
+
+
+
+
+
