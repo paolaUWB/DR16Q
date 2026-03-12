@@ -49,7 +49,7 @@ vmax = [-100000] # make bigger to move left line left (smaller to move left line
 
 colors_norm = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9'] #Colors the program will run through
 colors_dered = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9']
-colors_div = ['#df9424','#2495DF', '#C7301E', '#7b03fc', '#1417d9']
+colors_div = ['#2495DF','#2495DF', '#C7301E', '#7b03fc', '#1417d9']
 
 
 #-- absorption shading: 'yes' to include. CURRENTLY DEPRECIATED, DOESN'T WORK
@@ -138,7 +138,7 @@ else:
     mjd_list = mjd_dered_list
 
 
-# Set the index of the spectra for division
+# Set the index of the reference spectrum for division
 div_index_weaker = np.where(mjd_list.astype(str) == div_spectra_name)[0][0]
 print("div_index_weaker:", div_index_weaker)
 print("Initial mjd_list: ", mjd_list)
@@ -147,9 +147,9 @@ print("Initial n_list: ", n_list)
 print("Initial max_list: ", max_list)
 
 
-# Make the weaker‑absorption spectrum the first element of the working lists, so that it gets plotted first and used as the numerator for division
+# Make the reference spectrum the first element of the working lists, so that it gets plotted first and used as the numerator for division
 if use_div and div_index_weaker != 0:
-    # Swap using temporary variables for NumPy arrays
+    # Swap using temporary variables for numpy arrays
     temp_file = list_to_use[0]
     list_to_use[0] = list_to_use[div_index_weaker]
     list_to_use[div_index_weaker] = temp_file
@@ -440,7 +440,7 @@ if use_div:
 
             print(wavelength_ref)
             
-            # ------ Plot Residual panel
+            # ------ Plot ratio panel
             rel_ratio= divided_spectra - 1.0 # Relative (subtract 1 to center around 0)
             ratio_smooth = smooth(rel_ratio, n_ref)
             
@@ -490,7 +490,7 @@ if use_div:
                 if SiIVabs == 'yes':
                     ay1.axvspan(SiIVllblue*(1.+zabs_max[k]),SiIVllred*(1.+zabs_min[k]), alpha=0.2, color=color[3])
                     # ay1.text(SiIVll*(1.+zabs_min[k]),0.25*k+2,'SiIV',color=color[3],fontname='serif',weight='bold')
-            # Delete 279 later
+                    # Delete 279 later
                 if Lyaabs == 'yes':
                     ay1.axvspan(Lya*(1.+zabs_max[k]),Lya*(1.+zabs_min[k]), alpha=0.2, color=color[4])
                     ay1.text(Lya*(1.+zabs_min[k])-20.,1.45-0.1*k,'Lya',color=color[4],fontname='serif',weight='bold')
@@ -559,6 +559,7 @@ if use_div:
     print(specdirec)
     df.to_csv(csv_filename, index=False)
 ###########################################################################################################################################################################################################################################
+
 # Add absorption shading and emission line labels to the original plot (not the division plots)
 if manual_ylim == 'no':
     top_ylim_norm = np.max(max_list.astype(float))*1.15
@@ -732,221 +733,3 @@ if OVIem == 'yes':
 
 fig2.tight_layout()
 plt.savefig(os.getcwd() + quasardirec + quasardirecname +' (Dered)Expanded') # '/Documents/GitHub/DR16Q/VARIABILITY/DATA_VARIABILITY/' + quasardirec + quasardirecname +' (Dered)Expanded' + pp2, dpi=200)
-
-
-
-
-
-
-
-
-
-'''
-
-
-for i, file in enumerate(list_to_use):
-    n = n_list[i]
-
-    data = np.loadtxt(specdirec + file)
-       
-    wavelength_lower_limit = np.where(data[:,0] > wavelength_observe1)
-    wavelength_upper_limit = np.where(data[:,0] < wavelength_observe2)
-    
-    minwave= np.min(wavelength_lower_limit[0])
-    maxwave= np.max(wavelength_upper_limit[0])
-    
-    wavelength = data [np.min (wavelength_lower_limit[0]) : np.max(wavelength_upper_limit [0]),0] #Get wavelengths in our data set that fall into our region of study
-    
-    flux = data[np.min(wavelength_lower_limit[0]) : np.max(wavelength_upper_limit[0] ),1] #Get flux values in our region
-    
-    # ------ Added for dividing spectra
-    
-    if i == div_index_stronger :
-        flux1 = flux
-        wavelength1 = wavelength 
-        error1 = data [np.min (wavelength_lower_limit[0]) : np.max(wavelength_upper_limit[0] ),2] 
-      
-    elif i == div_index_weaker :
-        flux2 = flux
-        wavelength2 = wavelength
-        error2 =  data [np.min (wavelength_lower_limit[0]) : np.max(wavelength_upper_limit[0] ),2]
-
-
-    # Print files to check their order in directory
-    print('File ' + str(i) + ': ' + list_to_use[i])
-        
-    # ------ 
-    
-    if manual_ylim == 'no':
-        max_list[i] = np.max(flux)
-        
-    
-    error = data [np.min (wavelength_lower_limit[0]) : np.max(wavelength_upper_limit[0] ),2] #Get error values in our region
-    
-    if error_diagnostics == True:
-        
-        print(mjd_dered_list[i] + ' Norm error max: ' + str(np.max(error)))
-        
-    messed_up_error = np.where ( data [np.min (wavelength_lower_limit[0]) : np.max(wavelength_upper_limit[0] ),2]  > norm_error_threshold) #Get inexes of points with error > 3
-    
-    plerror = error
-       
-    wavelength_emit = wavelength/(zem+1) #Unshift(?) the wavelength, back to a rest frame
-    
-    aa = np.where(error > 2)
-    if len(aa) > 0:
-        error[aa] = 0
-    
-    # ------ 
-    # SOMETIMES, THERE ARE PIXEL PROBLEMS, AND WE MIGHT GET AN ERROR OF 30 IN FLUX. TO AVOID THAT, WE HAVE DONE THIS. MESSED UP ERROR IS 
-    ####       DEFINED ABOVE.
-    if len (messed_up_error[0]) > 0:######################################################original
-        plerror[messed_up_error[0]]=0###################################################
-        flux[messed_up_error[0]]=0
-    print(flux.shape)
-    print(error.shape)
-    print(wavelength.shape)
-    print(np.min(flux), np.max(flux))
-    print(np.min(error), np.max(error))
-    print(np.min(wavelength), np.max(wavelength))
-
-    if use_smooth:
-        if use_div:
-            ay1.plot (wavelength, smooth(flux, n),'-', color = colors_div[i], label = 'MJD ' + mjd_list[i], linewidth = 0.75)
-
-        if not use_div:
-            ay1.plot (wavelength, smooth(flux,n),'-', color = colors_dered[i], label = 'MJD ' + mjd_list[i], linewidth = 0.75)
-            ay1.plot([wavelength_observe1,wavelength_observe2],[1,1],'r--')
-
-        ay1.plot (wavelength, (smooth(error, n))/np.sqrt(n),'--') 
-        ay1.legend(fontsize = legend_fontsize)
-
-    else:
-        if use_div:
-            ay1.plot (wavelength, flux,'-', color = colors_div[i], label = 'MJD ' + mjd_list[i], linewidth = 0.75)
-
-        if not use_div:
-            ay1.plot (wavelength, flux,'-', color = colors_dered[i], label = 'MJD ' + mjd_list[i], linewidth = 0.75)
-            ay1.plot([wavelength_observe1,wavelength_observe2],[1,1],'r--')
-
-        ay1.plot (wavelength, (smooth(error, n))/np.sqrt(n),'--') 
-        ay1.legend(fontsize = legend_fontsize)
-
-
-###########################################################################################################################################################################################################################################
-
-# Dividing spectra by interpolating spectra with weaker absorption (flux1) onto wavelength2 grid.
-
-if use_div:
-    common_wavelength = wavelength2
-    interp_flux1 = np.interp(wavelength2, wavelength1, flux1)
-    divided_spectra =  flux2 / interp_flux1
-    if reverse_division:
-        divided_spectra =  interp_flux1 / flux2
-
-    # For error on division, we can use error propagation for division
-    interp_error1 = np.interp(wavelength2, wavelength1, error1)
-
-    divided_error = np.abs(divided_spectra) * np.sqrt((interp_error1/interp_flux1)**2 + (error2/flux2)**2)
-
-    # Add a residual panel below the main plot. Relative residual = ratio - 1
-    rel_res = divided_spectra - 1.0 
-    res_smooth = smooth(rel_res, 13)
-
-    # Add small residual axis under ay1
-    pos = ay1.get_position()  # Bbox in figure coordinates
-    res_height = pos.height*0.30  # 25% of original axes height for residual
-    ay1.set_position([pos.x0, pos.y0 + res_height, pos.width, pos.height - res_height])
-    ax_res = fig.add_axes([pos.x0, pos.y0, pos.width, res_height], sharex=ay1)
-
-    if reverse_division:
-        ax_res.plot(common_wavelength, -res_smooth, color='green', linewidth=1.0, label=(mjd_list[div_index_stronger] + ' / ' + mjd_list[div_index_weaker]))
-    else:
-        ax_res.plot(common_wavelength, res_smooth, color='green', linewidth=1.0, label=(mjd_list[div_index_weaker] + ' / ' + mjd_list[div_index_stronger]))
-
-    ax_res.legend(fontsize=legend_fontsize)
-    ax_res.axhline(0.0, color='darkgray', linestyle='--', linewidth=0.8)
-    # Symmetric y-limits for clearer visualization
-    ylim_val = np.max(np.abs(res_smooth)) if np.max(np.abs(res_smooth)) > 0 else 1e-3
-    ax_res.set_ylim(-1.1*ylim_val, 1.1*ylim_val)
-    ax_res.set_ylabel('Division Ratio', fontsize=12)
-    ax_res.tick_params(axis='both', which='major', labelsize=10)
-    ax_res.set_xlabel(r"Observed Wavelength [$\rm \AA$]", fontsize = 12,labelpad = 8)  # Shared x-label for the bottom panel
-    ay1.xaxis.set_visible(False)     # Hide x-axis labels and ticks on ay1 since they're shared with ax_res
-
-#Output divided spectra to run in absorption.py
-division_output = np.column_stack((common_wavelength, divided_spectra, divided_error))
-headers = '\tWavelength\t Divided_Spectra\t Divided_Error'
-
-if reverse_division:
-    if use_norm:
-        np.savetxt(specdirec + str(mjd_list[div_index_stronger]) + '_over_' + str(mjd_list[div_index_weaker]) + '_norm.txt', division_output, header=headers)
-    else:
-        np.savetxt(specdirec + str(mjd_list[div_index_stronger]) + '_over_' + str(mjd_list[div_index_weaker]) + '_unnorm.txt', division_output, header=headers)
-else:
-    if use_norm:
-        np.savetxt(specdirec + str(mjd_list[div_index_weaker]) + '_over_' + str(mjd_list[div_index_stronger]) + '_norm.txt', division_output, header=headers)
-    else:
-        np.savetxt(specdirec + str(mjd_list[div_index_weaker]) + '_over_' + str(mjd_list[div_index_stronger]) + '_unnorm.txt', division_output, header=headers)
-        
-
-
-###########################################################################################################################################################################################################################################
-
-
-if manual_ylim == 'no':
-    top_ylim_norm = np.max(max_list.astype(float))*1.15
-    topemlabel = top_ylim_norm *0.99
-    zem_label_y_norm = top_ylim_norm / 1.2
-    ay2.text(zem_label_x_norm, zem_label_y_norm  , zem_plot, bbox=dict(facecolor='none', edgecolor='black', pad=5.0))
-    plt.ylim(0,top_ylim_norm)
-    
-for k in range(0,len(vmin)):
-    if CIV_abs == 'yes':
-        ay1.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color=color[0])
-        ay1.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color=color[0],fontname='serif',weight='bold')
-
-    if NVabs == 'yes':
-        ay1.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color=color[1])
-        ay1.text(NVll*(1.+zabs_min[k]),1.3-0.1*k,'NV',color='xkcd:azure',fontname='serif',weight='bold')
-    
-    if OVIabs == 'yes':
-        ay1.axvspan(OVIllblue*(1.+zabs_max[k]),OVIllred*(1.+zabs_min[k]), alpha=0.2, color=color[2])
-        ay1.text(OVIll*(1.+zabs_min[k]),1.4-0.1*k,'OVI',color=color[2],fontname='serif',weight='bold')
-
-    if SiIVabs == 'yes':
-        ay1.axvspan(SiIVllblue*(1.+zabs_max[k]),SiIVllred*(1.+zabs_min[k]), alpha=0.2, color=color[3])
-        # ay1.text(SiIVll*(1.+zabs_min[k]),0.25*k+2,'SiIV',color=color[3],fontname='serif',weight='bold')
-# Delete 279 later
-    if Lyaabs == 'yes':
-        ay1.axvspan(Lya*(1.+zabs_max[k]),Lya*(1.+zabs_min[k]), alpha=0.2, color=color[4])
-        ay1.text(Lya*(1.+zabs_min[k])-20.,1.45-0.1*k,'Lya',color=color[4],fontname='serif',weight='bold')
-
-if CIVem == 'yes':
-    ay1.text(1549.0*(1+zem)-30,topemlabel ,'CIV',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
-
-if SiIVem == 'yes':
-    ay1.text(1402.770*(1+zem)-40.,topemlabel,'SiIV+OIV]',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
-
-if CIIem == 'yes' :
-    ay1.text(1334.5323*(1+zem)-30.,topemlabel,'CII',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
-
-if OIem == 'yes':
-    ay1.text(1304.8576*(1+zem)-35.,topemlabel,'OI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
-
-if LyNVem == 'yes':
-    alpha = 'Ly' + chr(945)
-    ay1.text(1242.804*(1+zem)+30.,topemlabel, alpha + '+NV' ,color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
-
-if OVIem == 'yes':
-    ay1.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
-
-if use_div:   
-    fig.subplots_adjust(top=0.86, bottom=0.36)
-else:
-    fig.tight_layout()  
-
-plt.savefig(specdirec + quasardirecname + 'norm' + pp2, dpi=200)
-plt.show()'''
-
-########################################################################################################################################################################################################################################
