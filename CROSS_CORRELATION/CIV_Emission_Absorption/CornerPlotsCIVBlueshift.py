@@ -26,10 +26,10 @@ xqrdata = pd.read_csv('https://raw.githubusercontent.com/paolaUWB/DR16Q/Anna/CRO
 
 #Rankines info file PRH selected the good cases
 infoRankineparent = 'https://raw.githubusercontent.com/paolaUWB/DR16Q/master/CROSS_CORRELATION/DR16parent_DR14RankineInfo.csv'
-infoRankineEHVO = "https://raw.githubusercontent.com/paolaUWB/DR16Q/master/CROSS_CORRELATION/DR16EHVO_DR14RankineInfo_vmax_reordered.csv"
+infoRankineEHVO = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR16EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
 infoRankineparent_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9parent_DR14RankineInfo.csv"
-infoRankineEHVO_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9EHVO_DR14RankineInfo_withEHVOspeeds_vmax_reordered.csv"
-RH_parent_16= 'https://raw.githubusercontent.com/paolaUWB/DR16Q/masterCROSS_CORRELATION/DR16_parent_sample.csv'
+infoRankineEHVO_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
+RH_parent_16= 'https://raw.githubusercontent.com/paolaUWB/DR16Q/master/CROSS_CORRELATION/DR16_parent_sample.csv'
 
 #Extracting values from Rankines info file for EHVO Parent
 dfRPA = pd.read_csv(infoRankineparent, header=None)
