@@ -21,8 +21,11 @@ file2 = os.getcwd() + '/Recons_Hiremath2025/spec-allepoch-60071-2702159816003230
 file3 = os.getcwd() + '/Recons_Hiremath2025/spec-allepoch-59318-4570380920.fits'
 
 
-
-def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
+# take in two files, one morphed/og and the other is the SDSS DR-19
+#     Add parameter for the file
+#     Convert wavelength to velocity
+# Morphed = normalized
+def Plot_spec_compare_morphed(recon_file, xlims = None, ylims = None):
     '''
     Parameters
     ----------
@@ -40,17 +43,21 @@ def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
 
     '''
     
+
     data = fits.open(file)
     
     #print(data[1].columns) #run to print column names
     
     data_tab = data[1].data
-    
+
+    # Use these and whatever column names I need
+    # Run columns line
+
     wavelength = data_tab['wave']
     flux = data_tab['flux']
     noise = data_tab['noise']
-    mask = data_tab['mask']
-    morph = data_tab['morph']
+#   mask = data_tab['mask']
+#   morph = data_tab['morph']
     recon = data_tab['recon']
     
     
@@ -81,7 +88,7 @@ def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
                 flux[mask_range],
                 (flux/recon)[mask_range],
                 recon[mask_range],
-                noise[mask_range]
+                noise[mask_range],
             ])
             ymax = np.max(y_candidates)
             plt.ylim(top=ymax + (0.05*ymax))
@@ -91,9 +98,12 @@ def Plot_spec_compare_morphed(file, xlims = None, ylims = None):
     plt.title(file[70:])
 #    plt.show()
 #    plt.close()
-    
-    
-def Plot_spec_compare_og(file, xlims = None, ylims = None):
+
+
+# Flux * Morph = og
+# Take that out and plot SDSS file as it is not normalized, keep it the same
+# May need to convert wavelength to velocity
+def Plot_spec_compare_og(og_file, sdss_file, xlims = None, ylims = None):
     '''
     Parameters
     ----------
@@ -111,6 +121,7 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
 
     '''
     
+    """   
     data = fits.open(file)
     
     #print(data[1].columns) #run to print column names
@@ -120,7 +131,7 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
     wavelength = data_tab['wave']
     flux = data_tab['flux']
     noise = data_tab['noise']
-    mask = data_tab['mask']
+#   mask = data_tab['mask']
     morph = data_tab['morph']
     recon = data_tab['recon']
     
@@ -148,7 +159,7 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
             y_candidates = np.concatenate([
             (flux*morph)[mask_range],
             (recon*morph)[mask_range],
-            (noise*morph)[mask_range]
+            (noise*morph)[mask_range],
             ])
     
             ymax = np.max(y_candidates)
@@ -159,8 +170,80 @@ def Plot_spec_compare_og(file, xlims = None, ylims = None):
     plt.title(file[70:])
 #   plt.show()
 #   plt.close()
+    """
+    # ---------------- OG DATA ----------------
+    data = fits.open(og_file)
+    
+    #print(data[1].columns) #run to print column names
+    
+    data_tab = data[1].data
+    
+    wavelength = data_tab['wave']
+    flux = data_tab['flux']
+    noise = data_tab['noise']
+#   mask = data_tab['mask']
+    morph = data_tab['morph']
+    recon = data_tab['recon']
+    
+    data.close()
     
     
+    # ------------------SDSS DATA -------------------------
+    sdss = fits.open(sdss_file)
+    sdss_tab = sdss[1].data
+    
+    flux = data_tab['flux']
+    noise = data_tab['noise']
+#   mask = data_tab['mask']
+    morph = data_tab['morph']
+    recon = data_tab['recon']
+    
+    sdss_wavelength = 10**sdss_tab['LOGLAM']
+    sdss_flux = sdss_tab['FLUX']
+    sdss_ivar = sdss_tab['IVAR']
+    sdss_noise = np.zeros_like(sdss_flux)
+    sdss_redshift = np.zeros_like(sdss_flux)
+    
+    sdss.close()
+    # ----------------- PLOTTING ----------------
+    beta = wavelength_to_velocity(0, wavelength)
+    beta2 = wavelength_to_velocity(0, sdss_wavelength)
+    
+    
+    plt.plot(beta2, sdss_flux, color = 'red', label='sdss full')
+    plt.plot(beta, recon*morph, color = 'orange', label = 'Recon')
+    plt.plot(beta, noise*morph, color='grey', label='Noise')
+    
+
+    plt.ylabel('og Flux')
+    plt.xlabel('Velocity km/s')
+    
+    #Check if ylims were defined
+    if ylims is not None:
+        plt.ylim(ylims)
+
+    #If ylims were not defines, check if xlims were defined if it was we will find the ylims in the range of xlims
+    elif xlims is not None:
+        xmin, xmax = xlims
+        
+        #Make sure beta2 is in the range of the velocites we care about
+        mask_range = (beta2 >= xmin) & (beta2 <= xmax)
+    
+        if np.any(mask_range):
+            y_candidates = np.concatenate([
+                flux[mask_range],
+                (flux/recon)[mask_range],
+                recon[mask_range],
+                noise[mask_range],
+            ])
+            ymax = np.max(y_candidates)
+            plt.ylim(top=ymax + (0.05*ymax))
+    
+    plt.xlim(xlims)
+    plt.legend(loc='upper right')
+    plt.title(file[70:])
+    
+
     
 #Plotting spectra comparing plots for all three spectra files using a for loop
 files = [file, file2, file3]
