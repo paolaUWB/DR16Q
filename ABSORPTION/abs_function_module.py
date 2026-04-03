@@ -409,10 +409,17 @@ def abs_parameters_plot_optional(z, wavelength, normalized_flux, BALNICITY_INDEX
             BI_all.append(BI_total)    
             BI_all_individual.append(BI_individual)
             EW_all_individual.append(EW_individual)
+            
 
     BI_all= np.array(BI_all)
     vmins = np.array(vmins)
     vmaxs = np.array(vmaxs)
+    print(BI_individual)
+    BI_individual = np.array(BI_individual)
+    EW_individual = np.array(EW_individual)
+    final_depth = np.array(final_depth)
+    final_depth_individual = np.array(final_depth_individual)
+    
     '''
     vmins_index = np.array(vmins_index)
     vmaxs_index = np.array(vmaxs_index)
