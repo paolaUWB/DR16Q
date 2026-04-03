@@ -10,12 +10,15 @@ from matplotlib import pyplot as plt
 from astropy import stats
 import pandas as pd
 from sample_bisecting_function import bisector
-
+import matplotlib as mpl
+mpl.rcParams.update(mpl.rcParamsDefault)
+mpl.rcParams['mathtext.fontset'] = 'stix'
+mpl.rcParams['font.family'] = 'STIXGeneral'
 ################## Changeable Variables ######################################################################################################
 
 # want to plot bisectors of EHVO sample
 plot_bisectors = True
-plot_bisectors = False
+#plot_bisectors = False
 
 
 ############################################################################################################################################################################################################
@@ -145,13 +148,13 @@ bb9_EHVO = np.where(EHVOin9Rank_CivBlue > 500)
 bb16 = np.where(Parentin16Rank_CivBlue > 500)
 bb16_EHVO = np.where(EHVOin16Rank_CivBlue > 500)
 bb_both = np.where(parentboth_CivBlue > 500)
-bbboth_EHVO = np.where(EHVOboth_CivBlue > 500)
+bbboth_EHVO = np.where(EHVOboth_CivBlue > 500) # using this also removes the outlier!!
 
 bbXQR_nonBAL = np.where(xqr_bs_nonBAL > 500)
 bbXQR_BAL = np.where(xqr_bs_BAL > 500)
 bbXQR_EHVO = np.where(xqr_bs_EHVO > 500)
 
-highbsEHVO = np.where(EHVOboth_CivBlue > 2500)
+highbsEHVO = np.where(EHVOboth_CivBlue > 2500) #not used
 
 
 
@@ -232,10 +235,10 @@ ax7 = fig.add_subplot(gs[0,1])
 cm = ax1.hexbin(parentboth_mbh[bb_both], parentboth_lbol[bb_both],  C = parentboth_CivBlue[bb_both], gridsize = 35, cmap = 'viridis', reduce_C_function = np.median, mincnt = 4, vmin=500, vmax=max(EHVOboth_CivBlue), edgecolor = 'None', zorder= 99)
 cbarax = fig.add_axes([-0.03, 0.055, 0.02, 0.93])
 cbar = plt.colorbar(cm, cax=cbarax)
-cbarax.set_ylabel('CIV Blueshift (km/s)', rotation = 90, fontname='serif')
+cbarax.set_ylabel(r'$\mathrm{C\,IV}$ blueshift [km s$^{-1}$]', rotation = 90, fontname='serif', fontsize=16)
 cbarax.yaxis.set_ticks_position('left')
 cbarax.yaxis.set_label_position('left')
-sc = ax1.scatter(EHVOboth_mbh[bbboth_EHVO], EHVOboth_lbol[bbboth_EHVO], c = EHVOboth_CivBlue[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+ 2020 and RH+ in prep)')
+sc = ax1.scatter(EHVOboth_mbh[bbboth_EHVO], EHVOboth_lbol[bbboth_EHVO], c = EHVOboth_CivBlue[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+2020 and CS+in prep)')
 
 if plot_bisectors == True:
     above_Lbol_MBH, below_Lbol_MBH = bisector(EHVOboth_mbh[bbboth_EHVO], EHVOboth_lbol[bbboth_EHVO], ax = ax1)
@@ -247,12 +250,12 @@ ax1.set_xlim(8.4,10.5)
 ax1.set_ylim(46.1,48.1)
 #ax1.legend(loc='upper right')
 ax1.set_xticklabels([])
-ax1.set_ylabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
+ax1.set_ylabel("log$_{10}$($L_{bol}$/erg s$^{-1}$)", fontname='serif', fontsize=14)
 ax1.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #-------------------EDD vs MBH------------------
 cm = ax2.hexbin(parentboth_mbh[bb_both], parentboth_redd[bb_both],  C = parentboth_CivBlue[bb_both], gridsize = 35, cmap = 'viridis', reduce_C_function = np.median, mincnt = 4, vmin=500, vmax=max(EHVOboth_CivBlue), edgecolor = 'None', zorder= 99)
-sc = ax2.scatter(EHVOboth_mbh[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], c = EHVOboth_CivBlue[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+ 2020 and RH+ in prep)')
+sc = ax2.scatter(EHVOboth_mbh[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], c = EHVOboth_CivBlue[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+2020 and CS+in prep)')
 
 if plot_bisectors == True:
     above_REDD_MBH, below_REDD_MBH = bisector(EHVOboth_mbh[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], ax = ax2)
@@ -260,23 +263,23 @@ elif plot_bisectors == False:
     above_REDD_MBH, below_REDD_MBH = bisector(EHVOboth_mbh[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], plot=False)
 
     
-ax2.set_xlabel("log($M_{\mathrm{BH}}/M_{\odot})$", fontname='serif')
+ax2.set_xlabel("log$_{10}$($M_{BH}/M_\odot$)", fontname='serif', fontsize=14)
 ax2.set_xlim(8.4,10.5)
 ax2.set_ylim(-1.5,0.5)
-ax2.legend(loc='upper right',prop={'size': 9.7})
-ax2.set_ylabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
+ax2.legend(loc='upper right',prop={'size': 11})
+ax2.set_ylabel(r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',fontname='serif', fontsize=14)
 ax2.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #---------------EDD vs LBOL---------------------
 cm = ax3.hexbin(parentboth_lbol[bb_both], parentboth_redd[bb_both],  C = parentboth_CivBlue[bb_both], gridsize = 35, cmap = 'viridis', reduce_C_function = np.median, mincnt = 4, vmin=500, vmax=max(EHVOboth_CivBlue), edgecolor = 'None', zorder= 99)
-sc = ax3.scatter(EHVOboth_lbol[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], c = EHVOboth_CivBlue[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+ 2020 and RH+ in prep)')
+sc = ax3.scatter(EHVOboth_lbol[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], c = EHVOboth_CivBlue[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+2020 and CS+in prep)')
 
 if plot_bisectors == True:
     above_REDD_Lbol, below_REDD_Lbol = bisector(EHVOboth_lbol[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], ax = ax3)
 elif plot_bisectors == False:
     above_REDD_Lbol, below_REDD_Lbol = bisector(EHVOboth_lbol[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], plot=False)
 
-ax3.set_xlabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
+ax3.set_xlabel("log$_{10}$($L_{bol}$/erg s$^{-1}$)", fontname='serif', fontsize=14)
 #Removing yticks for second plot
 ax3.set_yticklabels([])
 ax3.set_xlim(46,48.5)
@@ -305,18 +308,23 @@ ax5.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright 
 
 #---------------EDD Histogram----------------------
 ax6.set_yticklabels([])
-ax6.set_xlabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
+ax6.set_xlabel(r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',fontname='serif', fontsize=14)
 ax6.hist(parentboth_redd[bb_both], bins = bin_Edd, weights = weightsParentedd, histtype = 'step', color = 'blue', label = 'Parent RH+ 2020 and RH+ in prep)')
 ax6.hist(EHVOboth_redd[bbboth_EHVO], bins = bin_Edd, weights = weightsEHVOedd, histtype = 'step', color = 'red', label='EHVO (RH+ 2020 and RH+ in prep)')
 ax6.set_xlim(-1.5,0.5)
 ax6.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #Legend
-parent_line = plt.Line2D([0], [0], color='blue', label='Parent RH+ 2020 and RH+ in prep')
-EHVO_line = plt.Line2D([0], [0], color='red', label='EHVO (RH+ 2020 and RH+ in prep)')
+parent_line = plt.Line2D([0], [0], color='blue', label='Parent (RH+2020 and CS+in prep)')
+EHVO_line = plt.Line2D([0], [0], color='red', label='EHVO (RH+2020 and CS+in prep)')
+fitline_proxy = plt.Line2D([0], [0], color='k', linestyle='-', label='EHVO Fit Line')
+sepline_proxy = plt.Line2D([0], [0], color='red', linestyle='--', label='EHVO Bisector')
 ax7.set_xticks([])
 ax7.set_yticks([])
-ax7.legend(handles=[parent_line, EHVO_line], loc='lower left', prop={'size': 9.7})
+if plot_bisectors == True:
+    ax7.legend(handles=[parent_line, EHVO_line, fitline_proxy, sepline_proxy], loc='lower left', prop={'size': 12})
+elif plot_bisectors == False:
+    ax7.legend(handles=[parent_line, EHVO_line], loc='lower left', prop={'size': 12})
 ax7.spines['top'].set_visible(False)
 ax7.spines['right'].set_visible(False)
 ax7.spines['bottom'].set_visible(False)
@@ -343,17 +351,17 @@ CIVBlue_EHVOs = EHVOboth_CivBlue[bbboth_EHVO]
 # -- Lbol vs MBH [Top left] ----------------------------------------------
 statistic, p_value = ks_2samp(CIVBlue_EHVOs[above_Lbol_MBH], CIVBlue_EHVOs[below_Lbol_MBH])
 print(f'Sample Size Above = {len(CIVBlue_EHVOs[above_Lbol_MBH])}, Below = {len(CIVBlue_EHVOs[below_Lbol_MBH])}')
-print(f'Lbol vs MBH [Top left] p-value = {p_value}')
+print(f'Lbol vs MBH [Top left] p-value = {p_value} & stat = {statistic}')
 
 # -- EDD vs MBH [Top left] ----------------------------------------------
 statistic, p_value = ks_2samp(CIVBlue_EHVOs[above_REDD_MBH], CIVBlue_EHVOs[below_REDD_MBH])
 print(f'Sample Size Above = {len(CIVBlue_EHVOs[above_REDD_MBH])}, Below = {len(CIVBlue_EHVOs[below_REDD_MBH])}')
-print(f'EDD vs MBH [Lower left] p-value = {p_value}')
+print(f'EDD vs MBH [Lower left] p-value = {p_value} & stat = {statistic}')
 
 # -- EDD vs Lbol [Top left] ----------------------------------------------
 statistic, p_value = ks_2samp(CIVBlue_EHVOs[above_REDD_Lbol], CIVBlue_EHVOs[below_REDD_Lbol])
 print(f'Sample Size Above = {len(CIVBlue_EHVOs[above_REDD_Lbol])}, Below = {len(CIVBlue_EHVOs[below_REDD_Lbol])}')
-print(f'EDD vs Lbol [Lower right] p-value = {p_value}')
+print(f'EDD vs Lbol [Lower right] p-value = {p_value} & stat = {statistic}')
 print('p-values indicate no statistically significant difference in CIV Blueshift values between samples split by bisector.')
 
 

@@ -48,45 +48,53 @@ from plot_functions import plot_CIVBlue_hexbin_ehvo, figure_2_outline, plot_EHVO
 ############################## Changeable Variables
 # [Fig 1]
 plot_fig1 = True
-#plot_fig1 = False
+plot_fig1 = False
 
 # [Fig 2]
 plot_fig2 = True
-#plot_fig2 = False
+plot_fig2 = False
 
 # [Fig 3] made and provided by Amy Rankine
 
 
 # [Fig 4]
 plot_fig4 = True
-#plot_fig4 = False
+plot_fig4 = False
 
 # [Fig 5]
 plot_fig5 = True
-#plot_fig5 = False
+plot_fig5 = False
 
 # [Fig 6] HeII colormap hex/scatter plot in physical property parameter spaces
 plot_fig6 = True
-#plot_fig6 = False
+plot_fig6 = False
 
 HeII_flat_distance_cut = True #plotting with a flat CIV Distance cutoff provided by dist_cut
-dist_cut = 0.7
+dist_cut = 0.83
 
 HeII_flat_distance_cut = 'line' #plotting with sample separation via line spearation of cluster in Fig 5 (HeII vs CIV Distance scat/hist)
 dist_cut = None
 
+hexbin_function6 = np.median
+#hexbin_function6 = np.max
+
+gridsize = 35 # this applies to both fig 6 and 8 as they should have the same gridsize to be easily compared
+
 # [Fig 7] corner plot found in CornerPlotsCIVBlueshift.py
+gridsize = 35
 
 # [Fig 8] CIV Blueshift colormap hex/scatter plot in physical property parameter spaces
 plot_fig8 = True
 #plot_fig8 = False
 
 Blueshift_cut = 'flat'
-dist_cut2 = 0.8
+dist_cut2 = 0.9
 
-Blueshift_cut = 'line'
-dist_cut2 = None
+#Blueshift_cut = 'line'
+#dist_cut2 = None
 
+hexbin_function8 = np.median
+hexbin_function8 = np.max
 ##############################################
 
 #The inputs in this program should be:
@@ -303,6 +311,13 @@ vmax_EHVO_9=dfRHV_9[dfRHV_9.columns[32]].to_numpy()
 Edd_EHVOR_9=dfRHV_9[dfRHV_9.columns[18]].to_numpy()
 MBH_EHVOR_9=dfRHV_9[dfRHV_9.columns[16]].to_numpy()
 
+#plate & mjds 
+plate_EHVOR = dfRHV[dfRHV.columns[1]].to_numpy()
+mjd_EHVOR = dfRHV[dfRHV.columns[2]].to_numpy()
+
+plate_EHVOR_9 = dfRHV_9[dfRHV_9.columns[1]].to_numpy()
+mjd_EHVOR_9 = dfRHV_9[dfRHV_9.columns[2]].to_numpy()
+
 #combining 9 with 16
 CivBlue_EHVO_combined = np.concatenate((CivBlue_EHVOR_9, CivBlue_EHVOR))
 CivEW_EHVO_combined = np.concatenate((CivEW_EHVOR_9, CivEW_EHVOR))
@@ -356,6 +371,13 @@ no_outlier_MBH_EHVO = np.delete(copyMBH_EHVO, [40])
 copyvmax_EHVO = np.copy(vmax_EHVO)
 no_outlier_vmax_EHVO = np.delete(copyvmax_EHVO, [40])
 
+copyplate_EHVO = np.copy(plate_EHVOR)
+no_outlier_plate_EHVO = np.delete(copyplate_EHVO, [40])
+
+copymjd_EHVO = np.copy(mjd_EHVOR)
+no_outlier_mjd_EHVO = np.delete(copymjd_EHVO, [40])
+
+
 outlier_idx = 40
 
 dfRHV_noOut = dfRHV.drop(index=outlier_idx).copy()
@@ -378,6 +400,9 @@ Lbol_EHVOR_combined_noOut = np.concatenate((Lbol_EHVOR_9, no_outlier_Lbol_EHVO))
 MBH_EHVOR_combined_noOut = np.concatenate((MBH_EHVOR_9, no_outlier_MBH_EHVO))
 vmin_EHVOR_combined_noOut = np.concatenate((vmin_EHVO_9, no_outlier_vmin_EHVO))
 vmax_EHVOR_combined_noOut = np.concatenate((vmax_EHVO_9, no_outlier_vmax_EHVO))
+
+plate_EHVOR_combined_noOut = np.concatenate((plate_EHVOR_9, no_outlier_plate_EHVO))
+mjd_EHVOR_combined_noOut = np.concatenate((mjd_EHVOR_9, no_outlier_mjd_EHVO))
 
 
 # === BAL subset of the no-outlier combined dataset ===
@@ -422,11 +447,15 @@ else:
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # [Fig 4] EHVO subsamples separated by vmedian scatter/hist w/velocity colormap -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-large_speed_vmin = np.where(abs(vmin_EHVOR_combined_noOut) >= 36500)#36515.8231
-small_speed_vmin = np.where(abs(vmin_EHVOR_combined_noOut) < 36500)
+print(f'vmin median: {np.median(vmin_EHVOR_combined)}')
+print(f'vmax median: {np.median(vmax_EHVOR_combined)}')
 
-large_speed_vmax = np.where(abs(vmax_EHVOR_combined_noOut) >= 43400)#43378.17873
-small_speed_vmax = np.where(abs(vmax_EHVOR_combined_noOut) < 43400)
+
+large_speed_vmin = np.where(abs(vmin_EHVOR_combined_noOut) >= 36700)#50 quasars   #36515.8231 #NEW median: 36685.20573
+small_speed_vmin = np.where(abs(vmin_EHVOR_combined_noOut) < 36700)#49 quasars
+
+large_speed_vmax = np.where(abs(vmax_EHVOR_combined_noOut) >= 43300)#50 quasars     #43378.17873 #NEW median: 43294.439150000006
+small_speed_vmax = np.where(abs(vmax_EHVOR_combined_noOut) < 43300)#49 quasars
 
 
 #2D 2sample K-S Test EHVOs split by median speed comparing CIV distance vs EHVO velocity (Vmin and Vmax)
@@ -446,8 +475,8 @@ if plot_fig4 == True:
         vmin_EHVOR_combined_noOut,
         small_speed_vmin,
         large_speed_vmin,
-        r'$\mathrm{EHVO}\ V_{\min} < 36500$',
-        r'$\mathrm{EHVO}\ V_{\min} \geq 36500$',
+        r'$\mathrm{EHVO}\ V_{\min} < 36700$',
+        r'$\mathrm{EHVO}\ V_{\min} \geq 36700$',
         v_label=r'$V_{\min} [\mathrm{km\ s^{-1}}]$')
     
     # vmax
@@ -457,8 +486,8 @@ if plot_fig4 == True:
         vmax_EHVOR_combined_noOut,
         small_speed_vmax,
         large_speed_vmax,
-        r'$\mathrm{EHVO}\ V_{\max} < 36500$',
-        r'$\mathrm{EHVO}\ V_{\max} \geq 36500$',
+        r'$\mathrm{EHVO}\ V_{\max} < 43300$',
+        r'$\mathrm{EHVO}\ V_{\max} \geq 43300$',
         v_label=r'$V_{\max} [\mathrm{km\ s^{-1}}]$')
 else:
     print('Fig 4 not plotted')
@@ -484,6 +513,7 @@ EHVOcomb_Bluecut = bluecut(CivBlue_EHVO_combined_noOut)
 EHVO_bluecut_cond = np.zeros(len(CivBlue_EHVO_combined_noOut), dtype=bool)
 EHVO_bluecut_cond[EHVOcomb_Bluecut] = True
 #all EHVOs have CIV blueshift > 500 km/s so no condition for this needs to be applied to EHVOs when plotting
+# ^^ this is because the outlier which is removed prior to here is the only EHVO case with CIV blueshift < 500 km/s
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -492,12 +522,18 @@ EHVO_bluecut_cond[EHVOcomb_Bluecut] = True
 HeiiEW_bisect_above = np.array([0, 1, 3, 9, 11, 19, 27, 29, 42, 47, 53, 60, 63, 65, 67, 69, 70, 73, 77, 89, 91])
 HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 28, 30, 31, 32, 34, 35, 37,38, 39, 40, 43, 44, 45, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 59, 61, 62, 64, 66, 68, 71, 72, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 93, 94, 95, 97, 98])
 
+#print(f'EHVO plate of cases above partition in Fig 5: {plate_EHVOR_combined_noOut[HeiiEW_bisect_above]}')
+#print(f'EHVO mjd of cases above partition in Fig 5: {mjd_EHVOR_combined_noOut[HeiiEW_bisect_above]}')
+
+la = np.column_stack((plate_EHVOR_combined_noOut[HeiiEW_bisect_above], mjd_EHVOR_combined_noOut[HeiiEW_bisect_above]))
+df = pd.DataFrame(la, columns=["plate", "mjd"])
+df.to_csv('EHVOs_HeII_CIVDist_cluster.csv', index=False)
 
 # [Fig 6] HeII colormap hex/scatter plots in physical property parameter spaces -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if plot_fig6 == True:
     
     if HeII_flat_distance_cut == True:
-        condition_less = CivDist_EHVOR_combined_noOut <=dist_cut
+        condition_less = CivDist_EHVOR_combined_noOut > dist_cut
         
         plot_CIVBlue_hexbin_ehvo(
             MBH_parentR_combined[parentR_Bluecut],
@@ -511,11 +547,12 @@ if plot_fig6 == True:
             "log$_{10}$($L_{bol}$/erg s$^{-1}$)",
             xlim = (8.4,10.5),
             ylim = (46.1,48.2),
+            gridsize=gridsize,
             show_left=True,
             cmap_sample='HeIIEW',
-            hex_func=np.median,
-            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut}$)',
-            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut}$)')
+            hex_func=hexbin_function6,
+            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut}$)',
+            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut}$)')
         
         plot_CIVBlue_hexbin_ehvo(
             MBH_parentR_combined[parentR_Bluecut],
@@ -529,11 +566,12 @@ if plot_fig6 == True:
             r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',
             xlim = (8.4,10.5),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
             cmap_sample='HeIIEW',
-            hex_func=np.median,
-            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut}$)',
-            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut}$)')
+            hex_func=hexbin_function6,
+            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut}$)',
+            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut}$)')
         
         plot_CIVBlue_hexbin_ehvo(
             Lbol_parentR_combined[parentR_Bluecut],
@@ -547,11 +585,12 @@ if plot_fig6 == True:
             r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',
             xlim = (46.1,48.2),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
             cmap_sample='HeIIEW',
-            hex_func=np.median,
-            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut}$)',
-            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut}$)')
+            hex_func=hexbin_function6,
+            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut}$)',
+            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut}$)')
     
     elif HeII_flat_distance_cut == 'line':
         
@@ -572,9 +611,10 @@ if plot_fig6 == True:
             "log$_{10}$($L_{bol}$/erg s$^{-1}$)",
             xlim = (8.4,10.5),
             ylim = (46.1,48.2),
+            gridsize=gridsize,
             show_left=True,
             cmap_sample='HeIIEW',
-            hex_func=np.median,
+            hex_func=hexbin_function6,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
         
@@ -590,9 +630,10 @@ if plot_fig6 == True:
             r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',
             xlim = (8.4,10.5),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
             cmap_sample='HeIIEW',
-            hex_func=np.median,
+            hex_func=hexbin_function6,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
         
@@ -608,9 +649,10 @@ if plot_fig6 == True:
             r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',
             xlim = (46.1,48.2),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
             cmap_sample='HeIIEW',
-            hex_func=np.median,
+            hex_func=hexbin_function6,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
 else:
@@ -638,7 +680,9 @@ if plot_fig8 == True:
             "log$_{10}$($L_{bol}$/erg s$^{-1}$)",
             xlim = (8.4,10.5),
             ylim = (46.1,48.2),
+            gridsize=gridsize,
             show_left=True,
+            hex_func=hexbin_function8,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
         
@@ -655,7 +699,9 @@ if plot_fig8 == True:
             'Eddington Ratio (log$_{10}$($L_{bol}$/$L_{Edd}$)',
             xlim = (8.4,10.5),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
+            hex_func=hexbin_function8,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
         
@@ -672,12 +718,14 @@ if plot_fig8 == True:
             'Eddington Ratio (log$_{10}$($L_{bol}$/$L_{Edd}$)',
             xlim = (46.1,48.2),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
+            hex_func=hexbin_function8,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
     
     elif Blueshift_cut == 'flat':
-        condition_less = CivDist_EHVOR_combined_noOut <=dist_cut2
+        condition_less = CivDist_EHVOR_combined_noOut > dist_cut2
     
         # ---- double panels ----------------------------
         # MBH vs Lbol
@@ -693,9 +741,11 @@ if plot_fig8 == True:
             "log$_{10}$($L_{bol}$/erg s$^{-1}$)",
             xlim = (8.4,10.5),
             ylim = (46.1,48.2),
+            gridsize=gridsize,
             show_left=True,
-            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut2}$)',
-            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut2}$)')
+            hex_func=hexbin_function8,
+            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut2}$)',
+            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut2}$)')
         
         # MBH vs Edd
         plot_CIVBlue_hexbin_ehvo(
@@ -710,9 +760,11 @@ if plot_fig8 == True:
             'Eddington Ratio (log$_{10}$($L_{bol}$/$L_{Edd}$)',
             xlim = (8.4,10.5),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
-            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut2}$)',
-            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut2}$)')
+            hex_func=hexbin_function8,
+            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut2}$)',
+            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut2}$)')
         
         # Lbol vs EDD
         plot_CIVBlue_hexbin_ehvo(
@@ -727,9 +779,11 @@ if plot_fig8 == True:
             'Eddington Ratio (log$_{10}$($L_{bol}$/$L_{Edd}$)',
             xlim = (46.1,48.2),
             ylim = (-1.5, 0.5),
+            gridsize=gridsize,
             show_left=True,
-            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{distance}} > {dist_cut2}$)',
-            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} \leq {dist_cut2}$)')
+            hex_func=hexbin_function8,
+            left_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{distance}} \leq {dist_cut2}$)',
+            right_label=fr'EHVOs ($\mathrm{{C\,IV}}\ \mathrm{{ distance}} > {dist_cut2}$)')
 else:
     print('Fig 8 not plotted')
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

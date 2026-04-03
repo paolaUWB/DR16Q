@@ -49,19 +49,31 @@ def bisector(x, y, ax = None, plot=True):
             ax.plot(x_fit, linear_model(x_fit, m, b), color='k', linewidth=1, zorder=1000)
     
             # perpendicular bisector
-            x_range = np.linspace(x_mid - 1, x_mid + 1, 100)
+            x_range = np.linspace(min(x), max(x), 500)
             y_perp = perp_line(x_range)
-            ax.plot(x_range, y_perp, 'r--', zorder=1000)
-        
+            
+            # get data bounds
+            y_min, y_max = min(y), max(y)
+            
+            # mask to keep only points inside y bounds
+            mask = (y_perp >= y_min) & (y_perp <= y_max)
+            
+            ax.plot(x_range[mask], y_perp[mask], 'r--', zorder=1000)
         else:
             # plot fit line
             x_fit = np.linspace(min(x), max(x), 200)
             plt.plot(x_fit, linear_model(x_fit, m, b), color='k', linewidth=1, label='Fit', zorder=1000)
     
-            # plot perpendicular bisector
-            x_range = np.linspace(x_mid - 1, x_mid + 1, 100)
+            # perpendicular bisector
+            x_range = np.linspace(min(x), max(x), 500)
             y_perp = perp_line(x_range)
-            plt.plot(x_range, y_perp, 'r--', label='Perpendicular Bisector', zorder=1000)
-    
+            
+            # get data bounds
+            y_min, y_max = min(y), max(y)
+            
+            # mask to keep only points inside y bounds
+            mask = (y_perp >= y_min) & (y_perp <= y_max)
+            
+            plt.plot(x_range[mask], y_perp[mask], 'r--', zorder=1000)
 
     return above_mask, below_mask
