@@ -53,7 +53,9 @@ output_df = pd.DataFrame({'ordered_sdss_names': ordered_sdss_names})
 output_df.to_csv('ordered_sdss_names.csv', index=False)
 '''
 
-
+"""
+Make column header changable parameter
+"""
 def match_sources(
     source1,
     source2,

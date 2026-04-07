@@ -10,7 +10,7 @@ import os
 import matplotlib.pyplot as plt
 import sys
 from matplotlib.backends.backend_pdf import PdfPages
-from spectra_comparison import Plot_spec_compare_morphed, Plot_spec_compare_og
+from spectra_comparison import Plot_spec_compare_morphed, Plot_spec_compare_og, Plot_spec_compare_full_sdss
 sys.path.insert(0, os.getcwd()+'/../')
 from utility_functions import read_list_spectra
 sys.path.insert(0, os.getcwd()+'/../')
@@ -28,29 +28,29 @@ sys.path.insert(0, os.getcwd()+'/../')
 # Make a folder if you dont have one from the output_folder
 '''
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
-sdss_file = 
-
+SDSS_CSV = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/ordered_sdss_names.csv" #250 with SNR>10 & z>1.9
+#sdss_file =
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
+STARTS_FROM, ENDS_AT = 1, 25 # eventually 1 -> 250
 
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
-sdss_spectra_list, sdss_redshift_list, sdss_calc_snr_list = read_list_spectra(sdss_file, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
+sdss_spectra_list, sdss_redshift_list, sdss_calc_snr_list = read_list_spectra(SDSS_CSV, ["SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
 ########################################## VARIABLES ##########################################
 
 # loops over each spectra from a specified starting and ending point
 output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES_PDF")
-os.makedirs(output_folder, exist_ok=True):
+os.makedirs(output_folder, exist_ok=True)
 
 output_morphed_pdf = os.path.join(output_folder, "spectra_output_morphed.pdf")
 output_og_pdf = os.path.join(output_folder, "spectra_output_og.pdf")
 xlims = -70000, 0
 
-# Modes can be "morphed", "og", or "both"
-MODE = "both"
+# Modes can be, "sdss_full" "morphed", "og", or "both"
+MODE = "sdss_full"
 # If you want to show plot = true, otherwise false, automatically false
-show_plot = False
+show_plot = True
 
 """
 ColDefs(
@@ -77,12 +77,18 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot
             
             #keeping track of how many spectra do not have data points within the velocity limits
             norm_spectrum_file_name = norm_spectra_list[spectra_index - 1]
+            
             #gets the cwd and and names each files corectly
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
-            
-            
-            #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
-            fig = plot_function(recon_file, xlims)
+            if plot_function == "sdss_full":
+                sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
+                print(sdss_spectrum_file_name)
+                print(os.getcwd())
+                sdss_file = os.getcwd() + "/SDSS_fullspecs/" + str(sdss_spectrum_file_name)
+                fig = plot_function(recon_file, sdss_file, xlims)
+            else:
+                #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
+                fig = plot_function(recon_file, xlims)
             
             #Saves the current figure into a page of the pdf
             pdf.savefig(fig)
@@ -99,3 +105,5 @@ elif MODE == "og":
 elif MODE == "both":
     Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims, show_plot)
     Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims, show_plot)
+elif MODE == "sdss_full":
+    Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_full_sdss, xlims, show_plot)
