@@ -141,13 +141,13 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims = None, ylims = None):
     # ------------------SDSS DATA -------------------------
     sdss = fits.open(sdss_file)
     sdss_tab = sdss[1].data
-    
+    '''
     flux = data_tab['flux']
     noise = data_tab['noise']
 #   mask = data_tab['mask']
     morph = data_tab['morph']
     recon = data_tab['recon']
-    
+    '''
     sdss_wavelength = 10**sdss_tab['LOGLAM']
     sdss_flux = sdss_tab['FLUX']
     sdss_ivar = sdss_tab['IVAR']
@@ -226,7 +226,7 @@ def Plot_spec_compare_og(og_file, xlims = None, ylims = None):
     '''
     
  
-    data = fits.open(file)
+    data = fits.open(og_file)
     
     #print(data[1].columns) #run to print column names
     

@@ -27,8 +27,8 @@ sys.path.insert(0, os.getcwd()+'/../')
 # Make sure to loop them in order together
 # Make a folder if you dont have one from the output_folder
 '''
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
-SDSS_CSV = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/ordered_sdss_names.csv" #250 with SNR>10 & z>1.9
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
+SDSS_CSV = sys.argv[2] if len(sys.argv) > 2 else os.getcwd()+"/ordered_sdss_names.csv"
 #sdss_file =
 
 # range of spectra you are working with from the good_fit.csv file
@@ -80,11 +80,10 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot
             
             #gets the cwd and and names each files corectly
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
-            if plot_function == "sdss_full":
+            if plot_function == Plot_spec_compare_full_sdss:
                 sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
-                print(sdss_spectrum_file_name)
-                print(os.getcwd())
-                sdss_file = os.getcwd() + "/SDSS_fullspecs/" + str(sdss_spectrum_file_name)
+                sdss_file = os.path.join(os.getcwd(), "SDSS_fullspecs", str(sdss_spectrum_file_name))
+                
                 fig = plot_function(recon_file, sdss_file, xlims)
             else:
                 #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
