@@ -15,21 +15,34 @@ sys.path.insert(0, os.getcwd()+'/../')
 from utility_functions import read_list_spectra
 sys.path.insert(0, os.getcwd()+'/../')
 
-
-######################################## PATH FINDING ########################################
-
-#defining the config file
-
 '''
+TO DO: [EF go through and mark off what has already been done - LEF]
 # 2nd csv with all file names of the SDSS spectrum
 # Give dummy zeros for redshift and SNR 
 # Make sure the names are the same and match match middle set of numbers
 # Make sure to loop them in order together
-# Make a folder if you dont have one from the output_folder
+# Make a folder if you dont have one from the output_folder 
+
+
+# Fix looping through. The plots seem to be changing as it loops through maybe
+but the plot titles are staying the same. [when using plot function Plot_spec_compare_full_sdss]
+# For plot function Plot_spec_compare_full_sdss the ylims need to be adjusted
+# For plot function Plot_spec_compare_full_sdss remove plot line of noise
+
+# Check and resolve any ploting issues using other plotting modes: "sdss_full", "morphed", "og", or "both"
+    # Change "both" to "all" and integrate using plotting function Plot_spec_compare_full_sdss as well
+    
+# Clean programs: get rid of un used code or commented out code. Make sure sections have titles and comments are clear.
+    # x-ray_recon_comparison.py
+    # spectra_comparison.py
 '''
+
+######################################## PATH FINDING ########################################
+
+#defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
 SDSS_CSV = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/ordered_sdss_names.csv" #250 with SNR>10 & z>1.9
-#sdss_file =
+
 
 # range of spectra you are working with from the good_fit.csv file
 STARTS_FROM, ENDS_AT = 1, 25 # eventually 1 -> 250
@@ -80,12 +93,15 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot
             
             #gets the cwd and and names each files corectly
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
-            if plot_function == "sdss_full":
+            if plot_function == Plot_spec_compare_full_sdss: # changed from "sdss_full" to Plot_spec_compare_full_sdss and this fixed error - LEF [What was happening was the if statement was never being met so it was defaulting to the else where the second parameter in the function is xlims. This made the xlims, a tuple, pass through as sdss_file and error as it is not a file that can be read if it is a tuple.]
+                '''
+                What was happening was the if statement was never being met so it was defaulting to the else where the second parameter in the 
+                function is xlims. This made the xlims, a tuple, pass through as sdss_file and error as it is not a file that can be read if it is a tuple.
+                
+                EF you can delete this ^^^^ once you've read it. Ask me for clarification if this in unclear - LEF'
+                '''
                 sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
-                print(sdss_spectrum_file_name)
-                print(os.getcwd())
                 sdss_file = os.getcwd() + "/Downloading_SDSS_specs/SDSS_fullspecs/" + str(sdss_spectrum_file_name)
-                print('file read in')
                 fig = plot_function(recon_file, sdss_file, xlims)
             else:
                 #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
