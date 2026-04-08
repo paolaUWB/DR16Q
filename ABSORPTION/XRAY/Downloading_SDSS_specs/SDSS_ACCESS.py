@@ -90,6 +90,13 @@ for i in range(len(data_in)):
     if len(field) == 0:
         field_list.append(None)
         print('Warning. No plate or field number.')
+        print(field)
+        
+    elif field == 0:
+        field_list.append(None)
+        print('Warning. No plate or field number.')
+        print(field)
+
     else:
         field_list.append(field[0])
     
@@ -105,6 +112,24 @@ os.makedirs(output_dir, exist_ok=True)
 output_file = os.path.join(output_dir, 'xray_sample_field.csv')
 
 data_in.to_csv(output_file, index=False)
+
+
+'''
+Investigating case I could not download full spec from SDSS:
+
+# I put the following lines on ipython console:
+    
+# this told me that the case had a field number of zero which meant I could not 
+download a full spec file
+la = find_field('v6_1_3', 59187, 4382190169, 70840235)
+la # field or plate for this case is 0
+
+
+# this gave me all the info/avalible files on the particular case
+l = ((df_sdss['mjd'] == 59187)&(df_sdss['catalogid'] == 4382190169))
+data[l] # only all epoch availible... downloaded and investigated data rang in investigate_Q59187-4382190169_noFullspec.py
+
+'''
 
 
 
