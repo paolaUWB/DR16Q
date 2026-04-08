@@ -3,7 +3,7 @@
 """
 Created on Fri Jan  9 12:21:18 2026
 
-@author: lilianaflores
+@author: lilianaflores and elijahfacklam
 """
 
 import os
@@ -141,6 +141,7 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims = None, ylims = None):
     # ------------------SDSS DATA -------------------------
     sdss = fits.open(sdss_file)
     sdss_tab = sdss[1].data
+    #print(sdss_tab.columns) # find column names
     
     flux = data_tab['flux']
     noise = data_tab['noise']
