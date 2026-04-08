@@ -8,7 +8,7 @@ import os
 import sys
 
 csv1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/spec_lists/xray_list_SNR10_z1.9.csv"
-match2 = os.getcwd() + '/SDSS_fullspecs'
+match2 = os.getcwd() + '/Downloading_SDSS_specs/SDSS_fullspecs'
 
 from CSV_NAME_MATCH import match_sources 
 
