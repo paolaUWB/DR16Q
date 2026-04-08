@@ -84,7 +84,8 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot
                 sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
                 print(sdss_spectrum_file_name)
                 print(os.getcwd())
-                sdss_file = os.getcwd() + "/SDSS_fullspecs/" + str(sdss_spectrum_file_name)
+                sdss_file = os.getcwd() + "/Downloading_SDSS_specs/SDSS_fullspecs/" + str(sdss_spectrum_file_name)
+                print('file read in')
                 fig = plot_function(recon_file, sdss_file, xlims)
             else:
                 #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
