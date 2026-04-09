@@ -528,7 +528,6 @@ HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 
 # note there are less than 99 EHVOs on this plot as 11 log10(HeII) values are nan
 # there are 6 EHVOs with log10(HeII) = -inf that needed to be changed to nan values with np.log10(np.where(HeiiEW_EHVOR_combined_noOut> 0, HeiiEW_EHVOR_combined_noOut, np.nan))
 # The new array adds up to 82 EHVOs plotted in figure 5
-# LEF TO DO implement np.log10(np.where(HeiiEW_EHVOR_combined_noOut> 0, HeiiEW_EHVOR_combined_noOut, np.nan)) in any plots that have HeII DONE
 
 
 #print(f'EHVO plate of cases above partition in Fig 5: {plate_EHVOR_combined_noOut[HeiiEW_bisect_above]}')
