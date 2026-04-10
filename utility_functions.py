@@ -4,6 +4,7 @@ from data_types import ColumnIndexes, RangesData, PointData
 import pandas as pd
 import scipy.constants as sc
 from scipy import signal
+from astropy.io import fits
 
 ######################################### sphinx ######################################### 
 """
@@ -100,34 +101,43 @@ def read_list_spectra(file_name: str, column_list: list):
 
     return variable_lists
 
-def read_spectra(spectra_data):
-    """Reads in and returns a lists of lists containing the wavelength, flux, and error for each spectra.
+def read_spectra(spectra_data, is_fits=False, hdu_index=1):
+    """Reads and returns wavelength, flux, and error arrays.
+    
 
-    Defines the variables to be used in the code.
+ Parameters
+ ----------
+ spectra_data:
+ Either:
+ - array-like data (text-loaded spectra), OR
+ - path to a FITS file (if is_fits=True)
+ is_fits : bool, optional
+ If True, reads spectra_data as a FITS file.
+ hdu_index : int, optional
+ HDU index to read from FITS file (default is 1).
 
-    Parameters
-    ----------
-    spectra_data:
-        The drX (X being 9 or 16) files in the form of a text file conataining the wavelength, flux
-        and error of that paticular spectra.
-
-    Returns
-    -------
-    wavelength: list
-        All of the wavelength values in a list.
-    flux: list
-        All of the flux values in a list.
-    error: list
-        All of the error values in a list.
-
-    Note
-    ----
-    As shown in the return, the return value are lists within a list.
-    """
+ Returns
+ -------
+ wavelength: array
+ flux: array
+ error: array
+ """
 
     column_index = ColumnIndexes(0, 1, 2)
-    wavelength = spectra_data[:, column_index.wavelength]
-    flux = spectra_data[:, column_index.flux] 
-    error = spectra_data[:, column_index.error] 
-    
+
+    if is_fits:
+        # Open FITS file
+        with fits.open(spectra_data) as hdul:
+            data = hdul[hdu_index].data
+
+            # Adjust column names depending on your FITS structure
+            wavelength = data['wavelength']
+            flux = data['flux']
+            error = data['error']
+    else:
+        # Assume spectra_data is already a numpy array
+        wavelength = spectra_data[:, column_index.wavelength]
+        flux = spectra_data[:, column_index.flux]
+        error = spectra_data[:, column_index.error]
+
     return [wavelength, flux, error]
