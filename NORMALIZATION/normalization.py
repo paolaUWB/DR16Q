@@ -17,7 +17,7 @@ import sys
 import numpy as np 
 from scipy.optimize import curve_fit
 from matplotlib.backends.backend_pdf import PdfPages
-# sys.path.insert(0, os.getcwd() + '/../DR16Q/') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
+sys.path.insert(0, os.getcwd() + '/../') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
 from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
 from data_types import Range, RangesData, FigureData, FigureDataOriginal, FlaggedSNRData
 from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr

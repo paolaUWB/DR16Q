@@ -18,7 +18,7 @@ import numpy as np
 import scipy.constants as sc
 from scipy import signal
 from matplotlib import pyplot as plt
-from numpy.lib.function_base import append
+#from numpy.lib.function_base import append
 from data_types import Range
 from abs_plot_module import vmin_plot_IF, vmax_plot_span_IF, vmin_line, span_vmin_vmax, black_line
 ###############################################################################################################################
