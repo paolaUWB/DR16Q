@@ -1,1 +1,1 @@
-10000: spec-5716-56684-0654-dered.dr16
+1: NGC-5548_coadd_FUVM_final_lpALL.fits

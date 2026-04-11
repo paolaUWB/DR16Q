@@ -21,8 +21,8 @@ def read_file(FILE: str):
         for line in f:
             each_row_in_file = line.split(",")
             spectra_list.append(each_row_in_file[0])
-            redshift_value_list.append(np.float(each_row_in_file[1]))
-            snr_value_list.append(np.float(each_row_in_file[2]))
+            redshift_value_list.append(float(each_row_in_file[1]))
+            snr_value_list.append(float(each_row_in_file[2]))
 
 
     return(redshift_value_list, snr_value_list, spectra_list)
@@ -126,14 +126,19 @@ def read_spectra(spectra_data, is_fits=False, hdu_index=1):
     column_index = ColumnIndexes(0, 1, 2)
 
     if is_fits:
-        # Open FITS file
+        # Open FITS fits
+            
+        
         with fits.open(spectra_data) as hdul:
             data = hdul[hdu_index].data
 
+
             # Adjust column names depending on your FITS structure
-            wavelength = data['wavelength']
-            flux = data['flux']
-            error = data['error']
+            wavelength = data['WAVE']
+            flux = data['FLUX']
+            error = data['ERROR']
+        
+        
     else:
         # Assume spectra_data is already a numpy array
         wavelength = spectra_data[:, column_index.wavelength]

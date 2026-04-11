@@ -24,31 +24,32 @@ from useful_wavelength_flux_error_modules import wavelength_flux_error_for_point
 from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_original_figure, draw_normalized_figure
 from scipy import signal
 import time 
+from astropy.io import fits
 start_time = time.time() 
 
 ######################################### VARIABLES ######################################### 
 
-DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
+#DR = '16' ## INPUT WHICH DATA RELEASE YOU ARE WORKING WITH [INPUT NUMBER ONLY i.e. '9']
 
-NORM_FILE_EXTENSION = "norm.dr" + DR
+NORM_FILE_EXTENSION = "norm.fits"
 
 ## PATH TO THE FILE THAT IS READ BY THE PROGRAM
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else 'list_of_fits.csv'
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/../DR16Q_DATA/DR" + DR + "Q_SNR10/" 
+SPEC_DIREC = os.getcwd() + "/"
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/textFILES/"
 
 ## CREATES DIRECTORY FOR PLOTS
-PLOT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/pdfFILES/"
+PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/pdfFILES/"
 
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
-NORM_DIREC = os.getcwd() + "/../DR16Q_DATA/" + "NORM_DR16Q/"
+NORM_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 10000, 10000 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
+STARTS_FROM, ENDS_AT = 1, 1 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS - DO NOT CHANGE 
 SNR_CUTOFF = 10. 
@@ -59,7 +60,7 @@ save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 save_by_range = 'no' ## DO YOU WANT TO SAVE FILES BY RANGE OF SPECTRA RUN? 'yes'/'no' -- this will prevent overwriting files every time you run the code.
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
+dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
 
 flag_spectra = 'no' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
 
@@ -74,6 +75,9 @@ BOXCAR_SIZE = 11 ## MUST BE ODD
 ## INITIAL PARAMETERS OF POWERLAW
 b = 1250 
 c = -0.5
+
+#are your spectra files fits files or text files
+fits = True
 
 #############################################################################################
 ####################################### DO NOT CHANGE #######################################
@@ -324,12 +328,25 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index) + ": " + current_spectrum_file_name)
     print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
 
-    current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+    if fits == False:
+        current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
+        wavelength, flux, error = read_spectra(current_spectra_data, is_fits=False)
+        
+    else:
+        current_spectra_data = SPEC_DIREC + current_spectrum_file_name
+        wavelength, flux, error = read_spectra(current_spectra_data, is_fits=True)
+        column_data = np.column_stack( ( wavelength, flux, error ) )
+        np.savetxt(SPEC_DIREC + 'test.txt', column_data)
+        current_spectra_data = np.loadtxt(SPEC_DIREC + 'test.txt')
     
     ## DEFINING WAVELENGTH, FLUX, AND ERROR FOR WHOLE SPECTRA
-    wavelength, flux, error = read_spectra(current_spectra_data)
+ 
     
-    WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(current_spectra_data[:, 0]) - 20., np.max(current_spectra_data[:, 0]))
+    
+    
+    WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(wavelength) - 20., np.max(wavelength))
+    
+    
     
 
     #############################################################################################
