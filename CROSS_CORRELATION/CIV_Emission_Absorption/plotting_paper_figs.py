@@ -494,8 +494,8 @@ else:
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # [Fig 5] HeII vs CIV distance scatter/hist plot  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if plot_fig5 == True:
-    figure_5_outline(CivDistance_rankAll_nonbal, np.log10(HeIIEW_rankAll_nonbal), CivDistance_rankAll_bal, np.log10(HeIIEW_rankAll_bal),
-             CivDist_EHVOR_combined_noOut, np.log10(HeiiEW_EHVOR_combined_noOut), 'Rankine+2020 non-BALs', 'Rankine+2020 BALS',
+    figure_5_outline(CivDistance_rankAll_nonbal, np.log10(np.where(HeIIEW_rankAll_nonbal > 0, HeIIEW_rankAll_nonbal, np.nan)), CivDistance_rankAll_bal, np.log10(np.where(HeIIEW_rankAll_bal > 0, HeIIEW_rankAll_bal, np.nan)),
+             CivDist_EHVOR_combined_noOut, np.log10(np.where(HeiiEW_EHVOR_combined_noOut> 0, HeiiEW_EHVOR_combined_noOut, np.nan)), 'Rankine+2020 non-BALs', 'Rankine+2020 BALS',
              'EHVO (RH+2020 & CS+in prep)', CivDist_EHVOR_9, np.log10(HeiiEW_EHVOR_9))
 else:
     print('Fig 5 not plotted')
@@ -520,14 +520,24 @@ EHVO_bluecut_cond[EHVOcomb_Bluecut] = True
 # cutoff option along cluster separation line in HeII EW vs CIV Distance scatter/hist
 # line option 2
 HeiiEW_bisect_above = np.array([0, 1, 3, 9, 11, 19, 27, 29, 42, 47, 53, 60, 63, 65, 67, 69, 70, 73, 77, 89, 91])
-HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 28, 30, 31, 32, 34, 35, 37,38, 39, 40, 43, 44, 45, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 59, 61, 62, 64, 66, 68, 71, 72, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 93, 94, 95, 97, 98])
+#HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 28, 30, 31, 32, 34, 35, 37,38, 39, 40, 43, 44, 45, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 59, 61, 62, 64, 66, 68, 71, 72, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 93, 94, 95, 97, 98])
+# new below bisect array vvv
+HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 28, 30, 31, 32, 34, 35, 38,
+ 39, 40, 44, 45, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 59, 61, 62, 64, 66, 68, 71, 72, 74,
+ 75, 76, 78, 79, 81, 83, 84, 85, 86, 87, 94, 95, 97, 98])
+# note there are less than 99 EHVOs on this plot as 11 log10(HeII) values are nan
+# there are 6 EHVOs with log10(HeII) = -inf that needed to be changed to nan values with np.log10(np.where(HeiiEW_EHVOR_combined_noOut> 0, HeiiEW_EHVOR_combined_noOut, np.nan))
+# The new array adds up to 82 EHVOs plotted in figure 5
+
 
 #print(f'EHVO plate of cases above partition in Fig 5: {plate_EHVOR_combined_noOut[HeiiEW_bisect_above]}')
 #print(f'EHVO mjd of cases above partition in Fig 5: {mjd_EHVOR_combined_noOut[HeiiEW_bisect_above]}')
 
+'''
 la = np.column_stack((plate_EHVOR_combined_noOut[HeiiEW_bisect_above], mjd_EHVOR_combined_noOut[HeiiEW_bisect_above]))
 df = pd.DataFrame(la, columns=["plate", "mjd"])
 df.to_csv('EHVOs_HeII_CIVDist_cluster.csv', index=False)
+'''
 
 # [Fig 6] HeII colormap hex/scatter plots in physical property parameter spaces -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if plot_fig6 == True:
