@@ -65,7 +65,7 @@ def Plot_spec_compare_morphed(recon_file, xlims = None, ylims = None):
     
     plt.plot(beta2, flux, color = 'red', label='Morphed')
     plt.plot(beta2, flux/recon, color = 'purple', label = 'Normalized')
-    plt.plot(beta2, recon, color = 'orange', label = 'Recon')
+    plt.plot(beta2, recon, color = 'blue', label = 'Recon')
     plt.plot(beta2,np.ones_like(beta2), color='k', linestyle='--')
     plt.plot(beta2,noise, color='grey', label='Noise')
 
