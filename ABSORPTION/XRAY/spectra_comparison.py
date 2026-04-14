@@ -103,100 +103,8 @@ def Plot_spec_compare_morphed(recon_file, xlims = None, ylims = None):
 # Flux * Morph = og
 # Take that out and plot SDSS file as it is not normalized, keep it the same
 # May need to convert wavelength to velocity
-"""
-def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims = None, ylims = None):
-    '''
-    Parameters
-    ----------
-    file : str
-        Provide a file pathway.
-    xlims: tuple
-        Optionally specify x limits when plotting.
-    ylims: tuple
-        Optionally specify y limits when plotting.
-        If not, it will automatically take the range of the mask of the given parameters in the flux and find the max value and at 5% to it
 
-    Returns
-    -------
-    Plot of x-ray selected quasar spectra comparing the original spectrum and reconstruction.
-
-    '''
-    
-    # ---------------- OG DATA ----------------
-    data = fits.open(og_file)
-    
-    #print(data[1].columns) #run to print column names
-    
-    data_tab = data[1].data
-    
-    wavelength = data_tab['wave']
-    flux = data_tab['flux']
-    noise = data_tab['noise']
-#   mask = data_tab['mask']
-    morph = data_tab['morph']
-    recon = data_tab['recon']
-    
-    data.close()
-    
-    
-    # ------------------SDSS DATA -------------------------
-    sdss = fits.open(sdss_file)
-    sdss_tab = sdss[1].data
-    '''
-    flux = data_tab['flux']
-    noise = data_tab['noise']
-#   mask = data_tab['mask']
-    morph = data_tab['morph']
-    recon = data_tab['recon']
-    '''
-    sdss_wavelength = 10**sdss_tab['LOGLAM']
-    sdss_flux = sdss_tab['FLUX']
-    sdss_ivar = sdss_tab['IVAR']
-    sdss_noise = np.zeros_like(sdss_flux)
-    sdss_redshift = np.zeros_like(sdss_flux)
-    
-    sdss.close()
-    # ----------------- PLOTTING ----------------
-    beta = wavelength_to_velocity(0, wavelength)
-    beta2 = wavelength_to_velocity(0, sdss_wavelength)
-    
-    
-    plt.plot(beta2, sdss_flux, color = 'red', label='sdss full')
-    plt.plot(beta, recon*morph, color = 'blue', label = 'Recon')
-    plt.plot(beta, noise*morph, color='grey', label='Noise')
-    
-
-    plt.ylabel('og Flux')
-    plt.xlabel('Velocity km/s')
-    
-    #Check if ylims were defined
-    if ylims is not None:
-        plt.ylim(ylims)
-
-    #If ylims were not defines, check if xlims were defined if it was we will find the ylims in the range of xlims
-    elif xlims is not None:
-        xmin, xmax = xlims
-        
-        #Make sure beta2 is in the range of the velocites we care about
-        mask_range = (beta2 >= xmin) & (beta2 <= xmax)
-    
-        if np.any(mask_range):
-            y_candidates = np.concatenate([
-                flux[mask_range],
-                (flux/recon)[mask_range],
-                recon[mask_range],
-                noise[mask_range],
-            ])
-            ymax = np.max(y_candidates)
-            plt.ylim(top=ymax + (0.05*ymax))
-            
-
-    
-    plt.xlim(xlims)
-    plt.legend(loc='upper right')
-    plt.title(file[70:])
-"""
-def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None):
+def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, redshift=0):
 
     # -------- OG DATA --------
     data = fits.open(og_file)
@@ -217,13 +125,16 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None):
 
     sdss.close()
 
+    # --- CONVERT SDSS TO REST FRAME ---
+    sdss_wavelength_rest = sdss_wavelength / (1 + redshift)
+
     # --- SCALE SDSS TO MATCH OG ---
     scale = np.nanmedian(flux * morph) / np.nanmedian(sdss_flux)
     sdss_flux_scaled = sdss_flux * scale
     
     # -------- VELOCITY --------
     beta  = wavelength_to_velocity(0, wavelength)
-    beta2 = wavelength_to_velocity(0, sdss_wavelength)
+    beta2 = wavelength_to_velocity(0, sdss_wavelength_rest)
 
     # -------- PLOT --------
     fig, ax = plt.subplots()
