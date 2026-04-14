@@ -45,6 +45,7 @@ os.makedirs(output_folder, exist_ok=True)
 
 output_morphed_pdf = os.path.join(output_folder, "spectra_output_morphed.pdf")
 output_og_pdf = os.path.join(output_folder, "spectra_output_og.pdf")
+output_sdss_pdf = os.path.join(output_folder, "spectra_full_og.pdf")
 xlims = -70000, 0
 
 # Modes can be, "sdss_full" "morphed", "og", or "both"
@@ -82,9 +83,10 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
             if plot_function == Plot_spec_compare_full_sdss:
                 sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
-                sdss_file = os.path.join(os.getcwd(), "SDSS_fullspecs", str(sdss_spectrum_file_name))
+                sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/SDSS_fullspecs", str(sdss_spectrum_file_name))
                 
                 fig = plot_function(recon_file, sdss_file, xlims)
+
             else:
                 #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
                 fig = plot_function(recon_file, xlims)
@@ -105,4 +107,4 @@ elif MODE == "both":
     Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims, show_plot)
     Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims, show_plot)
 elif MODE == "sdss_full":
-    Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_full_sdss, xlims, show_plot)
+    Spectra_Comparison_Generate_PDF(output_sdss_pdf, Plot_spec_compare_full_sdss, xlims, show_plot)

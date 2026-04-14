@@ -44,7 +44,7 @@ def Plot_spec_compare_morphed(recon_file, xlims = None, ylims = None):
     '''
     
 
-    data = fits.open(file)
+    data = fits.open(recon_file)
     
     #print(data[1].columns) #run to print column names
     
@@ -103,6 +103,7 @@ def Plot_spec_compare_morphed(recon_file, xlims = None, ylims = None):
 # Flux * Morph = og
 # Take that out and plot SDSS file as it is not normalized, keep it the same
 # May need to convert wavelength to velocity
+"""
 def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims = None, ylims = None):
     '''
     Parameters
@@ -188,11 +189,80 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims = None, ylims = None):
             ])
             ymax = np.max(y_candidates)
             plt.ylim(top=ymax + (0.05*ymax))
+            
+
     
     plt.xlim(xlims)
     plt.legend(loc='upper right')
     plt.title(file[70:])
+"""
+def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None):
+
+    # -------- OG DATA --------
+    data = fits.open(og_file)
+    data_tab = data[1].data
+
+    wavelength = data_tab['wave']
+    flux = data_tab['flux']
+    morph = data_tab['morph']
+
+    data.close()
+
+    # -------- SDSS DATA --------
+    sdss = fits.open(sdss_file)
+    sdss_tab = sdss[1].data
+
+    sdss_wavelength = 10**sdss_tab['LOGLAM']
+    sdss_flux = sdss_tab['FLUX']
+
+    sdss.close()
+
+    # --- SCALE SDSS TO MATCH OG ---
+    scale = np.nanmedian(flux * morph) / np.nanmedian(sdss_flux)
+    sdss_flux_scaled = sdss_flux * scale
     
+    # -------- VELOCITY --------
+    beta  = wavelength_to_velocity(0, wavelength)
+    beta2 = wavelength_to_velocity(0, sdss_wavelength)
+
+    # -------- PLOT --------
+    fig, ax = plt.subplots()
+
+    ax.plot(beta2, sdss_flux_scaled, color='red', label='SDSS Full')
+    ax.plot(beta, flux*morph, color='blue', label='Original')
+
+    ax.set_ylabel('Flux')
+    ax.set_xlabel('Velocity km/s')
+    ax.legend(loc='upper right')
+    ax.set_title(os.path.basename(og_file))
+
+    # -------- Y-LIMITS --------
+    if xlims is not None:
+        xmin, xmax = xlims
+
+        mask_sdss = (beta2 >= xmin) & (beta2 <= xmax)
+        mask_og   = (beta  >= xmin) & (beta  <= xmax)
+
+        y_values = []
+
+        if np.any(mask_sdss):
+            y_values.append(sdss_flux_scaled[mask_sdss])
+
+        if np.any(mask_og):
+            y_values.append((flux*morph)[mask_og])
+
+        if len(y_values) > 0:
+            y_all = np.concatenate(y_values)
+            ymin = np.min(y_all)
+            ymax = np.max(y_all)
+
+            ax.set_ylim(ymin * 0.95, ymax * 1.05)
+
+    if xlims is not None:
+        ax.set_xlim(xlims)
+
+    return fig
+
 
 """    
 #Plotting spectra comparing plots for all three spectra files using a for loop
