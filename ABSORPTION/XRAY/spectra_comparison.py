@@ -148,8 +148,9 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, reds
     ax.set_title(os.path.basename(og_file))
 
     # -------- Y-LIMITS --------
+    #play around with the y-limits, possibly take the median value within a range
     if xlims is not None:
-        xmin, xmax = xlims
+        xmin, xmax = -63000, 0
 
         mask_sdss = (beta2 >= xmin) & (beta2 <= xmax)
         mask_og   = (beta  >= xmin) & (beta  <= xmax)
