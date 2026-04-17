@@ -21,7 +21,7 @@ info_BAL_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16_B
 
 
 ##------ output file location
-OUT_CONFIG = os.getcwd() + '/REDSHIFT/OUTPUT_FILES/'
+OUT_CONFIG = os.getcwd() + '/OUTPUT_FILES/'
 
 
 ##------ read DR16Q data: parent, EHVO, BAL
