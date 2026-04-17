@@ -27,7 +27,7 @@ http_access = HttpAccess(release='DR19', verbose=True)
 # set to use remote
 http_access.remote()
 
-input_file = os.getcwd()+ '/spec_lists/xray_sample_field.csv'
+input_file = os.getcwd()+ '/../spec_lists/xray_sample_field.csv'
 data_in = pd.read_csv(input_file)
 
 df = pd.DataFrame(data_in)
@@ -52,12 +52,15 @@ for i in range(len(df)):
     z = z_col[i]
 
     path = sdss_access.Path(release='DR19', force_modules=True)
-    spec_path = path.full('specFull', catalogid=catalogid, run2d=run2d, mjd=mjd, fieldid=field)
+    #spec_path = path.full('specFull', catalogid=catalogid, run2d=run2d, mjd=mjd, fieldid=field)
     
+    #specFile = access.full('specLite_epoch', run2d=run2d, fieldid=fieldid, mjd = mjd, catalogid=catalogid)
+    spec_path = path.full('specFull_coadd', run2d=run2d, coadd = 'allepoch', mjd = mjd, catalogid=catalogid)
+
     
     filename = os.path.basename(spec_path)
     new_path = os.path.join(download_dir, filename)
-
+    
     if os.path.exists(new_path):
         print(f"Already exists in flat dir: {filename}")
         
@@ -96,11 +99,9 @@ for i in range(len(df)):
     else:
         # otherwise download
         try:
-            http_access.get('specFull',
-                            catalogid=catalogid,
-                            run2d=run2d,
-                            mjd=mjd,
-                            fieldid=field)
+            #http_access.get('specFull', catalogid=catalogid, run2d=run2d, mjd=mjd, fieldid=field)
+            
+            http_access.get('specFull_coadd', run2d=run2d, coadd = 'allepoch', mjd = mjd, catalogid=catalogid)
         
             # move into flat directory
             shutil.move(spec_path, new_path)
