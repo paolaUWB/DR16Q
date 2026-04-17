@@ -4,7 +4,7 @@ import math
 import numpy as np
 from scipy.stats import ks_2samp, norm
 from draw_histogram import plot_zem_histograms
-sys.path.insert(0, os.getcwd() + '/../' + 'DR16Q')
+sys.path.insert(0, os.getcwd() + '/../')
 from utility_functions import read_file
 
 
@@ -15,9 +15,9 @@ BAL_SAMPLE = 1913
 
 
 ##------ data files: DR16Q
-info_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/DR16_parent_sample.csv"
-info_EHVO_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/DR16Q_EHVO/DR16_EHVO_sorted_norm.csv"
-info_BAL_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/DR16_BAL_parent_sample.csv"
+info_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() +"/../DR16_parent_sample.csv"
+info_EHVO_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16Q_EHVO/DR16_EHVO_sorted_norm.csv"
+info_BAL_DR16Q = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16_BAL_parent_sample.csv"
 
 
 ##------ output file location
