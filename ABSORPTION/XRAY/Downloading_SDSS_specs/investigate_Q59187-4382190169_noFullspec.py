@@ -17,7 +17,7 @@ from abs_function_module import wavelength_to_velocity
 
 
 
-sdss_file = '/Users/lilianaflores/spec-allepoch-59187-4382190169.fits'
+sdss_file = os.getcwd() + '/SDSS_fullspecs/spec-allepoch-59187-4382190169.fits'
 
 '''
 When using SDSS files:
