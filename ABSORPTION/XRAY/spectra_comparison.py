@@ -104,7 +104,7 @@ def Plot_spec_compare_morphed(recon_file, xlims = None, ylims = None):
 # Take that out and plot SDSS file as it is not normalized, keep it the same
 # May need to convert wavelength to velocity
 
-def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, redshift=0):
+def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, redshift=0, scale_SDSS=False):
 
     # -------- OG DATA --------
     data = fits.open(og_file)
@@ -113,6 +113,7 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, reds
     wavelength = data_tab['wave']
     flux = data_tab['flux']
     morph = data_tab['morph']
+    recon = data_tab['recon']
 
     data.close()
 
@@ -127,20 +128,55 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, reds
 
     # --- CONVERT SDSS TO REST FRAME ---
     sdss_wavelength_rest = sdss_wavelength / (1 + redshift)
-
-    # --- SCALE SDSS TO MATCH OG ---
-    scale = np.nanmedian(flux * morph) / np.nanmedian(sdss_flux)
-    sdss_flux_scaled = sdss_flux * scale
+    
     
     # -------- VELOCITY --------
     beta  = wavelength_to_velocity(0, wavelength)
-    beta2 = wavelength_to_velocity(0, sdss_wavelength_rest)
+    flux_interp = beta2 = wavelength_to_velocity(0, sdss_wavelength_rest)
+
+    if scale_SDSS == True:
+        
+        og = flux * morph
+        # --- SCALE SDSS TO MATCH OG ---
+        #np.interp(x_new, x_known, y_known)
+        og_i = np.interp(beta2, beta, og)
+        
+        scale = np.nanmedian(og) / np.nanmedian(sdss_flux)
+        sdss_flux = sdss_flux * scale
+        
+        
+        
+        xmin, xmax = -45000, -2000
+       
+        mask_sdss = (beta2 >= xmin) & (beta2 <= xmax)
+        mask_og   = (beta  >= xmin) & (beta  <= xmax)
+
+        y_values_sdss = []
+        y_values_og = []
+
+
+        if np.any(mask_sdss):
+            y_values_sdss.append(sdss_flux[mask_sdss])
+
+        if np.any(mask_og):
+            y_values_og.append((og_i)[mask_sdss])
+
+        
+            #avg_diff = np.diff(mask_sdss, )
+        avg_diff = np.nanmean((np.array(y_values_sdss)-np.array(y_values_og)))
+        
+        sdss_flux = sdss_flux-avg_diff
+    else:
+        pass
+    
+   
 
     # -------- PLOT --------
     fig, ax = plt.subplots()
 
-    ax.plot(beta2, sdss_flux_scaled, color='red', label='SDSS Full')
-    ax.plot(beta, flux*morph, color='blue', label='Original')
+    ax.plot(beta2, sdss_flux, color='red', label='SDSS Full')
+    ax.plot(beta, flux*morph, color='blue', label='Original (Hiremath+2025)')
+    ax.plot(beta, recon*morph, color='green', label='Recon (Hiremath+2025)')
 
     ax.set_ylabel('Flux')
     ax.set_xlabel('Velocity km/s')
@@ -158,7 +194,7 @@ def Plot_spec_compare_full_sdss(og_file, sdss_file, xlims=None, ylims=None, reds
         y_values = []
 
         if np.any(mask_sdss):
-            y_values.append(sdss_flux_scaled[mask_sdss])
+            y_values.append(sdss_flux[mask_sdss])
 
         if np.any(mask_og):
             y_values.append((flux*morph)[mask_og])
