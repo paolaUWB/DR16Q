@@ -28,8 +28,8 @@ sys.path.insert(0, os.getcwd()+'/../')
 # Make a folder if you dont have one from the output_folder
 '''
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
-SDSS_CSV = sys.argv[2] if len(sys.argv) > 2 else os.getcwd()+"/ordered_sdss_names.csv"
-#sdss_file =
+#SDSS_CSV = sys.argv[2] if len(sys.argv) > 2 else os.getcwd()+"/ordered_sdss_names.csv"
+SDSS_CSV = CONFIG_FILE
 
 # range of spectra you are working with from the good_fit.csv file
 STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
@@ -50,10 +50,19 @@ xlims = -70000, 0
 
 # Modes can be, "sdss_full" "morphed", "og", or "both"
 MODE = "sdss_full"
+
+
 # If you want to show plot = true, otherwise false, automatically false
 show_plot = True
+show_plot = False
+
+# Do you want to scale the SDSS data to match the Hiremath data?
+scale_SDSS = True
+#scale_SDSS = False
+
 
 """
+SDSS Column Names
 ColDefs(
     name = 'FLUX'; format = 'E'; unit = '10^-17 ergs/s/cm^2/Angs'
     name = 'LOGLAM'; format = 'E'; unit = 'log10(Angs)'
@@ -67,7 +76,7 @@ ColDefs(
 """
 ########################################## FUNCTIONS ##########################################
 
-def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot = False):
+def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, scale_SDSS, show_plot = False):
     
     with PdfPages(output_path) as pdf:
         for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
@@ -83,11 +92,13 @@ def Spectra_Comparison_Generate_PDF(output_path, plot_function, xlims, show_plot
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
             if plot_function == Plot_spec_compare_full_sdss:
                 sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
-                sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/SDSS_fullspecs", str(sdss_spectrum_file_name))
+                #sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/SDSS_fullspecs", str(sdss_spectrum_file_name))
+                sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/downloaded_SDSS_spectra", str(sdss_spectrum_file_name))
+
                 
                 #fig = plot_function(recon_file, sdss_file, xlims)
                 redshift = redshift_list[spectra_index - 1]
-                fig = plot_function(recon_file, sdss_file, xlims, redshift=redshift)
+                fig = plot_function(recon_file, sdss_file, xlims, redshift=redshift, scale_SDSS=scale_SDSS)
 
             else:
                 #Plot of x-ray selected quasar spectra comparing the Morphed, Normalized, and Reconstruction spectra. Found in spectra_comparison.py
@@ -109,4 +120,4 @@ elif MODE == "both":
     Spectra_Comparison_Generate_PDF(output_morphed_pdf, Plot_spec_compare_morphed, xlims, show_plot)
     Spectra_Comparison_Generate_PDF(output_og_pdf, Plot_spec_compare_og, xlims, show_plot)
 elif MODE == "sdss_full":
-    Spectra_Comparison_Generate_PDF(output_sdss_pdf, Plot_spec_compare_full_sdss, xlims, show_plot)
+    Spectra_Comparison_Generate_PDF(output_sdss_pdf, Plot_spec_compare_full_sdss, xlims, scale_SDSS ,show_plot)
