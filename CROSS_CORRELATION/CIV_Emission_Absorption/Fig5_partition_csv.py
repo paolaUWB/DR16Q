@@ -233,3 +233,16 @@ below_dict = {'Spec File Name': spec_file_name[HeiiEW_bisect_below],
 
 below_df = pd.DataFrame(below_dict)
 below_df.to_csv('EHVOs_HeII_CIVDist_below_partition.csv', index=False)
+
+
+all_dict = {'Spec File Name': spec_file_name,
+              'mjd': mjd_EHVOR_combined_noOut,
+              'plate': plate_EHVOR_combined_noOut,
+              'fiber': fiber_EHVOR_combined_noOut,
+              'HeII EW': HeiiEW_EHVOR_combined_noOut,
+              'CIV Distance': CivDist_EHVOR_combined_noOut
+              }
+
+
+all_df = pd.DataFrame(all_dict)
+all_df.to_csv('EHVOs_HeII_CIVDist_all.csv', index=False)
