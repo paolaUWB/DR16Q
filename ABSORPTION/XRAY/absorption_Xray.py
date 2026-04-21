@@ -69,13 +69,13 @@ boxcar_size = 5
 # plot all cases or only those with absorption
 # and provide text file for all cases or only those with absorption 
 # yes for everything, no for only absorption
-all_plot_and_text = 'no'
+all_plot_and_text = 'yes'
 
 # lower limit of absorption width to be flagged 
 BALNICITY_INDEX_LIMIT = 2000
 
 xlow = -70000
-xhigh = -20000
+xhigh = 0
 
 # limits on velocity
 VELOCITY_LIMIT = Range(-30000, -60000)
@@ -195,7 +195,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         normalized_error = smooth(normalized_error, boxcar_size) / math.sqrt(boxcar_size)
 
     # getting various BI-related values from the absorption_parameters_with_plot function
-    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range = abs_parameters_plot_optional(
+    BI_total, BI_individual, BI_all, vmins, vmaxs, EW_individual, final_depth_individual, final_depth_all_individual, beta, vminindex_for_range, vmaxindex_for_range, masked_regions_all = abs_parameters_plot_optional(
         z, wavelength, normalized_flux, BALNICITY_INDEX_LIMIT, VELOCITY_LIMIT, percent=percent)
 
     #........................................................................................................
