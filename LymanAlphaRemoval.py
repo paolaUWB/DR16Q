@@ -15,9 +15,9 @@ import os
 
 ##------ Inputs/Outputs to change
 
-quasardirec = '/J2318/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
+quasardirec = '/casedirec/J2318/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
 # Then set your specdirec to where your spec files are
-quasardirecname = quasardirec[1:-1] 
+quasardirecname = "J2318"
 
 specdirec = os.getcwd() + quasardirec
 # run this code one directory above where J2318 folder is located.
@@ -33,23 +33,28 @@ use_norm = True # True to plot normalized spectra
 use_div = True # True to plot divided spectra
 reverse_division = False # True to divide stronger absorption by weaker absorption, False to divide weaker absorption by stronger absorption
 use_smooth = True 
-div_spectra_name = "57328" # MJD of the spectrum to be used as the numerator for division (the spectrum with a weaker absorption feature)
+div_spectra_name = "56246" # MJD of the spectrum to be used as the numerator for division (the spectrum with a weaker absorption feature)
 
 
 manual_ylim = 'yes' # This allows you to manually set the ylim on the graphs. Default behavior on 'no' is 1.1x max flux.
 
-zem = 0 # redshift of the quasar, 0 in this case since it is in the rest frame.
+zem = 3.623 # redshift of the quasar, 0 in this case since it is in the rest frame.
 coem=zem+1.
 
 wavelength_emit1_initial = 990.  # left xlim in restframe (set to 1000 to see carbon IV)
-wavelength_emit2_initial = 6000.  # right xlim in restframe (set to 1200 to see carbon IV) #CHANGE THIS LATER!!! XXX
+wavelength_emit2_initial = 6000.  # right xlim in restframe (set to 1200 to see carbon IV) #CHANGE THIS LATER!!!
+
+'''wavelength_emit1_initial = 1000.  # left xlim in restframe (set to 1000 to see carbon IV)
+wavelength_emit2_initial = 1200.  # right xlim in restframe (set to 1200 to see carbon IV) #CHANGE THIS LATER!!! XXX
+'''
 
 vmin = [-80000] # make smaller to move right line right (bigger to move right line left) For absorption shading
 vmax = [-100000] # make bigger to move left line left (smaller to move left line right)
 
 colors_norm = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9'] #Colors the program will run through
 colors_dered = ['#2495DF','#C7301E', '#df9424', '#7b03fc', '#1417d9']
-colors_div = ['#2495DF','#2495DF', '#C7301E', '#7b03fc', '#1417d9']
+colors_div = [ '#f08913', '#f08913', '#f08913', '#7b03fc', '#1417d9']
+ref_color = '#1417d9' # Color for the reference spectrum used in division (MJD 57328 in this case)
 
 
 #-- absorption shading: 'yes' to include. CURRENTLY DEPRECIATED, DOESN'T WORK
@@ -72,7 +77,7 @@ n_list_dered = [3,3,3,3,3]
 
 error_diagnostics = False # Prints out the max error for each epoch, True or False
 
-norm_error_threshold = 2025
+norm_error_threshold = 20
 dered_error_threshold = 4
 
 if manual_ylim == 'yes': # Manually change ylim here
@@ -120,7 +125,6 @@ if use_norm:
 else:
     for i in range(len(dered_list)):
         mjd_dered_list[i] = re.split('-', dered_list[i])[-3]
-
 
 max_list_norm = np.zeros_like(norm_list)
 max_list_dered = np.zeros_like(dered_list)
@@ -245,9 +249,9 @@ for i in range(0,len(vmin)):
 fig, ay1 = plt.subplots()
 ay2 = plt.twiny(ay1)
 
-color = ['xkcd:shocking pink', 'black', 'xkcd:purpleish blue']
-color = ['xkcd:shocking pink', 'xkcd:azure', 'blue', 'xkcd:purpleish blue', 'xkcd:slate']
-
+#color = ['xkcd:shocking pink', 'black', 'xkcd:purpleish blue']
+color = ['xkcd:azure', 'xkcd:azure', 'blue', 'xkcd:purpleish blue', 'xkcd:slate']
+#xxxxx
 plot_title = quasardirecname + ' | '
 
 if use_smooth:
@@ -268,10 +272,13 @@ ay1.set_ylabel("Flux", fontsize=16)
 
 ay1.set_xlim(wavelength_observe1,wavelength_observe2)
 ay1.xaxis.set_label_coords(0.48, -0.08)
+ay1.tick_params(axis='both', which='major', labelsize=12)
 ay2.xaxis.set_label_coords(0.48, 1.11)
 ay2.xaxis.set_major_locator(plt.MaxNLocator(5))
 ay2.set_xlim(wavelength_observe1/coem,wavelength_observe2/coem)
 ay2.set_xlabel(r"Restframe Wavelength [$\rm \AA$]", fontsize=16)
+ay2.tick_params(axis='both', which='major', labelsize=12)
+
 
 zem_plot = "z = " + str(zem)
 if manual_ylim == 'yes':
@@ -331,6 +338,7 @@ for i, file in enumerate(list_to_use):
         ay1.plot([wavelength_observe1,wavelength_observe2],[1,1],'r--')
         ay1.plot (wavelength, (smooth(error, n))/np.sqrt(n),'--') 
         ay1.legend(fontsize = legend_fontsize)
+#xxxxx
 
 ###########################################################################################################################################################################################################################################
 
@@ -340,15 +348,15 @@ if use_div:
     for i, file in enumerate(list_to_use):
         if i == 0:
             # Store the reference (weaker absorption) spectrum data
-            n_ref = n_list[i]
-            data_ref = np.loadtxt(specdirec + file)
+            n = n_list[i]
+            data = np.loadtxt(specdirec + file)
             
-            wavelength_lower_limit_ref = np.where(data_ref[:,0] > wavelength_observe1)
-            wavelength_upper_limit_ref = np.where(data_ref[:,0] < wavelength_observe2)
+            wavelength_lower_limit_ref = np.where(data[:,0] > wavelength_observe1)
+            wavelength_upper_limit_ref = np.where(data[:,0] < wavelength_observe2)
             
-            wavelength_ref = data_ref[np.min(wavelength_lower_limit_ref[0]) : np.max(wavelength_upper_limit_ref[0]), 0]
-            flux_ref = data_ref[np.min(wavelength_lower_limit_ref[0]) : np.max(wavelength_upper_limit_ref[0]), 1]
-            error_ref = data_ref[np.min(wavelength_lower_limit_ref[0]) : np.max(wavelength_upper_limit_ref[0]), 2]
+            wavelength_ref = data[np.min(wavelength_lower_limit_ref[0]) : np.max(wavelength_upper_limit_ref[0]), 0]
+            flux_ref = data[np.min(wavelength_lower_limit_ref[0]) : np.max(wavelength_upper_limit_ref[0]), 1]
+            error_ref = data[np.min(wavelength_lower_limit_ref[0]) : np.max(wavelength_upper_limit_ref[0]), 2]
             continue  # Skip to next iteration; don't plot yet
         
         # For all other comparison spectra (i > 0), create individual plots
@@ -403,10 +411,12 @@ if use_div:
         ay1.set_ylabel("Flux", fontsize=18, labelpad=17)
         ay1.set_xlim(wavelength_observe1, wavelength_observe2)
         ay1.xaxis.set_label_coords(0.48, -0.08)
+        ay1.tick_params(axis='both', which='major', labelsize=12)
         ay2.xaxis.set_label_coords(0.48, 1.11)
         ay2.xaxis.set_major_locator(plt.MaxNLocator(5))
         ay2.set_xlim(wavelength_observe1/coem, wavelength_observe2/coem)
         ay2.set_xlabel(r"Restframe Wavelength [$\rm \AA$]", fontsize=18)
+        ay2.tick_params(axis='both', which='major', labelsize=12)
         
         zem_plot = "z = " + str(zem)
         if manual_ylim == 'yes':
@@ -416,12 +426,12 @@ if use_div:
         # Plot both spectra
         if i != 0:
             if use_smooth:
-                ay1.plot(wavelength_ref, smooth(flux_ref, n_ref), '-', color=colors_div[0], label='MJD ' + mjd_list[0], linewidth=0.75)
+                ay1.plot(wavelength_ref, smooth(flux_ref, n), '-', color=ref_color, label='MJD ' + mjd_list[0], linewidth=0.75)
                 ay1.plot(wavelength, smooth(flux, n), '-', color=colors_div[i], label='MJD ' + mjd_list[i], linewidth=0.75)
-                ay1.plot(wavelength_ref, smooth(error_ref, n_ref)/np.sqrt(n_ref), '--', color=colors_div[0], alpha=0.5)
+                ay1.plot(wavelength_ref, smooth(error_ref, n)/np.sqrt(n), '--', color=ref_color, alpha=0.5)
                 ay1.plot(wavelength, smooth(error, n)/np.sqrt(n), '--', color=colors_div[i], alpha=0.5)
             else:
-                ay1.plot(wavelength_ref, flux_ref, '-', color=colors_div[0], label='MJD ' + mjd_list[0], linewidth=0.75)
+                ay1.plot(wavelength_ref, flux_ref, '-', color=ref_color, label='MJD ' + mjd_list[0], linewidth=0.75)
                 ay1.plot(wavelength, flux, '-', color=colors_div[i], label='MJD ' + mjd_list[i], linewidth=0.75)
                 ay1.plot(wavelength_ref, error, '--', color=colors_div[0], alpha=0.5)
                 ay1.plot(wavelength, error, '--', color=colors_div[i], alpha=0.5)
@@ -442,7 +452,7 @@ if use_div:
             
             # ------ Plot ratio panel
             rel_ratio= divided_spectra - 1.0 # Relative (subtract 1 to center around 0)
-            ratio_smooth = smooth(rel_ratio, n_ref)
+            ratio_smooth = smooth(rel_ratio, n)
             
             pos = ay1.get_position()
             res_height = pos.height * 0.30
@@ -450,9 +460,9 @@ if use_div:
             ax_res = fig.add_axes([pos.x0, pos.y0, pos.width, res_height], sharex=ay1)
             
             if reverse_division:
-                ax_res.plot(wavelength, -ratio_smooth, color='green', linewidth=1.0, label=(mjd_list[i] + ' / ' + mjd_list[0]))
+                ax_res.plot(wavelength_ref, -ratio_smooth, color="#e42828", linewidth=1.0, label=(mjd_list[i] + ' / ' + mjd_list[0]))
             else:
-                ax_res.plot(wavelength, ratio_smooth, color='green', linewidth=1.0, label=(mjd_list[0] + ' / ' + mjd_list[i]))
+                ax_res.plot(wavelength_ref, ratio_smooth, color='#e42828', linewidth=1.0, label=(mjd_list[0] + ' / ' + mjd_list[i]))
             
             ax_res.legend(fontsize=legend_fontsize, loc='upper right')
             ax_res.axhline(0.0, color='darkgray', linestyle='--', linewidth=0.8)
@@ -461,7 +471,7 @@ if use_div:
             ax_res.set_ylim(-1.1*ylim_val, 1.1*ylim_val)
             #ax_res.set_ylim(-2.5, 2.5) # Fixed y-limits for better comparison across panels
             ax_res.set_ylabel ('Division Ratio', fontsize=18, labelpad=9)
-            ax_res.tick_params(axis='both', which='major', labelsize=10)
+            ax_res.tick_params(axis='both', which='major', labelsize=12)
             ax_res.set_xlabel(r"Observed Wavelength [$\rm \AA$]", fontsize=18, labelpad=10) # Shared x-label for the bottom panel
             ay1.xaxis.set_visible(False) # Hide x-axis labels and ticks on ay1 since they're shared with ax_res
             # ------
@@ -475,9 +485,14 @@ if use_div:
                 plt.ylim(0,top_ylim_norm)
                 
             for k in range(0,len(vmin)):
-                if CIV_abs == 'yes':
+                '''if CIV_abs == 'yes': original civ position
                     ay1.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color=color[0])
                     ay1.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color=color[0],fontname='serif',weight='bold')
+                    '''
+                if CIV_abs == 'yes':
+                    ay1.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color=color[0])
+                    ay1.text(CIVll*(1.+zabs_min[k])-30., 0.1-0.1*k, 'CIV', color=color[0], fontname='serif', weight='bold')
+
 
                 if NVabs == 'yes':
                     ay1.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color=color[1])
@@ -512,11 +527,11 @@ if use_div:
                 ay1.text(1242.804*(1+zem)+30.,topemlabel, alpha + '+NV' ,color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
 
             if OVIem == 'yes':
-                ay1.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
+                ay1.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color="#4e43b3",rotation=90,fontname='serif', fontweight='bold', verticalalignment = 'top')
             # ------
             
             # Save division output
-            div_output = np.column_stack((wavelength, divided_spectra, divided_error))
+            div_output = np.column_stack((wavelength_ref, divided_spectra, divided_error))
             headers = '\tWavelength\t Divided_Spectra\t Divided_Error'
             
             if reverse_division:
@@ -546,7 +561,7 @@ if use_div:
 
     data = {
         'NORM SPECTRA FILE NAME': divided_spectra_files,
-        'REDSHIFT': [0] * len(divided_spectra_files),
+        'REDSHIFT': [zem] * len(divided_spectra_files),
         'CALCULATED SNR': [0] * len(divided_spectra_files),
         'NEEDS RECALCULATION': ['N'] * len(divided_spectra_files),
         'Masked Regions': ['[]'] * len(divided_spectra_files)
@@ -554,7 +569,9 @@ if use_div:
     df = pd.DataFrame(data)
 
     # Save to current directory
-    csv_filename = specdirec + quasardirecname + '_divided.csv'
+    #csv_filename = specdirec + quasardirecname + '_divided.csv'
+    #csv_filename = specdirec + "/.../DR16Q_EHVO/" + quasardirecname + "_divided.csv"
+    csv_filename = os.getcwd() + '/casedirec/' + quasardirecname + '/' +quasardirecname + '_divided2.csv'
     print(csv_filename)
     print(specdirec)
     df.to_csv(csv_filename, index=False)
