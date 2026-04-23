@@ -34,10 +34,10 @@ start_time = time.time()
 NORM_FILE_EXTENSION = "norm.fits"
 
 ## PATH TO THE FILE THAT IS READ BY THE PROGRAM
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else 'list_of_fits.csv'
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + '/../DR16_sorted_norm.csv'
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/"
+SPEC_DIREC = os.getcwd() + "/../../DR16Q_zipbomb/DR16Q_SNR10/"
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/textFILES/"
@@ -49,10 +49,10 @@ PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/pdfFILES/"
 NORM_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 ## RANGE OF SPECTRA YOU ARE WORKING WITH FROM THE DRX_sorted_norm.csv FILE. 
-STARTS_FROM, ENDS_AT = 1, 1 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
+STARTS_FROM, ENDS_AT = 14789, 14789 ## Currently able to be run, based on data we have: [DR9: 1-10, 899-1527] [DR16: 1-21823 [HIGH REDSHIFT: (21824-21859 are high redshift cases - must set dynamic = yes to run)]]
 
 ## CUTOFF FOR SNR VALUES TO BE FLAGGED; FLAGS VALUES SMALLER THAN THIS - DO NOT CHANGE 
-SNR_CUTOFF = 10. 
+SNR_CUTOFF = 15. 
 
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
 save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no' 
@@ -77,7 +77,7 @@ b = 1250
 c = -0.5
 
 #are your spectra files fits files or text files
-fits = True
+fits = False
 
 #############################################################################################
 ####################################### DO NOT CHANGE #######################################

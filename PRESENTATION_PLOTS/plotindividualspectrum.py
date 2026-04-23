@@ -11,38 +11,41 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import os
 from matplotlib.backends.backend_pdf import PdfPages
+from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_original_figure, draw_normalized_figure
 
 
 ##------ Inputs/Outputs to change
-specdirec = os.getcwd() + '/../' + 'EHVO_NORM_DR16Q/'
+specdirec = os.getcwd() + '/../../' + 'DR16Q_zipbomb/DR16Q_SNR10/'
+#specdirec = os.getcwd() + '/../../' + 'DR16Q_zipbomb/NORM_DR16Q/NORM_DR16Q/'
+#specdirec = os.path.normpath(os.path.join("awjaustin", "../../DR16Q_zipbomb"))
 
-save_format = 'pdf' # 'pdf' to save as pdf file, 'png' to save as png file
+save_format = 'png' # 'pdf' to save as pdf file, 'png' to save as png file
 
 #-- TO CHANGE EVERY TIME:
-save_file_name = 'spec001' 
-norm_spectra = 'spec-5421-55980-0918norm.dr16'
+save_file_name = 'spec-6520-56541-0363_dered' 
+norm_spectra = 'spec-6520-56541-0363-dered.dr16'
 
-zem = 4.479 # redshift of norm_spectra
+zem = 2.501 # redshift of norm_spectra
 
-topylim = 2.7
+topylim = 25
 topemlabel = topylim - 0.03 # where you want to place the ion labels
 
 zem_label_x = 1450 # x-coordinate for zem label (in restframe)
 zem_label_y = 1.9 # y-coordinate for zem label
 
-wavelength_emit1_initial = 1000.  # left xlim in restframe
-wavelength_emit2_initial = 1600.  # right xlim in restframe
+wavelength_emit1_initial = 1200.  # left xlim in restframe
+wavelength_emit2_initial = 1800.  # right xlim in restframe
 
 vmin = [-53800] # make smaller to move right line right (bigger to move right line left)
 vmax = [-58200] # make bigger to move left line left (smaller to move left line right)
 
 #-- absorption shading: 'yes' to include
-NVabs = 'yes'
+NVabs = 'no'
 OVIabs = 'no'
-SiIVabs = 'yes'
+SiIVabs = 'no'
 Lyaabs = 'no'
 
-OVIem = 'yes' # OVI emission label: 'yes' to include
+OVIem = 'no' # OVI emission label: 'yes' to include
 
 n = 3 # smooth box car
 
@@ -159,19 +162,20 @@ fig, ay1 = plt.subplots()
 
 # plt.title(spectrum)
 ay1.set_xlabel(r"Observed Wavelength [$\rm \AA$]")
-ay1.set_ylabel(r"Normalized Flux")
+#ay1.set_ylabel(r"Normalized Flux") #Y axis label for if data is normalized data
+ay1.set_ylabel(r"Flux[10^[-17]]cgs") #Y axis label for if data is NOT normalized
      
 ay1.plot (wavelength, smooth(normflux,n),'k-')
-ay1.plot (wavelength, error_normflux,'k--') 
+ay1.plot (wavelength, error_normflux,'k-') 
 
-plt.plot([wavelength_observe1,wavelength_observe2],[1,1],'r--')
+#plt.plot([wavelength_observe1,wavelength_observe2],[1,1],'r-')
 color = ['xkcd:shocking pink', 'black', 'xkcd:purpleish blue']
 color = ['xkcd:shocking pink', 'xkcd:azure', 'blue', 'xkcd:purpleish blue', 'xkcd:slate']
 # color = ['red', 'green', 'blue', 'orange', 'purple']
 
 for k in range(0,len(vmin)):
-    plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color=color[0])
-    plt.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color=color[0],fontname='serif',weight='bold')
+    #plt.axvspan(CIVll*(1.+zabs_max[k]),CIVll*(1.+zabs_min[k]), alpha=0.2, color=color[0])
+    #plt.text(CIVll*(1.+zabs_min[k])-30.,0.5-0.1*k,'CIV',color=color[0],fontname='serif',weight='bold')
 
     if NVabs == 'yes':
         plt.axvspan(NVllblue*(1.+zabs_max[k]),NVllred*(1.+zabs_min[k]), alpha=0.2, color=color[1])
@@ -193,16 +197,17 @@ for k in range(0,len(vmin)):
 
 #matplotlib.rcParams['font.sans-serif'] = ['Source Han Sans TW', 'sans-serif']
 
-plt.text(1549.0*(1+zem)-30,topemlabel ,'CIV',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
-plt.text(1402.770*(1+zem)-40.,topemlabel,'SiIV+OIV]',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+#plt.text(1549.0*(1+zem)-30,topemlabel ,'CIV',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+#plt.text(1402.770*(1+zem)-40.,topemlabel,'SiIV+OIV]',color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
 
 alpha = 'Ly' + chr(945)
-plt.text(1242.804*(1+zem)+30.,topemlabel, alpha + '+NV' ,color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
-plt.text(1304.8576*(1+zem)-35.,topemlabel,'OI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
-plt.text(1334.5323*(1+zem)-30.,topemlabel,'CII',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
+#plt.text(1242.804*(1+zem)+30.,topemlabel, alpha + '+NV' ,color='black',rotation = 90,fontname='serif', verticalalignment = 'top')
+#plt.text(1304.8576*(1+zem)-35.,topemlabel,'OI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
+#plt.text(1334.5323*(1+zem)-30.,topemlabel,'CII',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
 
 if OVIem == 'yes':
     plt.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
+
 
 coem=zem+1.
 plt.xlim(wavelength_observe1,wavelength_observe2) 
@@ -223,4 +228,4 @@ plt.ylim(0,topylim)
 
 fig.tight_layout() 
 
-plt.savefig(os.getcwd() + '/PRESENTATION_PLOTS/OUTPUT_FILES/' + pp2, dpi=100)
+plt.savefig(os.getcwd() + '/OUTPUT_FILES/' + pp2, dpi=100)
