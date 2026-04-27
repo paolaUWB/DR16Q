@@ -3,9 +3,9 @@ spec-allepoch-59193-4399272891.fits
 BI (-30000 > v > -60000): 1458.0
 vmins: [-34884.98007 -49429.75147]
 vmaxs: [-41065.65656 -51442.0225 ]
-BI_individual: [np.float64(1455.59), np.float64(2.41)]
-EW_individual: [np.float64(1969.27), np.float64(415.38)]
-Depth: [np.float64(0.01), np.float64(0.03)]
+BI_individual: [1455.59    2.41]
+EW_individual: [1969.27  415.38]
+Depth: [0.54 0.36]
 
 
 2 abs | 70 tot
@@ -13,9 +13,9 @@ spec-allepoch-59375-5189718924.fits
 BI (-30000 > v > -60000): 1.92
 vmins: [-31680.60181]
 vmaxs: [-33931.29472]
-BI_individual: [np.float64(1.92)]
-EW_individual: [np.float64(27.16)]
-Depth: [np.float64(-0.02)]
+BI_individual: [1.92]
+EW_individual: [27.16]
+Depth: [0.12]
 
 
 3 abs | 72 tot
@@ -23,9 +23,9 @@ spec-allepoch-59376-4603870110.fits
 BI (-30000 > v > -60000): 1454.19
 vmins: [-30861.25793]
 vmaxs: [-38760.25777]
-BI_individual: [np.float64(1454.19)]
-EW_individual: [np.float64(1846.34)]
-Depth: [np.float64(0.03)]
+BI_individual: [1454.19]
+EW_individual: [1846.34]
+Depth: [0.66]
 
 
 4 abs | 74 tot
@@ -33,9 +33,9 @@ spec-allepoch-59381-4350968445.fits
 BI (-30000 > v > -60000): 221.7
 vmins: [-29973.10964 -56518.05396]
 vmaxs: [-34816.88318 -58579.11254]
-BI_individual: [np.float64(211.04), np.float64(10.67)]
-EW_individual: [np.float64(273.48), np.float64(145.19)]
-Depth: [np.float64(0.06), np.float64(0.02)]
+BI_individual: [211.04  10.67]
+EW_individual: [273.48 145.19]
+Depth: [0.19 0.23]
 
 
 5 abs | 75 tot
@@ -43,9 +43,9 @@ spec-allepoch-59381-4351093563.fits
 BI (-30000 > v > -60000): 169.6
 vmins: [-30041.44782]
 vmaxs: [-34884.98007]
-BI_individual: [np.float64(169.6)]
-EW_individual: [np.float64(324.59)]
-Depth: [np.float64(0.13)]
+BI_individual: [169.6]
+EW_individual: [324.59]
+Depth: [0.22]
 
 
 6 abs | 151 tot
@@ -53,9 +53,9 @@ spec-allepoch-59318-4570380920.fits
 BI (-30000 > v > -59905.79251): 25.89
 vmins: [-54317.92477]
 vmaxs: [-57316.55229]
-BI_individual: [np.float64(25.89)]
-EW_individual: [np.float64(71.91)]
-Depth: [np.float64(0.07)]
+BI_individual: [25.89]
+EW_individual: [71.91]
+Depth: [0.1]
 
 
 7 abs | 178 tot
@@ -63,9 +63,9 @@ spec-allepoch-60052-27021598150248240.fits
 BI (-30000 > v > -59905.79251): 132.66
 vmins: [-48556.33187 -52780.90028 -56784.31309]
 vmaxs: [-52245.6066 -55652.0752]
-BI_individual: [np.float64(40.0), np.float64(13.2)]
-EW_individual: [np.float64(133.52), np.float64(148.61)]
-Depth: [np.float64(0.13), np.float64(0.13)]
+BI_individual: [40.  13.2]
+EW_individual: [133.52 148.61]
+Depth: [0.18 0.19]
 
 
 8 abs | 181 tot
@@ -73,9 +73,9 @@ spec-allepoch-60071-27021598160032302.fits
 BI (-30000 > v > -59905.79251): 497.98
 vmins: [-45661.37141 -52914.6696 ]
 vmaxs: [-47749.34601]
-BI_individual: [np.float64(3.3)]
-EW_individual: [np.float64(50.91)]
-Depth: [np.float64(0.2)]
+BI_individual: [3.3]
+EW_individual: [50.91]
+Depth: [0.13]
 
 
 9 abs | 197 tot
@@ -83,8 +83,8 @@ spec-allepoch-59278-4554137313.fits
 BI (-30000 > v > -57582.53155): 1078.12
 vmins: [-33999.43841]
 vmaxs: [-42148.8573]
-BI_individual: [np.float64(1078.12)]
-EW_individual: [np.float64(1391.79)]
-Depth: [np.float64(0.01)]
+BI_individual: [1078.12]
+EW_individual: [1391.79]
+Depth: [0.45]
 
 
