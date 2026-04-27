@@ -1,0 +1,120 @@
+1 abs | 1 tot
+J2318_57328_UZ1_RPnorm_fit_spectra.txt
+BI (-70000 > v > -100000): 140.11
+vmins: [-80885.61111]
+vmaxs: [-84965.31096]
+BI_individual: [140.11]
+EW_individual: [267.58]
+Depth: [0.19]
+
+
+2 abs | 2 tot
+J2318_57328_UZ1_RP2norm_fit_spectra.txt
+BI (-70000 > v > -100000): 162.21
+vmins: [-80757.58892 -88822.28879]
+vmaxs: [-85028.88012 -90895.72854]
+BI_individual: [161.94   0.27]
+EW_individual: [289.76  30.19]
+Depth: [0.2  0.12]
+
+
+3 abs | 3 tot
+J2318_57328_DZ1_RPnorm_fit_spectra.txt
+BI (-70000 > v > -100000): 379.44
+vmins: [-80565.51009 -87561.25543]
+vmaxs: [-86043.47153 -91772.43174]
+BI_individual: [274.67 104.78]
+EW_individual: [400.2  174.53]
+Depth: [0.21 0.16]
+
+
+4 abs | 4 tot
+J2318_57328_DZ1_RP2norm_fit_spectra.txt
+BI (-70000 > v > -100000): 394.17
+vmins: [-80437.36296 -87561.25543]
+vmaxs: [-86106.75817 -91772.43174]
+BI_individual: [289.39 104.78]
+EW_individual: [408.47 175.89]
+Depth: [0.21 0.16]
+
+
+5 abs | 5 tot
+J2318_59188_UZ3_RPnorm_fit_spectra.txt
+BI (-70000 > v > -100000): 1662.6
+vmins: [-80437.36296 -92459.92081]
+vmaxs: [-90393.86223 -95385.96089]
+BI_individual: [1631.37   31.24]
+EW_individual: [2112.4   134.88]
+Depth: [0.57 0.16]
+
+
+6 abs | 6 tot
+J2318_59188_UZ3_RP2norm_fit_spectra.txt
+BI (-70000 > v > -100000): 1744.0
+vmins: [-80373.23533 -92397.54301]
+vmaxs: [-90456.71436 -95385.96089]
+BI_individual: [1705.79   38.21]
+EW_individual: [2173.15  146.34]
+Depth: [0.57 0.17]
+
+
+7 abs | 7 tot
+J2318_59188_DZ3_RPnorm_fit_spectra.txt
+BI (-70000 > v > -100000): 1854.56
+vmins: [-80309.24318 -93520.65585]
+vmaxs: [-91209.03239 -95881.9283 ]
+BI_individual: [1846.94    7.62]
+EW_individual: [2294.13  143.24]
+Depth: [0.54 0.19]
+
+
+8 abs | 8 tot
+J2318_59188_DZ3_RP2norm_fit_spectra.txt
+BI (-70000 > v > -100000): 1905.75
+vmins: [-80309.24318 -93520.65585]
+vmaxs: [-91209.03239 -95820.04596]
+BI_individual: [1898.83    6.93]
+EW_individual: [2356.57  141.18]
+Depth: [0.54 0.18]
+
+
+9 abs | 9 tot
+J2318_60251_UZ2_RPnorm_fit_spectra.txt
+BI (-70000 > v > -100000): 3048.84
+vmins: [-74446.27931]
+vmaxs: [-88948.22987]
+BI_individual: [3048.84]
+EW_individual: [3147.5]
+Depth: [0.52]
+
+
+10 abs | 10 tot
+J2318_60251_UZ2_RP2norm_fit_spectra.txt
+BI (-70000 > v > -100000): 3370.44
+vmins: [-74122.20797]
+vmaxs: [-89262.85957]
+BI_individual: [3370.44]
+EW_individual: [3503.02]
+Depth: [0.53]
+
+
+11 abs | 11 tot
+J2318_60251_DZ2_RPnorm_fit_spectra.txt
+BI (-70000 > v > -100000): 4403.02
+vmins: [-73927.80474]
+vmaxs: [-90707.5267]
+BI_individual: [4403.02]
+EW_individual: [4523.49]
+Depth: [0.57]
+
+
+12 abs | 12 tot
+J2318_60251_DZ2_RP2norm_fit_spectra.txt
+BI (-70000 > v > -100000): 4571.83
+vmins: [-73733.27876]
+vmaxs: [-90895.72854]
+BI_individual: [4571.83]
+EW_individual: [4701.91]
+Depth: [0.57]
+
+
