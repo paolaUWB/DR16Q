@@ -21,6 +21,7 @@ import csv
 import pandas as pd
 import scipy.stats as stat
 import numpy as np
+import yaml
 from pylab import*
 from sympy import sympify
 from matplotlib.backends.backend_pdf import PdfPages
@@ -71,6 +72,7 @@ dfRHV_9 = pd.read_csv(infoRankineEHVO_DR9, header=0)
 plate_EHVOR=dfRHV[dfRHV.columns[1]].to_numpy()
 mjd_EHVOR=dfRHV[dfRHV.columns[2]].to_numpy()
 fiber_EHVOR=dfRHV[dfRHV.columns[3]].to_numpy()
+z_EHVOR=dfRHV[dfRHV.columns[4]].to_numpy()
 
 CivBlue_EHVOR=dfRHV[dfRHV.columns[5]].to_numpy()
 CivEW_EHVOR=dfRHV[dfRHV.columns[6]].to_numpy()
@@ -84,6 +86,8 @@ MBH_EHVOR=dfRHV[dfRHV.columns[16]].to_numpy()
 plate_EHVOR_9=dfRHV_9[dfRHV_9.columns[1]].to_numpy()
 mjd_EHVOR_9=dfRHV_9[dfRHV_9.columns[2]].to_numpy()
 fiber_EHVOR_9=dfRHV_9[dfRHV_9.columns[3]].to_numpy()
+z_EHVOR_9=dfRHV_9[dfRHV_9.columns[4]].to_numpy()
+
 
 CivBlue_EHVOR_9=dfRHV_9[dfRHV_9.columns[5]].to_numpy()
 CivEW_EHVOR_9=dfRHV_9[dfRHV_9.columns[6]].to_numpy()
@@ -164,6 +168,9 @@ no_outlier_plate_EHVO = np.delete(copyplate_EHVO, [40])
 copyfiber_EHVO = np.copy(fiber_EHVOR)
 no_outlier_fiber_EHVO = np.delete(copyfiber_EHVO, [40])
 
+copyz_EHVO = np.copy(z_EHVOR)
+no_outlier_z_EHVO = np.delete(copyz_EHVO, [40])
+
 outlier_idx = 40
 
 dfRHV_noOut = dfRHV.drop(index=outlier_idx).copy()
@@ -191,6 +198,9 @@ mjd_EHVOR_combined_noOut = np.concatenate((mjd_EHVOR_9, no_outlier_mjd_EHVO))
 plate_EHVOR_combined_noOut = np.concatenate((plate_EHVOR_9, no_outlier_plate_EHVO))
 fiber_EHVOR_combined_noOut = np.concatenate((fiber_EHVOR_9, no_outlier_fiber_EHVO))
 
+z_EHVOR_combined_noOut = np.concatenate((z_EHVOR_9, no_outlier_z_EHVO))
+
+
 
 
 # line option 2
@@ -210,29 +220,79 @@ for i in range(len(mjd_EHVOR_combined_noOut)):
     spec_file_name.append('spec-' + str(plate_EHVOR_combined_noOut[i]) + '-' + str(mjd_EHVOR_combined_noOut[i]) + '-' + fiber_EHVOR_combined_noOut_str + 'norm.dr')
 
 spec_file_name = np.array(spec_file_name)
-above_dict = {'Spec File Name': spec_file_name[HeiiEW_bisect_above],
+above_dict = {'norm_spectra': spec_file_name[HeiiEW_bisect_above],
               'mjd': mjd_EHVOR_combined_noOut[HeiiEW_bisect_above],
               'plate': plate_EHVOR_combined_noOut[HeiiEW_bisect_above],
               'fiber': fiber_EHVOR_combined_noOut[HeiiEW_bisect_above],
               'HeII EW': HeiiEW_EHVOR_combined_noOut[HeiiEW_bisect_above],
-              'CIV Distance': CivDist_EHVOR_combined_noOut[HeiiEW_bisect_above]
+              'CIV Distance': CivDist_EHVOR_combined_noOut[HeiiEW_bisect_above],
+              'vmin': vmin_EHVOR_combined_noOut[HeiiEW_bisect_above],
+              'vmax': vmax_EHVOR_combined_noOut[HeiiEW_bisect_above],
+              'zem': z_EHVOR_combined_noOut[HeiiEW_bisect_above],
+              'save_file_name': ['spec_above_' + str(i) for i in range(len(z_EHVOR_combined_noOut[HeiiEW_bisect_above]))]
               }
-  
+
 
 above_df = pd.DataFrame(above_dict, index=None)
 above_df.to_csv('EHVOs_HeII_CIVDist_above_partition.csv', index=False)  
+
+for i in range(len(above_dict['zem'])):
+    parameters = {}
+
+    for key in above_dict:
+        value = above_dict[key][i]
+
+        # Convert NumPy scalars to native Python types
+        if hasattr(value, "item"):
+            value = value.item()
+
+        parameters[key] = value
+
+    print(parameters)
+
+    file_name = f"spec_above_{i}.yaml"
+
+    with open(os.getcwd() + '/OUTPUT_FILES/'+ file_name, "w") as file:
+        yaml.safe_dump(parameters, file, sort_keys=False)
+        
+        
     
-below_dict = {'Spec File Name': spec_file_name[HeiiEW_bisect_below],
+below_dict = {'norm_spectra': spec_file_name[HeiiEW_bisect_below],
               'mjd': mjd_EHVOR_combined_noOut[HeiiEW_bisect_below],
               'plate': plate_EHVOR_combined_noOut[HeiiEW_bisect_below],
               'fiber': fiber_EHVOR_combined_noOut[HeiiEW_bisect_below],
               'HeII EW': HeiiEW_EHVOR_combined_noOut[HeiiEW_bisect_below],
-              'CIV Distance': CivDist_EHVOR_combined_noOut[HeiiEW_bisect_below]
+              'CIV Distance': CivDist_EHVOR_combined_noOut[HeiiEW_bisect_below],
+              'vmin': vmin_EHVOR_combined_noOut[HeiiEW_bisect_below],
+              'vmax': vmax_EHVOR_combined_noOut[HeiiEW_bisect_below],
+              'zem': z_EHVOR_combined_noOut[HeiiEW_bisect_below],
+              'save_file_name': ['spec_below_' + str(i) for i in range(len(z_EHVOR_combined_noOut[HeiiEW_bisect_below]))]
               }
+
 
 
 below_df = pd.DataFrame(below_dict)
 below_df.to_csv('EHVOs_HeII_CIVDist_below_partition.csv', index=False)
+
+for i in range(len(below_dict['zem'])):
+    parameters = {}
+
+    for key in below_dict:
+        value = below_dict[key][i]
+
+        # Convert NumPy scalars to native Python types
+        if hasattr(value, "item"):
+            value = value.item()
+
+        parameters[key] = value
+
+    print(parameters)
+
+    file_name = f"spec_below_{i}.yaml"
+
+    with open(os.getcwd() + '/OUTPUT_FILES/'+ file_name, "w") as file:
+        yaml.safe_dump(parameters, file, sort_keys=False)
+
 
 
 all_dict = {'Spec File Name': spec_file_name,
@@ -246,3 +306,4 @@ all_dict = {'Spec File Name': spec_file_name,
 
 all_df = pd.DataFrame(all_dict)
 all_df.to_csv('EHVOs_HeII_CIVDist_all.csv', index=False)
+
