@@ -60,28 +60,28 @@ ref = 'blue'
 
 #CIV settings
 files = 'og_data_all' # running speftra fittings with no alterations to flux
-#files = 'og_data_all_shift_down' # shiffting fitting up
-#files = 'og_data_all_shift_up' # shifting fitting
-#files = 'CIV_add_0.5err' #shifting spec up
+#files = 'CIV_add_0.5err' # using .txt files produced from shifting spectra up/down by 50% of the error and then refitting - [THIS WAS THE METHOD PUBLISHED FOR ERROR CONSTRAINING!]
 #files = 'CIV_sub_0.5err'
+
+#files = 'og_data_all_shift_down' # shiffting fitting up - [NOT USED IN PAPER]
+#files = 'og_data_all_shift_up' # shifting fitting - [NOT USED IN PAPER]
 
 #SiIV settings
 #files = 'SiIV_fit'
-#files = 'SiIV_fit_up'
-#files = 'SiIV_fit_down'
-#files = 'SiIV_shift_spec_up'
+#files = 'SiIV_shift_spec_up' # using .txt files produced from shifting spectra up/down by 50% of the error and then refitting - [THIS WAS THE METHOD PUBLISHED FOR ERROR CONSTRAINING!]
 #files = 'SiIV_shift_spec_down'
-#files = 'SiIV57_upperlim'
+#files = 'SiIV57_upperlim' # only done for 57328 upper limit using .txt file produced from shifting spectra down by 50% of the error and then refitting - [THIS WAS THE METHOD PUBLISHED FOR ERROR CONSTRAINING!]
+
+#files = 'SiIV_fit_up' # shiffting fitting up - [NOT USED IN PAPER]
+#files = 'SiIV_fit_down' # shiffting fitting up - [NOT USED IN PAPER]
 
 
-#shift_ogfit = 'up'
-#shift_ogfit = 'down'
+
 shift_ogfit = False
 
 
 
 #defining the config file
-
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/fit_spectra_list_ogdata_V3.csv"
 CONFIG_FILE2 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/fit_spectra_list_alternates_V3.csv" 
 CONFIG_FILE3 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/fit_spectra_list_SiIV.csv" 
@@ -104,21 +104,7 @@ NORM_DIREC3 = "/Users/lilianaflores/GitHub/DR16Q/ABSORPTION/York_paper/Finding_A
 OUT_DIREC = os.getcwd() + "/output_files/"
 
 
-'''
-P099_SiIVabs_values = 'absorption_table_P0.99all_SiIVBI2000.csv' 
 
-P099_SiIVabs_57upperlim_values = 'absorption_table_P0.99SiIV_fit57_upperlimBI2000.csv'
-
-df_P099_SiIVabs_values = pd.read_csv(OUT_DIREC+P099_SiIVabs_values)
-df_P099_SiIVabs_57upperlim_values = pd.read_csv(OUT_DIREC+P099_SiIVabs_57upperlim_values)
-
-
-df_P099_SiIVabs_values.iloc[:4, :] = df_P099_SiIVabs_57upperlim_values.iloc[:4, :].values
-
-print(df_P099_SiIVabs_values)
-
-stop
-'''
 # do you want to use smoothed norm flux/error
 # boxcar_size must always be an odd integer
 want_to_smooth = 'no' 
@@ -294,6 +280,7 @@ elif files == 'CIV_add_0.5err':
     
     ref_wave = wavelength_CIV_emit1
     ref_title = ''
+    
 
 
     
@@ -322,7 +309,7 @@ elif files == 'og_data_all_shift_down':
     
     ref_wave = wavelength_CIV_emit1
     ref_title = ''
-
+    shift_ogfit = 'down'
 
     
 elif files == 'og_data_all_shift_up':
@@ -336,6 +323,8 @@ elif files == 'og_data_all_shift_up':
     
     ref_wave = wavelength_CIV_emit1
     ref_title = ''
+    shift_ogfit = 'up'
+   
 
     
 elif files == 'SiIV_fit':
@@ -408,6 +397,8 @@ elif files == 'SiIV_fit_up':
     
     ref_wave = wavelength_SiIV_emit1
     ref_title = ''
+    shift_ogfit = 'up'
+    
 
 
 elif files == 'SiIV_fit_down':
@@ -422,15 +413,17 @@ elif files == 'SiIV_fit_down':
     ref_wave = wavelength_SiIV_emit1
 
     ref_title = ''
+    shift_ogfit = 'down'
 
 elif files == 'SiIV57_upperlim':
     CONFIG_FILE = CONFIG_FILE4
     NORM_DIREC = NORM_DIREC
 
     # range of spectra you are working with spectra list 'fit_spectra_list_ogdata_V3.csv'
-    STARTS_FROM, ENDS_AT = 1, 4 #for SiIV fittings
+    STARTS_FROM, ENDS_AT = 1, 4 #special fitting shifted down for upper limit constraint
     
     out_name = 'SiIV_fit57_upperlim'
+    
     
     
     if ref == 'red':
@@ -448,42 +441,6 @@ elif files == 'SiIV57_upperlim':
 
 
 
-###### differnece errors##############
-'''
-diff_09 = os.getcwd() + "/../York_paper/output_files/alternate_normalized_fits/diffs_df_09.csv"
-
-df_09 = pd.read_csv(diff_09, index_col=0)
-
-print('UV RP1')
-filter_UV_RP = df_09[df_09.index.str.contains('UV') & df_09.index.str.contains('RP1')]
-max_values_UV_RP = filter_UV_RP.max()
-#max_values_UV_RP = round(max_values_UV_RP,-3)
-print(max_values_UV_RP)
-print()
-
-print('UV RP2')
-
-filter_UV_RP2 = df_09[df_09.index.str.contains('UV') & df_09.index.str.contains('RP2')]
-max_values_UV_RP2 = filter_UV_RP2.max()
-print(max_values_UV_RP2)
-print()
-
-print('DV RP1')
-
-filter_DV_RP = df_09[df_09.index.str.contains('DV') & df_09.index.str.contains('RP1')]
-max_values_DV_RP = filter_DV_RP.max()
-print(max_values_DV_RP)
-print()
-
-print('DV RP2')
-
-filter_DV_RP2 = df_09[df_09.index.str.contains('DV') & df_09.index.str.contains('RP2')]
-max_values_DV_RP2 = filter_DV_RP2.max()
-print(max_values_DV_RP2)
-
-
-stop
-'''
 ###############################################################################################################################
 ######################################## OUTPUT FILES #########################################################################
 
