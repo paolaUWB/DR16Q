@@ -17,6 +17,11 @@ from abs_function_module import wavelength_to_velocity
 sys.path.insert(0, os.getcwd()+'/../../')
 from utility_functions import read_list_spectra
 
+'''
+TO DO:
+- integrate sample parameters into pdf naming ex: SNR10. (Since may also run 10>SNR>9)
+
+'''
 
 ######################################## PATH FINDING ########################################
 
