@@ -1,0 +1,10 @@
+norm_spectra: spec-5807-56329-0778norm.dr
+mjd: 56329
+plate: 5807
+fiber: 778
+HeII EW: 0.119187308
+CIV Distance: 1.084760629
+vmin: -41348.62332
+vmax: -43378.17873
+zem: 2.089261
+save_file_name: spec_below_38

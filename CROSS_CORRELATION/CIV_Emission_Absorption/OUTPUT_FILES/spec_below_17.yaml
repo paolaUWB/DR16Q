@@ -1,0 +1,10 @@
+norm_spectra: spec-4840-55690-0576norm.dr
+mjd: 55690
+plate: 4840
+fiber: 576
+HeII EW: 0.02269038874
+CIV Distance: 0.9216693192
+vmin: -37574.4978
+vmax: -43339.1675
+zem: 2.917555
+save_file_name: spec_below_17

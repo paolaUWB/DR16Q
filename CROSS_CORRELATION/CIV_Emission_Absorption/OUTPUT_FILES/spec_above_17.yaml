@@ -1,0 +1,10 @@
+norm_spectra: spec-6412-56358-0454norm.dr
+mjd: 56358
+plate: 6412
+fiber: 454
+HeII EW: 0.69237219
+CIV Distance: 0.750455551
+vmin: -39810.37083
+vmax: -42181.19647
+zem: 3.09185
+save_file_name: spec_above_17

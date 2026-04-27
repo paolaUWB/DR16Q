@@ -1,0 +1,10 @@
+norm_spectra: spec-4419-55867-0178norm.dr
+mjd: 55867
+plate: 4419
+fiber: 178
+HeII EW: 0.102600544
+CIV Distance: 0.754830495
+vmin: -35496.14147
+vmax: -39572.99625
+zem: 2.362696
+save_file_name: spec_below_19

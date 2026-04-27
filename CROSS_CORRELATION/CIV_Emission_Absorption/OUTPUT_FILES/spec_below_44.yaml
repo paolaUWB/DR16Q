@@ -1,0 +1,10 @@
+norm_spectra: spec-6402-56334-0966norm.dr
+mjd: 56334
+plate: 6402
+fiber: 966
+HeII EW: 0.132264851
+CIV Distance: 0.810785202
+vmin: -43865.8906
+vmax: -50731.31614
+zem: 3.13547
+save_file_name: spec_below_44

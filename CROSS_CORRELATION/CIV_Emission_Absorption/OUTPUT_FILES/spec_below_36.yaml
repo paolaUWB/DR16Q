@@ -1,0 +1,10 @@
+norm_spectra: spec-5712-56602-0074norm.dr
+mjd: 56602
+plate: 5712
+fiber: 74
+HeII EW: 0.160921842
+CIV Distance: 0.763728665
+vmin: -44816.40527
+vmax: -49595.7566
+zem: 1.942219
+save_file_name: spec_below_36

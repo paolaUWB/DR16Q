@@ -1,0 +1,10 @@
+norm_spectra: spec-6983-56447-0896norm.dr
+mjd: 56447
+plate: 6983
+fiber: 896
+HeII EW: 0.083846012
+CIV Distance: 0.755861603
+vmin: -40357.70021
+vmax: -46978.75456
+zem: 3.04361
+save_file_name: spec_below_56

@@ -1,0 +1,10 @@
+norm_spectra: spec-4217-55478-0020norm.dr
+mjd: 55478
+plate: 4217
+fiber: 20
+HeII EW: 0.1238813722
+CIV Distance: 0.9354569778
+vmin: -55349.9876
+vmax: -58346.7806
+zem: 2.17095
+save_file_name: spec_below_5

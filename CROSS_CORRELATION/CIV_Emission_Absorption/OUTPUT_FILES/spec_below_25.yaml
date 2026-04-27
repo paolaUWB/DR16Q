@@ -1,0 +1,10 @@
+norm_spectra: spec-5320-55999-0336norm.dr
+mjd: 55999
+plate: 5320
+fiber: 336
+HeII EW: 0.003317855
+CIV Distance: 0.916337177
+vmin: -45872.34712
+vmax: -48363.15782
+zem: 3.05005
+save_file_name: spec_below_25

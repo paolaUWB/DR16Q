@@ -1,0 +1,10 @@
+norm_spectra: spec-3766-55213-0046norm.dr
+mjd: 55213
+plate: 3766
+fiber: 46
+HeII EW: 1.660090768
+CIV Distance: 0.6231893513
+vmin: -35879.5974
+vmax: -42398.0395
+zem: 2.791618
+save_file_name: spec_above_1

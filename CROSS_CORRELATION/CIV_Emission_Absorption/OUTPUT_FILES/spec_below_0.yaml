@@ -1,0 +1,10 @@
+norm_spectra: spec-3826-55563-0860norm.dr
+mjd: 55563
+plate: 3826
+fiber: 860
+HeII EW: 0.06542797604
+CIV Distance: 0.7647105638
+vmin: -35374.9952
+vmax: -39115.5318
+zem: 2.46644
+save_file_name: spec_below_0

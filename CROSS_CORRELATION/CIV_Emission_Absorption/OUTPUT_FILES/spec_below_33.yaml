@@ -1,0 +1,10 @@
+norm_spectra: spec-5465-55988-0798norm.dr
+mjd: 55988
+plate: 5465
+fiber: 798
+HeII EW: 0.03797062
+CIV Distance: 0.867626381
+vmin: -31602.50585
+vmax: -42409.65116
+zem: 3.01499
+save_file_name: spec_below_33

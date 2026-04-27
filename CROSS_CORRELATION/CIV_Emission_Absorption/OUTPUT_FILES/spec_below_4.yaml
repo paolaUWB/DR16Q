@@ -1,0 +1,10 @@
+norm_spectra: spec-4181-55685-0543norm.dr
+mjd: 55685
+plate: 4181
+fiber: 543
+HeII EW: 0.05578537477
+CIV Distance: 0.8511201902
+vmin: -36454.6359
+vmax: -48972.9964
+zem: 3.03803
+save_file_name: spec_below_4

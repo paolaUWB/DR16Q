@@ -1,0 +1,10 @@
+norm_spectra: spec-4511-55602-0415norm.dr
+mjd: 55602
+plate: 4511
+fiber: 415
+HeII EW: 0.1635669153
+CIV Distance: 0.9092023414
+vmin: -38268.8562
+vmax: -47874.7508
+zem: 3.02937
+save_file_name: spec_below_9

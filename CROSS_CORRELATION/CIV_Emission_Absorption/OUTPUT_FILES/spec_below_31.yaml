@@ -1,0 +1,10 @@
+norm_spectra: spec-5430-56000-0964norm.dr
+mjd: 56000
+plate: 5430
+fiber: 964
+HeII EW: 0.004894483
+CIV Distance: 1.213792937
+vmin: -38673.96819
+vmax: -58162.6625
+zem: 2.540254
+save_file_name: spec_below_31

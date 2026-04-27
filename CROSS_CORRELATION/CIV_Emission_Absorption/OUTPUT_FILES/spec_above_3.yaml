@@ -1,0 +1,10 @@
+norm_spectra: spec-4060-55359-0940norm.dr
+mjd: 55359
+plate: 4060
+fiber: 940
+HeII EW: 0.901422859
+CIV Distance: 0.6072813383
+vmin: -39662.2692
+vmax: -41357.7405
+zem: 2.45294
+save_file_name: spec_above_3

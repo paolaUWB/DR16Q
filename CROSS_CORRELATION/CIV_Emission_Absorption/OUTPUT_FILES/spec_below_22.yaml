@@ -1,0 +1,10 @@
+norm_spectra: spec-5039-56220-0625norm.dr
+mjd: 56220
+plate: 5039
+fiber: 625
+HeII EW: 0.026129214
+CIV Distance: 1.06556339
+vmin: -36857.85529
+vmax: -40116.74668
+zem: 2.404823
+save_file_name: spec_below_22

@@ -1,0 +1,10 @@
+norm_spectra: spec-5486-56030-0078norm.dr
+mjd: 56030
+plate: 5486
+fiber: 78
+HeII EW: 0.181985006
+CIV Distance: 0.760641857
+vmin: -34135.12971
+vmax: -40523.01356
+zem: 2.426743
+save_file_name: spec_below_34

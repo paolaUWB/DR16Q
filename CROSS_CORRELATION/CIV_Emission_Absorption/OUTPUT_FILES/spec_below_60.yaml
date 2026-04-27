@@ -1,0 +1,10 @@
+norm_spectra: spec-8381-57512-0320norm.dr
+mjd: 57512
+plate: 8381
+fiber: 320
+HeII EW: 0.062464368
+CIV Distance: 1.213792937
+vmin: -29953.32707
+vmax: -43414.12085
+zem: 2.98405
+save_file_name: spec_below_60
