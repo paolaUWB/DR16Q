@@ -4,57 +4,12 @@ Created on Fri Apr  3 15:57:44 2026
 
 @author: elijahf
 """
-'''
-import os
-from pathlib import Path
-import pandas as pd
-import sys
-
-csv1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/spec_lists/xray_list_SNR10_z1.9.csv"
-match2 = Path(os.getcwd() + '/SDSS_fullspecs')
-
-file = pd.read_csv(csv1)
-SPEC_NAME_1 = file['SPECTRA FILE NAME']
-
-# --- Extraction functions ---
-# Splits makes it so that it will create a list with each entry being what is between the given parameter
-# We then take the last 2 sections and combine them together
-def extract_sdss_key(filename):
-    # spec-015005-59193-4399272889.fits
-    parts = filename.replace(".fits", "").split("-")
-    return f"{parts[-2]}-{parts[-1]}"
-
-def extract_csv_key(name):
-    # spec-allepoch-59192-4382235955.fits
-    parts = name.replace(".fits", "").split("-")
-    return f"{parts[-2]}-{parts[-1]}"
-
-# --- Build SDSS lookup ---
-sdss_dict = {}
-
-for f in match2.iterdir():
-    if f.is_file():
-        key = extract_sdss_key(f.name)
-        sdss_dict[key] = f.name
-
-# --- Match in order ---
-ordered_sdss_names = []
-
-for name in SPEC_NAME_1:
-    key = extract_csv_key(name)
-    
-    if key in sdss_dict:
-        ordered_sdss_names.append(sdss_dict[key])
-    else:
-        ordered_sdss_names.append(None)
-
-# --- Export ---
-output_df = pd.DataFrame({'ordered_sdss_names': ordered_sdss_names})
-output_df.to_csv('ordered_sdss_names.csv', index=False)
-'''
 
 """
-Make column header changable parameter
+TO DO:
+
+- Make column header changable parameter 
+
 """
 def match_sources(
     source1,
@@ -164,3 +119,32 @@ def match_sources(
             print(f"Saved results to {output_csv}")
 
     return results
+
+
+'''
+# This is an example of how it can be used. In this case we are matching file names that have different structures but contain the same 
+two number sequences. We need a csv with the new file name structure in a folder 'match2' to be in a csv in the order seen in 'csv1'.:
+
+# imports
+import os
+import sys
+from CSV_NAME_MATCH import match_sources 
+
+
+csv1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/spec_lists/xray_list_SNR10_z1.9.csv" # using a csv as reference to match to
+match2 = os.getcwd() + '/Downloading_SDSS_specs/SDSS_fullspecs' # folder that contains files that need to be ordered
+
+# implementing function, defining sections of the file names that can be matched up, what the new column name and csv name should be
+match_sources(
+    source1 = csv1,
+    source2 = match2,
+    sections1 = [-2, -1],
+    sections2 = [-2, -1],
+    column_name1="SPECTRA FILE NAME",
+    output_csv="test_match_name_match.csv",
+    debug=True
+)
+
+'''
+
+
