@@ -28,9 +28,13 @@ z_cutoff_value = 1.9
 
 WAVELENGTH_FOR_SNR = Range(1276., 1400.) #tighter wavelength range for quasar sample after z cutoff needed due to wavelength min of some quasars
 
-snr_cutoff_value = 10
+snr_cutoff_value_min = 9
+snr_cutoff_value_max = 10 #1000000000 # this is just for no limit
 
-csv_file_name = '/xray_list_SNR10_z1.9.csv'
+# previous cutoff for calculated SNR 
+#snr_cutoff_value_min = 10
+#snr_cutoff_value_max = 1000000000 # this is just for no limit
+
 
 #############################################################################################################
 
@@ -99,7 +103,8 @@ calc_snr = np.array(calc_snr)
 print(f'# of incorrect SNR calculations: {np.sum(calc_snr==np.inf)}')
 
 #applying SNR>10 cutoff ........................................................................................................
-SNR_mask = np.where(calc_snr>snr_cutoff_value)
+SNR_mask = np.where((calc_snr>=snr_cutoff_value_min)&(calc_snr<=snr_cutoff_value_max))
+
 
 specnames = specnames_z[SNR_mask]
 index = np.array(np.arange(1,np.size(specnames)+1))
@@ -117,7 +122,15 @@ da = {'SPECTRA INDEX':index,
 df = pd.DataFrame(da)
 print(np.max(df['SPECTRA INDEX'])) #Result is 250 with SNR cutoff of 10 and redshift cutoff of 1.9
 
-df.to_csv(OUT_DIREC + csv_file_name,index=False)
+
+# Saving to csv
+if snr_cutoff_value_max > 100:
+    xtra = ''
+else:
+    xtra = str(snr_cutoff_value_max)
+
+csv_file_name = '/xray_list_'+xtra+'SNR'+str(snr_cutoff_value_min) +'_z1.9.csv'
+df.to_csv(OUT_DIREC + csv_file_name, index=False)
 
 
 # Pick only the rows that passed both cutoffs
@@ -139,7 +152,7 @@ print(len(df_filtered_cut))
 
 
 # Saving to csv
-csv_file_name2 = '/xray_SDSSCross_SNR10_z1.9.csv'
+csv_file_name2 = '/xray_SDSSCross_'+xtra+'SNR'+str(snr_cutoff_value_min) +'_z1.9.csv'
 df_filtered_cut.to_csv(OUT_DIREC + csv_file_name2, index=False)
 
 
