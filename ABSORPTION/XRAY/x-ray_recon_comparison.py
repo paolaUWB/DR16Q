@@ -47,7 +47,7 @@ xlims = -70000, 0
 # Modes can be, "all", "morphed", or "og"
 MODE = "morphed"
 MODE = "og"
-MODE = "all"
+MODE = "all" # includes SDSS downloaded all epoch and the Hiremath recon and og spectra
 
 # Do you want to produce plots and pdfs for all three modes ^^
 run_all_modes = True
@@ -62,7 +62,6 @@ scale_SDSS = True
 #scale_SDSS = False
 
 ########################################## FUNCTIONS ##########################################
-
 
 def plot_func(files, file_types, xlims=None, ylims=None, redshift=0, scale_SDSS=True, mode='all'):
 
