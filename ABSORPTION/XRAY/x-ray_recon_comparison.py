@@ -22,7 +22,6 @@ from utility_functions import read_list_spectra
 
 #defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
-#SDSS_CSV = sys.argv[2] if len(sys.argv) > 2 else os.getcwd()+"/ordered_sdss_names.csv"
 SDSS_CSV = CONFIG_FILE
 
 # range of spectra you are working with from the good_fit.csv file
@@ -32,7 +31,7 @@ norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE,
 sdss_spectra_list, sdss_redshift_list, sdss_calc_snr_list = read_list_spectra(SDSS_CSV, ["SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
 # Defines an output folder and makes it if it does not exist
-output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES_PDF")
+output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES")
 os.makedirs(output_folder, exist_ok=True)
 
 ########################################## CHANGEABLE VARIABLES ##########################################
@@ -253,7 +252,7 @@ def Spectra_Comparison_Generate_PDF(output_path, xlims, scale_SDSS, show_plot = 
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
             
             sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
-            sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/downloaded_SDSS_spectra", str(sdss_spectrum_file_name))
+            sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/SDSS_allepoch_spectra", str(sdss_spectrum_file_name))
                 
                 
             redshift = redshift_list[spectra_index - 1]
