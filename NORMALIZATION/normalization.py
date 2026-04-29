@@ -25,6 +25,7 @@ from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_origi
 from scipy import signal
 import time 
 from astropy.io import fits
+import csv
 start_time = time.time() 
 
 ######################################### VARIABLES ######################################### 
@@ -77,6 +78,9 @@ b = 1250
 c = -0.5
 
 #are your spectra files fits files or text files
+
+file_type = CONFIG_FILE[-4:]
+print(file_type)
 fits = False
 
 #############################################################################################
