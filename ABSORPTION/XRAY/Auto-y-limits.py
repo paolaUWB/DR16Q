@@ -7,7 +7,7 @@ Created on Wed Apr 29 11:41:04 2026
 import numpy as np
 import matplotlib.pyplot as plt
 
-def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, padding=0.05):
+def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, Normalization=False, padding=0.05):
     """
     Automatically sets the y-axis limits for a matplotlib plot.
 
@@ -36,7 +36,8 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, padding=0.05):
     None
         Sets the y-limits directly on the provided axis.
     """
-
+    
+        
      
     # Extract data from axis if not provided
     if x_values is None or y_values is None:
@@ -57,30 +58,50 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, padding=0.05):
     if not isinstance(y_values, (list, tuple)):
         y_values = [y_values]
 
-     
     # Collect relevant y-values based on x-range
     y_collection = []
+    
+    if Normalization == False:
+        for x, y in zip(x_values, y_values):
 
-    for x, y in zip(x_values, y_values):
+            if x_limits is not None:
+                xmin, xmax = x_limits
 
-        if x_limits is not None:
-            xmin, xmax = x_limits
+                mask = (x >= xmin) & (x <= xmax)
 
-            mask = (x >= xmin) & (x <= xmax)
+                if np.any(mask):
+                    y_collection.append(y[mask])
 
-            if np.any(mask):
-                y_collection.append(y[mask])
+            else:
+                y_collection.append(y)
 
-        else:
-            y_collection.append(y)
+         
+        # Handle case where no valid data is found
+        if len(y_collection) == 0:
+            print("Warning: No valid y-values found for given x-range.")
+            return
+        
+    if Normalization == True:
+        for x, y in zip(x_values, y_values):
 
-     
-    # Handle case where no valid data is found
-    if len(y_collection) == 0:
-        print("Warning: No valid y-values found for given x-range.")
-        return
+            if x_limits is not None:
+                xmin, xmax = x_limits
 
-     
+                mask = (x >= xmin) & (x <= xmax)
+
+                if np.any(mask):
+                    y_collection.append(y[mask])
+
+            else:
+                y_collection.append(y)
+
+         
+        # Handle case where no valid data is found
+        if len(y_collection) == 0:
+            print("Warning: No valid y-values found for given x-range.")
+            return
+            
+    
     # Compute min and max y-values
     y_all = np.concatenate(y_collection)
 
@@ -104,14 +125,14 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, padding=0.05):
 
     return
 
-###############################################
+#######################################################################
 """
 Example use
 """
 import random
 
 # Data
-x = np.arange(0, 100, 1)
+x = np.arange(-1, 5, 1)
 y = x**2 + 50*x
 #y = []
 #for i in range(len(x)):
@@ -125,7 +146,7 @@ ax.plot(x, y)
 plt.title("Sample Line Plot")
 plt.xlabel("X Axis Label")
 plt.ylabel("Y Axis Label")
-auto_ylim(ax, padding = 0.05)
+auto_ylim(ax, Normalization = True, padding = 0.05)
 
 # Display the plot window
 plt.show()
