@@ -5,6 +5,7 @@ Created on Wed Apr 29 11:41:04 2026
 @author: elijahf
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, padding=0.05):
     """
@@ -102,3 +103,29 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, padding=0.05):
     ax.set_ylim(ymin_final, ymax_final)
 
     return
+
+###############################################
+"""
+Example use
+"""
+import random
+
+# Data
+x = np.arange(0, 100, 1)
+y = x**2 + 50*x
+#y = []
+#for i in range(len(x)):
+#    y.append(random.randrange(0, 1000, 50))
+
+
+# Create plot
+fig, ax = plt.subplots()
+
+ax.plot(x, y)
+plt.title("Sample Line Plot")
+plt.xlabel("X Axis Label")
+plt.ylabel("Y Axis Label")
+auto_ylim(ax, padding = 0.05)
+
+# Display the plot window
+plt.show()
