@@ -77,12 +77,15 @@ BOXCAR_SIZE = 11 ## MUST BE ODD
 b = 1250 
 c = -0.5
 
-#are your spectra files fits files or text files
-
-file_type = CONFIG_FILE[-4:]
+##checks file if its a fits or csv/txt file.
+file_type = str(CONFIG_FILE[-4:])
 print(file_type)
-fits = False
-
+if file_type == 'fits':
+    fits = True
+else:
+    fits = False
+    
+    
 #############################################################################################
 ####################################### DO NOT CHANGE #######################################
 
@@ -332,6 +335,8 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     print(str(spectra_index) + ": " + current_spectrum_file_name)
     print_to_file(str(spectra_index) + ": " + current_spectrum_file_name, LOG_FILE)
 
+
+# if fits file is detected it changes file into a csv/txt for code to read
     if fits == False:
         current_spectra_data = np.loadtxt(SPEC_DIREC + current_spectrum_file_name)
         wavelength, flux, error = read_spectra(current_spectra_data, is_fits=False)

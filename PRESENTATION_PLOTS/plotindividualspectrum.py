@@ -12,6 +12,9 @@ import matplotlib.pyplot as plt
 import os
 from matplotlib.backends.backend_pdf import PdfPages
 from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_original_figure, draw_normalized_figure
+from data_types import Range
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
+from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
 
 
 ##------ Inputs/Outputs to change
@@ -38,6 +41,29 @@ wavelength_emit2_initial = 1800.  # right xlim in restframe
 
 vmin = [-53800] # make smaller to move right line right (bigger to move right line left)
 vmax = [-58200] # make bigger to move left line left (smaller to move left line right)
+
+#Power law calculations #########################################################################################
+bf = (1441649.9635533139) 
+cf = (-1.432867797047193)
+
+## VALUE USED IN TEST 1
+val1 = 0.10 
+
+## VALUE USED IN TEST 2
+val2 = 0.05 
+
+#############################################################################################
+####################################### DO NOT CHANGE #######################################
+
+## RANGES OF WAVELENGTHS IN THE SPECTRA
+WAVELENGTH_RESTFRAME = Range(1200., 1800.)
+WAVELENGTH_FOR_SNR = Range(1250., 1400.)
+WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
+WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1440., 1450.)
+WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
+WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
+WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
+WAVELENGTH_RESTFRAME_TESTS = Range(1650., 1700.)
 
 #-- absorption shading: 'yes' to include
 NVabs = 'no'
@@ -164,7 +190,8 @@ fig, ay1 = plt.subplots()
 ay1.set_xlabel(r"Observed Wavelength [$\rm \AA$]")
 #ay1.set_ylabel(r"Normalized Flux") #Y axis label for if data is normalized data
 ay1.set_ylabel(r"Flux[10^[-17]]cgs") #Y axis label for if data is NOT normalized
-     
+
+
 ay1.plot (wavelength, smooth(normflux,n),'k-')
 ay1.plot (wavelength, error_normflux,'k-') 
 
@@ -209,6 +236,32 @@ if OVIem == 'yes':
     plt.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
 
 
+####### Power Law
+plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--") #, zorder = 3)
+
+
+####### Test Regions
+
+current_spectra_data = np.loadtxt(specdirec + norm_spectra)
+wavelength, flux, error = read_spectra(current_spectra_data)
+
+## GREEN TEST REGION
+test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, zem, current_spectra_data)
+normalized_flux_test_1 = test1.flux/powerlaw(test1.wavelength, bf, cf)
+    
+## PINK TEST REGION
+test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELENGTH_RESTFRAME_TEST_2.end, zem, current_spectra_data)
+normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
+    
+plt.plot(test1.wavelength, test1.flux, color = 'green', linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325)
+plt.plot(test2.wavelength, test2.flux, color = 'pink', linestyle = "-") ## PLOTS TEST REGION 2 (1350-1360)
+
+####### anchor points on plot
+
+wavelength_anchor = (4498.32791, 5058.25729, 5950.48815)
+flux_anchor = (8.46016, 6.99114, 5.68876)
+plt.scatter(wavelength_anchor, flux_anchor, s = 20, c = 'blue', edgecolor = 'blue', zorder = 10)
+
 coem=zem+1.
 plt.xlim(wavelength_observe1,wavelength_observe2) 
 
@@ -225,6 +278,8 @@ zem_plot = "z = " + str(zem)
 plt.text(zem_label_x, zem_label_y, zem_plot, bbox=dict(facecolor='none', edgecolor='black', pad=7.0))
 plt.xlim(wavelength_observe1/coem,wavelength_observe2/coem) 
 plt.ylim(0,topylim)
+
+
 
 fig.tight_layout() 
 
