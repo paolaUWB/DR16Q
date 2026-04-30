@@ -47,13 +47,17 @@ import matplotlib.pyplot as plt
 CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_parent_list.csv" #2281 full parent sample
 CONFIG_FILE2 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
 CONFIG_FILE3 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10.csv" #268 with SNR>10
+CONFIG_FILE4 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9redo.csv" #8 with SNR>10 & z>1.9 and redone reconstructions
 
-CONFIG_FILE = CONFIG_FILE2
+CONFIG_FILE = CONFIG_FILE4
 
 
 # directory of where normalized data files are
 # data NOT on github but local computer
-NORM_DIREC = os.getcwd() + "/Recons_Hiremath2025/"
+if CONFIG_FILE == CONFIG_FILE4:
+    NORM_DIREC = os.getcwd() + "/Recons_Hiremath2025redo/"
+else:
+    NORM_DIREC = os.getcwd() + "/Recons_Hiremath2025/"
 
 
 # creates directory for output files
@@ -87,6 +91,8 @@ elif CONFIG_FILE == CONFIG_FILE2:
     STARTS_FROM, ENDS_AT = 1, 250
 elif CONFIG_FILE == CONFIG_FILE3:
     STARTS_FROM, ENDS_AT = 1, 268
+elif CONFIG_FILE == CONFIG_FILE4:
+    STARTS_FROM, ENDS_AT = 1, 8
 #STARTS_FROM, ENDS_AT = 1, 268 #uncomment to override if statement auto selection of range
 
 # what percentage value you want to go below the continuum
@@ -99,10 +105,16 @@ want_csv = 'yes'
 ######################################## OUTPUT FILES #########################################################################
 if CONFIG_FILE == CONFIG_FILE1:
     xtra_name = 'parent'
+    redo = ''
 elif CONFIG_FILE == CONFIG_FILE2:
     xtra_name = 'z_SNR'
+    redo = ''
 elif CONFIG_FILE == CONFIG_FILE3:
     xtra_name = 'SNR'
+    redo = ''
+elif CONFIG_FILE == CONFIG_FILE4:
+    xtra_name = 'z_SNR'
+    redo = '_redo'
     
 if want_to_smooth == 'yes':
     smooth_name = '_smooth'
@@ -110,12 +122,12 @@ elif want_to_smooth == 'no':
     smooth_name = ''
 
 # set name of output .txt file with absorption values
-ABSORPTION_VALUES = OUT_DIREC + "/" + 'BI' + str(BALNICITY_INDEX_LIMIT) + '_P0.9_' + xtra_name + '.txt'
+ABSORPTION_VALUES = OUT_DIREC + "/" + 'BI' + str(BALNICITY_INDEX_LIMIT) + '_P0.9_' + xtra_name + redo + '.txt'
 
 # set name of output pdf with plots 
-ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BI' + str(BALNICITY_INDEX_LIMIT) + '_P0.9_' + xtra_name + smooth_name + '.pdf') 
+ABSORPTION_OUTPUT_PLOT_PDF = PdfPages(OUT_DIREC + 'BI' + str(BALNICITY_INDEX_LIMIT) + '_P0.9_' + xtra_name + smooth_name + redo + '.pdf') 
 
-ABSORPTION_TABLE = OUT_DIREC + 'absorption_table_P0.9_' + xtra_name + '.csv'
+ABSORPTION_TABLE = OUT_DIREC + 'absorption_table_P0.9_' + xtra_name + redo + '.csv'
 
 ###############################################################################################################################
 ######################################### MAIN CODE ###########################################################################
