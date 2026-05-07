@@ -174,8 +174,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
    
     # setting a variable for each of those values from the spectra
     #wavelength, normalized_flux, normalized_error = read_spectra(norm_spectra_data) vvvvvv
-    #STOP Liliana come fix this before uploading to Github
-    File = fits.open(os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name))
+    #STOP Liliana come; fix this before uploading to Github
+    if CONFIG_FILE == CONFIG_FILE4:
+        File = fits.open(os.getcwd() + "/Recons_Hiremath2025redo/" + str(norm_spectrum_file_name))
+    else:
+        File = fits.open(os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name))
     data = File[1].data   
     
     
