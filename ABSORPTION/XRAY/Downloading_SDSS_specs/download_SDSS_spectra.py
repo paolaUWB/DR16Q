@@ -11,10 +11,10 @@ import os
 import sys
 import astropy.io.fits
 import pandas as pd
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import shutil
 sys.path.insert(0, os.getcwd() + '/../')
-from abs_function_module import wavelength_to_velocity
+#from abs_function_module import wavelength_to_velocity
 
 
 download_dir = os.path.join(os.getcwd(), "downloaded_SDSS_spectra")
@@ -27,7 +27,8 @@ http_access = HttpAccess(release='DR19', verbose=True)
 # set to use remote
 http_access.remote()
 
-input_file = os.getcwd()+ '/../spec_lists/xray_sample_field.csv'
+#input_file = os.getcwd()+ '/../spec_lists/xray_sample_field.csv'
+input_file = os.getcwd()+ '/../spec_lists/xray_SDSSCross_SNR9_z1.9.csv'
 data_in = pd.read_csv(input_file)
 
 df = pd.DataFrame(data_in)

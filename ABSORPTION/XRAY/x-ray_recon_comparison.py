@@ -27,11 +27,13 @@ TO DO:
 
 #defining the config file
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
-SDSS_CSV = CONFIG_FILE
+CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_10SNR9_z1.9.csv" # 9SNR10 added
+SDSS_CSV = CONFIG_FILE1
 
+CONFIG_FILE = CONFIG_FILE1
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
-
+# STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
+STARTS_FROM, ENDS_AT = 1, 51 # eventually 1 -> 51, 9SNR10
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 sdss_spectra_list, sdss_redshift_list, sdss_calc_snr_list = read_list_spectra(SDSS_CSV, ["SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
@@ -40,10 +42,17 @@ output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES")
 os.makedirs(output_folder, exist_ok=True)
 
 ########################################## CHANGEABLE VARIABLES ##########################################
+# Do you want to scale the SDSS spectra to match the Hiremath spectra? - Still need to determine why they have different scales. Maybe Hiremath has corrected for galactic extinction?
+scale_SDSS = True
+#scale_SDSS = False
 
-output_morphed_pdf = os.path.join(output_folder, "spectra_recon_morphed.pdf")
-output_og_pdf = os.path.join(output_folder, "spectra_og.pdf")
-output_sdss_pdf = os.path.join(output_folder, "spectra_full_og.pdf")
+config_name = os.path.splitext(os.path.basename(CONFIG_FILE))[0]
+
+scale_tag = "_scaled" if scale_SDSS else ""
+
+output_morphed_pdf = os.path.join(output_folder, f"{config_name}_morphed{scale_tag}.pdf")
+output_og_pdf = os.path.join(output_folder, f"{config_name}_og{scale_tag}.pdf")
+output_sdss_pdf = os.path.join(output_folder, f"{config_name}_all{scale_tag}.pdf")
 
 # Defining x-limits
 xlims = -70000, 0
@@ -242,7 +251,7 @@ def plot_func(files, file_types, xlims=None, ylims=None, redshift=0, scale_SDSS=
 
 
 
-def Spectra_Comparison_Generate_PDF(output_path, xlims, scale_SDSS, show_plot = False, mode='all'):
+def Spectra_Comparison_Generate_PDF(output_path, xlims, scale_SDSS, show_plot = False, mode='all', extra = ''):
     with PdfPages(output_path) as pdf:
         for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             #closes the global storage of figures
