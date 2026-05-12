@@ -48,8 +48,9 @@ CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xr
 CONFIG_FILE2 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv" #250 with SNR>10 & z>1.9
 CONFIG_FILE3 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10.csv" #268 with SNR>10
 CONFIG_FILE4 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9redo.csv" #8 with SNR>10 & z>1.9 and redone reconstructions
+CONFIG_FILE5 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_10SNR9_z1.9.csv" # 9<SNR<10 values for an additional 51 samples
 
-CONFIG_FILE = CONFIG_FILE4
+CONFIG_FILE = CONFIG_FILE5
 
 
 # directory of where normalized data files are
@@ -93,6 +94,9 @@ elif CONFIG_FILE == CONFIG_FILE3:
     STARTS_FROM, ENDS_AT = 1, 268
 elif CONFIG_FILE == CONFIG_FILE4:
     STARTS_FROM, ENDS_AT = 1, 8
+elif CONFIG_FILE == CONFIG_FILE5:
+    STARTS_FROM, ENDS_AT = 1, 51
+
 #STARTS_FROM, ENDS_AT = 1, 268 #uncomment to override if statement auto selection of range
 
 # what percentage value you want to go below the continuum
@@ -115,7 +119,11 @@ elif CONFIG_FILE == CONFIG_FILE3:
 elif CONFIG_FILE == CONFIG_FILE4:
     xtra_name = 'z_SNR'
     redo = '_redo'
-    
+elif CONFIG_FILE == CONFIG_FILE5:
+    xtra_name = 'z_SNR'
+    redo = '_9SNR10'
+
+
 if want_to_smooth == 'yes':
     smooth_name = '_smooth'
 elif want_to_smooth == 'no':

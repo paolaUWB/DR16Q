@@ -1,0 +1,40 @@
+1 abs | 12 tot
+spec-allepoch-59315-4592600781.fits
+BI (-30000 > v > -60000): 42.47
+vmins: [-30588.0391]
+vmaxs: [-33522.3582]
+BI_individual: [42.47]
+EW_individual: [175.29]
+Depth: [0.14]
+
+
+2 abs | 16 tot
+spec-allepoch-59381-6030602531.fits
+BI (-30000 > v > -60000): 138.78
+vmins: [-30383.09125 -56251.70235]
+vmaxs: [-34544.45927 -58579.11254]
+BI_individual: [114.42  24.36]
+EW_individual: [206.96 211.05]
+Depth: [0.2  0.18]
+
+
+3 abs | 24 tot
+spec-allepoch-60030-27021598145893772.fits
+BI (-30000 > v > -60000): 1372.48
+vmins: [-31817.11294]
+vmaxs: [-35837.95021]
+BI_individual: [1372.48]
+EW_individual: [2554.36]
+Depth: [0.84]
+
+
+4 abs | 40 tot
+spec-allepoch-59734-27021598155865359.fits
+BI (-30000 > v > -59905.79251): 14.84
+vmins: [-37401.94134]
+vmaxs: [-40116.95768]
+BI_individual: [14.84]
+EW_individual: [79.32]
+Depth: [0.12]
+
+
