@@ -79,7 +79,7 @@ c = -0.5
 
 ##checks file if its a fits or csv/txt file.
 file_type = str(CONFIG_FILE[-4:])
-print(file_type)
+#print(file_type)
 if file_type == 'fits':
     fits = True
 else:

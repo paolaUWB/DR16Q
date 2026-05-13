@@ -10,31 +10,31 @@ This code plots pretty spectra for posters/presentations/papers/etc.
 import numpy as np
 import matplotlib.pyplot as plt 
 import os
-from matplotlib.backends.backend_pdf import PdfPages
-from draw_figures import powerlaw, draw_dynamic, draw_dynamic_points, draw_original_figure, draw_normalized_figure
+from draw_figures import powerlaw
 from data_types import Range
-from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points, wavelength_flux_error_in_range, calculate_snr
-from utility_functions import print_to_file, clear_file, append_row_to_csv, read_file, read_spectra
+from useful_wavelength_flux_error_modules import wavelength_flux_error_in_range
+from utility_functions import read_spectra
 
+###################################### Changable variables ###################################### 
+#################################################################################################
+# If error "No Module named 'draw_figures'" occurs run normalization.py
 
 ##------ Inputs/Outputs to change
-specdirec = os.getcwd() + '/../../' + 'DR16Q_zipbomb/DR16Q_SNR10/'
-#specdirec = os.getcwd() + '/../../' + 'DR16Q_zipbomb/NORM_DR16Q/NORM_DR16Q/'
-#specdirec = os.path.normpath(os.path.join("awjaustin", "../../DR16Q_zipbomb"))
+specdirec = os.getcwd() + '/../../' + 'DR16Q_zipbomb/DR16Q_SNR10/'   # this is the file path to where your data is stored
 
 save_format = 'png' # 'pdf' to save as pdf file, 'png' to save as png file
 
 #-- TO CHANGE EVERY TIME:
-save_file_name = 'spec-6520-56541-0363_dered' 
-norm_spectra = 'spec-6520-56541-0363-dered.dr16'
+save_file_name = 'spec-6520-56541-0363_dered'    # name of file in the output file
+norm_spectra = 'spec-6520-56541-0363-dered.dr16'     #the file of spectra to scan
 
 zem = 2.501 # redshift of norm_spectra
 
 topylim = 25
 topemlabel = topylim - 0.03 # where you want to place the ion labels
 
-zem_label_x = 1450 # x-coordinate for zem label (in restframe)
-zem_label_y = 1.9 # y-coordinate for zem label
+zem_label_x = 1700 # x-coordinate for zem label (in restframe)
+zem_label_y = 22.5 # y-coordinate for zem label
 
 wavelength_emit1_initial = 1200.  # left xlim in restframe
 wavelength_emit2_initial = 1800.  # right xlim in restframe
@@ -42,28 +42,9 @@ wavelength_emit2_initial = 1800.  # right xlim in restframe
 vmin = [-53800] # make smaller to move right line right (bigger to move right line left)
 vmax = [-58200] # make bigger to move left line left (smaller to move left line right)
 
-#Power law calculations #########################################################################################
+#Power law calculations ####################### (Aquire anchor point data from Normalization.py) ##################################################################
 bf = (1441649.9635533139) 
 cf = (-1.432867797047193)
-
-## VALUE USED IN TEST 1
-val1 = 0.10 
-
-## VALUE USED IN TEST 2
-val2 = 0.05 
-
-#############################################################################################
-####################################### DO NOT CHANGE #######################################
-
-## RANGES OF WAVELENGTHS IN THE SPECTRA
-WAVELENGTH_RESTFRAME = Range(1200., 1800.)
-WAVELENGTH_FOR_SNR = Range(1250., 1400.)
-WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
-WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1440., 1450.)
-WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
-WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
-WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
-WAVELENGTH_RESTFRAME_TESTS = Range(1650., 1700.)
 
 #-- absorption shading: 'yes' to include
 NVabs = 'no'
@@ -74,6 +55,22 @@ Lyaabs = 'no'
 OVIem = 'no' # OVI emission label: 'yes' to include
 
 n = 3 # smooth box car
+
+###################################### End of Changable variables ############################### 
+#################################################################################################
+
+
+
+#############################################################################################
+####################################### DO NOT CHANGE #######################################
+
+## RANGES OF WAVELENGTHS IN THE SPECTRA
+
+WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
+WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
+
+#############################################################################################
+#############################################################################################
 
 #------ saving files
 #-- save png
@@ -86,7 +83,7 @@ if save_format == 'pdf':
 
 
 #------ location (wavelength) for doublets
-c = 300000. # speed of light
+c = 300000. # speed of light km/s
 
 ### WHY ARE THESE DEFINED TWICE?? (as CIVll and avr_CIV_doublet)??
 CIVll = 1549.0524 # avr_CIV_doublet[weighted avg]; individuals: 1550.7700, 1548.1950
@@ -254,13 +251,13 @@ test2 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_2.start, WAVELE
 normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
     
 plt.plot(test1.wavelength, test1.flux, color = 'green', linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325)
-plt.plot(test2.wavelength, test2.flux, color = 'pink', linestyle = "-") ## PLOTS TEST REGION 2 (1350-1360)
+plt.plot(test2.wavelength, test2.flux, color = 'magenta', linestyle = "-") ## PLOTS TEST REGION 2 (1350-1360)
 
 ####### anchor points on plot
 
-wavelength_anchor = (4498.32791, 5058.25729, 5950.48815)
-flux_anchor = (8.46016, 6.99114, 5.68876)
-plt.scatter(wavelength_anchor, flux_anchor, s = 20, c = 'blue', edgecolor = 'blue', zorder = 10)
+wavelength_anchor = (4498.32791, 5058.25729, 5950.48815) #normalization.py anchor point pointdata
+flux_anchor = (8.46016, 6.99114, 5.68876) #normalization.py anchor point flux
+plt.scatter(wavelength_anchor, flux_anchor, s = 20, c = 'red', zorder = 10)
 
 coem=zem+1.
 plt.xlim(wavelength_observe1,wavelength_observe2) 
