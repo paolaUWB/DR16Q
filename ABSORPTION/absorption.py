@@ -58,7 +58,7 @@ CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16Q_EHV
 # data NOT on github but local computer
 #NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
-NORM_DIREC = os.getcwd() + "/../" + "/DR16Q_EHVO/NORM_DR16Q_EHVO/"
+NORM_DIREC = os.getcwd() + "/../" + "DR16Q_EHVO/NORM_DR16Q_EHVO/"
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
@@ -80,7 +80,7 @@ BALNICITY_INDEX_LIMIT = 2000
 VELOCITY_LIMIT = Range(-30000, -60000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 98
+STARTS_FROM, ENDS_AT = 1, 98      #if list starts at 1 and ends at 98 input = 1 , 98
 
 # what percentage value you want to go below the continuum
 percent = 0.9
@@ -129,7 +129,7 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
     norm_spectrum_file_name = norm_spectra_list[spectra_index - 1]
 
     # from the norm spectra name retrieving it's wavelength, normalized flux, and normalized error (in this case from NORM_DRXQ)
-    print(str(spectra_index), "current spectra file name:", norm_spectrum_file_name)
+    #print(str(spectra_index), "current spectra file name:", norm_spectrum_file_name)
     norm_spectra_data = np.loadtxt(NORM_DIREC + norm_spectrum_file_name)
 
     # setting a variable for each of those values from the spectra
