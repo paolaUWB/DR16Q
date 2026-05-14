@@ -36,13 +36,13 @@ NORM_FILE_EXTENSION = "norm.dr" + DR
 CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "DR" + DR + "_sorted_norm.csv" 
 
 ## SETS THE DIRECTORY TO FIND THE DATA FILES (DR9, DR16)
-SPEC_DIREC = os.getcwd() + "/../DR16Q_DATA/DR" + DR + "Q_SNR10/" 
+SPEC_DIREC = os.getcwd() + "/../../../DR" + DR + "Q_SNR10/" 
 
 ## CREATES DIRECTORY FOR OUTPUT FILES
-OUT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/textFILES/"
+OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/textFILES/"
 
 ## CREATES DIRECTORY FOR PLOTS
-PLOT_DIREC = os.getcwd() + "/NORMALIZATION/OUTPUT_FILES/pdfFILES/"
+PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/pdfFILES/"
 
 ## SETS THE DIRECTORY TO STORE NORMALIZED FILES
 NORM_DIREC = os.getcwd() + "/../DR16Q_DATA/" + "NORM_DR16Q/"
@@ -54,14 +54,14 @@ STARTS_FROM, ENDS_AT = 10000, 10000 ## Currently able to be run, based on data w
 SNR_CUTOFF = 10. 
 
 save_new_output_file = 'yes' ## DO YOU WANT TO SAVE TO THE OUTPUT FILES? 'yes'/'no'
-save_new_norm_file = 'yes' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no' 
+save_new_norm_file = 'no' ## DO YOU WANT TO CREATE NEW NORM.DRX FILES? 'yes'/'no' 
 save_figures = 'yes' ## DO YOU WANT TO SAVE PDF FILES OF GRAPHS? 'yes'/'no'
 save_by_range = 'no' ## DO YOU WANT TO SAVE FILES BY RANGE OF SPECTRA RUN? 'yes'/'no' -- this will prevent overwriting files every time you run the code.
 sm = 'no' ## DO YOU WANT TO SMOOTH? 'yes'/'no'
 
-dynamic = 'yes' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
+dynamic = 'no' ## DO YOU WANT TO CHOOSE ANCHOR POINTS? 'yes'/'no' [MUST BE 'yes' WHEN HIGH REDSHIFT]
 
-flag_spectra = 'no' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
+flag_spectra = 'yes' ## DO YOU WANT TO FLAG SPECTRA? 'yes'/'no' [CHANGE TO NO WHEN DYNAMIC PLOTTING or HIGH REDSHIFT]
 
 ## VALUE USED IN TEST 1
 val1 = 0.10 
