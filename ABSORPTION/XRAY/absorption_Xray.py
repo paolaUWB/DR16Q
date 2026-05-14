@@ -80,7 +80,7 @@ all_plot_and_text = 'yes'
 BALNICITY_INDEX_LIMIT = 2000
 
 xlow = -70000
-xhigh = 0
+xhigh = 1500
 
 # limits on velocity
 VELOCITY_LIMIT = Range(-30000, -60000)

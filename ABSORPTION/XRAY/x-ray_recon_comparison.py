@@ -38,7 +38,7 @@ norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE,
 sdss_spectra_list, sdss_redshift_list, sdss_calc_snr_list = read_list_spectra(SDSS_CSV, ["SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
 # Defines an output folder and makes it if it does not exist
-output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES")
+output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES_PDF")
 os.makedirs(output_folder, exist_ok=True)
 
 ########################################## CHANGEABLE VARIABLES ##########################################
@@ -50,8 +50,8 @@ config_name = os.path.splitext(os.path.basename(CONFIG_FILE))[0]
 
 scale_tag = "_scaled" if scale_SDSS else ""
 
-output_morphed_pdf = os.path.join(output_folder, f"{config_name}_morphed{scale_tag}.pdf")
-output_og_pdf = os.path.join(output_folder, f"{config_name}_og{scale_tag}.pdf")
+output_morphed_pdf = os.path.join(output_folder, f"{config_name}_morphed.pdf")
+output_og_pdf = os.path.join(output_folder, f"{config_name}_og.pdf")
 output_sdss_pdf = os.path.join(output_folder, f"{config_name}_all{scale_tag}.pdf")
 
 # Defining x-limits
@@ -68,7 +68,7 @@ run_all_modes = True
 
 # Do you want to display the plots as they are made in the pdf?
 show_plot = True
-show_plot = False
+#show_plot = False
 
 # Do you want to scale the SDSS spectra to match the Hiremath spectra? - Still need to determine why they have different scales. Maybe Hiremath has corrected for galactic extinction?
 scale_SDSS = True
@@ -266,7 +266,7 @@ def Spectra_Comparison_Generate_PDF(output_path, xlims, scale_SDSS, show_plot = 
             recon_file = os.getcwd() + "/Recons_Hiremath2025/" + str(norm_spectrum_file_name)
             
             sdss_spectrum_file_name = sdss_spectra_list[spectra_index - 1]
-            sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/SDSS_allepoch_spectra", str(sdss_spectrum_file_name))
+            sdss_file = os.path.join(os.getcwd(), "Downloading_SDSS_specs/downloaded_SDSS_spectra", str(sdss_spectrum_file_name))
                 
                 
             redshift = redshift_list[spectra_index - 1]
