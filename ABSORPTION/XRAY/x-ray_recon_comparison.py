@@ -5,10 +5,11 @@ Created on Fri Feb  6 15:25:15 2026
 
 @author: lilianaflores and elijahfacklam
 """
-
 import os
 import matplotlib.pyplot as plt
 import sys
+sys.path.insert(0, os.getcwd())
+from Auto_y_limits import auto_ylim
 from astropy.io import fits
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
@@ -17,20 +18,41 @@ from abs_function_module import wavelength_to_velocity
 sys.path.insert(0, os.getcwd()+'/../../')
 from utility_functions import read_list_spectra
 
-'''
-TO DO:
-- integrate sample parameters into pdf naming ex: SNR10. (Since may also run 10>SNR>9)
+"""
+X-Ray Spectra Reconstruction Comparison
 
-'''
+This is a script that compares reconstructed Hiremath+2025 spectra against
+the downloaded SDSS spectra and generates a PDF output for visual analysis
 
+Features
+---------------------
+- Plots original (og), reconstruction (recon), and SDSS spectra
+- Optional SDSS flux scaling
+    There was a problem with the spectra being seperated and this code
+    collapses the two spectra to be on top of each and then can be viewed together
+- Auto y-axis scaling using auto-ylim()
+- Several plotting modes: all, og, morphed
+- PDF Generation for the spectra
+
+Outputs
+---------------------
+PDF files are saved to, automatically makes folder if it does not exist:
+    cwd()/OUTPUT_FILES_PDF/
+
+"""
 ######################################## PATH FINDING ########################################
 
 #defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
-CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_10SNR9_z1.9.csv" # 9SNR10 added
-SDSS_CSV = CONFIG_FILE1
+CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
+CONFIG_FILE2 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_10SNR9_z1.9.csv" # 9SNR10 added
 
-CONFIG_FILE = CONFIG_FILE1
+# Set to Xray List csv you want to analyze
+CONFIG_FILE = CONFIG_FILE2
+
+# Makes sure SDSS CSV follows the Config File Given
+SDSS_CSV = CONFIG_FILE
+
+
 # range of spectra you are working with from the good_fit.csv file
 # STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
 STARTS_FROM, ENDS_AT = 1, 51 # eventually 1 -> 51, 9SNR10
@@ -57,6 +79,12 @@ output_sdss_pdf = os.path.join(output_folder, f"{config_name}_all{scale_tag}.pdf
 # Defining x-limits
 xlims = -70000, 0
 
+# Range used for automatic y-limit calculations
+auto_ylim_range = (-63000, 0)
+
+# Padding added to automatic y-limits
+auto_ylim_padding = 0.05
+
 # Modes can be, "all", "morphed", or "og"
 MODE = "morphed"
 MODE = "og"
@@ -70,9 +98,6 @@ run_all_modes = True
 show_plot = True
 #show_plot = False
 
-# Do you want to scale the SDSS spectra to match the Hiremath spectra? - Still need to determine why they have different scales. Maybe Hiremath has corrected for galactic extinction?
-scale_SDSS = True
-#scale_SDSS = False
 
 ########################################## FUNCTIONS ##########################################
 
@@ -175,48 +200,25 @@ def plot_func(files, file_types, xlims=None, ylims=None, redshift=0, scale_SDSS=
         ax.plot(beta, recon*morph, color='green', label='Recon (Hiremath+2025)')
         
         # -------- Y-LIMITS --------
-        #play around with the y-limits, possibly take the median value within a range
-        if xlims is not None:
-            xmin, xmax = -63000, 0
+        auto_ylim(ax, 
+                  x_values=[beta2, beta, beta], 
+                  y_values=[sdss_flux, flux*morph, recon*morph], 
+                  x_limits=auto_ylim_range, 
+                  padding=auto_ylim_padding)
 
-            mask_sdss = (beta2 >= xmin) & (beta2 <= xmax)
-            mask_og   = (beta  >= xmin) & (beta  <= xmax)
-
-            y_values = []
-
-            if np.any(mask_sdss):
-                y_values.append(sdss_flux[mask_sdss])
-
-            if np.any(mask_og):
-                y_values.append((flux*morph)[mask_og])
-
-            if len(y_values) > 0:
-                y_all = np.concatenate(y_values)
-                ymin = np.min(y_all)
-                ymax = np.max(y_all)
-
-                ax.set_ylim(ymin * 0.95, ymax * 1.05)
         
+
     elif mode.lower() == 'og':
         ax.plot(beta, flux*morph, color='blue', label='Original (Hiremath+2025)')
         ax.plot(beta, recon*morph, color='red', label='Recon (Hiremath+2025)')
         ax.plot(beta, error*morph, color='grey', label='Error (Hiremath+2025)')
 
         # -------- Y-LIMITS --------      
-        xmin, xmax = -63000, 0
-
-        mask_og   = (beta  >= xmin) & (beta  <= xmax)
-
-        y_values = []
-
-        y_values.append((flux*morph)[mask_og])
-        y_values.append((error*morph)[mask_og])
-
-
-        ymin = np.min(y_values)
-        ymax = np.max(y_values)
-
-        ax.set_ylim(ymin * 1, ymax * 1.05)
+        auto_ylim(ax,
+                  x_values=[beta, beta, beta],
+                  y_values=[flux*morph, recon*morph, error*morph],
+                  x_limits=auto_ylim_range,
+                  padding=auto_ylim_padding)
         
     elif mode.lower() == 'morphed':
         ax.plot(beta, flux/recon, color='blue', label='Original (Hiremath+2025)')
@@ -224,19 +226,11 @@ def plot_func(files, file_types, xlims=None, ylims=None, redshift=0, scale_SDSS=
         ax.plot(beta, np.ones_like(beta), color='k', linestyle='--')
         
         # -------- Y-LIMITS --------      
-        xmin, xmax = -63000, 0
-
-        mask_og   = (beta  >= xmin) & (beta  <= xmax)
-
-        y_values = []
-
-        y_values.append((flux/recon)[mask_og])
-        y_values.append((error/recon)[mask_og])
-
-        ymin = np.min(y_values)
-        ymax = np.max(y_values)
-
-        ax.set_ylim(ymin * 0.95, ymax * 1.5)
+        auto_ylim(ax,
+                  x_values=[beta, beta],
+                  y_values=[flux/recon, error/recon],
+                  x_limits=auto_ylim_range,
+                  padding=auto_ylim_padding)
         
     ax.set_ylabel('Flux')
     ax.set_xlabel('Velocity km/s')
@@ -256,8 +250,6 @@ def Spectra_Comparison_Generate_PDF(output_path, xlims, scale_SDSS, show_plot = 
         for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
             #closes the global storage of figures
             plt.close('all')
-    
-            plt.figure()
             
             #keeping track of how many spectra do not have data points within the velocity limits
             norm_spectrum_file_name = norm_spectra_list[spectra_index - 1]
