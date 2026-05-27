@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 
 def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, Normalization=False, padding=0.05):
     """
+    TO DO: Update the Normalization section by either simplifying it to a single
+    function or testing spikes and creating logic for noise
+    
     Automatically sets the y-axis limits for a matplotlib plot.
 
     Parameters
@@ -63,7 +66,11 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, Normalization=Fal
     
     if Normalization == False:
         for x, y in zip(x_values, y_values):
-
+            
+            # Ensures Array
+            x = np.asarray(x)
+            y = np.asarray(y)
+            
             if x_limits is not None:
                 xmin, xmax = x_limits
 
@@ -83,7 +90,11 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, Normalization=Fal
         
     if Normalization == True:
         for x, y in zip(x_values, y_values):
-
+            
+            # Ensures Array
+            x = np.asarray(x)
+            y = np.asarray(y)
+            
             if x_limits is not None:
                 xmin, xmax = x_limits
 
@@ -129,24 +140,41 @@ def auto_ylim(ax, x_values=None, y_values=None, x_limits=None, Normalization=Fal
 """
 Example use
 """
-import random
+if __name__ == "__main__":
 
-# Data
-x = np.arange(-1, 5, 1)
-y = x**2 + 50*x
-#y = []
-#for i in range(len(x)):
-#    y.append(random.randrange(0, 1000, 50))
+    # Create synthetic spectral-style data
+    x = np.linspace(-70000, 0, 5000)
 
+    # Simulated absorption feature
+    signal = 1 - 0.4 * np.exp(-((x + 25000)**2) / (2 * (4000**2)))
 
-# Create plot
-fig, ax = plt.subplots()
+    # Add noise
+    noise = np.random.normal(0, 0.03, len(x))
 
-ax.plot(x, y)
-plt.title("Sample Line Plot")
-plt.xlabel("X Axis Label")
-plt.ylabel("Y Axis Label")
-auto_ylim(ax, Normalization = True, padding = 0.05)
+    # Simulated observed spectrum
+    spectrum = signal + noise
 
-# Display the plot window
-plt.show()
+    # Simulated error array
+    error = 0.05 + 0.01 * np.sin(x / 5000)
+
+    # Create plot
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    ax.plot(x, spectrum, label='Spectrum')
+    ax.plot(x, error, label='Error')
+    ax.axhline(1.0, linestyle='--', color='k', label='Continuum')
+
+    # Visible x-range
+    ax.set_xlim(-70000, 0)
+
+    # Auto-scale y-limits using only the absorption region
+    auto_ylim(ax,
+              x_limits=(-45000, -5000),
+              padding=0.05)
+
+    plt.title("Auto Y-Limit Example")
+    plt.xlabel("Velocity (km/s)")
+    plt.ylabel("Normalized Flux")
+    plt.legend()
+
+    plt.show()
