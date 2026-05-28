@@ -10,9 +10,11 @@ This code plots pretty spectra for posters/presentations/papers/etc.
 import numpy as np
 import matplotlib.pyplot as plt 
 import os
-from draw_figures import powerlaw
+from scipy.optimize import curve_fit
 from data_types import Range
 from useful_wavelength_flux_error_modules import wavelength_flux_error_in_range
+from useful_wavelength_flux_error_modules import wavelength_flux_error_for_points
+from draw_figures import powerlaw
 from utility_functions import read_spectra
 
 ###################################### Changable variables ###################################### 
@@ -43,8 +45,8 @@ vmin = [-53800] # make smaller to move right line right (bigger to move right li
 vmax = [-58200] # make bigger to move left line left (smaller to move left line right)
 
 #Power law calculations ####################### (Aquire anchor point data from Normalization.py) ##################################################################
-bf = (1441649.9635533139) 
-cf = (-1.432867797047193)
+#bf = (1441649.9635533139) 
+#cf = (-1.432867797047193)
 
 #-- absorption shading: 'yes' to include
 NVabs = 'no'
@@ -66,11 +68,20 @@ n = 3 # smooth box car
 
 ## RANGES OF WAVELENGTHS IN THE SPECTRA
 
+WAVELENGTH_RESTFRAME = Range(1200., 1800.)
+WAVELENGTH_FOR_SNR = Range(1250., 1400.)
+WAVELENGTH_RESTFRAME_FOR_LEFT_POINT = Range(1280., 1290.)
+WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT = Range(1440., 1450.)
+WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT = Range(1690., 1710.)
 WAVELENGTH_RESTFRAME_TEST_1 = Range(1315., 1325.)
 WAVELENGTH_RESTFRAME_TEST_2 = Range(1350., 1360.)
 
 #############################################################################################
 #############################################################################################
+
+## INITIAL PARAMETERS OF POWERLAW
+b = 1250 
+c = -0.5
 
 #------ saving files
 #-- save png
@@ -233,14 +244,67 @@ if OVIem == 'yes':
     plt.text(OVIll*(1+zem)-30.,topemlabel,'OVI',color='black',rotation=90,fontname='serif', verticalalignment = 'top')
 
 
-####### Power Law
-plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--") #, zorder = 3)
+####### anchor points on plot############################################
+def define_three_anchor_points(z: float, spectra_data, left_point, middle_point, right_point):
+    """ Defines the three anchor points used in the normalization graph.
 
+    Parameters:
+    -----------
+    z: float
+        Values from the data base of the redshift, DR9Q (for now..).
+    spectra_data: list
+        Current spectra data from files, DR9Q (for now...).
+               
+    Returns:
+    --------
+    tuple
+        left_point, middle_point, right_point for wavelength_flux_error_for_points.
+    """
+    
+    left_point = Range(left_point.start * (1 + z), left_point.end * (1 + z))
+    middle_point = Range(middle_point.start * (1 + z), middle_point.end * (1 + z))
+    right_point = Range(right_point.start * (1 + z), right_point.end * (1 + z))
+
+    left_point = wavelength_flux_error_for_points(
+        left_point.start,
+        left_point.end,
+        z,
+        spectra_data)
+
+    middle_point = wavelength_flux_error_for_points(
+        middle_point.start,
+        middle_point.end,
+        z,
+        spectra_data)
+    
+    try: 
+        right_point = wavelength_flux_error_for_points(
+            right_point.start,
+            right_point.end,
+            z,
+            spectra_data)
+    except:
+        right_point = wavelength_flux_error_for_points(
+            WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT.start, 
+            WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT.end,
+            z,
+            spectra_data)
+    
+    return [left_point, middle_point, right_point]
 
 ####### Test Regions
-
 current_spectra_data = np.loadtxt(specdirec + norm_spectra)
 wavelength, flux, error = read_spectra(current_spectra_data)
+
+anchor_point = define_three_anchor_points(zem, current_spectra_data, WAVELENGTH_RESTFRAME_FOR_LEFT_POINT, WAVELENGTH_RESTFRAME_FOR_MIDDLE_POINT, WAVELENGTH_RESTFRAME_FOR_RIGHT_POINT)
+power_law_data_x = (anchor_point[0].wavelength, anchor_point[1].wavelength, anchor_point[2].wavelength)
+power_law_data_y = (anchor_point[0].flux, anchor_point[1].flux, anchor_point[2].flux)
+
+pars, covar = curve_fit(powerlaw, power_law_data_x, power_law_data_y, p0=[b, c], maxfev=10000)
+bf, cf = pars[0], pars[1]
+
+####### Power Law
+plt.plot(wavelength, powerlaw(wavelength, bf, cf), color = "red", linestyle = "--") #, zorder = 3)
 
 ## GREEN TEST REGION
 test1 = wavelength_flux_error_in_range(WAVELENGTH_RESTFRAME_TEST_1.start, WAVELENGTH_RESTFRAME_TEST_1.end, zem, current_spectra_data)
@@ -253,11 +317,13 @@ normalized_flux_test_2 = test2.flux/powerlaw(test2.wavelength, bf, cf)
 plt.plot(test1.wavelength, test1.flux, color = 'green', linestyle = "-") ## PLOTS TEST REGION 1 (1315-1325)
 plt.plot(test2.wavelength, test2.flux, color = 'magenta', linestyle = "-") ## PLOTS TEST REGION 2 (1350-1360)
 
-####### anchor points on plot
+WAVELENGTH_OBSERVED_FOR_RIGHT_POINT_HIGH_REDSHIFT = Range(np.max(wavelength) - 20., np.max(wavelength))
 
-wavelength_anchor = (4498.32791, 5058.25729, 5950.48815) #normalization.py anchor point pointdata
-flux_anchor = (8.46016, 6.99114, 5.68876) #normalization.py anchor point flux
+wavelength_anchor = (power_law_data_x[0],power_law_data_x[1] , power_law_data_x[2]) #normalization.py anchor point pointdata
+flux_anchor = (power_law_data_y[0], power_law_data_y[1], power_law_data_y[2]) #normalization.py anchor point flux
 plt.scatter(wavelength_anchor, flux_anchor, s = 20, c = 'red', zorder = 10)
+
+####################################################################
 
 coem=zem+1.
 plt.xlim(wavelength_observe1,wavelength_observe2) 
