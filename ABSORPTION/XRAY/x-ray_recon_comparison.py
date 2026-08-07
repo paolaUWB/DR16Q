@@ -46,6 +46,10 @@ PDF files are saved to, automatically makes folder if it does not exist:
 CONFIG_FILE1 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_SNR10_z1.9.csv"
 CONFIG_FILE2 = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()+"/spec_lists/xray_list_10SNR9_z1.9.csv" # 9SNR10 added
 
+# STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
+STARTS_FROM, ENDS_AT = 1, 51 # eventually 1 -> 51, 9SNR10
+
+
 # Set to Xray List csv you want to analyze
 CONFIG_FILE = CONFIG_FILE2
 
@@ -54,8 +58,7 @@ SDSS_CSV = CONFIG_FILE
 
 
 # range of spectra you are working with from the good_fit.csv file
-# STARTS_FROM, ENDS_AT = 1, 250 # eventually 1 -> 250
-STARTS_FROM, ENDS_AT = 1, 51 # eventually 1 -> 51, 9SNR10
+
 norm_spectra_list, redshift_list, calc_snr_list = read_list_spectra(CONFIG_FILE, ["NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 sdss_spectra_list, sdss_redshift_list, sdss_calc_snr_list = read_list_spectra(SDSS_CSV, ["SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR"]) 
 
@@ -64,7 +67,8 @@ output_folder = os.path.join(os.getcwd(), "OUTPUT_FILES_PDF")
 os.makedirs(output_folder, exist_ok=True)
 
 ########################################## CHANGEABLE VARIABLES ##########################################
-# Do you want to scale the SDSS spectra to match the Hiremath spectra? - Still need to determine why they have different scales. Maybe Hiremath has corrected for galactic extinction?
+# Do you want to scale the SDSS spectra to match the Hiremath spectra? - Still need to determine why they have different scales. 
+# Maybe Hiremath has corrected for galactic extinction?
 scale_SDSS = True
 #scale_SDSS = False
 
