@@ -1,0 +1,49 @@
+save_file_name: spec001_test
+norm_spectra: spec-10431-58137-0135norm.dr16
+
+zem: 1.91713968767695
+
+topylim: 2.7
+
+zem_label_x: 1450
+zem_label_y: 1.9
+
+restframe_min: 1000
+restframe_max: 1600
+
+vmin:
+  - -37190.96072
+
+vmax:
+  - -40381.02541
+
+# Absorption lines
+CIVabs: true
+NVabs: true
+OVIabs: false
+SiIVabs: true
+Lyaabs: false
+Lybabs: false
+CIIabs: false
+OIabs: false
+
+# Emission lines
+CIVem: true
+SiIVem: true
+LyaNVem: true
+OIem: true
+CIIem: true
+OVIem: false
+Lybem: false
+
+smooth_box: 3
+
+colors:
+  CIV: "xkcd:shocking pink"
+  NV: "xkcd:azure"
+  OVI: "blue"
+  SiIV: "xkcd:purpleish blue"
+  Lya: "xkcd:slate"
+  CII: "green"
+  OI: "orange"
+  Lyb: "purple"
