@@ -37,8 +37,8 @@ wnewfile = 'no'
 # wnewfile = 'yes'
 
 #The inputs in this program should be:
-infoDR16 = os.getcwd() + "/../../DR16Q_v4.fits" #DR16 fits file
-infoDR14 = os.getcwd() + "/../../dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
+infoDR16 = os.getcwd() + "/../../DR16Q_zipbomb/DR16Q_v4.fits" #DR16 fits file
+infoDR14 = os.getcwd() + "/../../DR16Q_zipbomb/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
 infoEHVO = os.getcwd() + "/../DR16Q_EHVO/DR16_EHVO_sorted_norm.csv" #the list of EHVOs (?? with more info or just the list)
 infoPARENT = os.getcwd() + "/DR16_parent_sample.csv" #the list of DR16 parent sample
 #Outputs

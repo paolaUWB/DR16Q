@@ -19,7 +19,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 specnum=1 
 # specdirec='/Users/Paola/SDSSIII/DR9Q/FILES_FOR_ABDUL/' #Set location of spectrum files
 # specdirec='/Users/Paola/QUASAR/Work_EHVO/ROUTINES/NORM/'
-specdirec = os.getcwd() + '/../' + "EHVO_NORM_DR16Q/"
+specdirec = os.getcwd() + '/../../DR16Q_zipbomb/' + "EHVO_NORM_DR16Q/"
 pp2= PdfPages('EHVO1.pdf') # normalized pdf
 
 spectra='spec-6806-56419-0302norm.dr16'

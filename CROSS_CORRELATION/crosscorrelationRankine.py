@@ -29,6 +29,8 @@ from os.path import exists
 import csv
 import pandas as pd
 from tabulate import tabulate
+
+import math
 #Number of samples 
 
 #specnumDR16=XXX
@@ -40,8 +42,8 @@ from tabulate import tabulate
 # wnewfile = 'yes'
 
 #The inputs in this program should be:
-infoDR16 = os.getcwd() + "/../../DR16Q_v4.fits" #DR16 fits file
-infoDR14 = os.getcwd() + "/../../dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
+infoDR16 = os.getcwd() + "/../../DR16Q_zipbomb/DR16Q_v4.fits" #DR16 fits file
+infoDR14 = os.getcwd() + "/../../DR16Q_zipbomb/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
 
 #Rankines info file PRH selected the good cases
 infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
@@ -50,7 +52,7 @@ infoRankineEHVO = os.getcwd() + "/DR16EHVO_DR14RankineInfo_wEHVOspeed.csv"
 infoPRHEHVO = os.getcwd() + "/DR16_EHVO_sorted_norm.csv"
 infoPRHparent = os.getcwd() + "/DR16_parent_sample.csv"
 
-filebal = '/Users/alex/Documents/GitHub_copy1/DR16Q/DR16_BAL_parent_sample.csv'
+filebal = os.getcwd() + '/../DR16_BAL_parent_sample.csv'
 dfbal= pd.read_csv(filebal, header=None)
 
 #%%
@@ -313,7 +315,7 @@ datarow0 = [['vmin<15,000 km/s','15,000km/s<vmin<25,000 km/s', '30,000km/s<vmin<
 # dataheaders = ['','Lbol','Mbh','Eddington ratio']
 datacol = ['Outflow velocity','Lbol', 'MBH', 'Eddington Ratio']
 
-plt.table(cellText= datarow0, rowLabels = ['BAL15k-BAL15k+', 'EHVO37k-EHVO37k+'])
+#plt.table(cellText= datarow0, rowLabels = ['BAL<15k','BAL15k-BAL15k+', 'EHVO37k-EHVO37k+','EHVO>37k+'])
 
 plt.rcParams["figure.figsize"] = [10, 5]
 plt.rcParams["figure.autolayout"] = True
@@ -328,7 +330,7 @@ the_table = axs.table(cellText=datarow0,
 
 # plt.show()
 # plt.savefig('mediantable.png', dpi = 400)
-stop()
+#stop()
 
 #%%
 from draw_histogram import plot_zem_histograms
@@ -482,7 +484,7 @@ the_table = axs.table(cellText=datarow1,
 plt.show()
 plt.savefig('KSoutflowspd.png')
 
-stop
+#stop
 
 # print(ad_bal_ehvo)
 #%% 
@@ -651,12 +653,12 @@ fig = plt.figure(figsize=(8, 8))
 
 xlowlim = 46.
 xuplim = 48.3
-# xlowlim = 8.20
-# xuplim = 10.25
+xlowlim = 8.20
+xuplim = 10.25
 
 
-# ylowlim = 7.5
-# yuplim = 11.25
+ylowlim = 7.5
+yuplim = 11.25
 ylowlim = -2.0
 yuplim = 0.99
 
@@ -664,7 +666,7 @@ ax = fig.add_axes(rect_scatter)
 ax_histx = fig.add_axes(rect_histx, sharex=ax)
 ax_histy = fig.add_axes(rect_histy, sharey=ax)
 
-# ax_set_2 = ax.set(ylabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', xlabel='log($L_{bol}$/erg s$^{-1}$)')
+ax_set_2 = ax.set(ylabel=r'log($M_{\mathrm{BH}}/M_{\odot})$', xlabel='log($L_{bol}$/erg s$^{-1}$)')
 ax_set_2 = ax.set(ylabel='Eddington Ratio (log($L_{bol}$/$L_{Edd}$)', xlabel='log($L_{bol}$/erg s$^{-1}$)')
 
 ax_set_ylim_Redd = ax.set_ylim([ylowlim, yuplim])
@@ -672,18 +674,18 @@ ax_set_xlim_Lbol = ax.set_xlim([xlowlim, xuplim])
 
 
 # use the previously defined function
-# scatter_hist2(x10kl, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_knuthbal, binwidth_y = op_binedd_knuthbal)
-# scatter_hist2(x25kl, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_knuthbal, binwidth_y = op_binedd_knuthbal)
+scatter_hist2(x10kl, y10kr, ax, ax_histx, ax_histy,'aqua', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_knuthbal, binwidth_y = op_binedd_knuthbal)
+scatter_hist2(x25kl, y25kr, ax, ax_histx, ax_histy ,'cornflowerblue', 5, 'yes', 2, ax_set_2,limx=lbollim, limy=reddlim,binwidth_x = op_binlbol_knuthbal, binwidth_y = op_binedd_knuthbal)
 
-# scatter_hist2(xpl, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=48.3, limy=48.3, binwidth_x = op_binmbh_knuthp, binwidth_y = op_binedd_knuthp)
-# scatter_hist2(xel, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=lbollim, limy=reddlim, binwidth_x = op_binlbol_knuthp, binwidth_y = op_binedd_knuthp)
+scatter_hist2(xpl, ypr, ax, ax_histx, ax_histy,'cornflowerblue', 5, 'yes', 2, ax_set_2, limx=48.3, limy=48.3, binwidth_x = op_binmbh_knuthp, binwidth_y = op_binedd_knuthp)
+scatter_hist2(xel, yer, ax, ax_histx, ax_histy ,'purple', 60, 'yes', 10, ax_set_2,limx=lbollim, limy=reddlim, binwidth_x = op_binlbol_knuthp, binwidth_y = op_binedd_knuthp)
 
-# ax.add_artist(ax.legend(title='test'))
-# ax.legend(['Rankine+2020 BALs vmin<10,000 km/s','Rankine+2020 BALs 10,000 km/s<vmin<25,000 km/s','RH+(in prep) EHVO'],loc='lower left')
+ax.add_artist(ax.legend(title='test'))
+ax.legend(['Rankine+2020 BALs vmin<10,000 km/s','Rankine+2020 BALs 10,000 km/s<vmin<25,000 km/s','RH+(in prep) EHVO'],loc='lower left')
 ax.legend(['Rankine+2020 Parent sample','RH+(in prep) EHVO'],loc='lower left')
 ax.set_title("Title for second plot")
-# plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
-# plt.show()
+#plt.savefig(PLOT_DIREC + 'Redd_Lbol.png') 
+plt.show()
 # plt.close()
 
 
@@ -725,7 +727,7 @@ ax.set_title("Title for second plot")
 plt.show()
 plt.close()
 
-stop
+#stop
 #%%
 # ploting ehvo 25k vs 10k eddington 
 # fig = plt.figure(1)

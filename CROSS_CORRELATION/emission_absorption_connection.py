@@ -32,10 +32,10 @@ import re
 
 
 #The inputs in this program should be:
-rankineAll = os.getcwd() + "/../../Rankine20_CIV_BAL.fits"
+rankineAll = os.getcwd() + "/Rankine20_CIV_BAL.fits"
 RH_parent_16= os.getcwd() + "/../../DR16_parent_sample.csv"
-infoDR16 = os.getcwd() + "/../../DR16Q_v4.fits" #DR16 fits file
-infoDR14 = os.getcwd() + "/../../dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
+infoDR16 = os.getcwd() + "/../../DR16Q_zipbomb/DR16Q_v4.fits" #DR16 fits file
+infoDR14 = os.getcwd() + "/../../DR16Q_zipbomb/dr14q_spec_prop.fits"  #DR14Q table fits file from Rakshit+2020
 
 #Rankines info file PRH selected the good cases
 infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
@@ -367,5 +367,5 @@ def main(args):
     figure_5(CivDistance_rankAll_nonbal,np.log10(HeIIEW_rankAll_nonbal),CivDistance_rankAll_bal,np.log10(HeIIEW_rankAll_bal),CivDist_EHVOR_combined_noOut,np.log10(HeiiEW_EHVOR_combined_noOut), 'Rankine+ 2020 non-BALs','Rankine+ 2020 BALS','EHVO (DR9Q + DR16Q)--outlier removed')
 
 if __name__ == "__main__":
-args = get_args()
-main(args)
+    args = get_args()
+    main(args)

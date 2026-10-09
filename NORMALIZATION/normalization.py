@@ -301,6 +301,8 @@ if (__name__ == "__main__"):
     fields_snr = ["SPECTRA INDEX", "SPECTRA FILE NAME", "SDSS SNR", "CALCULATED SNR"]
     fields=["SPECTRA INDEX", "SPECTRA FILE NAME", "NORM SPECTRA FILE NAME", "REDSHIFT", "CALCULATED SNR", "SDSS SNR", "BF", "CF"]
     
+    field_dynamic = ['SPECTRA INDEX', 'ANCHOR PNT 1', 'ANCHOR PNT 2', 'ANCHOR PNT 3']
+    
     if save_new_output_file == 'yes':
         clear_file(FLAGGED_ABSORPTION_FILE)
         clear_file(FLAGGED_BAD_FIT_FILE)
@@ -308,6 +310,7 @@ if (__name__ == "__main__"):
         clear_file(GOOD_FIT_FILE)
         clear_file(ORIGINAL_FILE)
         clear_file(UNFLAGGED_FILE)
+        clear_file(ANCHOR_PT_FILE)
         
         append_row_to_csv(FLAGGED_ABSORPTION_FILE, fields)
         append_row_to_csv(FLAGGED_BAD_FIT_FILE, fields)
@@ -315,11 +318,11 @@ if (__name__ == "__main__"):
         append_row_to_csv(GOOD_FIT_FILE, fields)
         append_row_to_csv(ORIGINAL_FILE, field)
         append_row_to_csv(UNFLAGGED_FILE, fields)
-    
+        append_row_to_csv(ANCHOR_PT_FILE,field_dynamic)
     
     clear_file(LOG_FILE)
     clear_file(LOG_NO_LOW_SNR_FILE)
-    clear_file(ANCHOR_PT_FILE)
+    #clear_file(ANCHOR_PT_FILE)
     
 redshift_value_list, snr_value_list, spectra_list = read_file(CONFIG_FILE)
 
@@ -452,10 +455,11 @@ for spectra_index in range(STARTS_FROM, ENDS_AT + 1):
         if try_again == 'yes':
             draw_dynamic_points(spectra_index, data_for_plots, wavelength_range_plots, test1, test2, anchor_points_for_plots, max_peak, initial_parameters_powerlaw, user_input_wavelength, 'null', 'null') 
             draw_dynamic_points(spectra_index, data_for_plots, wavelength_range_plots, test1, test2, anchor_points_for_plots, max_peak, initial_parameters_powerlaw, user_input_wavelength, GOOD_FIT_PDF, ANCHOR_PT_PDF)
-            print_to_file((str(user_input_wavelength[0]) + ", " + str(user_input_wavelength[1]) + ", " + str(user_input_wavelength[2])), ANCHOR_PT_FILE)
+            print_to_file(current_spectrum_file_name + ',' + (str(user_input_wavelength[0]) + ", " + str(user_input_wavelength[1]) + ", " + str(user_input_wavelength[2])), ANCHOR_PT_FILE)
             if save_new_output_file == 'yes':   
                 fields=[spectra_index, current_spectrum_file_name, current_spectrum_file_name[0:len(current_spectrum_file_name) - 11] + NORM_FILE_EXTENSION, z, snr_mean_in_ehvo, snr, bf, cf]
                 append_row_to_csv(GOOD_FIT_FILE, fields)
+                
 
         power_law_data_x = powerlaw_wavelength
         power_law_data_y = powerlaw_flux
