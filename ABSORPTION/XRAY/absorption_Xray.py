@@ -24,20 +24,33 @@ Input file:
 
 ###############################################################################################################################
 ########################################## IMPORTS ############################################################################
+#EDITED: Imports were edited to make sure pathing was not an issue anymore.
+from pathlib import Path
 import os
 import sys
-import numpy as np 
 import math
-#from numpy.lib.function_base import append
+
+import numpy as np
 from astropy.io import fits
 from matplotlib.backends.backend_pdf import PdfPages
-sys.path.insert(0, os.getcwd() + '/../../') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
-from utility_functions import clear_file, read_list_spectra, read_spectra, append_row_to_csv
+
+# Locate shared modules relative to this script.
+XRAY_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(XRAY_DIR.parents[1]))  # DR16Q
+sys.path.insert(0, str(XRAY_DIR.parent))     # ABSORPTION
+
+from utility_functions import (
+    clear_file,
+    read_list_spectra,
+    append_row_to_csv,
+)
 from data_types import Range
-sys.path.insert(0, os.getcwd() + '/../') # changes the directory to the DR16Q --> all paths after this will need to be written as if this was in the top level of the DR16Q
-from abs_function_module import smooth, abs_parameters_plot_optional, wavelength_to_velocity
+from abs_function_module import (
+    smooth,
+    abs_parameters_plot_optional,
+    wavelength_to_velocity,
+)
 from abs_plot_module import draw_abs_figure
-import matplotlib.pyplot as plt
 
 
 ###############################################################################################################################
