@@ -17,9 +17,9 @@ DisplayHistogram3 = "y"
 #DisplayHistogram3 = "n"
 
 #sample settings
-sample = "DR9 & DR16"
+#sample = "DR9 & DR16"
 #sample = "DR9"
-#sample = "DR16"
+sample = "DR16"
 
 #velocity values
 velocity = max
@@ -58,7 +58,7 @@ from matplotlib.bezier import math
 from numpy.core.fromnumeric import sort
 from numpy.ma.extras import median
 
-
+PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
 
 #If you are trying to add a new csv, or the location of one of these files changed, remember that all you have to do is:
 #"copy link address" of the file in GitHub, then paste here in this format: "https://github.com/paolaUWB/DR16Q/blob/branch/folder_name/file_name.csv"
@@ -267,6 +267,7 @@ if DisplayHistogram1 == "y":
   plt.ylabel('N')
   plt.legend(title = plot_title, bbox_to_anchor=(0.8, 1), loc='upper left', prop={'size': 7})
   plt.legend(title = plot_title, loc='best',prop={'size': 7})
+  plt.savefig(PLOT_DIREC + sample + '_Lbol.png') 
   plt.show()
 
 #histogram 2 ......................
@@ -292,6 +293,7 @@ if DisplayHistogram2 == "y":
   plt.xlabel('log($M_{\mathrm{BH}}/M_{\odot})$')
   plt.ylabel('N')
   plt.legend(title = plot_title, loc='best',prop={'size': 7})
+  plt.savefig(PLOT_DIREC + sample + '_Mbh.png') 
   plt.show()
 
 #histogram 3 .........................
@@ -317,6 +319,7 @@ if DisplayHistogram3 == "y":
   plt.xlabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
   plt.ylabel('N')
   plt.legend(title = plot_title, loc='best',prop={'size': 7})
+  plt.savefig(PLOT_DIREC + sample + '_Eddr.png') 
   plt.show()
 
 print(np.sort(mbh_EHVO_highv))
