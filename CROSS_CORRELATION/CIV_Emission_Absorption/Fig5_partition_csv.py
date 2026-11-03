@@ -248,7 +248,7 @@ for i in range(len(above_dict['zem'])):
 
         parameters[key] = value
 
-    print(parameters)
+    #print(parameters)
 
     file_name = f"spec_above_{i}.yaml"
 

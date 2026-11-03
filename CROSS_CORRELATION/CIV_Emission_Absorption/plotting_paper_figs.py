@@ -36,6 +36,7 @@ from astropy import stats
 import re
 import ndtest #pip installed from here: https://github.com/syrte/ndtest/blob/master/README.md
 import matplotlib as mpl
+from CIVfunctions import project,CIV_distance
 mpl.rcParams.update(mpl.rcParamsDefault)
 mpl.rcParams['mathtext.fontset'] = 'stix'
 mpl.rcParams['font.family'] = 'STIXGeneral'
@@ -63,17 +64,20 @@ plot_fig4 = False
 
 # [Fig 5]
 plot_fig5 = True
-plot_fig5 = False
+#plot_fig5 = False
 
 # [Fig 6] HeII colormap hex/scatter plot in physical property parameter spaces
 plot_fig6 = True
-plot_fig6 = False
+#plot_fig6 = False
 
 HeII_flat_distance_cut = True #plotting with a flat CIV Distance cutoff provided by dist_cut
 dist_cut = 0.83
 
 HeII_flat_distance_cut = 'line' #plotting with sample separation via line spearation of cluster in Fig 5 (HeII vs CIV Distance scat/hist)
+HeII_flat_distance_cut = 'line w/parent' #When doing this you MUST set plot_fig5 = True
 dist_cut = None
+
+
 
 hexbin_function6 = np.median
 #hexbin_function6 = np.max
@@ -85,7 +89,7 @@ gridsize = 35
 
 # [Fig 8] CIV Blueshift colormap hex/scatter plot in physical property parameter spaces
 plot_fig8 = True
-#plot_fig8 = False
+plot_fig8 = False
 
 Blueshift_cut = 'flat'
 dist_cut2 = 0.9
@@ -95,6 +99,11 @@ dist_cut2 = 0.9
 
 hexbin_function8 = np.median
 hexbin_function8 = np.max
+
+#Plot testing plots
+plot_tests = True
+#plot_tests = False
+
 ##############################################
 
 #The inputs in this program should be:
@@ -108,6 +117,30 @@ infoRankineEHVO = os.getcwd() + "/../DR16EHVO_DR14RankineInfo_wEHVOspeed_vmax_re
 infoRankineparent_DR9 = os.getcwd() + "/../DR9parent_DR14RankineInfo.csv" #LEF: I added as these were undefined in code
 infoRankineEHVO_DR9 = os.getcwd() + "/../DR9EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv" #adding BAL flag corrected version with reordered vmax
 
+
+infoBIEHVO = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/EHVO_DR16_list_wBIspeed_reordered.csv"
+infoBIEHVO_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9Q_EHVO_list_amy_wBIspeed_reordered.csv"
+
+
+#Extracting values 
+dfBI = pd.read_csv(infoBIEHVO, header=0)
+dfBI_9 = pd.read_csv(infoBIEHVO_DR9, header=0)
+
+#Reading BI_EHVO Values
+EHVOBI_total=dfBI[dfBI.columns[4]].to_numpy()
+copyEHVOBI_total = np.copy(EHVOBI_total)
+no_outlier_EHVOBI_total = np.delete(copyEHVOBI_total, [40])
+EHVOBI_total_9=dfBI_9[dfBI_9.columns[8]].to_numpy()
+EHVOBI_total_all = np.concatenate([EHVOBI_total_9, no_outlier_EHVOBI_total])
+
+#individual BI values as there are cases with multiple EHVOs
+'''
+EHVOBI_indv=dfBI[dfBI.columns[7]].to_numpy()
+EHVOBI_indv_9=dfBI_9[dfBI_9.columns[]].to_numpy()
+EHVOBI_indv_all = np.concatenate([EHVOBI_indv_9, EHVOBI_indv])
+print(EHVOBI_all)
+stop
+'''
 
 #Reading RankineAll fit table for Emission Parameters
 rankine_all = fits.open(rankineAll) # reading in Rankine20_CIV_BAL.fits data
@@ -157,6 +190,8 @@ edd_rankAll_bal = edd_rankAll[bal_rankAll]
 edd_rankAll_nonbal = edd_rankAll[nonbal_rankAll]
 MBH_rankAll_bal = MBH_rankAll[bal_rankAll]
 MBH_rankAll_nonbal = MBH_rankAll[nonbal_rankAll]
+BI_rankAll_bal = bi_bi[bal_rankAll]
+BI_rankAll_nonbal = bi_bi[nonbal_rankAll]
 
 rankine_all = fits.open(rankineAll)
 data_rankAll = rankine_all[1].data
@@ -202,6 +237,8 @@ HeiiEW_parentR_combined = np.concatenate((HeiiEW_parentR_9, HeiiEW_parentR))
 CivBlue_parentR_combined = np.concatenate((CivBlue_parentR_9, CivBlue_parentR))
 CivEW_parentR_combined = np.concatenate((CivEW_parentR_9, CivEW_parentR))
 MBH_parentR_combined = np.concatenate((MBH_parentR_9, MBH_parentR))
+CivDist_parentR_combined = np.concatenate((CivDist_parentR_9, CivDist_parentR))
+
 
 bi_bi0 = dfRPA[dfRPA.columns[10]].to_numpy()
 bi_vmax = dfRPA[dfRPA.columns[11]].to_numpy()
@@ -304,9 +341,9 @@ HeiiEW_EHVOR_9=dfRHV_9[dfRHV_9.columns[7]].to_numpy()
 Lbol_EHVOR_9=dfRHV_9[dfRHV_9.columns[17]].to_numpy()
 vmin_EHVO=dfRHV[dfRHV.columns[29]].to_numpy()
 vmin_EHVO_9=dfRHV_9[dfRHV_9.columns[29]].to_numpy()
-vmin_EHVO_rel=dfRHV[dfRHV.columns[31]].to_numpy()
-vmin_EHVO_9_rel=dfRHV_9[dfRHV_9.columns[31]].to_numpy()
-vmax_EHVO=dfRHV[dfRHV.columns[33]].to_numpy()
+vmin_EHVO_rel=dfRHV[dfRHV.columns[31]].to_numpy() #what is rel and why do we have these?
+vmin_EHVO_9_rel=dfRHV_9[dfRHV_9.columns[31]].to_numpy() # ^^^
+vmax_EHVO=dfRHV[dfRHV.columns[33]].to_numpy() #double checked and col 33 is correct for the DR16 EHVO sample csv containing speeds 
 vmax_EHVO_9=dfRHV_9[dfRHV_9.columns[32]].to_numpy()
 Edd_EHVOR_9=dfRHV_9[dfRHV_9.columns[18]].to_numpy()
 MBH_EHVOR_9=dfRHV_9[dfRHV_9.columns[16]].to_numpy()
@@ -348,6 +385,7 @@ vmax_EHVOR_combined_nonBAL = np.concatenate((vmax_EHVO_9[EHVO_nonBAL_9], vmax_EH
 outlier = np.where(np.log10(CivEW_EHVOR)>2.1)
 outlier
 print(f'The outlier is: {outlier}')
+print(f'CIV EW of outlier: {CivEW_EHVOR[40]}')
 
 # Remove outlier
 outlier = np.where(np.log10(CivEW_EHVOR)>2.1)
@@ -428,11 +466,24 @@ MBH_EHVOR_nonBAL_combined_noOut = np.concatenate((MBH_EHVOR_9[EHVO_nonBAL_9], no
 vmin_EHVOR_nonBAL_combined_noOut = np.concatenate((vmin_EHVO_9[EHVO_nonBAL_9], no_outlier_vmin_EHVO[EHVO_nonBAL_16]))
 vmax_EHVOR_nonBAL_combined_noOut = np.concatenate((vmax_EHVO_9[EHVO_nonBAL_9], no_outlier_vmax_EHVO[EHVO_nonBAL_16]))
 
+
+#'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots
+def bluecut(sample, cut=500):
+    return np.where(sample > cut) 
+
+parentR_Bluecut = bluecut(CivBlue_parentR_combined) #cuts points with CIV Blueshift less than 500 km/s
+
+
+
+
 # [Fig 1] CIV parameter space scatter/hist w/parent+rankine --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if plot_fig1 == True:
-    figure_1(CivBlue_rankAll_good,np.log10(CivEW_rankAll_good),CivBlue_rankAll_SNR,np.log10(CivEW_rankAll_SNR),CivBlue_parentR,np.log10(CivEW_parentR),'Rankine+2020 all','Rankine+S/N>10','CS+in prep')
+    figure_1(CivBlue_rankAll_good,np.log10(CivEW_rankAll_good),CivBlue_rankAll_SNR,
+    np.log10(CivEW_rankAll_SNR),CivBlue_parentR,np.log10(CivEW_parentR),
+    'Rankine+2020 (all)','Rankine+2020 (S/N>10)','RH+2020 & CS+in prep')
 else:
     print('Fig 1 not plotted')
+    
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # [Fig 2] CIV parameter space scatter/hist ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if plot_fig2 == True:
@@ -467,6 +518,17 @@ print(f"{P=:.3g}, {D=:.3g}")
 print()
 print()
 
+
+#1D 2sample K-S Test EHVOs split by median speed comparing CIV distance vs EHVO velocity (Vmin and Vmax)
+print('1D K-S test CIV Distance')
+print('Samples: EHVOs split by median speed (Vmin & Vmax)     Parameters: CIV Distance')
+ks_stat, p_value = ks_2samp(CivDist_EHVOR_combined_noOut[small_speed_vmin], CivDist_EHVOR_combined_noOut[large_speed_vmin], alternative="two-sided", method="auto") #Vmin
+print(f"Vmin: {ks_stat=:.3g}, {p_value=:.3g}")
+ks_stat, p_value = ks_2samp(CivDist_EHVOR_combined_noOut[small_speed_vmax], CivDist_EHVOR_combined_noOut[large_speed_vmax], alternative="two-sided", method="auto") #Vmax
+print(f"Vmax: {ks_stat=:.3g}, {p_value=:.3g}")
+print()
+print()
+
 if plot_fig4 == True:
     # vmin
     plot_EHVO_CIV_scatter_hist(
@@ -494,20 +556,25 @@ else:
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # [Fig 5] HeII vs CIV distance scatter/hist plot  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if plot_fig5 == True:
-    figure_5_outline(CivDistance_rankAll_nonbal, np.log10(np.where(HeIIEW_rankAll_nonbal > 0, HeIIEW_rankAll_nonbal, np.nan)), CivDistance_rankAll_bal, np.log10(np.where(HeIIEW_rankAll_bal > 0, HeIIEW_rankAll_bal, np.nan)),
+    m_red, x0, y0 = figure_5_outline(CivDistance_rankAll_nonbal, np.log10(np.where(HeIIEW_rankAll_nonbal > 0, HeIIEW_rankAll_nonbal, np.nan)), CivDistance_rankAll_bal, np.log10(np.where(HeIIEW_rankAll_bal > 0, HeIIEW_rankAll_bal, np.nan)),
              CivDist_EHVOR_combined_noOut, np.log10(np.where(HeiiEW_EHVOR_combined_noOut> 0, HeiiEW_EHVOR_combined_noOut, np.nan)), 'Rankine+2020 non-BALs', 'Rankine+2020 BALS',
              'EHVO (RH+2020 & CS+in prep)', CivDist_EHVOR_9, np.log10(HeiiEW_EHVOR_9))
+    
+    y_parent = np.log10(HeiiEW_parentR_combined[parentR_Bluecut])
+    x_parent = CivDist_parentR_combined[parentR_Bluecut]
+    
+    parent_indices_above = np.where(y_parent > (m_red * (x_parent - x0) + y0))[0]
+    parent_indices_below = np.where(y_parent < (m_red * (x_parent - x0) + y0))[0]
+    
+    print(len(parent_indices_above), len(parent_indices_below))
+    
+
 else:
     print('Fig 5 not plotted')
+    
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- needed cut offs when plotting in physical property parameter space ------------------------------------------------------------------
-#'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots
-def bluecut(sample, cut=500):
-    return np.where(sample > cut) 
-
-parentR_Bluecut = bluecut(CivBlue_parentR_combined) #cuts points with CIV Blueshift less than 500 km/s
-
-
 
 EHVOcomb_Bluecut = bluecut(CivBlue_EHVO_combined_noOut)
 EHVO_bluecut_cond = np.zeros(len(CivBlue_EHVO_combined_noOut), dtype=bool)
@@ -518,9 +585,9 @@ EHVO_bluecut_cond[EHVOcomb_Bluecut] = True
 
 
 # cutoff option along cluster separation line in HeII EW vs CIV Distance scatter/hist
+'''
 # line option 2
 HeiiEW_bisect_above = np.array([0, 1, 3, 9, 11, 19, 27, 29, 42, 47, 53, 60, 63, 65, 67, 69, 70, 73, 77, 89, 91])
-#HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 28, 30, 31, 32, 34, 35, 37,38, 39, 40, 43, 44, 45, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 59, 61, 62, 64, 66, 68, 71, 72, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 93, 94, 95, 97, 98])
 # new below bisect array vvv
 HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 28, 30, 31, 32, 34, 35, 38,
  39, 40, 44, 45, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 59, 61, 62, 64, 66, 68, 71, 72, 74,
@@ -528,6 +595,12 @@ HeiiEW_bisect_below = np.array([4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 20, 21, 
 # note there are less than 99 EHVOs on this plot as 11 log10(HeII) values are nan
 # there are 6 EHVOs with log10(HeII) = -inf that needed to be changed to nan values with np.log10(np.where(HeiiEW_EHVOR_combined_noOut> 0, HeiiEW_EHVOR_combined_noOut, np.nan))
 # The new array adds up to 82 EHVOs plotted in figure 5
+'''
+
+# new parititon line placement method with EHVO fit line residuals plotted and split into quartiles
+HeiiEW_bisect_above = np.array([0, 1, 3, 6, 9, 11, 14, 15, 19, 25, 27, 29, 42, 45, 47, 53, 56, 60, 63, 64, 65, 66, 67, 69, 70, 73, 77, 89, 91])
+HeiiEW_bisect_below = np.array([4, 5, 8, 10, 13, 16, 17, 18, 20, 21, 22, 24, 26, 28, 30, 31, 32, 34, 35, 38, 39, 40, 44, 46, 48, 49, 50, 51, 52, 55, 57, 58, 59, 61, 62, 68, 71, 72, 74, 75, 76, 78, 79, 81, 83, 84, 85, 86, 87, 94, 95, 97, 98])
+
 
 
 #print(f'EHVO plate of cases above partition in Fig 5: {plate_EHVOR_combined_noOut[HeiiEW_bisect_above]}')
@@ -665,6 +738,80 @@ if plot_fig6 == True:
             hex_func=hexbin_function6,
             left_label='EHVOs Above Partition Line',
             right_label='EHVOs Below Partition Line')
+        
+    elif HeII_flat_distance_cut == 'line w/parent':
+        # to run separating EHVOs and parent sample by partition line in Fig 5 you must run Fig 5 first
+        
+        HeII_bisect_parent_condition_more = np.isin(np.arange(len(HeiiEW_parentR_combined[parentR_Bluecut])), parent_indices_below)
+
+        
+        #np.arange(len(HeiiEW_EHVOR_combined_noOut)) creates the indices of the data array.
+        HeII_bisect_condition_more = np.isin(np.arange(len(HeiiEW_EHVOR_combined_noOut)), HeiiEW_bisect_below)
+        HeII_bisect_condition_less = np.isin(np.arange(len(HeiiEW_EHVOR_combined_noOut)), HeiiEW_bisect_above)
+    
+    
+        plot_CIVBlue_hexbin_ehvo(
+            MBH_parentR_combined[parentR_Bluecut],
+            Lbol_parentR_combined[parentR_Bluecut],
+            HeiiEW_parentR_combined[parentR_Bluecut],
+            MBH_EHVOR_combined_noOut,
+            Lbol_EHVOR_combined_noOut,
+            HeiiEW_EHVOR_combined_noOut,
+            HeII_bisect_condition_more,
+            HeII_bisect_parent_condition_more,
+            "log$_{10}$($M_{BH}/M_\odot$)",
+            "log$_{10}$($L_{bol}$/erg s$^{-1}$)",
+            xlim = (8.4,10.5),
+            ylim = (46.1,48.2),
+            gridsize=gridsize,
+            show_left=True,
+            cmap_sample='HeIIEW',
+            hex_func=hexbin_function6,
+            left_label='EHVOs Above Partition Line',
+            right_label='EHVOs Below Partition Line',
+            split_parent=True)
+        
+        plot_CIVBlue_hexbin_ehvo(
+            MBH_parentR_combined[parentR_Bluecut],
+            Edd_parentR_combined[parentR_Bluecut],
+            HeiiEW_parentR_combined[parentR_Bluecut],
+            MBH_EHVOR_combined_noOut,
+            Edd_EHVO_combined_noOut,
+            HeiiEW_EHVOR_combined_noOut,
+            HeII_bisect_condition_more,
+            HeII_bisect_parent_condition_more,
+            "log$_{10}$($M_{BH}/M_\odot$)",
+            r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',
+            xlim = (8.4,10.5),
+            ylim = (-1.5, 0.5),
+            gridsize=gridsize,
+            show_left=True,
+            cmap_sample='HeIIEW',
+            hex_func=hexbin_function6,
+            left_label='EHVOs Above Partition Line',
+            right_label='EHVOs Below Partition Line',
+            split_parent=True)
+        
+        plot_CIVBlue_hexbin_ehvo(
+            Lbol_parentR_combined[parentR_Bluecut],
+            Edd_parentR_combined[parentR_Bluecut],
+            HeiiEW_parentR_combined[parentR_Bluecut],
+            Lbol_EHVOR_combined_noOut,
+            Edd_EHVO_combined_noOut,
+            HeiiEW_EHVOR_combined_noOut,
+            HeII_bisect_condition_more,
+            HeII_bisect_parent_condition_more,
+            "log$_{10}$($L_{bol}$/erg s$^{-1}$)",
+            r'Eddington Ratio $\log_{10}(L_{\mathrm{bol}}/L_{\mathrm{edd}})$',
+            xlim = (46.1,48.2),
+            ylim = (-1.5, 0.5),
+            gridsize=gridsize,
+            show_left=True,
+            cmap_sample='HeIIEW',
+            hex_func=hexbin_function6,
+            left_label='EHVOs Above Partition Line',
+            right_label='EHVOs Below Partition Line',
+            split_parent=True)
 else:
     print('Fig 6 not plotted')
 
@@ -797,3 +944,559 @@ if plot_fig8 == True:
 else:
     print('Fig 8 not plotted')
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+if plot_tests == True:
+
+    def get_axis_range(data1, data2):
+        minimum = min(min(data1), min(data2))
+        maximum = max(max(data1), max(data2))
+        return minimum, maximum
+    
+    def linear_model(x, m, b):
+        return m * x + b
+    
+    from scipy.optimize import curve_fit
+
+    # CIV blueshift and speed ---------------------------------------------
+    '''
+    from scipy.optimize import curve_fit
+    
+    plt.scatter(abs(CivBlue_EHVO_combined_noOut), abs(vmin_EHVOR_combined_noOut), label='EHVOs')
+    
+    low, high = get_axis_range(abs(vmin_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut))
+    plt.ylim(low-10000, high+10000)
+    
+    x=abs(CivBlue_EHVO_combined_noOut)
+    y=abs(vmin_EHVOR_combined_noOut)
+    #mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x
+    y_fit = y
+    
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, color='k', linewidth=1.2, label='EHVO Fit Line')
+    
+    
+    
+    plt.legend()
+    plt.xlabel(r'$\mathrm{C\,IV}$ blueshift [km s$^{-1}$]')
+    plt.ylabel(r'$V_{\min} [\mathrm{km\ s^{-1}}]$')
+    plt.show()
+    plt.close()
+    
+    
+    plt.scatter(abs(CivBlue_EHVO_combined_noOut), abs(vmax_EHVOR_combined_noOut), label='EHVOs')
+    lol = np.zeros_like(x)+30000
+    lol2 = np.zeros_like(x)+60000
+    #plt.plot(np.arange(0.6, 1.3), lol, 'r--')
+    plt.plot(np.sort(x), lol, 'r--')
+    plt.plot(np.sort(x), lol2, 'r--')
+    
+    
+    low, high = get_axis_range(abs(vmin_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut))
+    plt.ylim(low-10000, high+10000)
+    
+    x=abs(CivBlue_EHVO_combined_noOut)
+    y=abs(vmax_EHVOR_combined_noOut)
+    #mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x
+    y_fit = y
+    
+    
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, color='k', linewidth=1.2, label='EHVO Fit Line')
+    
+    
+    plt.legend()
+    plt.xlabel(r'$\mathrm{C\,IV}$ blueshift [km s$^{-1}$]')
+    plt.ylabel(r'$V_{\max} [\mathrm{km\ s^{-1}}]$')
+    plt.show()
+    plt.close()
+    '''
+    # CIV distance and speed ------------------------------------------------------
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6), sharey=True)
+
+    # ---- Vmin plot ----
+    low, high = get_axis_range(abs(vmin_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut))
+    ax1.set_ylim(low-10000, high+5000)
+    
+    x = abs(CivDist_EHVOR_combined_noOut)
+    y = abs(vmin_EHVOR_combined_noOut)
+    x_fit = x
+    y_fit = y
+    
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    ax1.scatter(abs(CivDist_EHVOR_combined_noOut), abs(vmin_EHVOR_combined_noOut), label='EHVOs', color='purple')
+    
+    lol = np.zeros_like(x)+30000
+    lol2 = np.zeros_like(x)+60000
+    ax1.plot(np.sort(x), lol, 'g:')
+    ax1.plot(np.sort(x), lol2, 'g:', label='Imposed Speed Limits')
+    
+    # Best-fit parameters
+    print(f"Vmin slope m = {m:.4f}")
+    print(f"Vmin intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"Vmin R² = {r_squared:.4f}")
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    ax1.plot(x_line, y_line, color='k', linewidth=1.2, label='EHVO Fit Line')
+    
+    ax1.legend(loc='lower left', fontsize=12)
+    ax1.set_xlabel(r'$\mathrm{C\,IV}$ Distance', fontsize=18)
+    ax1.set_ylabel(r'$V_{\min} [\mathrm{km\ s^{-1}}]$', fontsize=18)
+    
+    
+    # ---- Vmax plot ----
+    low, high = get_axis_range(abs(vmin_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut))
+    ax2.set_ylim(low-10000, high+5000)
+    
+    x = abs(CivDist_EHVOR_combined_noOut)
+    y = abs(vmax_EHVOR_combined_noOut)
+    x_fit = x
+    y_fit = y
+    
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    ax2.scatter(abs(CivDist_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut), label='EHVOs', color='purple')
+    
+    lol = np.zeros_like(x)+32000
+    lol2 = np.zeros_like(x)+60000
+    ax2.plot(np.sort(x), lol, 'g:')
+    ax2.plot(np.sort(x), lol2, 'g:', label='Imposed Speed Limits')
+    
+    # Best-fit parameters
+    print(f"Vmax slope m = {m:.4f}")
+    print(f"Vmax intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"Vmax R² = {r_squared:.4f}")
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    ax2.plot(x_line, y_line, color='k', linewidth=1.2, label='EHVO Fit Line')
+    
+    #ax2.legend(loc='lower left', fontsize=12)
+    ax2.set_xlabel(r'$\mathrm{C\,IV}$ Distance', fontsize=18)
+    ax2.set_ylabel(r'$V_{\max} [\mathrm{km\ s^{-1}}]$', fontsize=18)
+    
+    
+    plt.tight_layout()
+    plt.show()
+    plt.close()
+    #stop
+    '''
+    low, high = get_axis_range(abs(vmin_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut))
+    plt.ylim(low-10000, high+10000)
+    
+    x=abs(CivDist_EHVOR_combined_noOut)
+    y=abs(vmin_EHVOR_combined_noOut)
+    #mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x
+    y_fit = y
+    
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    plt.scatter(abs(CivDist_EHVOR_combined_noOut), abs(vmin_EHVOR_combined_noOut), label='EHVOs')
+
+    lol = np.zeros_like(x)+30000
+    lol2 = np.zeros_like(x)+60000
+    #plt.plot(np.arange(0.6, 1.3), lol, 'r--')
+    plt.plot(np.sort(x), lol, 'g:')
+    plt.plot(np.sort(x), lol2, 'g:', label = 'Imposed Speed Limits')
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, color='k', linewidth=1.2, label='EHVO Fit Line')
+    
+    
+    
+    plt.legend(loc='lower left')
+    plt.xlabel(r'$\mathrm{C\,IV}$ Distance')
+    plt.ylabel(r'$V_{\min} [\mathrm{km\ s^{-1}}]$')
+    plt.show()
+    plt.close()
+    stop
+    #lol = np.zeros_like(np.arange(0.6, 1.3))+32000
+    lol = np.zeros_like(x)+32000
+    lol2 = np.zeros_like(x)+60000
+    plt.scatter(abs(CivDist_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut), label='EHVOs')
+    #plt.plot(np.arange(0.6, 1.3), lol, 'r--')
+    plt.plot(np.sort(x), lol, 'g:')
+    plt.plot(np.sort(x), lol2, 'g:', label = 'Imposed Speed Limits')
+
+
+    
+    low, high = get_axis_range(abs(vmin_EHVOR_combined_noOut), abs(vmax_EHVOR_combined_noOut))
+    plt.ylim(low-10000, high+10000)
+    
+    x=abs(CivDist_EHVOR_combined_noOut)
+    y=abs(vmax_EHVOR_combined_noOut)
+    #mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x
+    y_fit = y
+    
+    
+    from scipy.optimize import curve_fit
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, color='k', linewidth=1.2, label='EHVO Fit Line')
+    
+    
+    plt.legend(loc='lower left')
+    plt.xlabel(r'$\mathrm{C\,IV}$ Distance')
+    plt.ylabel(r'$V_{\max} [\mathrm{km\ s^{-1}}]$')
+    plt.show()
+    plt.close()
+    '''
+    
+    ## Double checking that the EHVO fit line is correct ###################################
+    
+    plt.scatter(CivDist_nonbal_combined, np.log10(np.where(HeiiEW_nonbal_combined > 0, HeiiEW_nonbal_combined, np.nan)), color='aqua', s=2)
+    
+    x=CivDist_nonbal_combined
+    y=np.log10(np.where(HeiiEW_nonbal_combined > 0, HeiiEW_nonbal_combined, np.nan))
+    mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x[mask]
+    y_fit = y[mask]
+    
+    
+    from scipy.optimize import curve_fit
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, linestyle=':', color='k', linewidth=1.2, label='non-BAL Fit Line')
+    
+    
+    
+    plt.scatter(CivDist_bal_combined, np.log10(np.where(HeiiEW_bal_combined > 0, HeiiEW_bal_combined, np.nan)), color='cornflowerblue', s=2)
+    
+    x=CivDist_bal_combined
+    y=np.log10(np.where(HeiiEW_bal_combined > 0, HeiiEW_bal_combined, np.nan))
+    mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x[mask]
+    y_fit = y[mask]
+    
+    
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, linestyle='--', color='k', linewidth=1.2, label='BAL Fit Line')
+    
+    
+    
+    plt.scatter(CivDist_EHVOR_combined_noOut, np.log10(np.where(HeiiEW_EHVOR_combined_noOut > 0, HeiiEW_EHVOR_combined_noOut, np.nan)), color='purple', s=10)
+    
+    x=CivDist_EHVOR_combined_noOut
+   
+    y=np.log10(np.where(HeiiEW_EHVOR_combined_noOut > 0, HeiiEW_EHVOR_combined_noOut, np.nan))
+    
+    
+    mask = np.isfinite(x) & np.isfinite(y)
+    x_fit = x[mask]
+    y_fit = y[mask]
+    print(len(x_fit))
+    print(len(y_fit))
+    
+    from scipy.optimize import curve_fit
+    (m, b), _ = curve_fit(linear_model, x_fit, y_fit)
+    
+    # Best-fit parameters
+    print(f"slope m = {m:.4f}")
+    print(f"intercept b = {b:.4f}")
+    
+    # Predictions
+    y_pred = linear_model(x_fit, m, b)
+    
+    # R^2
+    ss_res = np.sum((y_fit - y_pred)**2)
+    ss_tot = np.sum((y_fit - np.mean(y_fit))**2)
+    r_squared = 1 - ss_res / ss_tot
+    
+    print(f"R² = {r_squared:.4f}")
+    
+    
+    # ---- Black best-fit line ----
+    x_line = np.linspace(min(x_fit), max(x_fit), 300)
+    y_line = m * x_line + b
+    plt.plot(x_line, y_line, color='r', linewidth=1.2, label='EHVO Fit Line')
+    
+    
+    #Calculate residuals
+    residuals = y_fit - y_pred
+    
+    print("Residuals:", residuals)
+    print('EHVOs above fit line:', sum(residuals > 0))
+    print('EHVOs below fit line:', sum(residuals < 0))
+
+    
+    
+    
+    
+    plt.ylim(-4, 1)
+    plt.xlim(0,1.4)
+    plt.xlabel(r'$\mathrm{C\,IV}$ Distance')
+    plt.ylabel('HeII EW')
+    plt.legend(loc='lower left')
+    plt.show()
+    plt.close()
+    
+    quartiles = True
+    plt.scatter(x_fit, residuals)
+    if quartiles == True:
+        # ---- Quartiles along the CIV distance (x-axis) ----
+        quartiles = np.percentile(x_fit, [25, 50, 75])
+    
+        # Print the CIV distance values at the quartile boundaries
+        print("CIV distance quartile boundaries:")
+        print(f"Q1 (25%): {quartiles[0]:.4f}")
+        print(f"Q2 (50%): {quartiles[1]:.4f}")
+        print(f"Q3 (75%): {quartiles[2]:.4f}")
+    
+        # Add vertical lines at the quartile boundaries
+        for i, q in enumerate(quartiles):
+            plt.axvline(q, color='red', linestyle='--', linewidth=1.2,
+                        label=f'Q{i+1} = {q:.3f}')
+    else:
+        
+        # ---- Divide the CIV distance range into four equal intervals ----
+        x_min = np.min(x_fit)
+        x_max = np.max(x_fit)
+    
+        quartiles = np.linspace(x_min, x_max, 5)
+    
+        # Print the CIV distance boundaries
+        print("CIV distance boundaries (equal-width intervals):")
+        for i, q in enumerate(quartiles):
+            print(f"Boundary {i}: CIV distance = {q:.4f}")
+    
+        # Draw vertical lines at the three internal boundaries
+        for q in quartiles[1:-1]:
+            plt.axvline(q, color='red', linestyle='--', linewidth=1.2)
+    
+        # Optional: label the four intervals in the legend
+        plt.axvline(quartiles[1], color='red', linestyle='--',
+                    label='Equal-width boundaries')
+
+
+    plt.legend()
+
+    plt.xlim(0,1.4)
+    plt.xlabel('CIV Distance')
+    plt.ylabel('Residuals')
+    plt.show()
+    plt.close()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    stop
+    
+    # [Fig 4 ALT] EHVO subsamples separated by vwidth scatter/hist w/vwidth colormap -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    vwidth_EHVOR_combined_noOut = abs(vmax_EHVOR_combined_noOut)-abs(vmin_EHVOR_combined_noOut)
+    
+    print(f'vwidth median: {np.median(vwidth_EHVOR_combined_noOut)}') #5000
+    
+    
+    large_vwidth = np.where(abs(vwidth_EHVOR_combined_noOut) >= 5000)#? quasars   
+    small_vwidth = np.where(abs(vwidth_EHVOR_combined_noOut) < 5000)#? quasars
+    
+    print(f'Sample separation {len(CivEW_EHVO_combined_noOut[small_vwidth])}:{len(CivEW_EHVO_combined_noOut[large_vwidth])}')
+    #2D 2sample K-S Test EHVOs split by median speed comparing CIV distance vs EHVO velocity (Vmin and Vmax)
+    print('Samples: EHVOs split by median Vwidth     Parameters: CIV EW vs CIV Blueshift')
+    P, D = ndtest.ks2d2s(CivEW_EHVO_combined_noOut[large_vwidth], CivBlue_EHVO_combined_noOut[large_vwidth], CivEW_EHVO_combined_noOut[small_vwidth], CivBlue_EHVO_combined_noOut[small_vwidth], extra=True) #Vmin
+    print(f"{P=:.3g}, {D=:.3g}")
+    print()
+    print()
+    
+    
+    # vwidth
+    plot_EHVO_CIV_scatter_hist(
+        CivBlue_EHVO_combined_noOut,
+        CivEW_EHVO_combined_noOut,
+        vwidth_EHVOR_combined_noOut,
+        small_vwidth,
+        large_vwidth,
+        r'$\mathrm{EHVO}\ V_{width} < 5000$',
+        r'$\mathrm{EHVO}\ V_{width} \geq 5000$',
+        v_label=r'$V_{width} [\mathrm{km\ s^{-1}}]$')
+    
+    # [Fig 4 ALT] EHVO subsamples separated by BI scatter/hist w/vwidth colormap -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # BI
+    print(f'BI median: {np.median(EHVOBI_total_all)}')
+    
+    large_BIEHVO = np.where(abs(EHVOBI_total_all) >= 300)#? quasars   
+    small_BIEHVO = np.where(abs(EHVOBI_total_all) < 300)#? quasars
+    plot_EHVO_CIV_scatter_hist(
+        CivBlue_EHVO_combined_noOut,
+        CivEW_EHVO_combined_noOut,
+        EHVOBI_total_all,
+        small_BIEHVO,
+        large_BIEHVO,
+        r'$\mathrm{EHVO}\ BI Total < 300$',
+        r'$\mathrm{EHVO}\ BI Total \geq 300$',
+        v_label=r'$BI Total$')
+    
+    
+    # CIV Distance and BI
+    plt.figure(figsize=(9, 7))
+
+    # Non-BAL sample (exclude BI = 0)
+    nonbal_BI = np.where(BI_rankAll_nonbal == 0, np.nan, BI_rankAll_nonbal)
+    
+    
+    # BAL sample
+    plt.scatter(
+        CivDistance_rankAll_bal,
+        BI_rankAll_bal,
+        color='cornflowerblue',
+        s=20,
+        label='Rankine+2020 BALs'
+    )
+    
+    # EHVO sample
+    plt.scatter(
+        CivDist_EHVOR_combined_noOut,
+        EHVOBI_total_all,
+        color='purple',
+        s=25,
+        label='EHVO (RH+2020 & CS+in prep)'
+    )
+    
+    
+    # Axis labels
+    plt.xlabel(r'C IV Distance', fontsize=14)
+    plt.ylabel('Balnicity Index (BI)', fontsize=14)
+    
+    # Automatically adjust limits to include all samples
+    plt.autoscale(enable=True, axis='both', tight=False)
+    
+    plt.legend(fontsize=11)
+    plt.tight_layout()
+    plt.show()
+    
+else:
+    print()
+
+
