@@ -234,7 +234,9 @@ mbh_values = mbh_values[pos_bal]
 redd_values = redd_values[pos_bal]
 
 knuthbin1 = 0.25*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(lbol_EHVO_lowv) + stats.knuth_bin_width(lbol_EHVO_highv))
+#knuthbin1alt = 0.25*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(EHVO_lbol_values))
 bin_lbol = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1)
+#bin_lbolalt = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1alt)
 
 knuthbin2 = 0.25*(stats.knuth_bin_width(mbh_bal_lowv) + stats.knuth_bin_width(mbh_bal_highv) + stats.knuth_bin_width(mbh_EHVO_lowv) + stats.knuth_bin_width(mbh_EHVO_highv))
 bin_mbh = np.arange(min(min(mbh_values), min(EHVO_mbh_values)), max(max(mbh_values), max(EHVO_mbh_values)), knuthbin2)
@@ -256,6 +258,9 @@ if DisplayHistogram1 == "y":
 
   weightslbol_EHVO_highv = [np.ones_like(lbol_EHVO_highv)/float(len(lbol_EHVO_highv))]
   plt.hist(lbol_EHVO_highv, bin_lbol, weights = weightslbol_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
+
+  #weightslbol_EHVO = [np.ones_like(EHVO_lbol_values)/float(len(EHVO_lbol_values))]
+  #plt.hist(EHVO_lbol_values,bin_lbolalt, weights = weightslbol_EHVO, label = 'EHVO', color = EHVO_highv_color, alpha = 0.6,)
 
   if med_lines == 'yes':
     plt.axvline(x = median(lbol_bal_lowv), color='aqua', linestyle='dashed', linewidth=2)
@@ -284,6 +289,9 @@ if DisplayHistogram2 == "y":
   weights_mbh_EHVO_highv = [np.ones_like(mbh_EHVO_highv)/float(len(mbh_EHVO_highv))]
   plt.hist(mbh_EHVO_highv, bins = bin_mbh, weights = weights_mbh_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
 
+  #weights_mbh_EHVO_highv = [np.ones_like(mbh_EHVO_highv)/float(len(mbh_EHVO_highv))]
+  #plt.hist(mbh_EHVO_highv, bins = bin_mbh, weights = weights_mbh_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
+
   if med_lines == 'yes':
     plt.axvline(x = median(mbh_bal_lowv), color='aqua', linestyle='dashed', linewidth=2)
     plt.axvline(x = median(mbh_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=2)
@@ -310,6 +318,9 @@ if DisplayHistogram3 == "y":
   weights_redd_EHVO_highv = [np.ones_like(redd_EHVO_highv)/float(len(redd_EHVO_highv))]
   plt.hist(redd_EHVO_highv,bins = bin_redd, weights = weights_redd_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.7)
 
+  #weights_redd_EHVO_highv = [np.ones_like(redd_EHVO_highv)/float(len(redd_EHVO_highv))]
+  #plt.hist(redd_EHVO_highv,bins = bin_redd, weights = weights_redd_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.7)
+  
   if med_lines == 'yes':
     plt.axvline(x = median(redd_bal_lowv), color='aqua', linestyle='dashed', linewidth=2)
     plt.axvline(x = median(redd_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=2)

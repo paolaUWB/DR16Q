@@ -14,6 +14,8 @@ import pandas as pd
 import os
 
 
+#PROGRAM CURRENTLY READS ONLY DR16, LINES CONTAINING BOTH ONLY PARTAIN TO DR16 DATA
+
 #XQR-30 Properties File
 xqrdata = pd.read_csv('https://raw.githubusercontent.com/paolaUWB/DR16Q/Anna/CROSS_CORRELATION/XQR30_Property_Data.csv')
 
@@ -145,7 +147,7 @@ parentboth_HeIIEW = Parentin16Rank_HeIIEW
 
 parentboth_logHeIIEW = np.log10(parentboth_HeIIEW)
 
-parent = parentboth_HeIIEW      #Changable
+parent = parentboth_logHeIIEW      #Changable revert back down below when done
 
 #EHVOs
 #EHVOboth_mbh = np.concatenate([EHVOin9Rank_mbh, EHVOin16Rank_mbh])
@@ -165,13 +167,13 @@ EHVOboth_HeIIEW = EHVOin16Rank_HeIIEW
 EHVOboth_logHeIIEW = np.log10(EHVOboth_HeIIEW)
 
 
-EHVO = EHVOboth_HeIIEW          #Changable
+EHVO = EHVOboth_logHeIIEW          #Changable
 
 #'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots
 #bb9 = np.where(Parentin9Rank_CivBlue > 500)
 #bb9_EHVO = np.where(EHVOin9Rank_CivBlue > 500)
-bb16 = np.where(Parentin16Rank_CivBlue > 500)
-bb16_EHVO = np.where(EHVOin16Rank_CivBlue > 500)
+#bb16 = np.where(Parentin16Rank_CivBlue > 500)
+#bb16_EHVO = np.where(EHVOin16Rank_CivBlue > 500)
 bb_both = np.where(parentboth_CivBlue > 500)
 bbboth_EHVO = np.where(EHVOboth_CivBlue > 500)
 
@@ -183,51 +185,53 @@ highbsEHVO = np.where(EHVOboth_CivBlue > 2500)
 
 
 
+
+
 #Combined EHVO and Parent Blueshift Arrays for Color Map
-c_DR16_CivBlue = np.concatenate([Parentin16Rank_CivBlue[bb16], EHVOin16Rank_CivBlue[bb16_EHVO]])
+#c_DR16_CivBlue = np.concatenate([Parentin16Rank_CivBlue[bb16], EHVOin16Rank_CivBlue[bb16_EHVO]])
 #c_DR9_CivBlue = np.concatenate([Parentin9Rank_CivBlue[bb9], EHVOin9Rank_CivBlue])
-c_both_CivBlue = np.concatenate([parentboth_CivBlue[bb_both], EHVOboth_CivBlue[bbboth_EHVO]])
+#c_both_CivBlue = np.concatenate([parentboth_CivBlue[bb_both], EHVOboth_CivBlue[bbboth_EHVO]])
 
 #COMBINED EHVO and Parent CIV Equivalent Width Arrays for Color Map
-c_DR16_CivEW = np.concatenate([Parentin16Rank_CivEW[bb16], EHVOin16Rank_CivEW[bb16_EHVO]])
+#c_DR16_CivEW = np.concatenate([Parentin16Rank_CivEW[bb16], EHVOin16Rank_CivEW[bb16_EHVO]])
 #c_DR9_CivEW = np.concatenate([Parentin9Rank_CivEW[bb9], EHVOin9Rank_CivEW])
 c_both_CivEW = np.concatenate([parentboth_CivEW[bb_both], EHVOboth_CivEW[bbboth_EHVO]])
 
 #COMBINED EHVO and Parent He II Equivalent Width Arrays for Color Map
-c_DR16_HeIIEW = np.concatenate([Parentin16Rank_HeIIEW[bb16], EHVOin16Rank_HeIIEW[bb16_EHVO]])
+#c_DR16_HeIIEW = np.concatenate([Parentin16Rank_HeIIEW[bb16], EHVOin16Rank_HeIIEW[bb16_EHVO]])
 #c_DR9_HeIIEW = np.concatenate([Parentin9Rank_HeIIEW[bb9], EHVOin9Rank_HeIIEW])
 c_both_HeIIEW = np.concatenate([parentboth_HeIIEW[bb_both], EHVOboth_HeIIEW[bbboth_EHVO]])
 c_both_logHeIIEW = safe_log10(c_both_HeIIEW)
 
 
 #Color Map
-cm = plt.get_cmap('viridis')
-cmap = plt.get_cmap('viridis')
+cm = plt.get_cmap('viridis_r')
+cmap = plt.get_cmap('viridis_r')
 
 #Histogram
 #MBH EHVO
-c_both_mbh = np.concatenate([parentboth_mbh[bb_both], EHVOboth_mbh[bbboth_EHVO]])
+c_both_mbh = np.concatenate([parentboth_mbh, EHVOboth_mbh])
 knuthbinMBH = (stats.knuth_bin_width(c_both_mbh))
 bin_MBH = np.arange(min(c_both_mbh), max(c_both_mbh), knuthbinMBH)
 
 #Lbol EHVO
-c_both_lbol = np.concatenate([parentboth_lbol[bb_both], EHVOboth_lbol[bbboth_EHVO]])
+c_both_lbol = np.concatenate([parentboth_lbol, EHVOboth_lbol])
 knuthbinLbol = (stats.knuth_bin_width(c_both_lbol))
 bin_Lbol = np.arange(min(c_both_lbol), max(c_both_lbol), knuthbinLbol)
 
 #Edd EHVO
-c_both_edd = np.concatenate([parentboth_redd[bb_both], EHVOboth_redd[bbboth_EHVO]])
+c_both_edd = np.concatenate([parentboth_redd, EHVOboth_redd])
 knuthbinEdd = (stats.knuth_bin_width(c_both_edd))
 bin_Edd = np.arange(min(c_both_edd), max(c_both_edd), knuthbinEdd)
 
 #Histogram Weights
 
-weightsEHVOmbh = [np.ones_like(EHVOboth_mbh[bbboth_EHVO])/float(len(EHVOboth_mbh[bbboth_EHVO]))]
-weightsEHVOlbol = [np.ones_like(EHVOboth_lbol[bbboth_EHVO])/float(len(EHVOboth_lbol[bbboth_EHVO]))]
-weightsEHVOedd = [np.ones_like(EHVOboth_redd[bbboth_EHVO])/float(len(EHVOboth_redd[bbboth_EHVO]))]
-weightsParentmbh = [np.ones_like(parentboth_mbh[bb_both])/float(len(parentboth_mbh[bb_both]))]
-weightsParentlbol = [np.ones_like(parentboth_lbol[bb_both])/float(len(parentboth_lbol[bb_both]))]
-weightsParentedd = [np.ones_like(parentboth_redd[bb_both])/float(len(parentboth_redd[bb_both]))]
+weightsEHVOmbh = [np.ones_like(EHVOboth_mbh)/float(len(EHVOboth_mbh))]
+weightsEHVOlbol = [np.ones_like(EHVOboth_lbol)/float(len(EHVOboth_lbol))]
+weightsEHVOedd = [np.ones_like(EHVOboth_redd)/float(len(EHVOboth_redd))]
+weightsParentmbh = [np.ones_like(parentboth_mbh)/float(len(parentboth_mbh))]
+weightsParentlbol = [np.ones_like(parentboth_lbol)/float(len(parentboth_lbol))]
+weightsParentedd = [np.ones_like(parentboth_redd)/float(len(parentboth_redd))]
 
 
 
@@ -259,13 +263,13 @@ ax7 = fig.add_subplot(gs[0,1])
 
 #VMIN ORIGINAL IS 500
 #--------------LBOL vs MBH--------------------
-cm = ax1.hexbin(parentboth_mbh[bb_both], parentboth_lbol[bb_both],  C = parent[bb_both], gridsize = 35, cmap = 'viridis', reduce_C_function = np.median, mincnt = 4, vmin=0, vmax=max(EHVO), edgecolor = 'None', zorder= 99)
+cm = ax1.hexbin(parentboth_mbh, parentboth_lbol,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=-3, vmax=1, edgecolor = 'None', zorder= 99)
 cbarax = fig.add_axes([-0.03, 0.055, 0.02, 0.93])
 cbar = plt.colorbar(cm, cax=cbarax)
-cbarax.set_ylabel('CIV Blueshift (km/s) and ' + dfRHV.columns[7], rotation = 90, fontname='serif')
+cbarax.set_ylabel('HeII EW ($\AA$)', rotation = 90, fontname='serif')
 cbarax.yaxis.set_ticks_position('left')
 cbarax.yaxis.set_label_position('left')
-sc = ax1.scatter(EHVOboth_mbh[bbboth_EHVO], EHVOboth_lbol[bbboth_EHVO], c = EHVO[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+ 2020 and RH+ in prep)')
+sc = ax1.scatter(EHVOboth_mbh, EHVOboth_lbol, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 
 
 ax1.set_xlim(8.4,10.5)
@@ -276,8 +280,8 @@ ax1.set_ylabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 ax1.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #-------------------EDD vs MBH------------------
-cm = ax2.hexbin(parentboth_mbh[bb_both], parentboth_redd[bb_both],  C = parent[bb_both], gridsize = 35, cmap = 'viridis', reduce_C_function = np.median, mincnt = 4, vmin=0, vmax=max(EHVO), edgecolor = 'None', zorder= 99)
-sc = ax2.scatter(EHVOboth_mbh[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], c = EHVO[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+ 2020 and RH+ in prep)')
+cm = ax2.hexbin(parentboth_mbh, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=-3, vmax=1, edgecolor = 'None', zorder= 99)
+sc = ax2.scatter(EHVOboth_mbh, EHVOboth_redd, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax2.set_xlabel("log($M_{\mathrm{BH}}/M_{\odot})$", fontname='serif')
 ax2.set_xlim(8.4,10.5)
 ax2.set_ylim(-1.5,0.5)
@@ -286,8 +290,8 @@ ax2.set_ylabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
 ax2.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #---------------EDD vs LBOL---------------------
-cm = ax3.hexbin(parentboth_lbol[bb_both], parentboth_redd[bb_both],  C = parent[bb_both], gridsize = 35, cmap = 'viridis', reduce_C_function = np.median, mincnt = 4, vmin=0, vmax=max(EHVO), edgecolor = 'None', zorder= 99)
-sc = ax3.scatter(EHVOboth_lbol[bbboth_EHVO], EHVOboth_redd[bbboth_EHVO], c = EHVO[bbboth_EHVO], zorder = 100, cmap = 'viridis', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO (RH+ 2020 and RH+ in prep)')
+cm = ax3.hexbin(parentboth_lbol, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=-3, vmax=1, edgecolor = 'None', zorder= 99)
+sc = ax3.scatter(EHVOboth_lbol, EHVOboth_redd, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax3.set_xlabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 #Removing yticks for second plot
 ax3.set_yticklabels([])
@@ -300,16 +304,16 @@ ax3.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright 
 ax4.set_xticklabels([])
 ax4.set_yticklabels([])
 ax4.set_xlim(8.4,10.5)
-ax4.hist(parentboth_mbh[bb_both], bins = bin_MBH, weights= weightsParentmbh, histtype = 'step', color = 'blue', label = 'Parent RH+ 2020 and RH+ in prep)')
-ax4.hist(EHVOboth_mbh[bbboth_EHVO], bins = bin_MBH, weights = weightsEHVOmbh, histtype = 'step', color = 'red', label='EHVO (RH+ 2020 and RH+ in prep)')
+ax4.hist(parentboth_mbh, bins = bin_MBH, weights= weightsParentmbh, histtype = 'step', color = 'blue', label = 'Parent')
+ax4.hist(EHVOboth_mbh, bins = bin_MBH, weights = weightsEHVOmbh, histtype = 'step', color = 'red', label='EHVO')
 ax4.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 
 #---------------LBOL Histogram--------------------
 ax5.set_xticklabels([])
 ax5.set_yticklabels([])
-ax5.hist(parentboth_lbol[bb_both], bins = bin_Lbol, weights = weightsParentlbol, histtype = 'step', color = 'blue', label = 'Parent RH+ 2020 and RH+ in prep)')
-ax5.hist(EHVOboth_lbol[bbboth_EHVO], bins = bin_Lbol, weights = weightsEHVOlbol, histtype = 'step', color = 'red', label='EHVO (RH+ 2020 and RH+ in prep)')
+ax5.hist(parentboth_lbol, bins = bin_Lbol, weights = weightsParentlbol, histtype = 'step', color = 'blue', label = 'Parent')
+ax5.hist(EHVOboth_lbol, bins = bin_Lbol, weights = weightsEHVOlbol, histtype = 'step', color = 'red', label='EHVO')
 ax5.set_xlim(46,48.5)
 #ax5.legend(loc='upper right',prop={'size': 6})
 # bbox_to_anchor=(0.87, 1.3)
@@ -318,14 +322,14 @@ ax5.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright 
 #---------------EDD Histogram----------------------
 ax6.set_yticklabels([])
 ax6.set_xlabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
-ax6.hist(parentboth_redd[bb_both], bins = bin_Edd, weights = weightsParentedd, histtype = 'step', color = 'blue', label = 'Parent RH+ 2020 and RH+ in prep)')
-ax6.hist(EHVOboth_redd[bbboth_EHVO], bins = bin_Edd, weights = weightsEHVOedd, histtype = 'step', color = 'red', label='EHVO (RH+ 2020 and RH+ in prep)')
+ax6.hist(parentboth_redd, bins = bin_Edd, weights = weightsParentedd, histtype = 'step', color = 'blue', label = 'Parent')
+ax6.hist(EHVOboth_redd, bins = bin_Edd, weights = weightsEHVOedd, histtype = 'step', color = 'red', label='EHVO')
 ax6.set_xlim(-1.5,0.5)
 ax6.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #Legend
-parent_line = plt.Line2D([0], [0], color='blue', label='Parent RH+ 2020 and RH+ in prep')
-EHVO_line = plt.Line2D([0], [0], color='red', label='EHVO (RH+ 2020 and RH+ in prep)')
+parent_line = plt.Line2D([0], [0], color='blue', label='Parent')
+EHVO_line = plt.Line2D([0], [0], color='red', label='EHVO')
 ax7.set_xticks([])
 ax7.set_yticks([])
 ax7.legend(handles=[parent_line, EHVO_line], loc='lower left', prop={'size': 9.7})
