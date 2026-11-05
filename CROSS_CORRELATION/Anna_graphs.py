@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 from astropy import stats
 import pandas as pd
 import os
-
+import math
 
 #PROGRAM CURRENTLY READS ONLY DR16, LINES CONTAINING BOTH ONLY PARTAIN TO DR16 DATA
 
@@ -263,10 +263,10 @@ ax7 = fig.add_subplot(gs[0,1])
 
 #VMIN ORIGINAL IS 500
 #--------------LBOL vs MBH--------------------
-cm = ax1.hexbin(parentboth_mbh, parentboth_lbol,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=-3, vmax=1, edgecolor = 'None', zorder= 99)
+cm = ax1.hexbin(parentboth_mbh, parentboth_lbol,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
 cbarax = fig.add_axes([-0.03, 0.055, 0.02, 0.93])
 cbar = plt.colorbar(cm, cax=cbarax)
-cbarax.set_ylabel('HeII EW ($\AA$)', rotation = 90, fontname='serif')
+cbarax.set_ylabel('log(HeII EW) ($\AA$)', rotation = 90, fontname='serif')
 cbarax.yaxis.set_ticks_position('left')
 cbarax.yaxis.set_label_position('left')
 sc = ax1.scatter(EHVOboth_mbh, EHVOboth_lbol, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
@@ -280,7 +280,7 @@ ax1.set_ylabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 ax1.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #-------------------EDD vs MBH------------------
-cm = ax2.hexbin(parentboth_mbh, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=-3, vmax=1, edgecolor = 'None', zorder= 99)
+cm = ax2.hexbin(parentboth_mbh, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
 sc = ax2.scatter(EHVOboth_mbh, EHVOboth_redd, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax2.set_xlabel("log($M_{\mathrm{BH}}/M_{\odot})$", fontname='serif')
 ax2.set_xlim(8.4,10.5)
@@ -290,7 +290,7 @@ ax2.set_ylabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
 ax2.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #---------------EDD vs LBOL---------------------
-cm = ax3.hexbin(parentboth_lbol, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=-3, vmax=1, edgecolor = 'None', zorder= 99)
+cm = ax3.hexbin(parentboth_lbol, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
 sc = ax3.scatter(EHVOboth_lbol, EHVOboth_redd, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax3.set_xlabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 #Removing yticks for second plot
