@@ -10,11 +10,11 @@ Created on Fri Oct  9 13:16:38 2026
 DisplayHistogram1 = "y"
 #DisplayHistogram1 = "n"
 
-DisplayHistogram2 = "y"
-#DisplayHistogram2 = "n"
+#DisplayHistogram2 = "y"
+DisplayHistogram2 = "n"
 
-DisplayHistogram3 = "y"
-#DisplayHistogram3 = "n"
+#DisplayHistogram3 = "y"
+DisplayHistogram3 = "n"
 
 #sample settings
 #sample = "DR9 & DR16"
@@ -32,8 +32,8 @@ EHVO_value = 42_000
 #       EHVO min median - 38,000  EHVO max median - 42,000
 
 #display median lines?
-med_lines = 'yes'
-#med_lines = 'no'
+#med_lines = 'yes'
+med_lines = 'no'
 
 # colors
 bal_lowv_color = 'aqua'
@@ -234,9 +234,10 @@ mbh_values = mbh_values[pos_bal]
 redd_values = redd_values[pos_bal]
 
 knuthbin1 = 0.25*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(lbol_EHVO_lowv) + stats.knuth_bin_width(lbol_EHVO_highv))
-#knuthbin1alt = 0.25*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(EHVO_lbol_values))
+knuthbin1alt = (1/3)*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(EHVO_lbol_values))
 bin_lbol = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1)
-#bin_lbolalt = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1alt)
+bin_lbolalt = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1alt)
+
 
 knuthbin2 = 0.25*(stats.knuth_bin_width(mbh_bal_lowv) + stats.knuth_bin_width(mbh_bal_highv) + stats.knuth_bin_width(mbh_EHVO_lowv) + stats.knuth_bin_width(mbh_EHVO_highv))
 bin_mbh = np.arange(min(min(mbh_values), min(EHVO_mbh_values)), max(max(mbh_values), max(EHVO_mbh_values)), knuthbin2)
@@ -254,14 +255,14 @@ if DisplayHistogram1 == "y":
   plt.hist(lbol_bal_highv, bin_lbol, weights = weightslbol_bal_highv, label = 'BAL '+ str(BAL_value) + ' km/s<'+ str(text_v) +'<25,000 km/s', color = bal_highv_color,alpha = 0.6,)
 
   weightslbol_EHVO_lowv = [np.ones_like(lbol_EHVO_lowv)/float(len(lbol_EHVO_lowv))]
-  plt.hist(lbol_EHVO_lowv, bin_lbol, weights = weightslbol_EHVO_lowv, label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=0.8,)
+  #plt.hist(lbol_EHVO_lowv, bin_lbol, weights = weightslbol_EHVO_lowv, label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=0.8,)
 
   weightslbol_EHVO_highv = [np.ones_like(lbol_EHVO_highv)/float(len(lbol_EHVO_highv))]
-  plt.hist(lbol_EHVO_highv, bin_lbol, weights = weightslbol_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
+  #plt.hist(lbol_EHVO_highv, bin_lbol, weights = weightslbol_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
 
-  #weightslbol_EHVO = [np.ones_like(EHVO_lbol_values)/float(len(EHVO_lbol_values))]
-  #plt.hist(EHVO_lbol_values,bin_lbolalt, weights = weightslbol_EHVO, label = 'EHVO', color = EHVO_highv_color, alpha = 0.6,)
-
+  weightslbol_EHVO = [np.ones_like(EHVO_lbol_values)/float(len(EHVO_lbol_values))]
+  plt.hist(EHVO_lbol_values,bin_lbol, weights = weightslbol_EHVO, label = 'EHVO', color = EHVO_highv_color, alpha = 0.6,)
+  
   if med_lines == 'yes':
     plt.axvline(x = median(lbol_bal_lowv), color='aqua', linestyle='dashed', linewidth=2)
     plt.axvline(x = median(lbol_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=2)
