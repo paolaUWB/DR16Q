@@ -92,22 +92,26 @@ xqr_bs_both = np.concatenate([xqr_bs_Parent, xqr_bs_EHVO])
 
 ###DR16###
 #for parent sample
-Parentin16Rank_mbh=dfRPA[dfRPA.columns[16]].to_numpy()
-Parentin16Rank_lbol=dfRPA[dfRPA.columns[17]].to_numpy()
-Parentin16Rank_redd=dfRPA[dfRPA.columns[18]].to_numpy()
-Parentin16Rank_CivBlue=dfRPA[dfRPA.columns[5]].to_numpy()
-Parentin16Rank_CivEW=dfRPA[dfRPA.columns[6]].to_numpy()
-Parentin16Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
-
+Parentin16Rank_mbh =dfRPA[dfRPA.columns[16]].to_numpy()
+Parentin16Rank_lbol =dfRPA[dfRPA.columns[17]].to_numpy()
+Parentin16Rank_redd =dfRPA[dfRPA.columns[18]].to_numpy()
+Parentin16Rank_CivBlue =dfRPA[dfRPA.columns[5]].to_numpy()
+Parentin16Rank_CivEW =dfRPA[dfRPA.columns[6]].to_numpy()
+Parentin16Rank_HeIIEW =dfRPA[dfRPA.columns[7]].to_numpy()
+Parentin16Rank_BI_BI =dfRPA[dfRPA.columns[10]].to_numpy()
+Parentin16Rank_BI_vmax =dfRPA[dfRPA.columns[11]].to_numpy()
+Parentin16Rank_BI_vmin =dfRPA[dfRPA.columns[12]].to_numpy()
 
 #for EHVOs
-EHVOin16Rank_mbh=dfRHV[dfRHV.columns[16]].to_numpy()
-EHVOin16Rank_lbol=dfRHV[dfRHV.columns[17]].to_numpy()
-EHVOin16Rank_redd=dfRHV[dfRHV.columns[18]].to_numpy()
-EHVOin16Rank_CivBlue=dfRHV[dfRHV.columns[5]].to_numpy()
-EHVOin16Rank_CivEW=dfRHV[dfRHV.columns[6]].to_numpy()
-EHVOin16Rank_HeIIEW=dfRHV[dfRHV.columns[7]].to_numpy()
-
+EHVOin16Rank_mbh =dfRHV[dfRHV.columns[16]].to_numpy()
+EHVOin16Rank_lbol =dfRHV[dfRHV.columns[17]].to_numpy()
+EHVOin16Rank_redd =dfRHV[dfRHV.columns[18]].to_numpy()
+EHVOin16Rank_CivBlue =dfRHV[dfRHV.columns[5]].to_numpy()
+EHVOin16Rank_CivEW =dfRHV[dfRHV.columns[6]].to_numpy()
+EHVOin16Rank_HeIIEW =dfRHV[dfRHV.columns[7]].to_numpy()
+EHVOin16Rank_BI_BI =dfRHV[dfRHV.columns[10]]
+EHVOin16Rank_BI_vmax =dfRHV[dfRHV.columns[11]]
+EHVOin16Rank_BI_vmin =dfRHV[dfRHV.columns[12]]
 
 ###DR9###
 
