@@ -10,11 +10,11 @@ Created on Fri Oct  9 13:16:38 2026
 DisplayHistogram1 = "y"
 #DisplayHistogram1 = "n"
 
-#DisplayHistogram2 = "y"
-DisplayHistogram2 = "n"
+DisplayHistogram2 = "y"
+#DisplayHistogram2 = "n"
 
-#DisplayHistogram3 = "y"
-DisplayHistogram3 = "n"
+DisplayHistogram3 = "y"
+#DisplayHistogram3 = "n"
 
 #sample settings
 #sample = "DR9 & DR16"
@@ -249,26 +249,26 @@ bin_redd = np.arange(min(min(redd_values), min(EHVO_redd_values)), max(max(redd_
 #histogram 1 ..................
 if DisplayHistogram1 == "y":
   weightslbol_bal_lowv = [np.ones_like(lbol_bal_lowv)/float(len(lbol_bal_lowv))]
-  plt.hist(lbol_bal_lowv, bin_lbolalt, weights = weightslbol_bal_lowv, histtype = 'step', label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color, alpha = 1,)
+  plt.hist(lbol_bal_lowv, bin_lbol, weights = weightslbol_bal_lowv, histtype = 'step', label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color, alpha = 1,)
 
   weightslbol_bal_highv = [np.ones_like(lbol_bal_highv)/float(len(lbol_bal_highv))]
-  plt.hist(lbol_bal_highv, bin_lbolalt, weights = weightslbol_bal_highv, histtype = 'step', label = 'BAL '+ str(BAL_value) + ' km/s<'+ str(text_v) +'<25,000 km/s', color = bal_highv_color,alpha = 1,)
+  plt.hist(lbol_bal_highv, bin_lbol, weights = weightslbol_bal_highv, histtype = 'step', label = 'BAL '+ str(BAL_value) + ' km/s<'+ str(text_v) +'<25,000 km/s', color = bal_highv_color,alpha = 1,)
 
   weightslbol_EHVO_lowv = [np.ones_like(lbol_EHVO_lowv)/float(len(lbol_EHVO_lowv))]
-  #plt.hist(lbol_EHVO_lowv, bin_lbol, weights = weightslbol_EHVO_lowv, histtype = 'step', label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=0.8,)
+  plt.hist(lbol_EHVO_lowv, bin_lbol, weights = weightslbol_EHVO_lowv, histtype = 'step', label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=0.8,)
 
   weightslbol_EHVO_highv = [np.ones_like(lbol_EHVO_highv)/float(len(lbol_EHVO_highv))]
-  #plt.hist(lbol_EHVO_highv, bin_lbol, weights = weightslbol_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
+  plt.hist(lbol_EHVO_highv, bin_lbol, weights = weightslbol_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
 
   weightslbol_EHVO = [np.ones_like(EHVO_lbol_values)/float(len(EHVO_lbol_values))]
-  plt.hist(EHVO_lbol_values,bin_lbolalt, weights = weightslbol_EHVO, histtype = 'step', label = 'EHVO', color = EHVO_highv_color, alpha = 1,)
+  #plt.hist(EHVO_lbol_values,bin_lbolalt, weights = weightslbol_EHVO, histtype = 'step', label = 'EHVO', color = EHVO_highv_color, alpha = 1,)
   
   if med_lines == 'yes':
-    plt.axvline(x = median(lbol_bal_lowv), color='aqua', linestyle='dashed', linewidth=1)
-    plt.axvline(x = median(lbol_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1)
-    #plt.axvline(x = median(lbol_EHVO_lowv), color='plum', linestyle='dashed', linewidth=2)
-    #plt.axvline(x = median(lbol_EHVO_highv), color='purple', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(EHVO_lbol_values), color = 'purple', linestyle= 'dashed', linewidth=1)
+    plt.axvline(x = median(lbol_bal_lowv), color='aqua', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(lbol_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(lbol_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(lbol_EHVO_highv), color='purple', linestyle='dashed', linewidth=1.5)
+    #plt.axvline(x = median(EHVO_lbol_values), color = 'purple', linestyle= 'dashed', linewidth=1)
 
   plt.xlabel('log($L_{bol}$/erg s$^{-1}$)')
   plt.ylabel('N')
@@ -289,16 +289,14 @@ if DisplayHistogram2 == "y":
   plt.hist(mbh_EHVO_lowv, bins = bin_mbh, weights = weights_mbh_EHVO_lowv, histtype = 'step', label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=0.9,)
 
   weights_mbh_EHVO_highv = [np.ones_like(mbh_EHVO_highv)/float(len(mbh_EHVO_highv))]
-  #plt.hist(mbh_EHVO_highv, bins = bin_mbh, weights = weights_mbh_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
+  plt.hist(mbh_EHVO_highv, bins = bin_mbh, weights = weights_mbh_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
 
-  #weights_mbh_EHVO_highv = [np.ones_like(mbh_EHVO_highv)/float(len(mbh_EHVO_highv))]
-  #plt.hist(mbh_EHVO_highv, bins = bin_mbh, weights = weights_mbh_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.6,)
 
   if med_lines == 'yes':
-    plt.axvline(x = median(mbh_bal_lowv), color='aqua', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(mbh_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(mbh_EHVO_lowv), color='plum', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(mbh_EHVO_highv), color='purple', linestyle='dashed', linewidth=2)
+    plt.axvline(x = median(mbh_bal_lowv), color='aqua', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(mbh_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(mbh_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(mbh_EHVO_highv), color='purple', linestyle='dashed', linewidth=1.5)
 
   plt.xlabel('log($M_{\mathrm{BH}}/M_{\odot})$')
   plt.ylabel('N')
@@ -309,25 +307,23 @@ if DisplayHistogram2 == "y":
 #histogram 3 .........................
 if DisplayHistogram3 == "y":
   weights_redd_bal_lowv = [np.ones_like(redd_bal_lowv)/float(len(redd_bal_lowv))]
-  plt.hist(redd_bal_lowv, bins = bin_redd, weights = weights_redd_bal_lowv, label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color,  alpha = 1 )
+  plt.hist(redd_bal_lowv, bins = bin_redd, weights = weights_redd_bal_lowv, histtype = 'step', label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color,  alpha = 1 )
 
   weights_redd_bal_highv = [np.ones_like(redd_bal_highv)/float(len(redd_bal_highv))]
-  plt.hist(redd_bal_highv, bins = bin_redd, weights = weights_redd_bal_highv, label = 'BAL '+ str(BAL_value) + ' km/s<'+ str(text_v) +'<25,000 km/s', color = bal_highv_color, alpha=0.7)
+  plt.hist(redd_bal_highv, bins = bin_redd, weights = weights_redd_bal_highv, histtype = 'step', label = 'BAL '+ str(BAL_value) + ' km/s<'+ str(text_v) +'<25,000 km/s', color = bal_highv_color, alpha=0.7)
 
   weights_redd_EHVO_lowv = [np.ones_like(redd_EHVO_lowv)/float(len(redd_EHVO_lowv))]
-  plt.hist(redd_EHVO_lowv, bins = bin_redd, weights = weights_mbh_EHVO_lowv, label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=1)
+  plt.hist(redd_EHVO_lowv, bins = bin_redd, weights = weights_mbh_EHVO_lowv, histtype = 'step', label = 'EHVO 30,000 km/s<'+ str(text_v) +'<'+ str(EHVO_value) + ' km/s', color = EHVO_lowv_color, alpha=1)
 
   weights_redd_EHVO_highv = [np.ones_like(redd_EHVO_highv)/float(len(redd_EHVO_highv))]
-  plt.hist(redd_EHVO_highv,bins = bin_redd, weights = weights_redd_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.7)
+  plt.hist(redd_EHVO_highv,bins = bin_redd, weights = weights_redd_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.7)
 
-  #weights_redd_EHVO_highv = [np.ones_like(redd_EHVO_highv)/float(len(redd_EHVO_highv))]
-  #plt.hist(redd_EHVO_highv,bins = bin_redd, weights = weights_redd_EHVO_highv, label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 0.7)
   
   if med_lines == 'yes':
-    plt.axvline(x = median(redd_bal_lowv), color='aqua', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(redd_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(redd_EHVO_lowv), color='plum', linestyle='dashed', linewidth=2)
-    plt.axvline(x = median(redd_EHVO_highv), color='purple', linestyle='dashed', linewidth=2)
+    plt.axvline(x = median(redd_bal_lowv), color='aqua', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(redd_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(redd_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1.5)
+    plt.axvline(x = median(redd_EHVO_highv), color='purple', linestyle='dashed', linewidth=1.5)
 
   plt.xlabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$)')
   plt.ylabel('N')

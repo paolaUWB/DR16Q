@@ -98,6 +98,7 @@ Parentin16Rank_redd =dfRPA[dfRPA.columns[18]].to_numpy()
 Parentin16Rank_CivBlue =dfRPA[dfRPA.columns[5]].to_numpy()
 Parentin16Rank_CivEW =dfRPA[dfRPA.columns[6]].to_numpy()
 Parentin16Rank_HeIIEW =dfRPA[dfRPA.columns[7]].to_numpy()
+
 Parentin16Rank_BI_BI =dfRPA[dfRPA.columns[10]].to_numpy()
 Parentin16Rank_BI_vmax =dfRPA[dfRPA.columns[11]].to_numpy()
 Parentin16Rank_BI_vmin =dfRPA[dfRPA.columns[12]].to_numpy()
@@ -109,9 +110,10 @@ EHVOin16Rank_redd =dfRHV[dfRHV.columns[18]].to_numpy()
 EHVOin16Rank_CivBlue =dfRHV[dfRHV.columns[5]].to_numpy()
 EHVOin16Rank_CivEW =dfRHV[dfRHV.columns[6]].to_numpy()
 EHVOin16Rank_HeIIEW =dfRHV[dfRHV.columns[7]].to_numpy()
-EHVOin16Rank_BI_BI =dfRHV[dfRHV.columns[10]]
-EHVOin16Rank_BI_vmax =dfRHV[dfRHV.columns[11]]
-EHVOin16Rank_BI_vmin =dfRHV[dfRHV.columns[12]]
+
+EHVOin16Rank_BI_BI =dfRHV[dfRHV.columns[10]].to_numpy()
+EHVOin16Rank_BI_vmax =dfRHV[dfRHV.columns[11]].to_numpy()
+EHVOin16Rank_BI_vmin =dfRHV[dfRHV.columns[12]].to_numpy()
 
 ###DR9###
 
@@ -148,10 +150,12 @@ parentboth_redd = Parentin16Rank_redd
 parentboth_CivBlue = Parentin16Rank_CivBlue
 parentboth_CivEW = Parentin16Rank_CivEW
 parentboth_HeIIEW = Parentin16Rank_HeIIEW
+parentboth_BI_BI = np.log10(Parentin16Rank_BI_BI)
+parentboth_BI_vmax = Parentin16Rank_BI_vmax
+parentboth_BI_vmin = Parentin16Rank_BI_vmin
 
-parentboth_logHeIIEW = np.log10(parentboth_HeIIEW)
+parentboth_logHeIIEW = np.log10(parentboth_HeIIEW) 
 
-parent = parentboth_logHeIIEW      #Changable revert back down below when done
 
 #EHVOs
 #EHVOboth_mbh = np.concatenate([EHVOin9Rank_mbh, EHVOin16Rank_mbh])
@@ -167,11 +171,12 @@ EHVOboth_redd = EHVOin16Rank_redd
 EHVOboth_CivBlue = EHVOin16Rank_CivBlue
 EHVOboth_CivEW = EHVOin16Rank_CivEW
 EHVOboth_HeIIEW = EHVOin16Rank_HeIIEW
+EHVOboth_BI_BI = np.log10(EHVOin16Rank_BI_BI)
+EHVOboth_BI_vmax = EHVOin16Rank_BI_vmax
+EHVOboth_BI_vmin = EHVOin16Rank_BI_vmin
 
 EHVOboth_logHeIIEW = np.log10(EHVOboth_HeIIEW)
 
-
-EHVO = EHVOboth_logHeIIEW          #Changable
 
 #'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots
 #bb9 = np.where(Parentin9Rank_CivBlue > 500)
@@ -181,14 +186,24 @@ EHVO = EHVOboth_logHeIIEW          #Changable
 bb_both = np.where(parentboth_CivBlue > 500)
 bbboth_EHVO = np.where(EHVOboth_CivBlue > 500)
 
-bbXQR_nonBAL = np.where(xqr_bs_nonBAL > 500)
-bbXQR_BAL = np.where(xqr_bs_BAL > 500)
-bbXQR_EHVO = np.where(xqr_bs_EHVO > 500)
+#bbXQR_nonBAL = np.where(xqr_bs_nonBAL > 500)
+#bbXQR_BAL = np.where(xqr_bs_BAL > 500)
+#bbXQR_EHVO = np.where(xqr_bs_EHVO > 500)
 
-highbsEHVO = np.where(EHVOboth_CivBlue > 2500)
+#highbsEHVO = np.where(EHVOboth_CivBlue > 2500)
+
+#mask zero values for BI
+parentBI_cutoff = np.where(parentboth_BI_BI > 1)
+parentBIvmax_cutoff = np.where(parentboth_BI_vmax > 1)
+parentBIvmin_cutoff = np.where(parentboth_BI_vmin > 1)
+
+BI_cutoff = np.where(EHVOboth_BI_BI > 1)
+BIvmax_cutoff = np.where(EHVOboth_BI_vmax > 1)
+BIvmin_cutoff = np.where(EHVOboth_BI_vmin > 1)
 
 
-
+parent = parentboth_BI_vmax[parentBI_cutoff]        #CHANGABLE REVERT AND CLEAN WHEN DONE
+EHVO = EHVOboth_BI_vmax[BI_cutoff]
 
 
 #Combined EHVO and Parent Blueshift Arrays for Color Map
@@ -209,23 +224,24 @@ c_both_logHeIIEW = safe_log10(c_both_HeIIEW)
 
 
 #Color Map
-cm = plt.get_cmap('viridis_r')
-cmap = plt.get_cmap('viridis_r')
+cm = plt.get_cmap('viridis')
+cmap = plt.get_cmap('viridis')
+color_pallete = "viridis_r"
 
 #Histogram
 #MBH EHVO
 c_both_mbh = np.concatenate([parentboth_mbh, EHVOboth_mbh])
-knuthbinMBH = (stats.knuth_bin_width(c_both_mbh))
+knuthbinMBH = 1.75 * (stats.knuth_bin_width(c_both_mbh))
 bin_MBH = np.arange(min(c_both_mbh), max(c_both_mbh), knuthbinMBH)
 
 #Lbol EHVO
 c_both_lbol = np.concatenate([parentboth_lbol, EHVOboth_lbol])
-knuthbinLbol = (stats.knuth_bin_width(c_both_lbol))
+knuthbinLbol = 1.5 * (stats.knuth_bin_width(c_both_lbol))
 bin_Lbol = np.arange(min(c_both_lbol), max(c_both_lbol), knuthbinLbol)
 
 #Edd EHVO
 c_both_edd = np.concatenate([parentboth_redd, EHVOboth_redd])
-knuthbinEdd = (stats.knuth_bin_width(c_both_edd))
+knuthbinEdd = 1.5 * (stats.knuth_bin_width(c_both_edd))
 bin_Edd = np.arange(min(c_both_edd), max(c_both_edd), knuthbinEdd)
 
 #Histogram Weights
@@ -267,14 +283,14 @@ ax7 = fig.add_subplot(gs[0,1])
 
 #VMIN ORIGINAL IS 500
 #--------------LBOL vs MBH--------------------
-cm = ax1.hexbin(parentboth_mbh, parentboth_lbol,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
+cm = ax1.hexbin(parentboth_mbh[parentBI_cutoff], parentboth_lbol[parentBI_cutoff],  C = parent, gridsize = 35, cmap = color_pallete , reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
 cbarax = fig.add_axes([-0.03, 0.055, 0.02, 0.93])
 cbar = plt.colorbar(cm, cax=cbarax)
-cbarax.set_ylabel('log(HeII EW) ($\AA$)', rotation = 90, fontname='serif')
+cbarax.set_ylabel('BI vmax', rotation = 90, fontname='serif')
 cbarax.yaxis.set_ticks_position('left')
 cbarax.yaxis.set_label_position('left')
-sc = ax1.scatter(EHVOboth_mbh, EHVOboth_lbol, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
-
+sc = ax1.scatter(EHVOboth_mbh[BI_cutoff], EHVOboth_lbol[BI_cutoff], c = EHVO, zorder = 100, cmap = color_pallete, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+#'log(HeII EW) ($\AA$)'
 
 ax1.set_xlim(8.4,10.5)
 ax1.set_ylim(46.1,48.1)
@@ -284,8 +300,8 @@ ax1.set_ylabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 ax1.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #-------------------EDD vs MBH------------------
-cm = ax2.hexbin(parentboth_mbh, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
-sc = ax2.scatter(EHVOboth_mbh, EHVOboth_redd, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+cm = ax2.hexbin(parentboth_mbh[parentBI_cutoff], parentboth_redd[parentBI_cutoff],  C = parent, gridsize = 35, cmap = color_pallete, reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
+sc = ax2.scatter(EHVOboth_mbh[BI_cutoff], EHVOboth_redd[BI_cutoff], c = EHVO, zorder = 100, cmap = color_pallete, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax2.set_xlabel("log($M_{\mathrm{BH}}/M_{\odot})$", fontname='serif')
 ax2.set_xlim(8.4,10.5)
 ax2.set_ylim(-1.5,0.5)
@@ -294,8 +310,8 @@ ax2.set_ylabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
 ax2.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #---------------EDD vs LBOL---------------------
-cm = ax3.hexbin(parentboth_lbol, parentboth_redd,  C = parent, gridsize = 35, cmap = 'viridis_r', reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
-sc = ax3.scatter(EHVOboth_lbol, EHVOboth_redd, c = EHVO, zorder = 100, cmap = 'viridis_r', edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+cm = ax3.hexbin(parentboth_lbol[parentBI_cutoff], parentboth_redd[parentBI_cutoff],  C = parent, gridsize = 35, cmap = color_pallete, reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
+sc = ax3.scatter(EHVOboth_lbol[BI_cutoff], EHVOboth_redd[BI_cutoff], c = EHVO, zorder = 100, cmap = color_pallete, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax3.set_xlabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 #Removing yticks for second plot
 ax3.set_yticklabels([])
