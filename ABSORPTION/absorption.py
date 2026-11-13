@@ -51,13 +51,13 @@ SPEC_DIREC = os.getcwd() + "/test_absorption/EHVOnorm/" # testing
 ############################## CHANGEABLE VARIABLES ###########################################################################
 
 #defining the config file
-CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16Q_EHVO/J2318_divided.csv" #"/OUTPUT_FILES/NORMALIZATION/good_fit_EHVO.csv" #good_fit_EHVO.csv" ##_newSNR_flagged_but_ok.csv #_EHVO.csv" 
-
+#CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else os.getcwd() + "/../DR16Q_EHVO/J2318_divided.csv" #"/OUTPUT_FILES/NORMALIZATION/good_fit_EHVO.csv" #good_fit_EHVO.csv" ##_newSNR_flagged_but_ok.csv #_EHVO.csv" 
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mg/Documents/Projects/SpenderQ-LYA/src/spenderq/dat/Variability/NV/NV_recon_ratios_norm.csv"
 # directory of where normalized data files are
 # data NOT on github but local computer
 #NORM_DIREC = os.getcwd() + '/../' + "NORM_DR16Q/"
 
-NORM_DIREC = os.getcwd() + "/../" + "/DR16Q_EHVO/NORM_DR16Q_EHVO/"
+NORM_DIREC = "/Users/mg/Documents/Projects/SpenderQ-LYA/src/spenderq/dat/Variability/NV/recon_norm_ratios/"
 
 # creates directory for output files
 OUT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
@@ -83,13 +83,13 @@ xhigh = None
 #xhigh = -10000
 
 # limits on velocity     min,   max
-VELOCITY_LIMIT = Range(-80000, -120000.)
+VELOCITY_LIMIT = Range(-70000, -110000.)
 
 # range of spectra you are working with from the good_fit.csv file
-STARTS_FROM, ENDS_AT = 1, 2 #Note that the end is inclusive
+STARTS_FROM, ENDS_AT = 1, 10 #Note that the end is inclusive
 
 # what percentage value you want to go below the continuum
-percent = 1
+percent = 0.9
 
 # whether you want to output a csv table of your run
 want_csv = 'yes'
@@ -318,4 +318,3 @@ vmins_final = np.array(vmins_final)
 '''
 
 np.savetxt(ABSORPTION_VALUES, vlast, fmt='%s')
-

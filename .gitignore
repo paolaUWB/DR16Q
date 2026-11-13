@@ -22,6 +22,9 @@ ehthumbs_vista.db
 ## IGNORES ALL PDF FILES - TOO LARGE TO CONSISTENTLY PUSH
 *.pdf
 
+# Generated presentation plots
+/PRESENTATION_PLOTS/OUTPUT_FILES/
+
 # ----------------------------------- what github recommends is listed below -----------------------------------------------------------------------
 # Byte-compiled / optimized / DLL files
 *.py[cod]

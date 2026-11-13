@@ -15,9 +15,9 @@ import os
 
 ##------ Inputs/Outputs to change
 
-quasardirec = '/casedirec/J2318/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
+quasardirec = '/J2318/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
 # Then set your specdirec to where your spec files are
-quasardirecname = "J2318"
+quasardirecname = quasardirec[1:-1] 
 
 specdirec = os.getcwd() + quasardirec
 # run this code one directory above where J2318 folder is located.
@@ -29,16 +29,16 @@ save_format = 'png' # 'pdf' to save as pdf file, 'png' to save as png file
 save_file_name = quasardirecname
 
 
-use_norm = True # True to plot normalized spectra
+use_norm = False # True to plot normalized spectra
 use_div = True # True to plot divided spectra
-reverse_division = False # True to divide stronger absorption by weaker absorption, False to divide weaker absorption by stronger absorption
+reverse_division = False # False: reference / comparison; True: comparison / reference
 use_smooth = True 
-div_spectra_name = "56246" # MJD of the spectrum to be used as the numerator for division (the spectrum with a weaker absorption feature)
+div_spectra_name = "55947" # MJD of the reference spectrum used in the division
 
 
 manual_ylim = 'yes' # This allows you to manually set the ylim on the graphs. Default behavior on 'no' is 1.1x max flux.
 
-zem = 3.623 # redshift of the quasar, 0 in this case since it is in the rest frame.
+zem = 2.846 # redshift of the quasar, 0 in this case since it is in the rest frame.
 coem=zem+1.
 
 wavelength_emit1_initial = 990.  # left xlim in restframe (set to 1000 to see carbon IV)
@@ -77,7 +77,7 @@ n_list_dered = [3,3,3,3,3]
 
 error_diagnostics = False # Prints out the max error for each epoch, True or False
 
-norm_error_threshold = 20
+norm_error_threshold = 2025
 dered_error_threshold = 4
 
 if manual_ylim == 'yes': # Manually change ylim here
@@ -125,6 +125,7 @@ if use_norm:
 else:
     for i in range(len(dered_list)):
         mjd_dered_list[i] = re.split('-', dered_list[i])[-3]
+
 
 max_list_norm = np.zeros_like(norm_list)
 max_list_dered = np.zeros_like(dered_list)
@@ -395,7 +396,11 @@ if use_div:
         # ------
         
         # Plot title
-        plot_title = quasardirecname + ' | ' + mjd_list[0] + ' / ' + mjd_list[i]
+        if reverse_division:
+            ratio_label = mjd_list[i] + ' / ' + mjd_list[0]
+        else:
+            ratio_label = mjd_list[0] + ' / ' + mjd_list[i]
+        plot_title = quasardirecname + ' | ' + ratio_label
 
         if use_norm:
             plot_title += ' | Normalized'
@@ -440,9 +445,9 @@ if use_div:
             
             # Interpolate flux onto ref wavelength and divide
             interp_flux = np.interp(wavelength_ref, wavelength, flux)
-            divided_spectra = interp_flux / flux_ref # ref (0) / current (i)
+            divided_spectra = flux_ref / interp_flux
             if reverse_division:
-                divided_spectra = flux_ref / interp_flux
+                divided_spectra = interp_flux / flux_ref
             
             # Error propagation for division
             interp_error = np.interp(wavelength_ref, wavelength, error)
@@ -459,10 +464,7 @@ if use_div:
             ay1.set_position([pos.x0, pos.y0 + res_height, pos.width, pos.height - res_height])
             ax_res = fig.add_axes([pos.x0, pos.y0, pos.width, res_height], sharex=ay1)
             
-            if reverse_division:
-                ax_res.plot(wavelength_ref, -ratio_smooth, color="#e42828", linewidth=1.0, label=(mjd_list[i] + ' / ' + mjd_list[0]))
-            else:
-                ax_res.plot(wavelength_ref, ratio_smooth, color='#e42828', linewidth=1.0, label=(mjd_list[0] + ' / ' + mjd_list[i]))
+            ax_res.plot(wavelength_ref, ratio_smooth, color='#e42828', linewidth=1.0, label=ratio_label)
             
             ax_res.legend(fontsize=legend_fontsize, loc='upper right')
             ax_res.axhline(0.0, color='darkgray', linestyle='--', linewidth=0.8)
@@ -548,7 +550,7 @@ if use_div:
             # Save figure
             fig.subplots_adjust(top=0.81, bottom=0.36)
             outputdirec = '/Output_Plots/'
-            div_fig_filename = specdirec + quasardirecname + mjd_list[0] + '_over_' + mjd_list[i] + pp2
+            div_fig_filename = specdirec + quasardirecname + ratio_label.replace(' / ', '_over_') + pp2
             plt.savefig(div_fig_filename, dpi=300, bbox_inches='tight')
     plt.show()
 
@@ -570,8 +572,7 @@ if use_div:
 
     # Save to current directory
     #csv_filename = specdirec + quasardirecname + '_divided.csv'
-    #csv_filename = specdirec + "/.../DR16Q_EHVO/" + quasardirecname + "_divided.csv"
-    csv_filename = os.getcwd() + '/casedirec/' + quasardirecname + '/' +quasardirecname + '_divided2.csv'
+    csv_filename = specdirec + "/../DR16Q_EHVO/" + "LymanAlphaRemoval.csv"
     print(csv_filename)
     print(specdirec)
     df.to_csv(csv_filename, index=False)

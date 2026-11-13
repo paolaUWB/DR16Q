@@ -81,7 +81,8 @@ def draw_abs_figure(spectra_count_abs, spectra_index, velocity, flux_normalized,
     plt.title(str(spectra_count_abs) + ' abs |' + str(spectra_index) + ' tot: ' + str(spectra_name) + ', z=' + str(redshift) + ' snr=' + str(snr))
     plt.axhline(y = percent, color='r', linestyle = '--')    
     plt.axhline(y = 1.0)
-    plt.ylim(min_peak, max_peak + (max_peak / 4))
+    #plt.ylim(min_peak, max_peak + (max_peak / 4)) #Dynamically sets the y limit based on the max peak value found in the spectra.
+    plt.ylim(min_peak, 2) # used for plotting recon ratios from SpenderQ-LYA to limit the y axis to 4 for better viewing of the absorption features. Cuts off bad pixel spikes.
     savefile_name.savefig()
     plt.close()
 
