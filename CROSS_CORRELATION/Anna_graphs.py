@@ -14,6 +14,14 @@ import pandas as pd
 import os
 import math
 
+### Sample Settings
+sample = 'DR16'
+#sample = 'DR9'
+#sample = 'both'
+
+
+
+
 #PROGRAM CURRENTLY READS ONLY DR16, LINES CONTAINING BOTH ONLY PARTAIN TO DR16 DATA
 
 #XQR-30 Properties File
@@ -26,11 +34,11 @@ infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
 infoRankineEHVO = os.getcwd() + "/DR16EHVO_DR14RankineInfo_wEHVOspeed.csv"
 #infoRankineEHVO = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR16EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
 
-#infoRankineparent_DR9 = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
+infoRankineparent_DR9 = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
 #infoRankineparent_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9parent_DR14RankineInfo.csv"
 
 #infoRankineEHVO_DR9 = os.getcwd() + "/DR16EHVO_DR14RankineInfo_wEHVOspeed.csv"
-#infoRankineEHVO_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
+infoRankineEHVO_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
 
 RH_parent_16 = os.getcwd() + "/DR16_parent_sample.csv"
 #RH_parent_16= 'https://raw.githubusercontent.com/paolaUWB/DR16Q/master/CROSS_CORRELATION/DR16_parent_sample.csv'
@@ -40,8 +48,8 @@ RH_DR16_BIspeed_corr = os.getcwd() + "/EHVO_DR16_list_wBIspeed_corrected_depth"
 #Extracting values from Rankines info file for EHVO Parent
 dfRPA = pd.read_csv(infoRankineparent, header=None)
 dfRHV = pd.read_csv(infoRankineEHVO, header=0)
-#dfRPA_9 = pd.read_csv(infoRankineparent_DR9, header=None)
-#dfRHV_9 = pd.read_csv(infoRankineEHVO_DR9, header=0)
+dfRPA_9 = pd.read_csv(infoRankineparent_DR9, header=None)
+dfRHV_9 = pd.read_csv(infoRankineEHVO_DR9, header=0)
 
 #Extracting Values from XQR-30 Properties Files
 xqr_loglbol = np.array(xqrdata["Log_Lbol"])
@@ -103,6 +111,11 @@ Parentin16Rank_BI_BI =dfRPA[dfRPA.columns[10]].to_numpy()
 Parentin16Rank_BI_vmax =dfRPA[dfRPA.columns[11]].to_numpy()
 Parentin16Rank_BI_vmin =dfRPA[dfRPA.columns[12]].to_numpy()
 
+Parentin16Rank_logHeIIEW = np.log10(Parentin16Rank_HeIIEW)
+Parentin16Rank_logBI_BI = np.log10(Parentin16Rank_BI_BI)
+Parentin16Rank_logBI_vmax = np.log10(Parentin16Rank_BI_vmax)
+Parentin16Rank_logBI_vmin = np.log10(Parentin16Rank_BI_vmin)
+
 #for EHVOs
 EHVOin16Rank_mbh =dfRHV[dfRHV.columns[16]].to_numpy()
 EHVOin16Rank_lbol =dfRHV[dfRHV.columns[17]].to_numpy()
@@ -115,74 +128,75 @@ EHVOin16Rank_BI_BI =dfRHV[dfRHV.columns[10]].to_numpy()
 EHVOin16Rank_BI_vmax =dfRHV[dfRHV.columns[11]].to_numpy()
 EHVOin16Rank_BI_vmin =dfRHV[dfRHV.columns[12]].to_numpy()
 
+EHVOin16Rank_logHeIIEW = np.log10(EHVOin16Rank_HeIIEW)
+EHVOin16Rank_logBI_BI = np.log10(EHVOin16Rank_BI_BI)
+EHVOin16Rank_logBI_vmax = np.log10(EHVOin16Rank_BI_vmax)
+EHVOin16Rank_logBI_vmin = np.log10(EHVOin16Rank_BI_vmin)
+
 ###DR9###
 
 #for parent sample
-#Parentin9Rank_mbh=dfRPA_9[dfRPA_9.columns[16]].to_numpy()
-#Parentin9Rank_lbol=dfRPA_9[dfRPA_9.columns[17]].to_numpy()
-#Parentin9Rank_redd=dfRPA_9[dfRPA_9.columns[18]].to_numpy()
-#Parentin9Rank_CivBlue=dfRPA_9[dfRPA_9.columns[5]].to_numpy()
-#Parentin9Rank_CivEW=dfRPA_9[dfRPA_9.columns[6]].to_numpy()
-#Parentin9Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
+Parentin9Rank_mbh=dfRPA_9[dfRPA_9.columns[16]].to_numpy()
+Parentin9Rank_lbol=dfRPA_9[dfRPA_9.columns[17]].to_numpy()
+Parentin9Rank_redd=dfRPA_9[dfRPA_9.columns[18]].to_numpy()
+Parentin9Rank_CivBlue=dfRPA_9[dfRPA_9.columns[5]].to_numpy()
+Parentin9Rank_CivEW=dfRPA_9[dfRPA_9.columns[6]].to_numpy()
+Parentin9Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
+
+Parentin9Rank_BI_BI =dfRPA[dfRPA.columns[10]].to_numpy()
+Parentin9Rank_BI_vmax =dfRPA[dfRPA.columns[11]].to_numpy()
+Parentin9Rank_BI_vmin =dfRPA[dfRPA.columns[12]].to_numpy()
 
 #for EHVOs
 
-#EHVOin9Rank_mbh=dfRHV_9[dfRHV_9.columns[16]].to_numpy()
-#EHVOin9Rank_lbol=dfRHV_9[dfRHV_9.columns[17]].to_numpy()
-#EHVOin9Rank_redd=dfRHV_9[dfRHV_9.columns[18]].to_numpy()
-#EHVOin9Rank_CivBlue=dfRHV_9[dfRHV_9.columns[5]].to_numpy()
-#EHVOin9Rank_CivEW=dfRHV_9[dfRHV_9.columns[6]].to_numpy()
-#EHVOin9Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
+EHVOin9Rank_mbh=dfRHV_9[dfRHV_9.columns[16]].to_numpy()
+EHVOin9Rank_lbol=dfRHV_9[dfRHV_9.columns[17]].to_numpy()
+EHVOin9Rank_redd=dfRHV_9[dfRHV_9.columns[18]].to_numpy()
+EHVOin9Rank_CivBlue=dfRHV_9[dfRHV_9.columns[5]].to_numpy()
+EHVOin9Rank_CivEW=dfRHV_9[dfRHV_9.columns[6]].to_numpy()
+EHVOin9Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
+
+EHVOin9Rank_BI_BI =dfRHV[dfRHV.columns[10]].to_numpy()
+EHVOin9Rank_BI_vmax =dfRHV[dfRHV.columns[11]].to_numpy()
+EHVOin9Rank_BI_vmin =dfRHV[dfRHV.columns[12]].to_numpy()
 
 ###Combined DR9 and DR16 Arrays###
 
 #Parent Sample
-#parentboth_mbh = np.concatenate([Parentin9Rank_mbh, Parentin16Rank_mbh])
-#parentboth_lbol = np.concatenate([Parentin9Rank_lbol, Parentin16Rank_lbol])
-#parentboth_redd = np.concatenate([Parentin9Rank_redd, Parentin16Rank_redd])
-#parentboth_CivBlue = np.concatenate([Parentin9Rank_CivBlue, Parentin16Rank_CivBlue])
-#parentboth_CivEW = np.concatenate([Parentin9Rank_CivEW, Parentin16Rank_CivEW])
-#parentboth_HeIIEW = np.concatenate([Parentin9Rank_HeIIEW, Parentin16Rank_HeIIEW])
+parentboth_mbh = np.concatenate([Parentin9Rank_mbh, Parentin16Rank_mbh])
+parentboth_lbol = np.concatenate([Parentin9Rank_lbol, Parentin16Rank_lbol])
+parentboth_redd = np.concatenate([Parentin9Rank_redd, Parentin16Rank_redd])
+parentboth_CivBlue = np.concatenate([Parentin9Rank_CivBlue, Parentin16Rank_CivBlue])
+parentboth_CivEW = np.concatenate([Parentin9Rank_CivEW, Parentin16Rank_CivEW])
+parentboth_HeIIEW = np.concatenate([Parentin9Rank_HeIIEW, Parentin16Rank_HeIIEW])
 
-parentboth_mbh = Parentin16Rank_mbh
-parentboth_lbol = Parentin16Rank_lbol
-parentboth_redd = Parentin16Rank_redd
-parentboth_CivBlue = Parentin16Rank_CivBlue
-parentboth_CivEW = Parentin16Rank_CivEW
-parentboth_HeIIEW = Parentin16Rank_HeIIEW
-parentboth_BI_BI = np.log10(Parentin16Rank_BI_BI)
-parentboth_BI_vmax = Parentin16Rank_BI_vmax
-parentboth_BI_vmin = Parentin16Rank_BI_vmin
+parentboth_BI_BI = np.concatenate([Parentin9Rank_BI_BI,Parentin16Rank_BI_BI])
+parentboth_BI_vmax = np.concatenate([Parentin9Rank_BI_vmax,Parentin16Rank_BI_vmax])
+parentboth_BI_vmin = np.concatenate([Parentin9Rank_BI_vmin,Parentin16Rank_BI_vmin])
 
 parentboth_logHeIIEW = np.log10(parentboth_HeIIEW) 
 
 
 #EHVOs
-#EHVOboth_mbh = np.concatenate([EHVOin9Rank_mbh, EHVOin16Rank_mbh])
-#EHVOboth_lbol = np.concatenate([EHVOin9Rank_lbol, EHVOin16Rank_lbol])
-#EHVOboth_redd = np.concatenate([EHVOin9Rank_redd, EHVOin16Rank_redd])
-#EHVOboth_CivBlue = np.concatenate([EHVOin9Rank_CivBlue, EHVOin16Rank_CivBlue])
-#EHVOboth_CivEW = np.concatenate([EHVOin9Rank_CivEW, EHVOin16Rank_CivEW])
-#EHVOboth_HeIIEW = np.concatenate([EHVOin9Rank_HeIIEW, EHVOin16Rank_HeIIEW])
+EHVOboth_mbh = np.concatenate([EHVOin9Rank_mbh, EHVOin16Rank_mbh])
+EHVOboth_lbol = np.concatenate([EHVOin9Rank_lbol, EHVOin16Rank_lbol])
+EHVOboth_redd = np.concatenate([EHVOin9Rank_redd, EHVOin16Rank_redd])
+EHVOboth_CivBlue = np.concatenate([EHVOin9Rank_CivBlue, EHVOin16Rank_CivBlue])
+EHVOboth_CivEW = np.concatenate([EHVOin9Rank_CivEW, EHVOin16Rank_CivEW])
+EHVOboth_HeIIEW = np.concatenate([EHVOin9Rank_HeIIEW, EHVOin16Rank_HeIIEW])
 
-EHVOboth_mbh = EHVOin16Rank_mbh
-EHVOboth_lbol = EHVOin16Rank_lbol
-EHVOboth_redd = EHVOin16Rank_redd
-EHVOboth_CivBlue = EHVOin16Rank_CivBlue
-EHVOboth_CivEW = EHVOin16Rank_CivEW
-EHVOboth_HeIIEW = EHVOin16Rank_HeIIEW
-EHVOboth_BI_BI = np.log10(EHVOin16Rank_BI_BI)
-EHVOboth_BI_vmax = EHVOin16Rank_BI_vmax
-EHVOboth_BI_vmin = EHVOin16Rank_BI_vmin
+EHVOboth_BI_BI = np.concatenate([EHVOin9Rank_BI_BI,EHVOin16Rank_BI_BI])
+EHVOboth_BI_vmax = np.concatenate([EHVOin9Rank_BI_vmax,EHVOin16Rank_BI_vmax])
+EHVOboth_BI_vmin = np.concatenate([EHVOin9Rank_BI_vmin,EHVOin16Rank_BI_vmin])
 
 EHVOboth_logHeIIEW = np.log10(EHVOboth_HeIIEW)
 
 
-#'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots
-#bb9 = np.where(Parentin9Rank_CivBlue > 500)
-#bb9_EHVO = np.where(EHVOin9Rank_CivBlue > 500)
-#bb16 = np.where(Parentin16Rank_CivBlue > 500)
-#bb16_EHVO = np.where(EHVOin16Rank_CivBlue > 500)
+###'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots 
+bb9 = np.where(Parentin9Rank_CivBlue > 500)
+bb9_EHVO = np.where(EHVOin9Rank_CivBlue > 500)
+bb16 = np.where(Parentin16Rank_CivBlue > 500)
+bb16_EHVO = np.where(EHVOin16Rank_CivBlue > 500)
 bb_both = np.where(parentboth_CivBlue > 500)
 bbboth_EHVO = np.where(EHVOboth_CivBlue > 500)
 
@@ -192,18 +206,31 @@ bbboth_EHVO = np.where(EHVOboth_CivBlue > 500)
 
 #highbsEHVO = np.where(EHVOboth_CivBlue > 2500)
 
-#mask zero values for BI
-parentBI_cutoff = np.where(parentboth_BI_BI > 1)
-parentBIvmax_cutoff = np.where(parentboth_BI_vmax > 1)
-parentBIvmin_cutoff = np.where(parentboth_BI_vmin > 1)
 
-BI_cutoff = np.where(EHVOboth_BI_BI > 1)
-BIvmax_cutoff = np.where(EHVOboth_BI_vmax > 1)
-BIvmin_cutoff = np.where(EHVOboth_BI_vmin > 1)
+###mask zero values for BI
+bb9_BI = np.where(Parentin9Rank_BI_BI > 1)
+bb9_BIvmax = np.where(Parentin9Rank_BI_vmax > 1)
+bb9_BIvmin = np.where(Parentin9Rank_BI_vmin > 1)
 
+bb16_BI = np.where(Parentin16Rank_BI_BI > 1)
+bb16_BIvmax = np.where(Parentin16Rank_BI_vmax > 1)
+bb16_BIvmin = np.where(Parentin16Rank_BI_vmin > 1)
 
-parent = parentboth_BI_vmax[parentBI_cutoff]        #CHANGABLE REVERT AND CLEAN WHEN DONE
-EHVO = EHVOboth_BI_vmax[BI_cutoff]
+bbboth_BI = np.where(parentboth_BI_BI > 1)
+bbboth_BIvmax = np.where(parentboth_BI_vmax > 1)
+bbboth_BIvmin = np.where(parentboth_BI_vmin > 1)
+
+bb9BI_EHVO = np.where(EHVOin9Rank_BI_BI > 1)
+bb9BIvmax_EHVO = np.where(EHVOin9Rank_BI_vmax > 1)
+bb9BIvmin_EHVO = np.where(EHVOin9Rank_BI_vmin > 1)
+
+bb16BI_EHVO = np.where(EHVOin16Rank_BI_BI > 1)
+bb16BIvmax_EHVO = np.where(EHVOin16Rank_BI_vmax > 1)
+bb16BIvmin_EHVO = np.where(EHVOin16Rank_BI_vmin > 1)
+
+bbbothBI_EHVO = np.where(EHVOboth_BI_BI > 1)
+bbbothBIvmax_EHVO = np.where(EHVOboth_BI_vmax > 1)
+bbbothBIvmin_EHVO = np.where(EHVOboth_BI_vmin > 1)
 
 
 #Combined EHVO and Parent Blueshift Arrays for Color Map
@@ -214,44 +241,68 @@ EHVO = EHVOboth_BI_vmax[BI_cutoff]
 #COMBINED EHVO and Parent CIV Equivalent Width Arrays for Color Map
 #c_DR16_CivEW = np.concatenate([Parentin16Rank_CivEW[bb16], EHVOin16Rank_CivEW[bb16_EHVO]])
 #c_DR9_CivEW = np.concatenate([Parentin9Rank_CivEW[bb9], EHVOin9Rank_CivEW])
-c_both_CivEW = np.concatenate([parentboth_CivEW[bb_both], EHVOboth_CivEW[bbboth_EHVO]])
+#c_both_CivEW = np.concatenate([parentboth_CivEW[bb_both], EHVOboth_CivEW[bbboth_EHVO]])
 
 #COMBINED EHVO and Parent He II Equivalent Width Arrays for Color Map
 #c_DR16_HeIIEW = np.concatenate([Parentin16Rank_HeIIEW[bb16], EHVOin16Rank_HeIIEW[bb16_EHVO]])
 #c_DR9_HeIIEW = np.concatenate([Parentin9Rank_HeIIEW[bb9], EHVOin9Rank_HeIIEW])
-c_both_HeIIEW = np.concatenate([parentboth_HeIIEW[bb_both], EHVOboth_HeIIEW[bbboth_EHVO]])
-c_both_logHeIIEW = safe_log10(c_both_HeIIEW)
+#c_both_HeIIEW = np.concatenate([parentboth_HeIIEW[bb_both], EHVOboth_HeIIEW[bbboth_EHVO]])
+#c_both_logHeIIEW = safe_log10(c_both_HeIIEW)
+
+if sample == "DR16":
+    Parent_mbh = Parentin16Rank_mbh
+    Parent_lbol = Parentin16Rank_lbol
+    Parent_redd = Parentin16Rank_redd
+    EHVO_mbh = EHVOin16Rank_mbh
+    EHVO_lbol = EHVOin16Rank_lbol
+    EHVO_redd = EHVOin16Rank_redd
+
+
+if sample == "DR9":
+    Parent_mbh = Parentin9Rank_mbh
+    Parent_lbol = Parentin9Rank_lbol
+    Parent_redd = Parentin9Rank_redd
+    EHVO_mbh = EHVOin9Rank_mbh
+    EHVO_lbol = EHVOin9Rank_lbol
+    EHVO_redd = EHVOin9Rank_redd
+
+
+if sample == "both":
+    Parent_mbh = parentboth_mbh
+    Parent_lbol = parentboth_lbol
+    Parent_redd = parentboth_redd
+    EHVO_mbh = EHVOboth_mbh
+    EHVO_lbol = EHVOboth_lbol
+    EHVO_redd = EHVOboth_redd
 
 
 #Color Map
 cm = plt.get_cmap('viridis')
 cmap = plt.get_cmap('viridis')
-color_pallete = "viridis_r"
 
-#Histogram
+###Histogram
 #MBH EHVO
-c_both_mbh = np.concatenate([parentboth_mbh, EHVOboth_mbh])
+c_both_mbh = np.concatenate([Parent_mbh, EHVO_mbh])
 knuthbinMBH = 1.75 * (stats.knuth_bin_width(c_both_mbh))
 bin_MBH = np.arange(min(c_both_mbh), max(c_both_mbh), knuthbinMBH)
 
 #Lbol EHVO
-c_both_lbol = np.concatenate([parentboth_lbol, EHVOboth_lbol])
+c_both_lbol = np.concatenate([Parent_lbol, EHVO_lbol])
 knuthbinLbol = 1.5 * (stats.knuth_bin_width(c_both_lbol))
 bin_Lbol = np.arange(min(c_both_lbol), max(c_both_lbol), knuthbinLbol)
 
 #Edd EHVO
-c_both_edd = np.concatenate([parentboth_redd, EHVOboth_redd])
+c_both_edd = np.concatenate([Parent_redd, EHVO_redd])
 knuthbinEdd = 1.5 * (stats.knuth_bin_width(c_both_edd))
 bin_Edd = np.arange(min(c_both_edd), max(c_both_edd), knuthbinEdd)
 
 #Histogram Weights
-
-weightsEHVOmbh = [np.ones_like(EHVOboth_mbh)/float(len(EHVOboth_mbh))]
-weightsEHVOlbol = [np.ones_like(EHVOboth_lbol)/float(len(EHVOboth_lbol))]
-weightsEHVOedd = [np.ones_like(EHVOboth_redd)/float(len(EHVOboth_redd))]
-weightsParentmbh = [np.ones_like(parentboth_mbh)/float(len(parentboth_mbh))]
-weightsParentlbol = [np.ones_like(parentboth_lbol)/float(len(parentboth_lbol))]
-weightsParentedd = [np.ones_like(parentboth_redd)/float(len(parentboth_redd))]
+weightsEHVOmbh = [np.ones_like(EHVO_mbh)/float(len(EHVO_mbh))]
+weightsEHVOlbol = [np.ones_like(EHVO_lbol)/float(len(EHVO_lbol))]
+weightsEHVOedd = [np.ones_like(EHVO_redd)/float(len(EHVO_redd))]
+weightsParentmbh = [np.ones_like(Parent_mbh)/float(len(Parent_mbh))]
+weightsParentlbol = [np.ones_like(Parent_lbol)/float(len(Parent_lbol))]
+weightsParentedd = [np.ones_like(Parent_redd)/float(len(Parent_redd))]
 
 
 
@@ -283,13 +334,14 @@ ax7 = fig.add_subplot(gs[0,1])
 
 #VMIN ORIGINAL IS 500
 #--------------LBOL vs MBH--------------------
-cm = ax1.hexbin(parentboth_mbh[parentBI_cutoff], parentboth_lbol[parentBI_cutoff],  C = parent, gridsize = 35, cmap = color_pallete , reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
+cm = ax1.hexbin(Parent_mbh[bb16_BIvmax], Parent_lbol[bb16_BIvmax],  C = Parentin16Rank_BI_vmax[bb16_BIvmax], gridsize = 35, cmap = "viridis_r" , reduce_C_function = np.median, mincnt = 4, 
+                vmin=min(filter(math.isfinite,EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO])), vmax=max(EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO]), edgecolor = 'None', zorder= 99)
 cbarax = fig.add_axes([-0.03, 0.055, 0.02, 0.93])
 cbar = plt.colorbar(cm, cax=cbarax)
 cbarax.set_ylabel('BI vmax', rotation = 90, fontname='serif')
 cbarax.yaxis.set_ticks_position('left')
 cbarax.yaxis.set_label_position('left')
-sc = ax1.scatter(EHVOboth_mbh[BI_cutoff], EHVOboth_lbol[BI_cutoff], c = EHVO, zorder = 100, cmap = color_pallete, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+sc = ax1.scatter(EHVO_mbh[bb16BIvmax_EHVO], EHVO_lbol[bb16BIvmax_EHVO], c = EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO], zorder = 100, cmap = "viridis_r", edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 #'log(HeII EW) ($\AA$)'
 
 ax1.set_xlim(8.4,10.5)
@@ -300,8 +352,9 @@ ax1.set_ylabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 ax1.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #-------------------EDD vs MBH------------------
-cm = ax2.hexbin(parentboth_mbh[parentBI_cutoff], parentboth_redd[parentBI_cutoff],  C = parent, gridsize = 35, cmap = color_pallete, reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
-sc = ax2.scatter(EHVOboth_mbh[BI_cutoff], EHVOboth_redd[BI_cutoff], c = EHVO, zorder = 100, cmap = color_pallete, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+cm = ax2.hexbin(Parent_mbh[bb16_BIvmax], Parent_redd[bb16_BIvmax],  C = Parentin16Rank_BI_vmax[bb16_BIvmax], gridsize = 35, cmap = "viridis_r", reduce_C_function = np.median, mincnt = 4,
+                vmin=min(filter(math.isfinite,EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO])), vmax=max(EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO]), edgecolor = 'None', zorder= 99)
+sc = ax2.scatter(EHVO_mbh[bb16BIvmax_EHVO], EHVO_redd[bb16BIvmax_EHVO], c = EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO], zorder = 100, cmap = "viridis_r", edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax2.set_xlabel("log($M_{\mathrm{BH}}/M_{\odot})$", fontname='serif')
 ax2.set_xlim(8.4,10.5)
 ax2.set_ylim(-1.5,0.5)
@@ -310,8 +363,9 @@ ax2.set_ylabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
 ax2.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #---------------EDD vs LBOL---------------------
-cm = ax3.hexbin(parentboth_lbol[parentBI_cutoff], parentboth_redd[parentBI_cutoff],  C = parent, gridsize = 35, cmap = color_pallete, reduce_C_function = np.median, mincnt = 4, vmin=min(filter(math.isfinite,EHVO)), vmax=max(EHVO), edgecolor = 'None', zorder= 99)
-sc = ax3.scatter(EHVOboth_lbol[BI_cutoff], EHVOboth_redd[BI_cutoff], c = EHVO, zorder = 100, cmap = color_pallete, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+cm = ax3.hexbin(Parent_lbol[bb16_BIvmax], Parent_redd[bb16_BIvmax],  C = Parentin16Rank_BI_vmax[bb16_BIvmax], gridsize = 35, cmap = "viridis_r", reduce_C_function = np.median, mincnt = 4, 
+                vmin=min(filter(math.isfinite,EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO])), vmax=max(EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO]), edgecolor = 'None', zorder= 99)
+sc = ax3.scatter(EHVO_lbol[bb16BIvmax_EHVO], EHVO_redd[bb16BIvmax_EHVO], c = EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO], zorder = 100, cmap = "viridis_r", edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax3.set_xlabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 #Removing yticks for second plot
 ax3.set_yticklabels([])
@@ -324,16 +378,16 @@ ax3.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright 
 ax4.set_xticklabels([])
 ax4.set_yticklabels([])
 ax4.set_xlim(8.4,10.5)
-ax4.hist(parentboth_mbh, bins = bin_MBH, weights= weightsParentmbh, histtype = 'step', color = 'blue', label = 'Parent')
-ax4.hist(EHVOboth_mbh, bins = bin_MBH, weights = weightsEHVOmbh, histtype = 'step', color = 'red', label='EHVO')
+ax4.hist(Parent_mbh, bins = bin_MBH, weights= weightsParentmbh, histtype = 'step', color = 'blue', label = 'Parent')
+ax4.hist(EHVO_mbh, bins = bin_MBH, weights = weightsEHVOmbh, histtype = 'step', color = 'red', label='EHVO')
 ax4.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 
 #---------------LBOL Histogram--------------------
 ax5.set_xticklabels([])
 ax5.set_yticklabels([])
-ax5.hist(parentboth_lbol, bins = bin_Lbol, weights = weightsParentlbol, histtype = 'step', color = 'blue', label = 'Parent')
-ax5.hist(EHVOboth_lbol, bins = bin_Lbol, weights = weightsEHVOlbol, histtype = 'step', color = 'red', label='EHVO')
+ax5.hist(Parent_lbol, bins = bin_Lbol, weights = weightsParentlbol, histtype = 'step', color = 'blue', label = 'Parent')
+ax5.hist(EHVO_lbol, bins = bin_Lbol, weights = weightsEHVOlbol, histtype = 'step', color = 'red', label='EHVO')
 ax5.set_xlim(46,48.5)
 #ax5.legend(loc='upper right',prop={'size': 6})
 # bbox_to_anchor=(0.87, 1.3)
@@ -342,8 +396,8 @@ ax5.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright 
 #---------------EDD Histogram----------------------
 ax6.set_yticklabels([])
 ax6.set_xlabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
-ax6.hist(parentboth_redd, bins = bin_Edd, weights = weightsParentedd, histtype = 'step', color = 'blue', label = 'Parent')
-ax6.hist(EHVOboth_redd, bins = bin_Edd, weights = weightsEHVOedd, histtype = 'step', color = 'red', label='EHVO')
+ax6.hist(Parent_redd, bins = bin_Edd, weights = weightsParentedd, histtype = 'step', color = 'blue', label = 'Parent')
+ax6.hist(EHVO_redd, bins = bin_Edd, weights = weightsEHVOedd, histtype = 'step', color = 'red', label='EHVO')
 ax6.set_xlim(-1.5,0.5)
 ax6.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
