@@ -13,32 +13,25 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-##------ Inputs/Outputs to change
+##------ Inputs/Outputs
 
-quasardirec = '/J2318/' # Name of the object you are observing (same name as the directory folder it's contained in). If you don't have these directory names,
-# Then set your specdirec to where your spec files are
-quasardirecname = quasardirec[1:-1] 
-
-specdirec = os.getcwd() + quasardirec
-# run this code one directory above where J2318 folder is located.
-
+quasar_name = "J2318"  # Used in plot titles and filenames
+specdirec = "/path/to/folder/with/spectra"  # Folder containing the input spectra
+outputdirec = os.path.join(os.path.dirname(os.path.abspath(__file__)), "OUTPUT_FILES")
 save_format = 'png' # 'pdf' to save as pdf file, 'png' to save as png file
+save_file_name = quasar_name
 
 #-- TO CHANGE EVERY TIME:
-
-save_file_name = quasardirecname
-
 
 use_norm = False # True to plot normalized spectra
 use_div = True # True to plot divided spectra
 reverse_division = False # False: reference / comparison; True: comparison / reference
 use_smooth = True 
 div_spectra_name = "55947" # MJD of the reference spectrum used in the division
+zem = 2.846 # redshift of the quasar, 0 in this case since it is in the rest frame.
 
 
 manual_ylim = 'yes' # This allows you to manually set the ylim on the graphs. Default behavior on 'no' is 1.1x max flux.
-
-zem = 2.846 # redshift of the quasar, 0 in this case since it is in the rest frame.
 coem=zem+1.
 
 wavelength_emit1_initial = 990.  # left xlim in restframe (set to 1000 to see carbon IV)
@@ -253,7 +246,7 @@ ay2 = plt.twiny(ay1)
 #color = ['xkcd:shocking pink', 'black', 'xkcd:purpleish blue']
 color = ['xkcd:azure', 'xkcd:azure', 'blue', 'xkcd:purpleish blue', 'xkcd:slate']
 #xxxxx
-plot_title = quasardirecname + ' | '
+plot_title = quasar_name + ' | '
 
 if use_smooth:
     plot_title += 'Smoothed | '
@@ -290,7 +283,7 @@ if manual_ylim == 'yes':
 for i, file in enumerate(list_to_use):
     n = n_list[i]
 
-    data = np.loadtxt(specdirec + file)
+    data = np.loadtxt(os.path.join(specdirec, file))
        
     wavelength_lower_limit = np.where(data[:,0] > wavelength_observe1)
     wavelength_upper_limit = np.where(data[:,0] < wavelength_observe2)
@@ -350,7 +343,7 @@ if use_div:
         if i == 0:
             # Store the reference (weaker absorption) spectrum data
             n = n_list[i]
-            data = np.loadtxt(specdirec + file)
+            data = np.loadtxt(os.path.join(specdirec, file))
             
             wavelength_lower_limit_ref = np.where(data[:,0] > wavelength_observe1)
             wavelength_upper_limit_ref = np.where(data[:,0] < wavelength_observe2)
@@ -365,7 +358,7 @@ if use_div:
         ay2 = plt.twiny(ay1)
         
         n = n_list[i]
-        data = np.loadtxt(specdirec + file)
+        data = np.loadtxt(os.path.join(specdirec, file))
         
         wavelength_lower_limit = np.where(data[:,0] > wavelength_observe1)
         wavelength_upper_limit = np.where(data[:,0] < wavelength_observe2)
@@ -400,7 +393,7 @@ if use_div:
             ratio_label = mjd_list[i] + ' / ' + mjd_list[0]
         else:
             ratio_label = mjd_list[0] + ' / ' + mjd_list[i]
-        plot_title = quasardirecname + ' | ' + ratio_label
+        plot_title = quasar_name + ' | ' + ratio_label
 
         if use_norm:
             plot_title += ' | Normalized'
@@ -538,25 +531,24 @@ if use_div:
             
             if reverse_division:
                 if use_norm:
-                    np.savetxt(specdirec + str(mjd_list[i]) + '_over_' + str(mjd_list[0]) + '_normalized.txt', div_output, header=headers)
+                    np.savetxt(os.path.join(outputdirec, str(mjd_list[i]) + '_over_' + str(mjd_list[0]) + '_normalized.txt'), div_output, header=headers)
                 else:
-                    np.savetxt(specdirec + str(mjd_list[i]) + '_over_' + str(mjd_list[0]) + '_unnormalized.txt', div_output, header=headers)
+                    np.savetxt(os.path.join(outputdirec, str(mjd_list[i]) + '_over_' + str(mjd_list[0]) + '_unnormalized.txt'), div_output, header=headers)
             else:
                 if use_norm:
-                    np.savetxt(specdirec + str(mjd_list[0]) + '_over_' + str(mjd_list[i]) + '_normalized.txt', div_output, header=headers)
+                    np.savetxt(os.path.join(outputdirec, str(mjd_list[0]) + '_over_' + str(mjd_list[i]) + '_normalized.txt'), div_output, header=headers)
                 else:
-                    np.savetxt(specdirec + str(mjd_list[0]) + '_over_' + str(mjd_list[i]) + '_unnormalized.txt', div_output, header=headers)
+                    np.savetxt(os.path.join(outputdirec, str(mjd_list[0]) + '_over_' + str(mjd_list[i]) + '_unnormalized.txt'), div_output, header=headers)
             
             # Save figure
             fig.subplots_adjust(top=0.81, bottom=0.36)
-            outputdirec = '/Output_Plots/'
-            div_fig_filename = specdirec + quasardirecname + ratio_label.replace(' / ', '_over_') + pp2
+            div_fig_filename = os.path.join(outputdirec, quasar_name + '_' + ratio_label.replace(' / ', '_over_') + pp2)
             plt.savefig(div_fig_filename, dpi=300, bbox_inches='tight')
     plt.show()
 
     # Create CSV file for divided spectra
     divided_spectra_files = []
-    for file in os.listdir(specdirec):
+    for file in os.listdir(outputdirec):
         # Match files with pattern like "57328_over_57329_normalized.txt" or similar
         if '_over_' in file and file.endswith('.txt'):
             divided_spectra_files.append(file)
@@ -571,8 +563,7 @@ if use_div:
     df = pd.DataFrame(data)
 
     # Save to current directory
-    #csv_filename = specdirec + quasardirecname + '_divided.csv'
-    csv_filename = specdirec + "/../DR16Q_EHVO/" + "LymanAlphaRemoval.csv"
+    csv_filename = os.path.join(outputdirec, "LymanAlphaRemoval.csv")
     print(csv_filename)
     print(specdirec)
     df.to_csv(csv_filename, index=False)
@@ -628,7 +619,7 @@ if OVIem == 'yes':
 
 fig.subplots_adjust(left=0.1, right=2.5, top=0.9, bottom=0.6)
 fig.tight_layout()
-plt.savefig(specdirec + quasardirecname + 'norm' + pp2, dpi=200)
+plt.savefig(os.path.join(outputdirec, quasar_name + 'norm' + pp2), dpi=200)
 plt.show()
 ########################################################################################################################################################################################################################################
 
@@ -637,7 +628,7 @@ fig2, ay3 = plt.subplots()
 ay4 = plt.twiny(ay3)
 
 
-ay3.set_title(quasardirecname)
+ay3.set_title(quasar_name)
 ay3.set_xlabel(r"Observed Wavelength [$\rm \AA$]")
 ay3.set_ylabel(r"Flux [$10^{-17}$ erg/s/cm$^{2}/{\rm \AA}$]")
 ay3.set_xlim(wavelength_observe1,wavelength_observe2)
@@ -656,7 +647,7 @@ if manual_ylim == 'yes':
 for i in range(len(dered_list)):
     n = n_list_dered[i]
       
-    data = np.loadtxt(specdirec + dered_list[i])
+    data = np.loadtxt(os.path.join(specdirec, dered_list[i]))
     
     
     wavelength_lower_limit = np.where(data[:,0] > wavelength_observe1)
@@ -750,4 +741,4 @@ if OVIem == 'yes':
 
 
 fig2.tight_layout()
-plt.savefig(os.getcwd() + quasardirec + quasardirecname +' (Dered)Expanded') # '/Documents/GitHub/DR16Q/VARIABILITY/DATA_VARIABILITY/' + quasardirec + quasardirecname +' (Dered)Expanded' + pp2, dpi=200)
+plt.savefig(os.path.join(outputdirec, quasar_name + ' (Dered)Expanded' + pp2), dpi=200)
