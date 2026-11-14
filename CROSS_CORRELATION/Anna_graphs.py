@@ -19,10 +19,20 @@ sample = 'DR16'
 #sample = 'DR9'
 #sample = 'both'
 
+### Color code by sample
+#CC = 'CIV_blue'
+#CC = 'CIV_EW'
+#CC = 'HeII_EW'
+#CC = 'BI'
+CC = 'BI_vmax'
+#CC = 'BI_vmin'
+#CC = 'log_HeIIEW'
+
+### map color style
+#Colorappearance = 'viridis'
+Colorappearance = 'viridis_r'
 
 
-
-#PROGRAM CURRENTLY READS ONLY DR16, LINES CONTAINING BOTH ONLY PARTAIN TO DR16 DATA
 
 #XQR-30 Properties File
 xqrdata = pd.read_csv('https://raw.githubusercontent.com/paolaUWB/DR16Q/Anna/CROSS_CORRELATION/XQR30_Property_Data.csv')
@@ -34,8 +44,8 @@ infoRankineparent = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
 infoRankineEHVO = os.getcwd() + "/DR16EHVO_DR14RankineInfo_wEHVOspeed.csv"
 #infoRankineEHVO = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR16EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
 
-infoRankineparent_DR9 = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
-#infoRankineparent_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9parent_DR14RankineInfo.csv"
+#infoRankineparent_DR9 = os.getcwd() + "/DR16parent_DR14RankineInfo.csv"
+infoRankineparent_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9parent_DR14RankineInfo.csv"
 
 #infoRankineEHVO_DR9 = os.getcwd() + "/DR16EHVO_DR14RankineInfo_wEHVOspeed.csv"
 infoRankineEHVO_DR9 = "https://raw.githubusercontent.com/paolaUWB/DR16Q/Liliana/CROSS_CORRELATION/DR9EHVO_DR14RankineInfo_wEHVOspeed_vmax_reordered.csv"
@@ -90,13 +100,13 @@ xqr_BALmbh = xqr_logmbh[xqr_BAL]
 xqr_BALedd = xqr_logedd[xqr_BAL]
 xqr_bs_BAL = xqr_bs[xqr_BAL]
 
-
 xqr_lbol_Parent = np.concatenate([xqr_nonBALlbol, xqr_BALlbol])
 xqr_mbh_Parent = np.concatenate([xqr_nonBALmbh, xqr_BALmbh])
 xqr_edd_Parent = np.concatenate([xqr_nonBALedd, xqr_BALedd])
 xqr_bs_Parent = np.concatenate([xqr_bs_nonBAL, xqr_bs_BAL])
 
 xqr_bs_both = np.concatenate([xqr_bs_Parent, xqr_bs_EHVO])
+
 
 ###DR16###
 #for parent sample
@@ -116,6 +126,7 @@ Parentin16Rank_logBI_BI = np.log10(Parentin16Rank_BI_BI)
 Parentin16Rank_logBI_vmax = np.log10(Parentin16Rank_BI_vmax)
 Parentin16Rank_logBI_vmin = np.log10(Parentin16Rank_BI_vmin)
 
+
 #for EHVOs
 EHVOin16Rank_mbh =dfRHV[dfRHV.columns[16]].to_numpy()
 EHVOin16Rank_lbol =dfRHV[dfRHV.columns[17]].to_numpy()
@@ -129,9 +140,10 @@ EHVOin16Rank_BI_vmax =dfRHV[dfRHV.columns[11]].to_numpy()
 EHVOin16Rank_BI_vmin =dfRHV[dfRHV.columns[12]].to_numpy()
 
 EHVOin16Rank_logHeIIEW = np.log10(EHVOin16Rank_HeIIEW)
-EHVOin16Rank_logBI_BI = np.log10(EHVOin16Rank_BI_BI)
-EHVOin16Rank_logBI_vmax = np.log10(EHVOin16Rank_BI_vmax)
-EHVOin16Rank_logBI_vmin = np.log10(EHVOin16Rank_BI_vmin)
+#EHVOin16Rank_logBI_BI = np.log10(EHVOin16Rank_BI_BI)
+#EHVOin16Rank_logBI_vmax = np.log10(EHVOin16Rank_BI_vmax)
+#EHVOin16Rank_logBI_vmin = np.log10(EHVOin16Rank_BI_vmin)
+
 
 ###DR9###
 
@@ -142,6 +154,8 @@ Parentin9Rank_redd=dfRPA_9[dfRPA_9.columns[18]].to_numpy()
 Parentin9Rank_CivBlue=dfRPA_9[dfRPA_9.columns[5]].to_numpy()
 Parentin9Rank_CivEW=dfRPA_9[dfRPA_9.columns[6]].to_numpy()
 Parentin9Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
+
+Parentin9Rank_logHeIIEW = np.log10(Parentin9Rank_HeIIEW)
 
 Parentin9Rank_BI_BI =dfRPA[dfRPA.columns[10]].to_numpy()
 Parentin9Rank_BI_vmax =dfRPA[dfRPA.columns[11]].to_numpy()
@@ -156,9 +170,12 @@ EHVOin9Rank_CivBlue=dfRHV_9[dfRHV_9.columns[5]].to_numpy()
 EHVOin9Rank_CivEW=dfRHV_9[dfRHV_9.columns[6]].to_numpy()
 EHVOin9Rank_HeIIEW=dfRPA[dfRPA.columns[7]].to_numpy()
 
+EHVOin9Rank_logHeIIEW = np.log10(EHVOin9Rank_HeIIEW)
+
 EHVOin9Rank_BI_BI =dfRHV[dfRHV.columns[10]].to_numpy()
 EHVOin9Rank_BI_vmax =dfRHV[dfRHV.columns[11]].to_numpy()
 EHVOin9Rank_BI_vmin =dfRHV[dfRHV.columns[12]].to_numpy()
+
 
 ###Combined DR9 and DR16 Arrays###
 
@@ -177,6 +194,7 @@ parentboth_BI_vmin = np.concatenate([Parentin9Rank_BI_vmin,Parentin16Rank_BI_vmi
 parentboth_logHeIIEW = np.log10(parentboth_HeIIEW) 
 
 
+
 #EHVOs
 EHVOboth_mbh = np.concatenate([EHVOin9Rank_mbh, EHVOin16Rank_mbh])
 EHVOboth_lbol = np.concatenate([EHVOin9Rank_lbol, EHVOin16Rank_lbol])
@@ -190,6 +208,7 @@ EHVOboth_BI_vmax = np.concatenate([EHVOin9Rank_BI_vmax,EHVOin16Rank_BI_vmax])
 EHVOboth_BI_vmin = np.concatenate([EHVOin9Rank_BI_vmin,EHVOin16Rank_BI_vmin])
 
 EHVOboth_logHeIIEW = np.log10(EHVOboth_HeIIEW)
+
 
 
 ###'Good' Values, Coatman et al. 2017 cutoff for Black hole mass (and thus eddington ratio) plots 
@@ -207,6 +226,7 @@ bbboth_EHVO = np.where(EHVOboth_CivBlue > 500)
 #highbsEHVO = np.where(EHVOboth_CivBlue > 2500)
 
 
+
 ###mask zero values for BI
 bb9_BI = np.where(Parentin9Rank_BI_BI > 1)
 bb9_BIvmax = np.where(Parentin9Rank_BI_vmax > 1)
@@ -220,6 +240,7 @@ bbboth_BI = np.where(parentboth_BI_BI > 1)
 bbboth_BIvmax = np.where(parentboth_BI_vmax > 1)
 bbboth_BIvmin = np.where(parentboth_BI_vmin > 1)
 
+
 bb9BI_EHVO = np.where(EHVOin9Rank_BI_BI > 1)
 bb9BIvmax_EHVO = np.where(EHVOin9Rank_BI_vmax > 1)
 bb9BIvmin_EHVO = np.where(EHVOin9Rank_BI_vmin > 1)
@@ -231,6 +252,7 @@ bb16BIvmin_EHVO = np.where(EHVOin16Rank_BI_vmin > 1)
 bbbothBI_EHVO = np.where(EHVOboth_BI_BI > 1)
 bbbothBIvmax_EHVO = np.where(EHVOboth_BI_vmax > 1)
 bbbothBIvmin_EHVO = np.where(EHVOboth_BI_vmin > 1)
+
 
 
 #Combined EHVO and Parent Blueshift Arrays for Color Map
@@ -253,29 +275,146 @@ if sample == "DR16":
     Parent_mbh = Parentin16Rank_mbh
     Parent_lbol = Parentin16Rank_lbol
     Parent_redd = Parentin16Rank_redd
+    parent_CIVblue = Parentin16Rank_CivBlue
+    parent_CIVEW = Parentin16Rank_CivEW
+    parent_HeIIEW = Parentin16Rank_HeIIEW
+    parent_logHeII = Parentin16Rank_logHeIIEW
+    parent_BI = Parentin16Rank_BI_BI
+    parent_BIvmax = Parentin16Rank_BI_vmax
+    parent_BIvmin = Parentin16Rank_BI_vmin
+    CIVbbpar = bb16
+    BIbbpar = bb16_BI
+    BIvmaxbbpar = bb16_BIvmax
+    BIvminbbpar = bb16_BIvmin
+    
     EHVO_mbh = EHVOin16Rank_mbh
     EHVO_lbol = EHVOin16Rank_lbol
     EHVO_redd = EHVOin16Rank_redd
-
+    EHVO_CIVblue = EHVOin16Rank_CivBlue
+    EHVO_CIVEW = EHVOin16Rank_CivEW
+    EHVO_HeIIEW = EHVOin16Rank_HeIIEW
+    EHVO_logHeII = EHVOin16Rank_logHeIIEW 
+    EHVO_BI = EHVOin16Rank_BI_BI
+    EHVO_BIvmax = EHVOin16Rank_BI_vmax
+    EHVO_BIvmin = EHVOin16Rank_BI_vmin
+    CIVbbEHVO = bb16_EHVO
+    BIbbEHVO = bb16BI_EHVO
+    BIvmaxbbEHVO = bb16BIvmax_EHVO
+    BIvminbbEHVO = bb16BIvmin_EHVO
 
 if sample == "DR9":
     Parent_mbh = Parentin9Rank_mbh
     Parent_lbol = Parentin9Rank_lbol
     Parent_redd = Parentin9Rank_redd
+    parent_CIVblue = EHVOin9Rank_CivBlue
+    parent_CIVEW = Parentin9Rank_CivEW
+    parent_HeIIEW = Parentin9Rank_HeIIEW
+    parent_logHeII = Parentin9Rank_logHeIIEW
+    parent_BI = Parentin9Rank_BI_BI
+    parent_BIvmax = Parentin9Rank_BI_vmax
+    parent_BIvmin = Parentin9Rank_BI_vmin
+    CIVbbpar = bb9
+    BIbbpar = bb9_BI
+    BIvmaxbbpar = bb9_BIvmax
+    BIvminbbpar = bb9_BIvmin
+    
     EHVO_mbh = EHVOin9Rank_mbh
     EHVO_lbol = EHVOin9Rank_lbol
     EHVO_redd = EHVOin9Rank_redd
-
+    EHVO_CIVblue = EHVOin9Rank_CivBlue
+    EHVO_CIVEW = EHVOin9Rank_CivEW
+    EHVO_HeIIEW = EHVOin9Rank_HeIIEW
+    EHVO_logHeII = EHVOin9Rank_logHeIIEW 
+    EHVO_BI = EHVOin9Rank_BI_BI
+    EHVO_BIvmax = EHVOin9Rank_BI_vmax
+    EHVO_BIvmin = EHVOin9Rank_BI_vmin
+    CIVbb9EHVO = bb9_EHVO
+    BIbb9EHVO = bb9BI_EHVO
+    BIvmaxbbEHVO = bb9BIvmax_EHVO
+    BIvminbbEHVO = bb9BIvmin_EHVO
+    
 
 if sample == "both":
     Parent_mbh = parentboth_mbh
     Parent_lbol = parentboth_lbol
     Parent_redd = parentboth_redd
+    parent_CIVblue = parentboth_CivBlue
+    parent_CIVEW = parentboth_CivEW
+    parent_HeIIEW = parentboth_HeIIEW
+    parent_logHeII = parentboth_logHeIIEW
+    parent_BI = parentboth_BI_BI
+    parent_BIvmax = parentboth_BI_vmax
+    parent_BIvmin = parentboth_BI_vmin
+    CIVbbpar = bb_both
+    BIbbpar = bbboth_BI
+    BIvmaxbbpar = bbboth_BIvmax
+    BIvminbbpar = bbboth_BIvmin
+    
     EHVO_mbh = EHVOboth_mbh
     EHVO_lbol = EHVOboth_lbol
     EHVO_redd = EHVOboth_redd
+    EHVO_CIVblue = EHVOboth_CivBlue
+    EHVO_CIVEW = EHVOboth_CivEW
+    EHVO_HeIIEW = EHVOboth_HeIIEW
+    EHVO_logHeII = EHVOboth_logHeIIEW 
+    EHVO_BI = EHVOboth_BI_BI
+    EHVO_BIvmax = EHVOboth_BI_vmax
+    EHVO_BIvmin = EHVOboth_BI_vmin
+    CIVbbEHVO = bbboth_EHVO
+    BIbbEHVO = bbbothBI_EHVO
+    BIvmaxbbEHVO = bbbothBIvmax_EHVO
+    BIvminbbEHVO = bbbothBIvmin_EHVO
+    
+    
+if CC == 'CIV_blue':
+    Samplecolormap_parent = parent_CIVblue
+    Samplecolormap_EHVO = EHVO_CIVblue
+    samplefilterparent = CIVbbpar 
+    samplefilterEHVO = CIVbbEHVO
+    colorbarname = 'CIV Blueshift (km/s)'
+    
+if CC == 'CIV_EW':
+    Samplecolormap_parent = parent_CIVEW
+    Samplecolormap_EHVO = EHVO_CIVEW
+    samplefilterparent = np.where(Samplecolormap_parent)
+    samplefilterEHVO = np.where(Samplecolormap_EHVO)
+    colorbarname = 'CIV EW ($\AA$)'
 
+if CC == 'HeII_EW':
+    Samplecolormap_parent = parent_HeIIEW
+    Samplecolormap_EHVO = EHVO_HeIIEW
+    samplefilterparent = np.where(Samplecolormap_parent >= -100)
+    samplefilterEHVO = np.where(Samplecolormap_EHVO >= -100)
+    colorbarname = 'HeII EW ($\AA$)'
 
+if CC == 'BI':
+    Samplecolormap_parent = parent_BI
+    Samplecolormap_EHVO = EHVO_BI
+    samplefilterparent = BIbbpar
+    samplefilterEHVO = BIbbEHVO
+    colorbarname = CC
+    
+if CC == 'BI_vmax':
+    Samplecolormap_parent = parent_BIvmax
+    Samplecolormap_EHVO = EHVO_BIvmax
+    samplefilterparent = BIvmaxbbpar
+    samplefilterEHVO = BIvmaxbbEHVO
+    colorbarname = 'BI vmax'
+    
+if CC == 'BI_vmin':
+    Samplecolormap_parent = parent_BIvmin
+    Samplecolormap_EHVO = EHVO_BIvmin
+    samplefilterparent = BIvminbbpar
+    samplefilterEHVO = BIvminbbEHVO
+    colorbarname = 'BI vmin'
+        
+if CC == 'log_HeIIEW':
+    Samplecolormap_parent = parent_logHeII
+    Samplecolormap_EHVO = EHVO_logHeII
+    samplefilterparent = np.where(Samplecolormap_parent)
+    samplefilterEHVO = np.where(Samplecolormap_EHVO)
+    colorbarname = 'log(HeII EW) ($\AA$)'
+    
 #Color Map
 cm = plt.get_cmap('viridis')
 cmap = plt.get_cmap('viridis')
@@ -334,15 +473,15 @@ ax7 = fig.add_subplot(gs[0,1])
 
 #VMIN ORIGINAL IS 500
 #--------------LBOL vs MBH--------------------
-cm = ax1.hexbin(Parent_mbh[bb16_BIvmax], Parent_lbol[bb16_BIvmax],  C = Parentin16Rank_BI_vmax[bb16_BIvmax], gridsize = 35, cmap = "viridis_r" , reduce_C_function = np.median, mincnt = 4, 
-                vmin=min(filter(math.isfinite,EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO])), vmax=max(EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO]), edgecolor = 'None', zorder= 99)
+cm = ax1.hexbin(Parent_mbh[samplefilterparent], Parent_lbol[samplefilterparent],  C = Samplecolormap_parent[samplefilterparent], gridsize = 35, cmap = Colorappearance , reduce_C_function = np.median, mincnt = 4, 
+                vmin=min(filter(math.isfinite,Samplecolormap_EHVO[samplefilterEHVO])), vmax=max(Samplecolormap_EHVO[samplefilterEHVO]), edgecolor = 'None', zorder= 99)
 cbarax = fig.add_axes([-0.03, 0.055, 0.02, 0.93])
 cbar = plt.colorbar(cm, cax=cbarax)
-cbarax.set_ylabel('BI vmax', rotation = 90, fontname='serif')
+cbarax.set_ylabel(colorbarname, rotation = 90, fontname='serif')
 cbarax.yaxis.set_ticks_position('left')
 cbarax.yaxis.set_label_position('left')
-sc = ax1.scatter(EHVO_mbh[bb16BIvmax_EHVO], EHVO_lbol[bb16BIvmax_EHVO], c = EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO], zorder = 100, cmap = "viridis_r", edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
-#'log(HeII EW) ($\AA$)'
+sc = ax1.scatter(EHVO_mbh[samplefilterEHVO], EHVO_lbol[samplefilterEHVO], c = Samplecolormap_EHVO[samplefilterEHVO], zorder = 100, cmap = Colorappearance, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+#'BI vmax'
 
 ax1.set_xlim(8.4,10.5)
 ax1.set_ylim(46.1,48.1)
@@ -352,9 +491,9 @@ ax1.set_ylabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 ax1.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #-------------------EDD vs MBH------------------
-cm = ax2.hexbin(Parent_mbh[bb16_BIvmax], Parent_redd[bb16_BIvmax],  C = Parentin16Rank_BI_vmax[bb16_BIvmax], gridsize = 35, cmap = "viridis_r", reduce_C_function = np.median, mincnt = 4,
-                vmin=min(filter(math.isfinite,EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO])), vmax=max(EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO]), edgecolor = 'None', zorder= 99)
-sc = ax2.scatter(EHVO_mbh[bb16BIvmax_EHVO], EHVO_redd[bb16BIvmax_EHVO], c = EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO], zorder = 100, cmap = "viridis_r", edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+cm = ax2.hexbin(Parent_mbh[samplefilterparent], Parent_redd[samplefilterparent],  C = Samplecolormap_parent[samplefilterparent], gridsize = 35, cmap = Colorappearance, reduce_C_function = np.median, mincnt = 4,
+                vmin=min(filter(math.isfinite,Samplecolormap_EHVO[samplefilterEHVO])), vmax=max(Samplecolormap_EHVO[samplefilterEHVO]), edgecolor = 'None', zorder= 99)
+sc = ax2.scatter(EHVO_mbh[samplefilterEHVO], EHVO_redd[samplefilterEHVO], c = Samplecolormap_EHVO[samplefilterEHVO], zorder = 100, cmap = Colorappearance, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax2.set_xlabel("log($M_{\mathrm{BH}}/M_{\odot})$", fontname='serif')
 ax2.set_xlim(8.4,10.5)
 ax2.set_ylim(-1.5,0.5)
@@ -363,9 +502,9 @@ ax2.set_ylabel('Eddington Ratio (log($L_{bol}$/$L_{Edd}$))',fontname='serif')
 ax2.tick_params(top=True, labeltop=False, bottom=True, right = True, labelright = False)
 
 #---------------EDD vs LBOL---------------------
-cm = ax3.hexbin(Parent_lbol[bb16_BIvmax], Parent_redd[bb16_BIvmax],  C = Parentin16Rank_BI_vmax[bb16_BIvmax], gridsize = 35, cmap = "viridis_r", reduce_C_function = np.median, mincnt = 4, 
-                vmin=min(filter(math.isfinite,EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO])), vmax=max(EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO]), edgecolor = 'None', zorder= 99)
-sc = ax3.scatter(EHVO_lbol[bb16BIvmax_EHVO], EHVO_redd[bb16BIvmax_EHVO], c = EHVOin16Rank_BI_vmax[bb16BIvmax_EHVO], zorder = 100, cmap = "viridis_r", edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
+cm = ax3.hexbin(Parent_lbol[samplefilterparent], Parent_redd[samplefilterparent],  C = Samplecolormap_parent[samplefilterparent], gridsize = 35, cmap = Colorappearance, reduce_C_function = np.median, mincnt = 4, 
+                vmin=min(filter(math.isfinite,Samplecolormap_EHVO[samplefilterEHVO])), vmax=max(Samplecolormap_EHVO[samplefilterEHVO]), edgecolor = 'None', zorder= 99)
+sc = ax3.scatter(EHVO_lbol[samplefilterEHVO], EHVO_redd[samplefilterEHVO], c = Samplecolormap_EHVO[samplefilterEHVO], zorder = 100, cmap = Colorappearance, edgecolor = 'k', s = 30, vmin=cbar.vmin, vmax=cbar.vmax, label = 'EHVO')
 ax3.set_xlabel('log($L_{bol}$/erg s$^{-1}$)', fontname='serif')
 #Removing yticks for second plot
 ax3.set_yticklabels([])
