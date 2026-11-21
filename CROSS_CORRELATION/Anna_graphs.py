@@ -88,7 +88,6 @@ xqr_edd_EHVO = xqr_logedd[xqr_EHVO]
 xqr_bs_EHVO = xqr_bs[xqr_EHVO]
 
 
-
 #Parent Physical Properties-----------------------------------------------------------
 
 xqr_nonBALlbol = xqr_loglbol[xqr_nonBAL]

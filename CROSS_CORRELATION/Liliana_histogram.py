@@ -3,18 +3,19 @@
 """
 Created on Fri Oct  9 13:16:38 2026
 
-@author: awjaustin
+@editor: awjaustin
+@Author: Liliana
 """
 
 #Display histograms?
 DisplayHistogram1 = "y"
 #DisplayHistogram1 = "n"
 
-#DisplayHistogram2 = "y"
-DisplayHistogram2 = "n"
+DisplayHistogram2 = "y"
+#DisplayHistogram2 = "n"
 
-#DisplayHistogram3 = "y"
-DisplayHistogram3 = "n"
+DisplayHistogram3 = "y"
+#DisplayHistogram3 = "n"
 
 #sample settings
 #sample = "DR9 & DR16"
@@ -91,7 +92,7 @@ redd_values_DR16 = dfRPA[dfRPA.columns[18]].to_numpy() #log_Redd_Ran0
 
 z_DR16 = dfRPA[dfRPA.columns[4]].to_numpy() #Z0 (redshift)
 
-     #for EHVOs
+#for EHVOs
 EHVO_mbh_values_DR16 = dfRHV[dfRHV.columns[16]].to_numpy()
 EHVO_lbol_values_DR16 = dfRHV[dfRHV.columns[17]].to_numpy()
 EHVO_redd_values_DR16 = dfRHV[dfRHV.columns[18]].to_numpy()
@@ -113,7 +114,7 @@ redd_values_DR9 = dfRPA_9[dfRPA_9.columns[18]].to_numpy()
 
 z_DR9 = dfRPA_9[dfRPA_9.columns[4]].to_numpy()
 
-      #for EHVOs
+#for EHVOs
 EHVO_mbh_values_DR9 = dfRHV_9[dfRHV_9.columns[16]].to_numpy()
 EHVO_lbol_values_DR9 = dfRHV_9[dfRHV_9.columns[17]].to_numpy()
 EHVO_redd_values_DR9 = dfRHV_9[dfRHV_9.columns[18]].to_numpy()
@@ -238,7 +239,6 @@ knuthbin1 = 0.25*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(l
 bin_lbol = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1)
 #bin_lbolalt = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1alt)
 
-
 knuthbin2 = 0.25*(stats.knuth_bin_width(mbh_bal_lowv) + stats.knuth_bin_width(mbh_bal_highv) + stats.knuth_bin_width(mbh_EHVO_lowv) + stats.knuth_bin_width(mbh_EHVO_highv))
 bin_mbh = np.arange(min(min(mbh_values), min(EHVO_mbh_values)), max(max(mbh_values), max(EHVO_mbh_values)), knuthbin2)
 
@@ -300,7 +300,7 @@ if DisplayHistogram1 == "y":
   ax1.legend(title = plot_title, loc='best',prop={'size': 7})
   ax2.legend(title = plot_title, bbox_to_anchor=(0.8, 1), loc='upper left', prop={'size': 7})
   ax2.legend(title = plot_title, loc='best',prop={'size': 7})
-  plt.savefig(PLOT_DIREC + sample + '_Lbol.png') 
+  plt.savefig(PLOT_DIREC + sample + '_Lbol.png',bbox_inches='tight') 
   plt.show()
 
 #histogram 2 ......................
@@ -342,7 +342,7 @@ if DisplayHistogram2 == "y":
   ax2.set_ylim(0,arbit_lim2)
   ax1.legend(title = plot_title, loc='best',prop={'size': 7})
   ax2.legend(title = plot_title, loc='best',prop={'size': 7})
-  plt.savefig(PLOT_DIREC + sample + '_Mbh.png') 
+  plt.savefig(PLOT_DIREC + sample + '_Mbh.png',bbox_inches='tight') 
   plt.show()
 
 #histogram 3 .........................
@@ -385,7 +385,7 @@ if DisplayHistogram3 == "y":
   ax2.set_ylim(0,arbit_lim3)
   ax1.legend(title = plot_title, loc='best',prop={'size': 7})
   ax2.legend(title = plot_title, loc='best',prop={'size': 7})
-  plt.savefig(PLOT_DIREC + sample + '_Eddr.png') 
+  plt.savefig(PLOT_DIREC + sample + '_Eddr.png',bbox_inches='tight') 
   plt.show()
 
 print(np.sort(mbh_EHVO_highv))
