@@ -6,9 +6,6 @@ Created on Fri Oct  9 13:16:38 2026
 @author: awjaustin
 """
 
-hist_type = 'step'
-#hist_type = 'bar'
-
 #Display histograms?
 DisplayHistogram1 = "y"
 #DisplayHistogram1 = "n"
@@ -53,12 +50,12 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from astropy import stats
-from astropy.io import fits
+#from astropy.io import fits
 import os
-from collections import defaultdict
-from matplotlib.bezier import math
+#from collections import defaultdict
+#from matplotlib.bezier import math
 #from numpy.lib.function_base import average
-from numpy.core.fromnumeric import sort
+#from numpy.core.fromnumeric import sort
 from numpy.ma.extras import median
 
 PLOT_DIREC = os.getcwd() + "/OUTPUT_FILES/"
@@ -237,9 +234,9 @@ mbh_values = mbh_values[pos_bal]
 redd_values = redd_values[pos_bal]
 
 knuthbin1 = 0.25*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(lbol_EHVO_lowv) + stats.knuth_bin_width(lbol_EHVO_highv))
-knuthbin1alt = (1/3)*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(EHVO_lbol_values))
+#knuthbin1alt = (1/3)*(stats.knuth_bin_width(lbol_bal_lowv) + stats.knuth_bin_width(lbol_bal_highv) + stats.knuth_bin_width(EHVO_lbol_values))
 bin_lbol = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1)
-bin_lbolalt = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1alt)
+#bin_lbolalt = np.arange(min(min(lbol_values), min(EHVO_lbol_values)), max(max(lbol_values), max(EHVO_lbol_values)), knuthbin1alt)
 
 
 knuthbin2 = 0.25*(stats.knuth_bin_width(mbh_bal_lowv) + stats.knuth_bin_width(mbh_bal_highv) + stats.knuth_bin_width(mbh_EHVO_lowv) + stats.knuth_bin_width(mbh_EHVO_highv))
@@ -249,14 +246,6 @@ knuthbin3 = 0.25*(stats.knuth_bin_width(redd_bal_lowv) + stats.knuth_bin_width(r
 bin_redd = np.arange(min(min(redd_values), min(EHVO_redd_values)), max(max(redd_values), max(EHVO_redd_values)), knuthbin3)
 
 #Histograms--------------------------------------------------------------------------------
-
-fig = plt.figure(figsize=(16.5, 10.5), dpi=500)
-
-gs = plt.GridSpec(3, 2)
-
-ax1 = fig.add_subplot(gs[1, 0])
-ax2 = fig.add_subplot(gs[2, 0])
-
 
 def ylimit_hist(lim1,lim2):
     if lim1 > lim2:
@@ -270,8 +259,12 @@ def ylimit_hist(lim1,lim2):
 #histogram 1 ..................
 
 if DisplayHistogram1 == "y":
-    
-    
+  
+  fig = plt.figure(figsize=(16.5, 10.5), dpi = 500)
+  gs = plt.GridSpec(3, 2)  
+  ax1 = fig.add_subplot(gs[1, 0])
+  ax2 = fig.add_subplot(gs[2, 0])   
+  
   weightslbol_bal_lowv = [np.ones_like(lbol_bal_lowv)/float(len(lbol_bal_lowv))]
   ax1.hist(lbol_bal_lowv, bin_lbol, weights = weightslbol_bal_lowv, histtype = 'bar', label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color, alpha = 0.3,)
 
@@ -284,7 +277,6 @@ if DisplayHistogram1 == "y":
   weightslbol_EHVO_highv = [np.ones_like(lbol_EHVO_highv)/float(len(lbol_EHVO_highv))]
   ax2.hist(lbol_EHVO_highv, bin_lbol, weights = weightslbol_EHVO_highv, histtype = 'step', label = 'EHVO '+ str(text_v) +'>'+ str(EHVO_value) +' km/s', color = EHVO_highv_color, alpha = 1,)
 
-  
   arbit_lim1 = ylimit_hist(ax1.get_ylim()[1],ax2.get_ylim()[1])
   
   if med_lines == 'yes':
@@ -300,7 +292,6 @@ if DisplayHistogram1 == "y":
     ax2.axvline(x = median(lbol_EHVO_highv), color='purple', linestyle='dashed', linewidth=1)
     #ax2.axvline(x = median(EHVO_lbol_values), color = 'purple', linestyle= 'dashed', linewidth=1)
 
-
   plt.xlabel('log($L_{bol}$/erg s$^{-1}$)')
   plt.ylabel('N')
   ax1.set_ylim(0,arbit_lim1)
@@ -311,11 +302,14 @@ if DisplayHistogram1 == "y":
   ax2.legend(title = plot_title, loc='best',prop={'size': 7})
   plt.savefig(PLOT_DIREC + sample + '_Lbol.png') 
   plt.show()
-  
 
 #histogram 2 ......................
 if DisplayHistogram2 == "y":
-    
+   
+  fig = plt.figure(figsize=(16.5, 10.5), dpi=500)
+  gs = plt.GridSpec(3, 2)   
+  ax1 = fig.add_subplot(gs[1, 0])
+  ax2 = fig.add_subplot(gs[2, 0])    
     
   weights_mbh_bal_lowv = [np.ones_like(mbh_bal_lowv)/float(len(mbh_bal_lowv))]
   ax1.hist(mbh_bal_lowv, bins = bin_mbh, weights = weights_mbh_bal_lowv, histtype = 'bar', label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color, alpha=0.3 )
@@ -336,6 +330,7 @@ if DisplayHistogram2 == "y":
     ax1.axvline(x = median(mbh_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1)
     ax1.axvline(x = median(mbh_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1)
     ax1.axvline(x = median(mbh_EHVO_highv), color='purple', linestyle='dashed', linewidth=1)
+    
     ax2.axvline(x = median(mbh_bal_lowv), color='aqua', linestyle='dashed', linewidth=1)
     ax2.axvline(x = median(mbh_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1)
     ax2.axvline(x = median(mbh_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1)
@@ -352,6 +347,12 @@ if DisplayHistogram2 == "y":
 
 #histogram 3 .........................
 if DisplayHistogram3 == "y":
+    
+  fig = plt.figure(figsize=(16.5, 10.5), dpi=500)
+  gs = plt.GridSpec(3, 2)   
+  ax1 = fig.add_subplot(gs[1, 0])
+  ax2 = fig.add_subplot(gs[2, 0])  
+    
   weights_redd_bal_lowv = [np.ones_like(redd_bal_lowv)/float(len(redd_bal_lowv))]
   ax1.hist(redd_bal_lowv, bins = bin_redd, weights = weights_redd_bal_lowv, histtype = 'bar', label = 'BAL '+ str(text_v) + '<'+ str(BAL_value) + ' km/s', color = bal_lowv_color,  alpha = 0.3 )
 
@@ -371,6 +372,7 @@ if DisplayHistogram3 == "y":
     ax1.axvline(x = median(redd_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1)
     ax1.axvline(x = median(redd_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1)
     ax1.axvline(x = median(redd_EHVO_highv), color='purple', linestyle='dashed', linewidth=1)
+    
     ax2.axvline(x = median(redd_bal_lowv), color='aqua', linestyle='dashed', linewidth=1)
     ax2.axvline(x = median(redd_bal_highv), color='cornflowerblue', linestyle='dashed', linewidth=1)
     ax2.axvline(x = median(redd_EHVO_lowv), color='plum', linestyle='dashed', linewidth=1)
