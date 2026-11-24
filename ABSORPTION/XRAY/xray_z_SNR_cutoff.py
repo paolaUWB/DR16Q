@@ -6,6 +6,43 @@ Created on Wed Jan 21 12:32:28 2026
 @author: lilianaflores
 """
 
+"""
+X-Ray Quasar Redshift and SNR Sample Selection
+
+This script selects quasars from the Hiremath+2025 X-ray parent catalog
+using redshift and calculated signal-to-noise ratio (SNR) cutoffs.
+It generates CSV files for absorption analysis and SDSS cross-matching.
+
+Features
+---------------------
+- Reads the parent catalog and Hiremath+2025 reconstruction spectra
+- Selects quasars above a chosen redshift cutoff
+- Normalizes flux by dividing Flux by Recon
+- Calculates SNR over a chosen rest-frame wavelength range
+    Currently uses 1276–1400 A and the Noise column as provided.
+    Whether Noise also needs division by Recon remains to be confirmed.
+- Selects spectra within an inclusive minimum and maximum SNR range
+- Current selection: z > 1.9 and 9 <= SNR <= 10
+
+Outputs
+---------------------
+Two CSV files are saved to:
+    cwd()/spec_lists/
+
+- xray_list_...csv
+    Spectrum filenames, redshifts, and calculated SNR values for
+    absorption analysis and reconstruction comparisons.
+- xray_SDSSCross_...csv
+    Source identifiers and redshifts for finding SDSS field numbers.
+
+Notes
+---------------------
+- Set the working directory to XRAY before running
+- The spec_lists folder must already exist
+- Existing output files with the same names are overwritten
+- Output filenames contain 'z1.9'; update if changing the redshift cutoff
+
+"""
 import sys
 import os
 from astropy.io import fits
